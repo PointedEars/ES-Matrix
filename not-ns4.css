@@ -1,0 +1,8 @@
+/*
+ * Rules that should not be parsed by Netscape 4.x
+ * to be included with <link rel="stylesheet" ... media="...">
+*/
+
+th, td {
+  padding: 5px;
+}

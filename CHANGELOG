@@ -1,0 +1,159 @@
+List of changes made to the ECMAScript Support Matrix
+======================================================
+
+2009-02-09
+-----------
+
+  * Changed test for ES4 type declaration to manual
+    (avoids Konqueror 3.5.9 crashes)
+  * Added KJS 3.5.9 test results
+  * JavaScript Version Information:
+    Added Firefox 3.1a/JavaScript 1.9 (assumption [TODO])
+  * Added tests and results for Date.prototype.toLocaleString()
+  * Removed ActionScript column (for the time being)
+  * Added test result for Equals operator in JavaScriptCore
+  * Added tests and results for function expressions
+  * Defined JScript 5.1.5010 (IE 5.01, Windows 2000) as safe to use
+  * Confirmed JScript 5.5 documentation for Object.prototype.hasOwnProperty()  
+  * Confirmed JavaScript 1.5 documentation for
+    Object.prototype.hasOwnProperty(), RegExp lookaheads, non-greedy matching
+  * Confirmed JavaScriptCore assumption for Object.prototype.hasOwnProperty() 
+
+2009-02-08
+-----------
+
+  * Fixed test for function statement
+  * Added tests and results for function expressions
+  * Added test result for Equals operator in Opera
+
+2009-01-15
+-----------
+
+  * Moved Object.prototype.hasOwnProperty() to array,
+    added JavaScriptCore assumption;
+    thanks to "kangax" <kangax@gmail.com>,
+    Message-ID: <Tdudncy1zeAnovLUnZ2dnUVZ_gOdnZ2d@giganews.com>
+
+2008-12-27
+-----------
+
+  * Added DOM 2 support for scrollable toggle button
+
+2008-12-23
+-----------
+
+  * Added test for the Equals operator
+
+2008-12-20
+-----------
+
+  * Added test for Date.prototype.toLocaleString(), since JavaScript 1.5
+
+2008-12-09
+-----------
+
+  * Moved to `test' directory
+
+2008-12-08
+-----------
+
+  * Tested: Regular Expression with non-capturing negative lookahead
+  * Tested: Regular Expression with non-capturing parentheses
+  * Tested: Regular Expression with non-capturing positive lookahead
+  * Tested: Label
+  * Added test environment details
+  * Reduced feature list headers, added `title' attributes instead
+  * Added `summary' attributes to tables (accessibility)
+  * Added changelog link
+
+2008-11-12
+-----------
+
+  * Simplified/unified test code
+
+2008-11-09
+-----------
+
+  * Added test for Regular Expression with non-capturing negative lookahead
+  * Made dynamic: Regular Expression with non-capturing parentheses
+  * Added markup for assumed features
+
+2008-10-30
+-----------
+
+  * Reworded Gecko bug statement
+  * Moved feature library to global location 
+
+2008-10-20
+-----------
+
+  * Moved "Regular Expression with non-capturing parentheses" to array
+
+2008-10-19
+-----------
+
+  * Tested: RegExp literal with only optional global and case-insensitive modifier
+            since JavaScript 1.2
+  * Tested: RegExp literal with optional multiline modifier since JavaScript 1.5
+  * Transforms &hellip; to &#8230; for Netscape 4.7x compatibility
+  * Tested: Regular Expression with non-capturing negative lookahead
+            since JavaScript 1.5
+
+2008-10-18
+-----------
+
+  * Tested: Negation operator since JavaScript 1.3 
+
+2008-10-08
+-----------
+
+  * Updated JavaScriptCore and KJS column headers to use `abbr'/`acronym' elements
+
+2008-10-03
+-----------
+
+  * Added `title' attribute to JavaScriptCore column header 
+  * Changed safe version for Opera to 6.0
+
+2008-10-02
+-----------
+
+  * Tested: Negation operator since JavaScriptCore/525.19
+  * Tested: Unary plus since JavaScriptCore/525.19
+  * Tested: RegExp literals since JavaScriptCore/525.19
+
+2008-10-01
+-----------
+
+  * Added implementations: Opera ECMAScript, Apple JavaScriptCore, KJS  
+  * Tested: Strict equals since Opera 9.52
+  * Tested: Unary plus since Opera 9.52, 5.02
+  * Tested: RegExp literals since Opera 5.02 
+  * Tested: Regular Expression with non-greedy matching since Opera 9.52
+  * Defined safe version for Opera (5.0)
+  * Added footnote for current implementation
+  * Tested: Regular Expression with non-greedy matching since Opera 7.02
+
+2008-09-28
+-----------
+
+  * Updated table overflow:auto notice to fit new bug status
+  
+2008-09-16
+-----------
+
+  * Added Object.prototype.toSource()
+
+2008-09-15
+-----------
+
+  * Clarified function expression and anonymous function expression syntaxes
+  * JavaScript: Added expression closure 
+
+2008-09-14
+-----------
+  
+  * JScript version information: added IE 8 beta 2 
+  * Fixed wording of redirection notice
+  * Added `title' attribute for Function expression and
+    Anonymous function expression

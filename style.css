@@ -1,0 +1,202 @@
+body {
+  background-color:white;
+  color:black;
+  font-family: sans-serif;
+}
+
+p {
+  text-align: justify;        
+}
+
+.closed {
+  text-decoration: line-through;
+}
+
+[title] {
+  cursor:help;
+}
+
+a[title] {
+  cursor:pointer;
+}
+
+acronym, abbr {
+  border-bottom: 1px dotted black;
+}
+
+/* Konqueror 3.5.9 fix */
+abbr {
+  font-variant: normal;
+}
+
+/*
+table {
+  border-collapse:collapse;
+}
+*/
+
+tr {
+  vertical-align:top;
+  vertical-align: baseline;
+}
+
+th, td {
+  /* moved to not-ns4.css for compatibility */ 
+  /* padding: 5px; */
+  
+  text-align: left;
+  font-size: small;
+}
+
+th *, td * {
+  font-size: small;
+}
+
+.future {
+  border-left:1px dotted black;
+}
+
+.assumed {
+  font-style: italic;
+}
+
+.tested {
+  font-weight: bold;
+}
+
+.safe {
+  background-color: #9f9;
+}
+
+.unsafe {
+  background-color: #ff6;
+}
+
+@media braille, embossed, print, speech, tty {
+  span.safe .visual,
+  span.unsafe .visual {
+    display: none;
+  }
+  
+  span.safe:after {
+    content: 'marked with "safe to use"'; 
+  }
+  
+  span.unsafe:after {
+    content: 'marked with "unsafe"'; 
+  }
+  
+  tr.safe th:first-child:after {
+    content: " (safe to use)";
+  }
+
+  tr.unsafe th:first-child:after {
+    content: " (unsafe)";
+  }
+}
+
+thead {
+/*
+  border-left:1px solid black;
+  border-top:1px solid black;
+  border-right:1px solid black;
+  border-bottom:1px solid gray;
+ */
+  border: none;
+}
+
+thead th, thead td {
+  font-weight: bold;
+  background-color: #99f;
+  color:#000;
+}
+
+thead th a:link:hover, thead td a:link:hover {
+  background-color: transparent;
+  color:#fff;
+}
+
+/*
+tbody {
+  border-left:1px solid black;
+  border-top:1px solid gray;
+  border-right:1px solid black;
+  border-bottom:1px solid black;
+}
+*/
+
+tbody tr {
+  background-color: #ccc;
+}
+
+tbody tr.safe {
+  background-color: #9f9;
+}
+
+tbody tr.safe:hover {
+  background-color: #dfd;
+}
+
+tbody tr:hover {
+  background-color: #fff;
+}
+
+tbody tr.even {
+  background-color: #ccf;
+}
+
+tbody tr.even.safe {
+  background-color: #cfc;
+}
+
+tbody tr.even.safe:hover {
+  background-color: #dfd;
+}
+
+tbody tr.even:hover {
+  background-color: #fff;
+}
+
+tfoot tbody tr,
+tfoot tbody tr.even {
+  background-color: inherit;
+}
+
+#features-table {
+  width: 100%;
+}
+
+#features-table tbody th {
+  font-weight: normal;
+}
+
+/*
+ * Not for IE 6 and below.
+ * Bugfix for IE 7 follows in Conditional Comments below.
+ */  
+table>tbody.scroll {
+  border-top: 0;
+  border-left-color: gray;
+  height: 23em;
+  overflow: auto;
+  /*
+   * In current implementations, the scrollbar is displayed within
+   * the tbody area, so we disable horizontal scrolling for that ...
+   */
+  overflow-x: hidden !important;
+}
+
+/*
+ * ... and make enough room so that the text won't flow under the
+ * vertical scrollbar.  However, that is still a dirty hack as we
+ * assume that the vertical scrollbar is not wider than 20px.  
+ */ 
+table>tbody.scroll td:last-child {
+  padding-right: 20px;
+}
+
+/* bottom-border fix for Geckos */
+table>tbody.scroll code, 
+table>tbody.scroll span {
+  background-color: transparent;
+}

@@ -1,0 +1,36 @@
+tbody {
+  border: none;
+}
+
+tbody th {
+  background-color: #ccf;
+}
+
+tbody tr.odd th {
+  background-color: #ccc;
+}
+
+tbody tr:nth-child(odd) th {
+  background-color: #ccc;
+}
+
+td {
+  background-color: #cc9;
+}
+
+tbody tr.even td {
+  background-color: #ff9;
+}
+
+tfoot tbody tr.even td {
+  background-color: inherit;
+}
+
+tbody tr:nth-child(even) td {
+  background-color: #ff9;
+}
+
+tfoot th, tfoot td {
+  background-color: #99f; 
+}
+
