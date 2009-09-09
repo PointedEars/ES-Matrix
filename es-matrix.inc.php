@@ -298,7 +298,6 @@ HTML
     )),
     
     new Feature(array(
-      'title' => 'Date.prototype.toDateString',
       'content' => '<code>Date.prototype.toDateString()</code>',
       'versions' => array(
         '' => 'jsx.object.isMethod(Date, "prototype", "toDateString")
@@ -313,7 +312,6 @@ HTML
     )),
     
     new Feature(array(
-      'title' => 'Date.prototype.toGMTString',
       'content' => '<code>Date.prototype.toGMTString()</code>',
       'versions' => array(
         '' => 'jsx.object.isMethod(Date, "prototype", "toGMTString")
@@ -328,7 +326,6 @@ HTML
     )),
         
     new Feature(array(
-      'title' => 'Date.prototype.toLocaleDateString',
       'content' => '<code>Date.prototype.toLocaleDateString()</code>',
       'versions' => array(
         '' => 'jsx.object.isMethod(Date, "prototype", "toLocaleDateString")
@@ -343,7 +340,6 @@ HTML
     )),
     
     new Feature(array(
-      'title' => 'Date.prototype.toLocaleFormat',
       'content' => '<code>Date.prototype.toLocaleFormat()</code>',
       'versions' => array(
         '' => 'jsx.object.isMethod(Date, "prototype", "toLocaleFormat")
@@ -358,7 +354,6 @@ HTML
     )),
         
     new Feature(array(
-      'title' => 'Date.prototype.toLocaleString',
       'content' => '<code>Date.prototype.toLocaleString()</code>',
       'versions' => array(
         '' => 'jsx.object.isMethod(Date, "prototype", "toLocaleString")
@@ -373,7 +368,6 @@ HTML
     )),
     
     new Feature(array(
-      'title' => 'Date.prototype.toLocaleTimeString',
       'content' => '<code>Date.prototype.toLocaleTimeString()</code>',
       'versions' => array(
         '' => 'jsx.object.isMethod(Date, "prototype", "toLocaleTimeString")
@@ -388,7 +382,6 @@ HTML
     )),
     
     new Feature(array(
-      'title' => 'Date.prototype.toString',
       'content' => '<code>Date.prototype.toString()</code>',
       'versions' => array(
         '' => 'jsx.object.isMethod(Date, "prototype", "toString")
@@ -403,7 +396,6 @@ HTML
     )),
     
     new Feature(array(
-      'title' => 'Date.prototype.toSource',
       'content' => '<code>Date.prototype.toSource()</code>',
       'versions' => array(
         '' => 'jsx.object.isMethod(Date, "prototype", "toSource")
@@ -418,7 +410,6 @@ HTML
     )),
         
     new Feature(array(
-      'title' => 'Date.prototype.toTimeString',
       'content' => '<code>Date.prototype.toTimeString()</code>',
       'versions' => array(
         '' => 'jsx.object.isMethod(Date, "prototype", "toTimeString")
@@ -433,7 +424,6 @@ HTML
     )),
        
     new Feature(array(
-      'title' => 'Date.prototype.toUTCString',
       'content' => '<code>Date.prototype.toUTCString()</code>',
       'versions' => array(
         '' => 'jsx.object.isMethod(Date, "prototype", "toUTCString")
@@ -446,6 +436,35 @@ HTML
         'opera'      => array('tested' => 5.02),
       )
     )),
+
+    new Feature(array(
+      'content' => '<code>JSON.parse()</code>',
+      'versions' => array(
+        '' => 'jsx.object.isMethod(JSON, "parse")
+               && JSON.parse(\'{"answer": 42}\')["answer"] === 42',
+        'ecmascript' => 5,
+        'javascript' => array('tested' => '1.8.1'),
+        'jscript'    => '?',
+        'jsc'        => '?',
+        'kjs'        => '?',
+        'opera'      => '?',
+      )
+    )),
+        
+    new Feature(array(
+      'content' => '<code>JSON.stringify()</code>',
+      'versions' => array(
+        '' => 'jsx.object.isMethod(JSON, "stringify")
+               && JSON.stringify({answer: 42}) === \'{"answer":42}\'',
+        'ecmascript' => 5,
+        'javascript' => array('tested' => '1.8.1'),
+        'jscript'    => '?',
+        'jsc'        => '?',
+        'kjs'        => '?',
+        'opera'      => '?',
+      )
+    )),
+    
     new Feature(array(
       'content' => '<code>Math.max(<var>a</var>, <var>b</var>)</code>',
       'versions' => array(
@@ -507,6 +526,19 @@ HTML
         'javascript' => array(1.2, 'tested' => '1.8.1'),
         'jscript'    => array('3.0', 'tested' => TRUE),
         'jsc'        => array('530.17', 'tested' => TRUE),
+        'kjs'        => '?',
+        'opera'      => '?'
+      )
+    )),
+        
+    new Feature(array(
+      'content' => '<code>String.prototype.trim()</code>',
+      'versions' => array(
+        '' => "' x '.trim().length == 1",
+        'ecmascript' => '-',
+        'javascript' => array('1.8.1', 'tested' => '1.8.1'),
+        'jscript'    => '?',
+        'jsc'        => '?',
         'kjs'        => '?',
         'opera'      => '?'
       )
