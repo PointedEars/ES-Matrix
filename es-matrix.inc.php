@@ -1,6 +1,6 @@
 <?php
 
-require_once '../../php/features.class.php';
+require_once 'ScriptFeature.php';
 
 $features = new FeatureList(array(
   'versions' => array(
@@ -31,7 +31,7 @@ HTML
     'es3'     => 'http://www.mozilla.org/js/language/E262-3.pdf'),
 
   'items' => array(
-    new Feature(array(
+    new ScriptFeature(array(
       'anchors'    => array('!', 'opNotEqual'),
       'title'      => 'Strict Not Equal/Nonidentity operator',
       'content'    => '<code>!==</code>',
@@ -50,7 +50,7 @@ HTML
       )
     )),
     
-    new Feature(array(
+    new ScriptFeature(array(
       'title'      => 'Unary plus (converts to Number)',
       'content'    => <<<EOD
               <a href="javascript:window.alert(+'042')"
@@ -69,7 +69,7 @@ EOD
       )
     )),
     
-    new Feature(array(
+    new ScriptFeature(array(
       'title'      => 'RegExp literal with only optional global and case-insensitive modifier',
       'content'    => '<code>/<var>regularExpression</var>/</code>[<code>g</code>][<code>i</code>]',
       'versions'   => array(
@@ -87,7 +87,7 @@ EOD
       )
     )),
     
-    new Feature(array(
+    new ScriptFeature(array(
       'title'      => 'RegExp literal with optional multiline modifier',
       'content'    => '<code>/<var>regularExpression</var>/</code>[<code>g</code>][<code>i</code>][<code>m</code>]',
       'versions'   => array(
@@ -101,7 +101,7 @@ EOD
       )
     )),
     
-    new Feature(array(
+    new ScriptFeature(array(
       'title'      => 'Regular Expression with non-greedy matching',
       'content'    => '<code>/(<var>&hellip;</var>+?|<var>&hellip;</var>*?)/</code>',
       'versions'   => array(
@@ -117,7 +117,7 @@ EOD
       )
     )),
     
-    new Feature(array(
+    new ScriptFeature(array(
       'title'      => 'Regular Expression with non-capturing negative lookahead',
       'content'    => '<code>/(?!<var>&hellip;</var>)/</code>',
       'versions'   => array(
@@ -134,7 +134,7 @@ EOD
       )
     )),
     
-    new Feature(array(
+    new ScriptFeature(array(
       'title' => 'Regular Expression with non-capturing parentheses',
       'content' => '<code>/(?:<var>&hellip;</var>)/</code>',
       'versions' => array(
@@ -151,7 +151,7 @@ EOD
       )
     )),
     
-    new Feature(array(
+    new ScriptFeature(array(
       'title' => 'Regular Expression with non-capturing positive lookahead',
       'content' => '<code>/(?=<var>&hellip;</var>)/</code>',
       'versions' => array(
@@ -168,7 +168,7 @@ EOD
       )
     )),
 
-    new Feature(array(
+    new ScriptFeature(array(
       'title' => 'Label',
       'content' => '<code><var>label</var>:</code>',
       'versions' => array(
@@ -185,7 +185,7 @@ EOD
       )
     )),
     
-    new Feature(array(
+    new ScriptFeature(array(
       'anchors'  => array('equals'),
       'title'    => 'Equals operator',
       'content'  => '<code>==</code>',
@@ -207,7 +207,7 @@ EOD
       )
     )),
     
-    new Feature(array(
+    new ScriptFeature(array(
       'title'    => 'Strict Equals/Identity operator',
       'content'  => '<code>===</code>',
       'versions' => array(
@@ -221,7 +221,7 @@ EOD
       )
     )),
         
-    new Feature(array(
+    new ScriptFeature(array(
       'title' => 'Type declaration',
       'content' => <<<HTML
         <a href="javascript:tryThis('var foo: Object;', 'window.alert(e);')"
@@ -239,7 +239,7 @@ HTML
       )
     )),
 
-    new Feature(array(
+    new ScriptFeature(array(
       'title' => 'Object initializer',
       'content' => '<code>{<var>name</var>:
             <var>value</var>, &hellip;}</code>',
@@ -254,7 +254,7 @@ HTML
       )
     )),
             
-    new Feature(array(
+    new ScriptFeature(array(
       'title' => 'Function expression',
       'content' => '<code>= function
             <var>identifier</var>(&hellip;) {&hellip;}</code>',
@@ -269,7 +269,7 @@ HTML
       )
     )),
 
-    new Feature(array(
+    new ScriptFeature(array(
       'title' => 'Anonymous function expression',
       'content' => '<code>= function(&hellip;) {&hellip;}</code>',
       'versions' => array(
@@ -283,7 +283,7 @@ HTML
       )
     )),
         
-    new Feature(array(
+    new ScriptFeature(array(
       'title' => 'Function statement',
       'content' => '<code>if (<var>&hellip;</var>) { function f() { <var>&hellip;</var> }; }</code>',
       'versions' => array(
@@ -297,7 +297,7 @@ HTML
       )
     )),
     
-    new Feature(array(
+    new ScriptFeature(array(
       'content' => '<code>Date.prototype.toDateString()</code>',
       'versions' => array(
         '' => 'jsx.object.isMethod(Date, "prototype", "toDateString")
@@ -311,7 +311,7 @@ HTML
       )
     )),
     
-    new Feature(array(
+    new ScriptFeature(array(
       'content' => '<code>Date.prototype.toGMTString()</code>',
       'versions' => array(
         '' => 'jsx.object.isMethod(Date, "prototype", "toGMTString")
@@ -325,7 +325,7 @@ HTML
       )
     )),
         
-    new Feature(array(
+    new ScriptFeature(array(
       'content' => '<code>Date.prototype.toLocaleDateString()</code>',
       'versions' => array(
         '' => 'jsx.object.isMethod(Date, "prototype", "toLocaleDateString")
@@ -339,7 +339,7 @@ HTML
       )
     )),
     
-    new Feature(array(
+    new ScriptFeature(array(
       'content' => '<code>Date.prototype.toLocaleFormat()</code>',
       'versions' => array(
         '' => 'jsx.object.isMethod(Date, "prototype", "toLocaleFormat")
@@ -353,7 +353,7 @@ HTML
       )
     )),
         
-    new Feature(array(
+    new ScriptFeature(array(
       'content' => '<code>Date.prototype.toLocaleString()</code>',
       'versions' => array(
         '' => 'jsx.object.isMethod(Date, "prototype", "toLocaleString")
@@ -367,7 +367,7 @@ HTML
       )
     )),
     
-    new Feature(array(
+    new ScriptFeature(array(
       'content' => '<code>Date.prototype.toLocaleTimeString()</code>',
       'versions' => array(
         '' => 'jsx.object.isMethod(Date, "prototype", "toLocaleTimeString")
@@ -381,7 +381,7 @@ HTML
       )
     )),
     
-    new Feature(array(
+    new ScriptFeature(array(
       'content' => '<code>Date.prototype.toString()</code>',
       'versions' => array(
         '' => 'jsx.object.isMethod(Date, "prototype", "toString")
@@ -395,7 +395,7 @@ HTML
       )
     )),
     
-    new Feature(array(
+    new ScriptFeature(array(
       'content' => '<code>Date.prototype.toSource()</code>',
       'versions' => array(
         '' => 'jsx.object.isMethod(Date, "prototype", "toSource")
@@ -409,7 +409,7 @@ HTML
       )
     )),
         
-    new Feature(array(
+    new ScriptFeature(array(
       'content' => '<code>Date.prototype.toTimeString()</code>',
       'versions' => array(
         '' => 'jsx.object.isMethod(Date, "prototype", "toTimeString")
@@ -423,7 +423,7 @@ HTML
       )
     )),
        
-    new Feature(array(
+    new ScriptFeature(array(
       'content' => '<code>Date.prototype.toUTCString()</code>',
       'versions' => array(
         '' => 'jsx.object.isMethod(Date, "prototype", "toUTCString")
@@ -437,7 +437,7 @@ HTML
       )
     )),
 
-    new Feature(array(
+    new ScriptFeature(array(
       'content' => '<code>JSON.parse()</code>',
       'versions' => array(
         '' => '"typeof JSON != \"undefined\""
@@ -452,7 +452,7 @@ HTML
       )
     )),
         
-    new Feature(array(
+    new ScriptFeature(array(
       'content' => '<code>JSON.stringify()</code>',
       'versions' => array(
         '' => '"typeof JSON != \"undefined\""
@@ -467,7 +467,7 @@ HTML
       )
     )),
     
-    new Feature(array(
+    new ScriptFeature(array(
       'content' => '<code>Math.max(<var>a</var>, <var>b</var>)</code>',
       'versions' => array(
         '' => 'jsx.object.isMethod(Math, "max")
@@ -481,7 +481,7 @@ HTML
       )
     )),
 
-    new Feature(array(
+    new ScriptFeature(array(
       'content' => '<code>Math.max(<var>a</var>, <var>b</var>, <var>&hellip;</var>)</code>',
       'versions' => array(
         '' => 'jsx.object.isMethod(Math, "max")
@@ -496,7 +496,7 @@ HTML
       )
     )),
     
-    new Feature(array(
+    new ScriptFeature(array(
       'content' => '<code>Object.prototype.hasOwnProperty(&hellip;)</code>',
       'versions' => array(
         'ecmascript' => 3,
@@ -508,7 +508,7 @@ HTML
       )
     )),
 
-    new Feature(array(
+    new ScriptFeature(array(
       'content' => '<code>String.fromCharCode(<var>integer</var>)</code>',
       'versions' => array(
         'ecmascript' => 1,
@@ -520,7 +520,7 @@ HTML
       )
     )),
     
-    new Feature(array(
+    new ScriptFeature(array(
       'content' => '<code>String.prototype.charCodeAt(<var>integer</var>)</code>',
       'versions' => array(
         '' => "'x'.charCodeAt(0) == 120",
@@ -533,7 +533,7 @@ HTML
       )
     )),
     
-    new Feature(array(
+    new ScriptFeature(array(
       'content' => '<code>String.prototype.localeCompare(<var>string</var>)</code>',
       'versions' => array(
         '' => '"jsx.object.isMethod(\"ä\", \"localeCompare\")"
@@ -547,7 +547,7 @@ HTML
       )
     )),
         
-    new Feature(array(
+    new ScriptFeature(array(
       'content' => '<code>String.prototype.trim()</code>',
       'versions' => array(
         '' => "jsx.object.isMethod(String.prototype, 'trim')
@@ -558,6 +558,20 @@ HTML
         'jsc'        => '-',
         'kjs'        => '-',
         'opera'      => '-'
+      ),
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code><var>string</var>[<var title="unsigned integer">uint</var>]</code>',
+      'title' => 'String subscripting',
+      'versions' => array(
+        '' => "'x'[0] === 'x'",
+        'ecmascript' => '-',
+        'javascript' => array('1.0', 'tested' => '1.8.1'),
+        'jscript'    => '-',
+        'jsc'        => '?',
+        'kjs'        => '?',
+        'opera'      => '?'
       )
     )),
   ),
