@@ -1,0 +1,50 @@
+#!/bin/bash -x
+
+function help {
+	echo "PointedEars' JavaScript Version Checker 0.3"
+	echo "Copyright (c) 2002  Thomas Lahn <PointedEars@gmx.de>"
+	echo
+	echo "Detect the version a JavaScript is presumably written in, using version-"
+	echo "specific language elements. Note that not all elements can be checked for,"
+	echo "so this program may detect the wrong version."
+	echo
+	echo "Usage: `basename $0` [-v] script1 ... scriptN"
+	echo
+	echo "-v, --verbose        Enable verbose mode."
+	echo "script1 ... scriptN  List of script file names to be checked."
+	echo "                     Two or more file names are separated by spaces, so"
+	echo "                     file names containing spaces must be enclosed in quotes."
+	echo
+}
+
+status=0
+verbose=0
+test "$1" = "-v" -o "$1" = "--verbose" && verbose=1 && shift
+test -z "$1" && help && exit 255 
+
+ident=(\\.toExponential \\.toFixed \\.toPrecision \
+       +? \\\*? ?? "}?" "(*?:" "(?=" "(?!" \
+       "if(.\\+\\?)[[:space:]]*\\?[{].*\\?function [[:alnum:]]\\+\\?}" \
+       "=[[:space:]]*\\?function[[:space:]]*\\?[{].*\\?}" \
+			 "catch[[:space:]]*\\?([[:space:]]*\\?\\([[:alnum:]]+\\?\\)[[:space:]]\\+\\?if[[:space:]]\\+\\?\\1[[:space:]]+\\?instanceof[[:space:]]+\\?[[:alnum:]]\\+\\?)" \
+       "const[[:space:]]\\+\\?" \
+			 \\.toSource "\\[[[:space:]]*^\\([[:digit:]]\\+\\)[[:space:]]*\\]"
+      )
+# checking for getters and setters feature of JavaScript 1.5 not yet supported
+
+for i in "$*"; do 
+	cur=0
+	test $verbose -eq 1 && echo -n "$i: "
+	if [ -f "$i" ]; then
+		for ((j=0 ; $j < ${#ident[@]}; j++)); do
+			ver=1
+			test $j -le 14 && ver=2 && test $j -le 14 && ver=3 && test $j -le 13 && ver=5
+			test -n "`grep --basic-regexp \"${ident[$j]}\" \"$i\"`" -a $cur -lt $ver && cur=$ver && exp="(\"${ident[$j]}\")" && break
+		done
+		if [ $verbose -eq 1 ]; then echo "1.$cur $exp"; else echo -n "1.$cur $exp"; fi
+	else
+		test $verbose -eq 1 && echo "not found"
+		let status++
+	fi
+done 
+exit $status

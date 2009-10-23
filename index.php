@@ -222,6 +222,8 @@
                       Gecko/2008102920 Firefox/3.0.4</li>
                   <li>Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.11)
                       Gecko/2009061212 Iceweasel/3.0.11 (Debian-3.0.11-1)</li>
+                  <li>Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.1.3)
+                      Gecko/20091010 Iceweasel 3.5.3 (Debian-3.5.3-2)</li>
                 </ul></li>
               <li><span title="Microsoft JScript">JScript</span>
                 <ul>
@@ -263,6 +265,7 @@
                   <li>Opera/9.62 (Windows NT 5.1; U; en) Presto/2.1.1</li>
                   <li>Opera/9.64 (Windows NT 5.1; U; en) Presto/2.1.1</li>
                   <li>Opera/9.64 (X11; Linux i686; U; en) Presto/2.1.1</li>
+                  <li>Opera/9.80 (X11; Linux i686; U; en) Presto/2.2.15 Version/10.00</li>
                 </ul></li>
  
               <li><acronym title="Konqueror JavaScript">KJS</acronym>
@@ -271,6 +274,9 @@
                       Linux 2.6.29.4-20090531.213230+0200; X11; i686;
                       de, en_US) KHTML/3.5.10 (like Gecko)
                       (Debian package 4:3.5.10.dfsg.1-2)</li>
+                  <li>Mozilla/5.0 (compatible; Konqueror/4.3;
+                      Linux 2.6.31.1-20090928.230129+0200; X11; i686; de)
+                      KHTML/4.3.2 (like Gecko)</li>
                 </ul></li>
             </ul>
           </td>
@@ -1648,7 +1654,9 @@
           <td>-</td>
           <td>Navigator&nbsp;6.x &#8211;&nbsp;Browser&nbsp;8.1.3 (2000-11-14 &#8211;&nbsp;2007-04-02)</td>
           <td>-</td>
-          <td>Navigator&nbsp;9.0b1 &#8211;&nbsp;9.0.0.6 (2007-06-05 &#8211;&nbsp;2008-02-29)</td>
+          <td>Navigator&nbsp;9.0b1
+            &#8211;&nbsp;9.0.0.6&nbsp;<span title="End-of-life">&#8224;</span><br>
+            (2007-06-05 &#8211;&nbsp;2008-02-29)</td>
           <td>-</td>
           <td>-</td>
           <td>-</td>
@@ -1685,9 +1693,10 @@
           <td></td>
           <td></td>
           <td></td>
-          <td>0.6&#8211;1.8a6 (2000-12-06
-            &#8211;&nbsp;2005-01-12)</td>
-          <td>1.8b1&#8211;1.7.13 (2005-02-23 &#8211;&nbsp;2006-04-21)</td>
+          <td>0.6&#8211;1.8a6
+            (2000-12-06 &#8211;&nbsp;2005-01-12)</td>
+          <td>1.8b1&#8211;1.7.13&nbsp;<span title="End-of-life">&#8224;</span><br>
+            (2005-02-23 &#8211;&nbsp;2006-04-21)</td>
           <td></td>
           <td></td>
           <td></td>
@@ -1695,7 +1704,7 @@
         </tr>
         <tr class="even">
           <th><a href="http://www.mozilla.org/projects/seamonkey/"
-                 >SeaMonkey</a></th>
+                 >Mozilla SeaMonkey</a></th>
           <td></td>
           <td></td>
           <td></td>
@@ -1704,11 +1713,12 @@
           <td></td>
           <td>1.0&#8211;1.0.9 (2005-09-15
             &#8211;&nbsp;2007-05-30)</td>
-          <td>1.1a-1.1.9&#8212;<br>
-            (2006-08-30 &#8211;&nbsp;2008-03-25&#8212;)</td>
+          <td>1.1a&#8211;1.1.17&#8212;<br>
+            (2006-08-30 &#8211;&nbsp;2009-06-22&#8212;)</td>
           <td>2.0a1<br>
-            (2008)</td>
-          <td></td>
+            (2008-10-05)</td>
+          <td>2.0a2&#8211;2.0RC2&#8212;<br>
+            (2008-12-10 &#8211;&nbsp;2009-10-10&#8212;)</td>
           <td></td>
         </tr>
         <tr class="odd">
@@ -1719,14 +1729,14 @@
           <td></td>
           <td></td>
           <td></td>
-          <td>Phoenix&nbsp;0.1 &#8211;&nbsp;Firefox&nbsp;1.0.x<br>
+          <td>Phoenix&nbsp;0.1 &#8211;&nbsp;Firefox&nbsp;1.0.x&nbsp;<span title="End-of-life">&#8224;</span><br>
             (2002-09-23 &#8211;&nbsp;2006-04-13)</td>
-          <td>Firefox&nbsp;1.5a1&#8211;2.0a3<br>
+          <td>Firefox&nbsp;1.5a1&#8211;2.0a3&nbsp;<span title="End-of-life">&#8224;</span><br>
             (2005-05-31 &#8211;&nbsp;2006-05-26)</td>
-          <td>2.0b1&#8211;2.0.0.18<br>
+          <td>2.0b1&#8211;2.0.0.18&nbsp;<span title="End-of-life">&#8224;</span><br>
             (2006-07-12 &#8211;&nbsp;2008-11-12)</td>
-          <td>3.0a2&#8211;3.0.11&#8212;<br>
-            (2007-02-07 &#8211;&nbsp;2009-06-12&#8212;)</td>
+          <td>3.0a2&#8211;3.0.15b&#8212;<br>
+            (2007-02-07 &#8211;&nbsp;2009-10-20&#8212;)</td>
           <td>3.5&#8212;<br>
             (2009-06-30&#8212;)</td>
           <td></td>
@@ -1742,9 +1752,10 @@
           <td></td>
           <td></td>
           <td></td>
-          <td>2.0.0.19&#8212; (2009-01-03&#8212;)</td>
-          <td>3.0a<br>
-            (2009)</td>
+          <td>2.0a1&#8212;2.0.0.23&#8212;
+            (2006-07-28 &#8211;&nbsp;2009-01-03&#8212;)</td>
+          <td>3.0a1<br>
+            (2008-05-14&#8212;)</td>
           <td></td>
         </tr>
         <tr class="odd">

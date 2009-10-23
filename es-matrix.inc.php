@@ -27,7 +27,7 @@ HTML
   'urns' => array(
     'mdc'     => 'https://developer.mozilla.org/en/',
     'js15ref' => 'mdc:Core_JavaScript_1.5_Reference:',
-    'msdn'    => 'http://msdn.microsoft.com/library/en-us/',
+    'msdn'    => 'http://msdn.microsoft.com/en-us/library/',
     'es3'     => 'http://www.mozilla.org/js/language/E262-3.pdf'),
 
   'items' => array(
@@ -40,7 +40,7 @@ HTML
           'urn'    => 'js15ref:Operators:Comparison_Operators',
           'tested' => TRUE),
         'jscript'    => array('1.0',
-          'urn' => 'msdn:jscript7/html/jsgrpcomparison.asp'),
+          'urn' => 'msdn:ky6fyhws%28VS.85%29.aspx'),
         'ecmascript' => array(3,
           'urn' => 'es3:#page=74'),
         '' => '"1 !== \"1\""',
@@ -440,28 +440,30 @@ HTML
     new Feature(array(
       'content' => '<code>JSON.parse()</code>',
       'versions' => array(
-        '' => 'jsx.object.isMethod(JSON, "parse")
-               && JSON.parse(\'{"answer": 42}\')["answer"] === 42',
+        '' => '"typeof JSON != \"undefined\""
+               + "&& jsx.object.isMethod(JSON, \"parse\")"
+               + "&& JSON.parse(\'{\"answer\": 42}\')[\"answer\"] === 42"',
         'ecmascript' => 5,
         'javascript' => array('tested' => '1.8.1'),
-        'jscript'    => '?',
-        'jsc'        => '?',
-        'kjs'        => '?',
-        'opera'      => '?',
+        'jscript'    => '-',
+        'jsc'        => '-',
+        'kjs'        => '-',
+        'opera'      => '-',
       )
     )),
         
     new Feature(array(
       'content' => '<code>JSON.stringify()</code>',
       'versions' => array(
-        '' => 'jsx.object.isMethod(JSON, "stringify")
-               && JSON.stringify({answer: 42}) === \'{"answer":42}\'',
+        '' => '"typeof JSON != \"undefined\""
+               + " && jsx.object.isMethod(JSON, \"stringify\")"
+               + " && JSON.stringify({answer: 42}) === \'{\"answer\":42}\'"',
         'ecmascript' => 5,
         'javascript' => array('tested' => '1.8.1'),
-        'jscript'    => '?',
-        'jsc'        => '?',
-        'kjs'        => '?',
-        'opera'      => '?',
+        'jscript'    => '-',
+        'jsc'        => '-',
+        'kjs'        => '-',
+        'opera'      => '-',
       )
     )),
     
@@ -526,21 +528,36 @@ HTML
         'javascript' => array(1.2, 'tested' => '1.8.1'),
         'jscript'    => array('3.0', 'tested' => TRUE),
         'jsc'        => array('530.17', 'tested' => TRUE),
-        'kjs'        => '?',
-        'opera'      => '?'
+        'kjs'        => array('tested' => '4.3.2'),
+        'opera'      => array('tested' => '10.00')
+      )
+    )),
+    
+    new Feature(array(
+      'content' => '<code>String.prototype.localeCompare(<var>string</var>)</code>',
+      'versions' => array(
+        '' => '"jsx.object.isMethod(\"ä\", \"localeCompare\")"
+              + "&& \"ä\".localeCompare(\"ü\") < 0"',
+        'ecmascript' => 3,
+        'javascript' => array('?'),
+        'jscript'    => array('5.5'),
+        'jsc'        => array('?'),
+        'kjs'        => array('tested' => '4.3.2'),
+        'opera'      => array('?')
       )
     )),
         
     new Feature(array(
       'content' => '<code>String.prototype.trim()</code>',
       'versions' => array(
-        '' => "' x '.trim().length == 1",
+        '' => "jsx.object.isMethod(String.prototype, 'trim')
+               && ' x '.trim().length == 1",
         'ecmascript' => '-',
         'javascript' => array('1.8.1', 'tested' => '1.8.1'),
-        'jscript'    => '?',
-        'jsc'        => '?',
-        'kjs'        => '?',
-        'opera'      => '?'
+        'jscript'    => '-',
+        'jsc'        => '-',
+        'kjs'        => '-',
+        'opera'      => '-'
       )
     )),
   ),
