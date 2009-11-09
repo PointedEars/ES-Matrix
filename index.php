@@ -136,7 +136,7 @@
     <p><em>If you are using Firefox&nbsp;3.0 and the scrollable
       table body flows out of the table, you are observing
       <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=423823"
-         title="Bug 135236 (RESOLVED FIXED): Overflowing tbody rows render background color for overflowing rows"
+         title="Bug 135236 (VERIFIED FIXED): Overflowing tbody rows render background color for overflowing rows"
          class="closed"
          >Bug&nbsp;423823</a>, fixed since <a
       href="http://www.mozilla-europe.org/en/firefox/3.0.2/releasenotes/"
@@ -192,17 +192,130 @@
         <tr>
           <td colspan="8"><table summary="Footnotes">
               <tr>
-                <th><sup><a href="#this-ua" name="fn-this-ua">[1]</a></sup></th>
-                <td>This user agent:
-                  <script type="text/javascript">
-                    document.write('<p>' + navigator.userAgent + '<\/p>');
-                  </script>
-                  <noscript><p><?php
-                    echo $_SERVER['HTTP_USER_AGENT'];
-                  ?></p></noscript></td>
+                <th><sup><a href="#this-ua" name="fn-this-ua">1</a></sup></th>
+                <td>
+                  <ul>
+                    <li>This user agent:
+                      <script type="text/javascript">
+                        document.write('<p><b>' + navigator.userAgent + '<\/b><\/p>');
+                      </script>
+                      <noscript>
+                        <p><?php
+                          echo $_SERVER['HTTP_USER_AGENT'];
+                        ?></p>
+                      </noscript></li>
+                      
+                    <li>This ECMAScript implementation<script type="text/javascript">
+                        var
+                          jsx_object = jsx.object,
+                          bCanDetect = jsx_object.isMethod(null, "ScriptEngine"),
+                          
+                          /* No array or loop here for backwards compatibility */
+                          out = "";
+                         
+                        if (bCanDetect)
+                        {
+                          out += ":<p><b>" + ScriptEngine();
+
+                          if (jsx_object.isMethod(null, "ScriptEngineMajorVersion"))
+                          {
+                            out += " " + ScriptEngineMajorVersion();
+
+                            if (jsx_object.isMethod(null, "ScriptEngineMinorVersion"))
+                            {
+                              out += "." + ScriptEngineMinorVersion();
+  
+                              if (jsx_object.isMethod(null, "ScriptEngineBuildVersion"))
+                              {
+                                out += "." + ScriptEngineBuildVersion();
+                              }
+                            }
+                          }
+
+                          out += "<\/b><\/p>";
+                        }
+                        else
+                        {
+                          out = " cannot be detected directly.";
+
+                          if (typeof navigator != "undefined")
+                          {
+                            out += " Inference suggests it is<p><b>";
+
+                            var ua = navigator.userAgent || "";
+
+                            if (typeof window != "undefined"
+                                && jsx_object.getFeature(window, "opera"))
+                            {
+                              out += "Opera ECMAScript";
+                            }
+                            else if (ua.indexOf("Konqueror") > -1)
+                            {
+                              out += "KJS (Konqueror JavaScript)";
+                            }
+                            else if (ua.indexOf("WebKit") > -1)
+                            {
+                              out += "Apple JavaScriptCore";
+                            }
+                            else if (typeof netscape != "undefined" || ua.indexOf("Gecko") > -1)
+                            {
+                              if (jsx_object.isMethod(ua, "match"))
+                              {
+                                var m = ua.match(/\brv:(\d+\.\d+(\.\d+)*)\b/);
+                              }
+                               
+                              if (m) out += " at least";
+                              
+                              out += " Netscape/Mozilla.org JavaScript<sup>TM<\/sup>";
+
+                              if (m)
+                              {
+                                var rv = m[1];
+
+                                if (rv >= "1.9.1")
+                                {
+                                  var s = "1.8.1";
+                                }
+                                else if (rv >= "1.9")
+                                {
+                                  s = "1.8";
+                                }
+                                else if (rv >= "1.8.1")
+                                {
+                                  s = "1.7";
+                                }
+                                else if (rv >= "1.8")
+                                {
+                                  s = "1.6";
+                                }
+                                else if (rv >= "0.6")
+                                {
+                                  s = "1.5";
+                                }
+
+                                if (s) out += " " + s;
+                              }
+                            }
+                            
+                            out += "<\/b><\/p>but I could be wrong.";
+                          }
+                        }
+
+                        document.write(out);
+                      </script></li>
+                  </ul>
+                </td>
               </tr>
               <tr>
-                <th><sup><a href="#decl-ver" name="fn-decl-ver">[2]</a></sup></th>
+                <th><sup><a href="#generic" name="fn-generic">G</a></sup></th>
+                <td>This method is intentionally specified or implemented as <em>generic</em>;
+                    it does not require that its <code class="rswd">this</code> value
+                    be an object of the same type.  Therefore, it can be transferred
+                    to other kinds of objects for use as a method.
+                </td>
+              </tr>
+              <tr>
+                <th><sup><a href="#decl-ver" name="fn-decl-ver">V</a></sup></th>
                 <td>Version needs to be declared in order to use this feature</td>
               </tr>
             </table></td>
@@ -216,14 +329,24 @@
               <li><span title="Netscape/Mozilla.org JavaScript">JavaScript</span>
                 <ul>
                   <li>Mozilla/4.78 [de] (Windows NT 5.0; U)</li>
+                  <li>Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.7.13)
+                      Gecko/20060410 Firefox/1.0.8</li>
+                  <li>Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.0.12)
+                      Gecko/20070508 Firefox/1.5.0.12</li>
+                  <li>Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.14)
+                      Gecko/20080404 Firefox/2.0.0.14</li>
                   <li>Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3)
                       Gecko/2008092417 Firefox/3.0.3</li>
                   <li>Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.4)
                       Gecko/2008102920 Firefox/3.0.4</li>
+                  <li>Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.5)
+                      Gecko/2008120122 Firefox/3.0.5</li>
                   <li>Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.11)
                       Gecko/2009061212 Iceweasel/3.0.11 (Debian-3.0.11-1)</li>
                   <li>Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.1.3)
-                      Gecko/20091010 Iceweasel 3.5.3 (Debian-3.5.3-2)</li>
+                      Gecko/20091010 Iceweasel/3.5.3 (Debian-3.5.3-2)</li>
+                  <li>Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.1.4)
+                      Gecko/20091028 Iceweasel/3.5.4 (Debian-3.5.4-1)</li>
                 </ul></li>
               <li><span title="Microsoft JScript">JScript</span>
                 <ul>
@@ -248,6 +371,9 @@
                   <li>Mozilla/5.0 (Windows; U; Windows NT 5.1; de-DE)
                       AppleWebKit/530.17 (KHTML, like Gecko)
                       Version/4.0 Safari/530.17</li>
+                  <li>Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US)
+                      AppleWebKit/531.9 (KHTML, like Gecko)
+                      Version/4.0.3 Safari/531.9.1</li>
                 </ul></li>
               <li>Opera ECMAScript
                 <ul>
@@ -907,28 +1033,28 @@
         <tr>
           <th><a name="g" id="g"></a><code><var>Generator</var>.close()</code></th>
           <td><a href="http://developer.mozilla.org/en/docs/New_in_JavaScript_1.7#Closing_a_generator"
-            >1.7</a><sup><a href="#fn-decl-ver" name="decl-ver">[2]</a></sup></td>
+            >1.7</a><sup><a href="#fn-decl-ver" name="decl-ver">V</a></sup></td>
           <td>-</td>
           <td>-</td>
         </tr>
         <tr>
           <th><code><var>Generator</var>.next()</code></th>
           <td><a href="http://developer.mozilla.org/en/docs/New_in_JavaScript_1.7#Generators"
-            >1.7</a><sup><a href="#fn-decl-ver">[2]</a></sup></td>
+            >1.7</a><sup><a href="#fn-decl-ver">V</a></sup></td>
           <td>-</td>
           <td>-</td>
         </tr>
         <tr>
           <th><code><var>Generator</var>.send(<var>expression</var>)</code></th>
           <td><a href="http://developer.mozilla.org/en/docs/New_in_JavaScript_1.7#Resuming_a_generator_at_a_specific_point"
-            >1.7</a><sup><a href="#fn-decl-ver">[2]</a></sup></td>
+            >1.7</a><sup><a href="#fn-decl-ver">V</a></sup></td>
           <td>-</td>
           <td>-</td>
         </tr>
         <tr>
           <th><code><var>Generator</var>.throw(<var>expression</var>)</code></th>
           <td><a href="http://developer.mozilla.org/en/docs/New_in_JavaScript_1.7#Exceptions_in_generators"
-            >1.7</a><sup><a href="#fn-decl-ver">[2]</a></sup></td>
+            >1.7</a><sup><a href="#fn-decl-ver">V</a></sup></td>
           <td>-</td>
           <td>-</td>
         </tr>
@@ -1019,7 +1145,7 @@
             title="Block scoping: let statement">let&nbsp;(<var>assignment</var><var>[</var>, <var>&#8230;</var><var>]</var>) {&nbsp;<var>[</var><var>statements</var><var
             >]</var>&nbsp;}</code></a></th>
           <td><a href="http://developer.mozilla.org/en/docs/New_in_JavaScript_1.7#Block_scope_with_let"
-            >1.7</a><sup><a href="#fn-decl-ver">[2]</a></sup></td>
+            >1.7</a><sup><a href="#fn-decl-ver">V</a></sup></td>
           <td>-</td>
           <td>-</td>
         </tr>
@@ -1027,7 +1153,7 @@
           <th><code
             title="Block scoping: let expression">let&nbsp;(<var>assignment</var><var>[</var>, <var>&#8230;</var><var>]</var>)&nbsp;<var>expression</var></code></th>
           <td><a href="http://developer.mozilla.org/en/docs/New_in_JavaScript_1.7#Block_scope_with_let"
-            >1.7</a><sup><a href="#fn-decl-ver">[2]</a></sup></td>
+            >1.7</a><sup><a href="#fn-decl-ver">V</a></sup></td>
           <td>-</td>
           <td>-</td>
         </tr>
@@ -1035,7 +1161,7 @@
           <th><code
             title="Block scoping: let definition">let&nbsp;<var>assignment</var><var>[</var>, <var>&#8230;</var><var>]</var></code></th>
           <td><a href="http://developer.mozilla.org/en/docs/New_in_JavaScript_1.7#Block_scope_with_let"
-            >1.7</a><sup><a href="#fn-decl-ver">[2]</a></sup></td>
+            >1.7</a><sup><a href="#fn-decl-ver">V</a></sup></td>
           <td>-</td>
           <td>-</td>
         </tr>
@@ -1578,7 +1704,7 @@
           <th><code title="Generator expression">yield
             <var>expression</var></code></th>
           <td><a href="http://developer.mozilla.org/en/docs/New_in_JavaScript_1.7#Generators"
-            >1.7</a><sup><a href="#fn-decl-ver">[2]</a></sup></td>
+            >1.7</a><sup><a href="#fn-decl-ver">V</a></sup></td>
           <td>-</td>
           <td>-</td>
         </tr>
@@ -1593,8 +1719,8 @@
            >
       <thead>
         <tr>
-          <td></td>
-          <th>JavaScript&nbsp;<a
+          <th class="right">JavaScript</th>
+          <th><a
             href="http://e-pla.net/documents/manuals/javascript-1.0/"
             title="JavaScript Authoring Guide for JavaScript 1.0"
             >1.0</a></th>
@@ -1630,12 +1756,16 @@
             href="http://developer.mozilla.org/en/docs/New_in_JavaScript_1.8.1"
             title="New in JavaScript 1.8.1"
             >1.8.1</a></th>
+          <th><a
+            href="https://developer.mozilla.org/En/Firefox_3.6_for_developers#JavaScript"
+            title="New in JavaScript 1.8.2"
+            >1.8.2</a> (future)</th>
           <th><a href="http://www.mozilla.org/js/language/js20/">2.0</a></th>
         </tr>
       </thead>
       <tfoot>
         <tr>
-          <td colspan="11"><sup>1)</sup> Version information from the
+          <td colspan="13"><sup>1)</sup> Version information from the
             JavaScript Guides and References; release dates from <a
             href="about:">about:</a>&nbsp;documents,
             <a href="http://www.mozilla.org/releases/cvstags.html"
@@ -1645,7 +1775,80 @@
         </tr>
       </tfoot>
       <tbody>
-        <tr class="odd">
+        <tr class="heading">
+          <th colspan="13">Implementations</th>
+        </tr>
+        <tr>
+          <th>Netscape/Mozilla.org SpiderMonkey</th>
+          <td>1.0</td>
+          <td>1.1</td>
+          <td>1.2</td>
+          <td>1.3</td>
+          <td>1.4</td>
+          <td>1.5</td>
+          <td>1.6</td>
+          <td>1.7</td>
+          <td>1.8</td>
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+        </tr>
+        <tr>
+          <th>Mozilla.org TraceMonkey</th>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>1.8.1</td>
+          <td>1.8.2</td>
+          <td>-</td>
+        </tr>
+        <tr>
+          <th><a href="http://www.mozilla.org/js/language/Epimetheus.html"
+                 >Mozilla.org Epimetheus</a></th>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>+</td>
+        </tr>
+   
+        <tr class="heading">
+          <th colspan="13">Layout Engines</th>
+        </tr>
+        <tr>
+          <th><a href="https://developer.mozilla.org/en/docs/Gecko"
+                 >Netscape/Mozilla.org NGLayout/Gecko</a></th>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>0.6&#8211;1.8a6</td>
+          <td>1.8b1&#8211;1.8</td>
+          <td>1.8.1</td>
+          <td>1.9</td>
+          <td>1.9.1</td>
+          <td>1.9.2</td>
+          <td></td>
+        </tr>
+        
+        <tr class="heading">
+          <th colspan="13">Web Browsers</th>
+        </tr>
+        <tr>
           <th><a href="http://browser.netscape.com/">Netscape Navigator/Browser</a></th>
           <td>Navigator 2.0 (1996-03)</td>
           <td>3.0 (1996-08)</td>
@@ -1660,8 +1863,94 @@
           <td>-</td>
           <td>-</td>
           <td>-</td>
+          <td>-</td>
         </tr>
-        <tr class="even">
+        <tr>
+          <th><a href="http://www.mozilla.com/firefox/"
+                 >Mozilla Phoenix/Firebird/Firefox</a></th>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>Phoenix&nbsp;0.1 &#8211;&nbsp;Firefox&nbsp;1.0.x&nbsp;<span title="End-of-life">&#8224;</span><br>
+            (2002-09-23 &#8211;&nbsp;2006-04-13)</td>
+          <td>Firefox&nbsp;1.5a1 &#8211;2.0a3&nbsp;<span title="End-of-life">&#8224;</span><br>
+            (2005-05-31 &#8211;&nbsp;2006-05-26)</td>
+          <td>2.0b1 &#8211;2.0.0.18&nbsp;<span title="End-of-life">&#8224;</span><br>
+            (2006-07-12 &#8211;&nbsp;2008-11-12)</td>
+          <td>3.0a2 &#8211;3.0.15b&#8212;<br>
+            (2007-02-07 &#8211;&nbsp;2009-10-20&#8212;)</td>
+          <td>3.5&#8212;<br>
+            (2009-06-30&#8212;)</td>
+          <td></td>
+          <td></td>
+        </tr>
+        
+        <tr class="heading">
+          <th colspan="13">Other Clients</th>
+        </tr>
+        <tr>
+          <th><a href="http://www.mozilla.org/products/mozilla1.x/"
+                 >Mozilla Application&nbsp;Suite</a></th>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>0.6&#8211;1.8a6
+            (2000-12-06 &#8211;&nbsp;2005-01-12)</td>
+          <td>1.8b1&#8211;1.7.13&nbsp;<span title="End-of-life">&#8224;</span><br>
+            (2005-02-23 &#8211;&nbsp;2006-04-21)</td>
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+        </tr>
+        <tr>
+          <th><a href="http://www.mozilla.org/projects/seamonkey/"
+                 >Mozilla SeaMonkey</a></th>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>1.0&#8211;1.0.9 (2005-09-15
+            &#8211;&nbsp;2007-05-30)</td>
+          <td>1.1a&#8211;1.1.17&#8212;<br>
+            (2006-08-30 &#8211;&nbsp;2009-06-22&#8212;)</td>
+          <td>2.0a1<br>
+            (2008-10-05)</td>
+          <td>2.0a2 &#8211;2.0RC2&#8212;<br>
+            (2008-12-10 &#8211;&nbsp;2009-10-10&#8212;)</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <th><a href="http://www.mozilla.com/thunderbird/"
+                 >Mozilla Thunderbird</a></th>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>2.0a1 &#8212;2.0.0.23&#8212;
+            (2006-07-28 &#8211;&nbsp;2009-01-03&#8212;)</td>
+          <td>3.0a1<br>
+            (2008-05-14&#8212;)</td>
+          <td></td>
+          <td></td>
+        </tr>
+        
+        <tr class="heading">
+          <th colspan="13">Web Servers</th>
+        </tr>
+        <tr>
           <th><a href="http://wp.netscape.com/enterprise/"
                  >Netscape Enterprise&nbsp;Server</a>/<br>
               <a href="http://en.wikipedia.org/wiki/iPlanet"
@@ -1679,99 +1968,12 @@
             title="iPlanet Web Server, Enterprise Edition Server-Side JavaScript 1.4 Guide"
             >4.1</a> (1999)</td>
           <td>6.0</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr class="odd">
-          <th><a href="http://www.mozilla.org/products/mozilla1.x/"
-                 >Mozilla Application&nbsp;Suite</a></th>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td>0.6&#8211;1.8a6
-            (2000-12-06 &#8211;&nbsp;2005-01-12)</td>
-          <td>1.8b1&#8211;1.7.13&nbsp;<span title="End-of-life">&#8224;</span><br>
-            (2005-02-23 &#8211;&nbsp;2006-04-21)</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr class="even">
-          <th><a href="http://www.mozilla.org/projects/seamonkey/"
-                 >Mozilla SeaMonkey</a></th>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td>1.0&#8211;1.0.9 (2005-09-15
-            &#8211;&nbsp;2007-05-30)</td>
-          <td>1.1a&#8211;1.1.17&#8212;<br>
-            (2006-08-30 &#8211;&nbsp;2009-06-22&#8212;)</td>
-          <td>2.0a1<br>
-            (2008-10-05)</td>
-          <td>2.0a2&#8211;2.0RC2&#8212;<br>
-            (2008-12-10 &#8211;&nbsp;2009-10-10&#8212;)</td>
-          <td></td>
-        </tr>
-        <tr class="odd">
-          <th><a href="http://www.mozilla.com/firefox/"
-                 >Mozilla Phoenix/Firebird/Firefox</a></th>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td>Phoenix&nbsp;0.1 &#8211;&nbsp;Firefox&nbsp;1.0.x&nbsp;<span title="End-of-life">&#8224;</span><br>
-            (2002-09-23 &#8211;&nbsp;2006-04-13)</td>
-          <td>Firefox&nbsp;1.5a1&#8211;2.0a3&nbsp;<span title="End-of-life">&#8224;</span><br>
-            (2005-05-31 &#8211;&nbsp;2006-05-26)</td>
-          <td>2.0b1&#8211;2.0.0.18&nbsp;<span title="End-of-life">&#8224;</span><br>
-            (2006-07-12 &#8211;&nbsp;2008-11-12)</td>
-          <td>3.0a2&#8211;3.0.15b&#8212;<br>
-            (2007-02-07 &#8211;&nbsp;2009-10-20&#8212;)</td>
-          <td>3.5&#8212;<br>
-            (2009-06-30&#8212;)</td>
-          <td></td>
-        </tr>
-        <tr class="even">
-          <th><a href="http://www.mozilla.com/thunderbird/"
-                 >Mozilla Thunderbird</a></th>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td>2.0a1&#8212;2.0.0.23&#8212;
-            (2006-07-28 &#8211;&nbsp;2009-01-03&#8212;)</td>
-          <td>3.0a1<br>
-            (2008-05-14&#8212;)</td>
-          <td></td>
-        </tr>
-        <tr class="odd">
-          <th><a href="http://www.mozilla.org/js/language/Epimetheus.html"
-                 >mozilla.org Epimetheus</a></th>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td>+</td>
+          <td>?</td>
+          <td>?</td>
+          <td>?</td>
+          <td>?</td>
+          <td>?</td>
+          <td>?</td>
         </tr>
       </tbody>
     </table>
@@ -1782,8 +1984,8 @@
            summary="JScript versions and the user agents that support them">
       <thead>
         <tr>
-          <th></th>
-          <th>JScript&nbsp;1.0</th>
+          <th class="right">JScript</th>
+          <th>1.0</th>
           <th>2.0</th>
           <th>3.0</th>
           <th>3.1.3510</th>
@@ -1805,7 +2007,7 @@
       </thead>
       <tfoot>
         <tr>
-          <td colspan="12"><sup>2)</sup> Version information from <a
+          <td colspan="15"><sup>2)</sup> Version information from <a
             href="http://msdn.microsoft.com/library/en-us/jscript7/html/jsoriVersionInformation.asp"
             ><acronym title="Microsoft Developer Network"
             >MSDN</acronym>&nbsp;Library</a>; release&nbsp;dates from
@@ -1817,7 +2019,32 @@
         </tr>
       </tfoot>
       <tbody>
-        <tr class="odd">
+        <tr class="heading">
+          <th colspan="15">Implementations</th>
+        </tr>
+        <tr>
+          <th><a href="http://microsoft.com/net/"
+                 >Microsoft .NET Framework</a></th>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>1.0&#8211;3.5 (2000-07 &#8211;&nbsp;2008)</td>
+          <td></td>
+        </tr>
+              
+        <tr class="heading">
+          <th colspan="15">Web Browsers</th>
+        </tr>
+        <tr>
           <th><a href="http://microsoft.com/ie/"
                  >Microsoft Internet Explorer</a></th>
           <td>3.0 (1996-08&nbsp;<a href="http://en.wikipedia.org/wiki/Common_Era"
@@ -1837,9 +2064,13 @@
           <td></td>
           <td></td>
         </tr>
-        <tr class="even">
+        
+        <tr class="heading">
+          <th colspan="15">Web Servers</th>
+        </tr>
+        <tr>
           <th><a href="http://microsoft.com/iis/"
-                 >Microsoft Internet Information Server</a></th>
+                 >Microsoft Internet Information Server/Services</a></th>
           <td></td>
           <td></td>
           <td>4.0</td>
@@ -1855,25 +2086,11 @@
           <td></td>
           <td></td>
         </tr>
-        <tr class="odd">
-          <th><a href="http://microsoft.com/vs/"
-                 >Microsoft Visual Studio</a></th>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td>6.0 (1998)</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td>.NET (2002&#8211;2008)</td>
-          <td></td>
+        
+        <tr class="heading">
+          <th colspan="15">Operating Systems</th>
         </tr>
-        <tr class="even">
+        <tr>
           <th><a href="http://microsoft.com/windows/"
                  >Microsoft Windows</a></th>
           <td></td>
@@ -1893,7 +2110,7 @@
           <td></td>
           <td></td>
         </tr>
-        <tr class="odd">
+        <tr>
           <th><a href="http://microsoft.com/windowsserver2003/"
                  >Microsoft Windows Server</a></th>
           <td></td>
@@ -1911,9 +2128,18 @@
           <td></td>
           <td></td>
         </tr>
-        <tr class="even">
-          <th><a href="http://microsoft.com/net/"
-                 >Microsoft .NET Framework</a></th>
+        
+        <tr class="heading">
+          <th colspan="15"><acronym title="Integrated Development Environment">IDE</acronym>s</th>
+        </tr>
+        <tr>
+          <th><a href="http://microsoft.com/vs/"
+                 >Microsoft Visual Studio</a></th>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>6.0 (1998)</td>
           <td></td>
           <td></td>
           <td></td>
@@ -1921,12 +2147,7 @@
           <td></td>
           <td></td>
           <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td>1.0&#8211;3.5 (2000-07 &#8211;&nbsp;2008)</td>
+          <td>.NET (2002&#8211;2008)</td>
           <td></td>
         </tr>
       </tbody>
@@ -1973,7 +2194,7 @@
         </tr>
       </tfoot>
       <tbody>
-        <tr class="odd">
+        <tr>
           <th><a href="http://macromedia.com/software/flash/"
                  >Macromedia Flash</a></th>
           <td>5.0&#8211;MX (2000&#8211;2003)</td>
@@ -2019,7 +2240,7 @@
             href="http://developer.mozilla.org/en/docs/JavaScript_Language_Resources#JavaScript_1.x">March&nbsp;2000</a></td>
           <td><a href="http://www.ecmascript.org/"
             >August&nbsp;2000 &#8211;&nbsp;June&nbsp;2003
-             &#8211;&nbsp;2008&#8212;</a></td>
+             &#8211;&nbsp;2008</a></td>
           <td><a href="http://www.ecmascript.org/"
             >April&nbsp;2009&#8212;</a></td>
           <td><a href="http://www.ecmascript.org/"
@@ -2027,7 +2248,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr class="odd">
+        <tr>
           <th><a href="#actionscript">ActionScript</a></th>
           <td></td>
           <td></td>
@@ -2036,7 +2257,7 @@
           <td></td>
           <td></td>
         </tr>
-        <tr class="even">
+        <tr>
           <th><a href="#javascript">JavaScript</a></th>
           <td>1.1, 1.3, 1.4</td>
           <td></td>
@@ -2045,7 +2266,7 @@
           <td>1.8.1&#8212; (2009-06-30&#8212;)</td>
           <td></td>
         </tr>
-        <tr class="odd">
+        <tr>
           <th><a href="#jscript">JScript</a></th>
           <td>1.0</td>
           <td></td>
@@ -2054,7 +2275,7 @@
           <td></td>
           <td></td>
         </tr>
-        <tr class="even">
+        <tr>
           <th><a href="http://www.opera.com/docs/specs/js/ecma/">Opera</a></th>
           <td></td>
           <td></td>

@@ -58,4 +58,94 @@ class ScriptFeature extends Feature
     
     return implode('', $s);
   }
+  
+  protected function getGeneric($ver)
+  {
+    if (is_array($ver))
+    {
+      return isset($ver['generic']) && $ver['generic']
+              ? '<sup><abbr title="Generic feature"><a href="#fn-generic">G</a></abbr></sup>'
+              : '';
+    }
+    else
+    {
+      return '';
+    }
+  }
+  
+  public function printMe()
+  {
+    ?>
+<tr<?php echo $this->getSafeStr(); ?>>
+          <th<?php echo $this->getTitleStr(); ?>><?php
+            echo $this->getAnchors();
+            echo /*preg_replace_callback(
+              '#(<code>)(.+?)(</code>)#',
+              array('self', 'shl'),*/
+              preg_replace('/&hellip;/', '&#8230;', $this->content)/*)*/;
+            ?></th>
+<?php
+    $versions = $this->versions;
+    if (!is_null($this->list))
+    {
+      $versions =& $this->list->versions;
+    }
+
+    static $row = 0;
+    $row++;
+    
+    $column = 0;
+    
+    foreach ($versions as $key => $value)
+    {
+      $column++;
+      $id = "td$row-$column";
+      $ver = $this->versions[$key];
+?>
+          <td id="<?php echo $id; ?>"<?php
+            echo $this->getAssumed($ver) . $this->getTested($ver);
+            if (!$key)
+            {
+              if (!empty($ver))
+              {
+                echo ' title="Test code: ' . htmlspecialchars($ver) . '"';
+              }
+              else
+            {
+                echo ' title="Not applicable: No automated test case'
+                  . ' is available for this feature.  Please click'
+                  . ' the feature code in the first column to run'
+                  . ' a manual test."';
+              }
+            }
+            ?>><?php
+            if ($key)
+            {
+              echo $this->getVer($ver) . $this->getGeneric($ver);
+            }
+            else
+          {
+              if (!empty($ver))
+              {
+                ?><script type="text/javascript">
+  // <![CDATA[
+  var s = test(<?php echo $ver; ?>, '+', '-');
+  tryThis("document.write(s);",
+          "document.getElementById('<?php echo $id; ?>').appendChild("
+          + "document.createTextNode(s));");
+  // ]]>
+</script><?php
+              }
+              else
+              {
+                echo '<abbr>N/A</abbr>';
+              }
+            }
+            ?></td>
+<?php
+    }
+?>
+        </tr>
+<?php
+  }
 }

@@ -49,7 +49,7 @@ if (typeof document != "undefined"
 {
   /**
    * Overrides the function declared above.
-   */ 
+   */
   initScroller = function() {
     var btToggleScroll;
     if ((scroller = dhtml.getElem('id', 'scroller'))
@@ -67,7 +67,7 @@ if (typeof document != "undefined"
   
   /**
    * Overrides the function declared above.
-   */ 
+   */
   printScrollButton = function() {
     if (typeof initScroller != "undefined")
     {
@@ -82,7 +82,7 @@ if (typeof document != "undefined"
             value: {
               properties: [
                 {name: "display", value: "none"}
-              ] 
+              ]
             }
           },
           {name: "id", value: "btToggleScroll"}
@@ -92,7 +92,7 @@ if (typeof document != "undefined"
          * Returns the string representation of this object.
          * 
          * @return string The properties of this object represented as a
-         *   SGML-conforming start tag.  
+         *   SGML-conforming start tag.
          */
         toString: function() {
           var res = [];
@@ -179,29 +179,47 @@ if (typeof document != "undefined"
           }
           o = br = inp = null;
         });
-    }    
+    }
   };
 }
 
 /**
  * Sets or appends an alternating <code>class</code> attribute value
  * to all rows of all <code>tbody</code> elements in the document so as
- * to distinguish (and format) odd and even rows. 
+ * to distinguish (and format) odd and even rows.
+ * 
+ * @param restrictToRows : number
+ *   If <tt>1</tt>, only consider odd rows;
+ *   if <tt>2</tt>, only consider even rows;
+ *   if <code>undefined</code>, consider all rows.
  */
-function alternateRows()
+function alternateRows(restrictToRows)
 {
   var tbodies = dhtml.gEBTN("tbody");
   for (var i = tbodies && tbodies.length; i--;)
   {
+    /* TODO */
+//    if (!isNaN(restrictToRows)
+//        && isMethod(document, "defaultView", "getComputedStyle")
+//        && document.defaultView.getComputedStyle(tbodies.rows[restrictToRows+1], null).color == )
+//    {
+//
+//    }
+    
     for (var rows = tbodies[i].rows, j = rows.length; j--;)
     {
-      var o = rows[j];
-      var currentClass = dhtml.getAttr(o, "class");
-      if (!/\b(odd|even)\b/i.test(currentClass))
+      if (isNaN(restrictToRows) || j  % restrictToRows)
       {
-        dhtml.setAttr(o, "class",
-          (j % 2 ? "odd" : "even") + (currentClass ? " " + currentClass : ""));
+        var o = rows[j];
+      
+        var currentClass = o.className;
+        if (!/\b(odd|even)\b/i.test(currentClass))
+        {
+          /* NOTE: the first (odd) row has index 0 (even); 0 % 2 == 0 converts to false */
+          o.className =
+            (j % 2 ? "even" : "odd") + (currentClass ? " " + currentClass : "");
+        }
       }
     }
-  } 
+  }
 }

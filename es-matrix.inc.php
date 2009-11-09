@@ -9,7 +9,7 @@ $features = new FeatureList(array(
     'ecmascript' => '<a href="#ecmascript">ECMAScript</a>',
     ''           => <<<HTML
 This <abbr title="implementation">impl.</abbr><sup><a
-name="this-ua" href="#fn-this-ua">[1]</a></sup>
+name="this-ua" href="#fn-this-ua">1</a></sup>
 HTML
     ,
     'jsc'        => '<a href="#jscore">
@@ -40,6 +40,7 @@ HTML
           'urn'    => 'js15ref:Operators:Comparison_Operators',
           'tested' => TRUE),
         'jscript'    => array('1.0',
+          'tested' => '5.1.5010',
           'urn' => 'msdn:ky6fyhws%28VS.85%29.aspx'),
         'ecmascript' => array(3,
           'urn' => 'es3:#page=74'),
@@ -174,7 +175,7 @@ EOD
       'versions' => array(
         '' => '"foo: true"',
         'ecmascript' => 3,
-        'javascript' => array(1.2,
+        'javascript' => array(1.2, 'tested' => '1.5',
           'urn' => 'js15ref:Statements:label'),
         'jscript' => array('3.1.3510',
           'urn'    => 'msdn:jscript7/html/jsstmlabeled.asp',
@@ -192,7 +193,7 @@ EOD
       'versions' => array(
         '' => '1 == "1"',
         'ecmascript' => 1,
-        'javascript' => array('1.0',
+        'javascript' => array('1.0', 'tested' => '1.3',
           'urn' => '#equals',
           'tooltip' => '<span>
             (</span>deprecated since 1.4 <em>for comparison of two
@@ -200,7 +201,7 @@ EOD
             <code>JSObject<span class="punct">.</span>equals</code>
             method instead<span>)</span></span>',
           'assumed' => TRUE),
-        'jscript'    => array('1.0', 'assumed' => TRUE),
+        'jscript'    => array('1.0', 'assumed' => TRUE, 'tested' => '5.1.5010'),
         'jsc'        => array(525.13, 'tested' => TRUE),
         'kjs'        => array('3.5.9', 'tested' => TRUE),
         'opera'      => array(5.02, 'tested' => TRUE)
@@ -213,11 +214,11 @@ EOD
       'versions' => array(
         '' => '!(1 === "1")',
         'ecmascript' => 3,
-        'javascript' => '1.3',
-        'jscript'    => '1.0',
-        'jsc'        => '530.17',
-        'kjs'        => '3.5.10',
-        'opera'      => '9.52'
+        'javascript' => array('1.3', 'tested' => '1.3'),
+        'jscript'    => array('1.0', 'tested' => '5.1.5010'),
+        'jsc'        => array('tested' => '531.9.1'),
+        'kjs'        => array('tested' => '4.3.2'),
+        'opera'      => array('tested' => '5.02')
       )
     )),
         
@@ -246,8 +247,8 @@ HTML
       'versions' => array(
         '' => '{a: "b"}.a == "b"',
         'ecmascript' => 3,
-        'javascript' => 1.3,
-        'jscript'    => '3.0',
+        'javascript' => array(1.3, 'tested' => 1.3),
+        'jscript'    => array('3.0', 'tested' => '5.1.5010'),
         'jsc'        => array('525.27.1', 'tested' => TRUE),
         'kjs'        => array('3.5.9', 'tested' => TRUE),
         'opera'      => array(5.02, 'tested' => TRUE)
@@ -261,8 +262,8 @@ HTML
       'versions' => array(
         '' => '"(function foo() { return 42; })() == 42"',
         'ecmascript' => 1,
-        'javascript' => 1.2,
-        'jscript'    => '1.0',
+        'javascript' => array(1.2, 'tested' => 1.3),
+        'jscript'    => array('1.0', 'tested' => '5.1.5010'),
         'jsc'        => array(525.13, 'tested' => TRUE),
         'kjs'        => array('3.5.9', 'tested' => TRUE),
         'opera'      => array(5.02, 'tested' => TRUE)
@@ -275,7 +276,7 @@ HTML
       'versions' => array(
         '' => '"(function() { return 42; })() == 42"',
         'ecmascript' => 3,
-        'javascript' => '1.3*',
+        'javascript' => array('1.3*', 'tested' => '1.3'),
         'jscript'    => array('3.1.3510', 'tested' => TRUE),
         'jsc'        => array(525.13, 'tested' => TRUE),
         'kjs'        => array('3.5.9', 'tested' => TRUE),
@@ -289,7 +290,7 @@ HTML
       'versions' => array(
         '' => '"function f() {}; if (true) { function f() { return 42; }; } f() == 42"',
         'ecmascript' => '-',
-        'javascript' => array(1.3, 'tested' => TRUE),
+        'javascript' => array(1.3, 'tested' => 1.3),
         'jscript' => array('3.1.3510', 'tested' => TRUE),
         'jsc' => array('525.27.1', 'tested' => TRUE),
         'kjs'        => array('3.5.9', 'tested' => TRUE),
@@ -303,7 +304,7 @@ HTML
         '' => 'jsx.object.isMethod(Date, "prototype", "toDateString")
                && "(new Date()).toDateString()"',
         'ecmascript' => 3,
-        'javascript' => array(1.5),
+        'javascript' => array(1.5, 'tested' => 1.5),
         'jscript'    => array('tested' => '5.5.6330'),
         'jsc'        => array('tested' => 530.17),
         'kjs'        => array('tested' => '3.5.9'),
@@ -331,7 +332,7 @@ HTML
         '' => 'jsx.object.isMethod(Date, "prototype", "toLocaleDateString")
                && "(new Date()).toLocaleDateString()"',
         'ecmascript' => 3,
-        'javascript' => array(1.5),
+        'javascript' => array(1.5, 'tested' => 1.5),
         'jscript'    => array('tested' => '5.5.6330'),
         'jsc'        => array('tested' => 530.17),
         'kjs'        => array('tested' => '3.5.9'),
@@ -345,7 +346,7 @@ HTML
         '' => 'jsx.object.isMethod(Date, "prototype", "toLocaleFormat")
                && "(new Date()).toLocaleFormat(\'%A, %B %e, %Y\')"',
         'ecmascript' => '-',
-        'javascript' => array(1.6, 'tested' => 1.8),
+        'javascript' => array(1.6, 'tested' => 1.6),
         'jscript'    => '-',
         'jsc'        => '-',
         'kjs'        => '-',
@@ -373,7 +374,7 @@ HTML
         '' => 'jsx.object.isMethod(Date, "prototype", "toLocaleTimeString")
                && "(new Date()).toLocaleTimeString()"',
         'ecmascript' => 3,
-        'javascript' => array(1.5),
+        'javascript' => array(1.5, 'tested' => 1.5),
         'jscript'    => array('tested' => '5.5.6330'),
         'jsc'        => array('tested' => 530.17),
         'kjs'        => array('tested' => '3.5.9'),
@@ -415,7 +416,7 @@ HTML
         '' => 'jsx.object.isMethod(Date, "prototype", "toTimeString")
                && "(new Date()).toTimeString()"',
         'ecmascript' => 3,
-        'javascript' => array(1.5),
+        'javascript' => array(1.5, 'tested' => 1.5),
         'jscript'    => array('tested' => '5.5.6330'),
         'jsc'        => array('tested' => 530.17),
         'kjs'        => array('tested' => '3.5.9'),
@@ -473,7 +474,9 @@ HTML
         '' => 'jsx.object.isMethod(Math, "max")
                && Math.max(1, 2) == 2',
         'ecmascript' => 1,
-        'javascript' => array('1.0', 'urn' => 'js15ref:Global_Objects:Math:max'),
+        'javascript' => array('1.0',
+          'tested' => '1.5',
+          'urn' => 'js15ref:Global_Objects:Math:max'),
         'jscript' => array('3.1.3510', 'tested' => TRUE),
         'jsc' => array('525.27.1', 'tested' => TRUE),
         'kjs'        => array('3.5.9', 'tested' => TRUE),
@@ -487,7 +490,7 @@ HTML
         '' => 'jsx.object.isMethod(Math, "max")
                && Math.max(1, 2, 3) == 3',
         'ecmascript' => 3,
-        'javascript' => array(1.5, 'tested' => TRUE,
+        'javascript' => array('tested' => '1.5',
           'urn' => 'js15ref:Global_Objects:Math:max'),
         'jscript' => array('5.5.6330', 'tested' => TRUE),
         'jsc' => array('525.27.1', 'tested' => TRUE),
@@ -509,41 +512,43 @@ HTML
     )),
 
     new ScriptFeature(array(
-      'content' => '<code>String.fromCharCode(<var>integer</var>)</code>',
+      'content' => '<code>String.fromCharCode(<var title="unsigned integer">uint</var>)</code>',
       'versions' => array(
+        '' => "String.fromCharCode(0x20AC) == '€'",
         'ecmascript' => 1,
-        'javascript' => array(1.2, 'tested' => '1.8.1'),
-        'jscript'    => array('3.0', 'tested' => TRUE),
-         'jsc'       => array('530.17', 'tested' => TRUE),
-        'kjs'        => '?',
-        'opera'      => '?'
+        'javascript' => array(1.2, 'tested' => 1.3),
+        'jscript'    => array('3.0', 'tested' => '5.1.5010'),
+        'jsc'        => array('530.17', 'tested' => TRUE),
+        'kjs'        => array('tested' => '4.3.2'),
+        'opera'      => array('tested' => '5.02',
+          'comment' => '5.02 does not support Unicode')
       )
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>String.prototype.charCodeAt(<var>integer</var>)</code>',
+      'content' => '<code>String.prototype.charCodeAt(<var title="unsigned integer">uint</var>)</code>',
       'versions' => array(
         '' => "'x'.charCodeAt(0) == 120",
-        'ecmascript' => 1,
-        'javascript' => array(1.2, 'tested' => '1.8.1'),
-        'jscript'    => array('3.0', 'tested' => TRUE),
+        'ecmascript' => array(1, 'generic' => TRUE),
+        'javascript' => array(1.2, 'tested' => 1.3),
+        'jscript'    => array('3.0', 'tested' => '5.1.5010'),
         'jsc'        => array('530.17', 'tested' => TRUE),
         'kjs'        => array('tested' => '4.3.2'),
-        'opera'      => array('tested' => '10.00')
+        'opera'      => array('tested' => '5.02')
       )
     )),
     
     new ScriptFeature(array(
       'content' => '<code>String.prototype.localeCompare(<var>string</var>)</code>',
       'versions' => array(
-        '' => '"jsx.object.isMethod(\"ä\", \"localeCompare\")"
-              + "&& \"ä\".localeCompare(\"ü\") < 0"',
-        'ecmascript' => 3,
-        'javascript' => array('?'),
-        'jscript'    => array('5.5'),
-        'jsc'        => array('?'),
+        '' => '"jsx.object.isMethod(String, \"prototype\", \"localeCompare\")"
+              + "&& \"a\".localeCompare(\"ä\") <= 0"',
+        'ecmascript' => array(3, 'generic' => TRUE),
+        'javascript' => array('tested' => '1.8.1'),
+        'jscript'    => array('5.5', 'tested' => '5.5.6330'),
+        'jsc'        => array('tested' => '531.9.1'),
         'kjs'        => array('tested' => '4.3.2'),
-        'opera'      => array('?')
+        'opera'      => array('tested' => '10.01')
       )
     )),
         
@@ -565,13 +570,13 @@ HTML
       'content' => '<code><var>string</var>[<var title="unsigned integer">uint</var>]</code>',
       'title' => 'String subscripting',
       'versions' => array(
-        '' => "'x'[0] === 'x'",
+        '' => "'x'[0] == 'x'",
         'ecmascript' => '-',
-        'javascript' => array('1.0', 'tested' => '1.8.1'),
+        'javascript' => array('1.0', 'tested' => '1.3'),
         'jscript'    => '-',
-        'jsc'        => '?',
-        'kjs'        => '?',
-        'opera'      => '?'
+        'jsc'        => array('tested' => '531.9.1'),
+        'kjs'        => array('tested' => '4.3.2'),
+        'opera'      => array('tested' => '10.01')
       )
     )),
   ),

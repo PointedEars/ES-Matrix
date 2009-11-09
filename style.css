@@ -1,6 +1,6 @@
 body {
-  background-color:white;
-  color:black;
+  background-color: white;
+  color: black;
   font-family: sans-serif;
 }
 
@@ -13,11 +13,11 @@ p {
 }
 
 [title] {
-  cursor:help;
+  cursor: help;
 }
 
 a[title] {
-  cursor:pointer;
+  cursor: pointer;
 }
 
 acronym, abbr {
@@ -36,7 +36,7 @@ table {
 */
 
 tr {
-  vertical-align:top;
+  vertical-align: top;
   vertical-align: baseline;
 }
 
@@ -48,10 +48,28 @@ th, td {
   font-size: small;
 }
 
-th *, td * {
+th.right {
+  text-align: right;
+}
+
+th *,
+td *
+{
   font-size: small;
 }
 
+th sup,
+td sup
+{
+  font-size: smaller;
+}
+
+th sup *,
+td sup *
+{
+  font-size: inherit;
+}
+ 
 .future {
   border-left:1px dotted black;
 }
@@ -105,15 +123,17 @@ thead {
   border: none;
 }
 
-thead th, thead td {
+thead tr,
+tbody tr.heading
+{
   font-weight: bold;
-  background-color: #99f;
+  background-color: #99f !important;
   color:#000;
 }
 
 thead th a:link:hover, thead td a:link:hover {
   background-color: transparent;
-  color:#fff;
+  color: #fff;
 }
 
 /*
@@ -141,24 +161,54 @@ tbody tr:hover {
   background-color: #fff;
 }
 
-tbody tr.even {
+tbody tr.even
+{
   background-color: #ccf;
 }
 
-tbody tr.even.safe {
+tbody tr:nth-child(even)
+{
+  background-color: #ccf;
+}
+
+tbody tr.even.safe
+{
   background-color: #cfc;
 }
 
-tbody tr.even.safe:hover {
+tbody tr.safe:nth-child(even)
+{
+  background-color: #cfc;
+}
+
+body tr.even.safe:hover
+{
   background-color: #dfd;
 }
 
-tbody tr.even:hover {
+tbody tr.safe:nth-child(even):hover
+{
+  background-color: #dfd;
+}
+
+tbody tr.even:hover
+{
+  background-color: #fff;
+}
+
+tbody tr:nth-child(even):hover
+{
   background-color: #fff;
 }
 
 tfoot tbody tr,
-tfoot tbody tr.even {
+tfoot tbody tr.even
+{
+  background-color: inherit;
+}
+
+tfoot tbody tr:nth-child(even)
+{
   background-color: inherit;
 }
 
