@@ -4,14 +4,14 @@ require_once 'ScriptFeature.php';
 
 $features = new FeatureList(array(
   'versions' => array(
-    'javascript' => '<a href="#javascript" title="Netscape/Mozilla.org JavaScript">JavaScript</a>',
-    'jscript'    => '<a href="#jscript" title="Microsoft JScript">JScript</a>',
     'ecmascript' => '<a href="#ecmascript">ECMAScript</a>',
     ''           => <<<HTML
 This <abbr title="implementation">impl.</abbr><sup><a
 name="this-ua" href="#fn-this-ua">1</a></sup>
 HTML
     ,
+    'javascript' => '<a href="#javascript" title="Netscape/Mozilla.org JavaScript">JavaScript</a>',
+    'jscript'    => '<a href="#jscript" title="Microsoft JScript">JScript</a>',
     'jsc'        => '<a href="#jscore">
       <abbr title="Apple WebKit JavaScriptCore">JSCore</abbr></a>',
     'opera'      => '<a href="#opera" title="Opera ECMAScript">Opera</a>',
@@ -46,7 +46,7 @@ HTML
           'urn' => 'es3:#page=74'),
         '' => '"1 !== \"1\""',
         'opera'      => array(5.02, 'tested' => TRUE),
-        'jsc'        => array(525.19, 'tested' => TRUE),
+        'jsc'        => array('412.6.2?', 'tested' => '525.19'),
         'kjs'        => array('3.5.9', 'tested' => TRUE)
       )
     )),
@@ -99,6 +99,19 @@ EOD
         'jsc'        => array(525.19, 'tested' => TRUE),
         'kjs'        => array('3.5.9', 'tested' => TRUE),
         'opera' => array(5.02, 'tested' => TRUE),
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'title'      => 'RegExp literal with optional sticky modifier',
+      'content'    => '<code>/<var>regularExpression</var>/</code>[<code>g</code>][<code>i</code>][<code>m</code>][<code>y</code>]',
+      'versions'   => array(
+        'javascript' => array('1.8', 'tested' => '1.8.1'),
+        'jscript'    => '-',
+        'ecmascript' => '-',
+        'jsc'        => array('tested' => '531.9'),
+        'kjs'        => '-',
+        'opera' => array('?', 'tested' => '10.01'),
       )
     )),
     
@@ -193,7 +206,11 @@ EOD
       'versions' => array(
         '' => '1 == "1"',
         'ecmascript' => 1,
-        'javascript' => array('1.0', 'tested' => '1.3',
+        'javascript' => array(
+            '<a class="tooltip" href="#equals" name="equals">1.0<span><span>
+      (</span>deprecated since 1.4 <em>for comparison of two <code>JSObject</code>
+      objects</em>; use the <code>JSObject.equals</code> method instead<span>)</span></span></a>',
+            'tested' => '1.3',
           'urn' => '#equals',
           'tooltip' => '<span>
             (</span>deprecated since 1.4 <em>for comparison of two
@@ -207,7 +224,7 @@ EOD
         'opera'      => array(5.02, 'tested' => TRUE)
       )
     )),
-    
+
     new ScriptFeature(array(
       'title'    => 'Strict Equals/Identity operator',
       'content'  => '<code>===</code>',
@@ -221,7 +238,89 @@ EOD
         'opera'      => array('tested' => '5.02')
       )
     )),
+    
+    new ScriptFeature(array(
+      'title' => 'Array initializer',
+      'content' => '<code>[<var>value</var>, &hellip;]</code>',
+      'versions' => array(
+        '' => '"[42, 23]"',
+        'ecmascript' => 3,
+        'javascript' => 1.3,
+        'jscript'    => '2.0',
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'title' => 'Array initializer with trailing comma',
+      'content' => '<code>[<var>value</var>,&nbsp;]</code>',
+      'versions' => array(
+        '' => '"[42,]"',
+        'ecmascript' => '-',
+        'javascript' => 1.3,
+        'jscript' => '-',
+      )
+    )),
         
+    new ScriptFeature(array(
+      'title' => 'Array comprehension',
+      'content' => <<<HTML
+        <code>[<var>expression1</var> for (<var>var1</var> in <var>expression2</var>)</code>
+        <var>[</var>
+        <code>if (<var>expression3</var>)</code>
+        <var>]</var>
+        <code>]</code>
+HTML
+      , 'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => array(1.7,
+          'urn' => 'mdc:docs/New_in_JavaScript_1.7#Array_comprehensions'),
+        'jscript' => '-'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'title' => 'Destructuring assignment',
+      'content' => <<<HTML
+        <code><var>[</var>var<var>]</var> [<var>var1</var>,
+        <var>[var2]</var>, <var>var3</var>, <var>&hellip;</var>]&nbsp;= <var>Array</var></code>
+HTML
+      , 'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => array(1.7,
+          'urn' => 'mdc:docs/New_in_JavaScript_1.7#Destructuring_assignment'),
+        'jscript' => '-'
+      )
+    )),
+        
+    new ScriptFeature(array(
+      'content' => '<a href="javascript:alert(\'Euro:%20%5Cu20AC\')"
+        onclick="return !!alert(\'Euro: \u20AC\');"
+      ><code title="Unicode escape sequence in String literal">&quot;\u<var>hhhh</var>&quot;</code></a>,
+      <a href="javascript:alert(/%5Cu20AC/)"
+        onclick="return !!alert(/\u20AC/);"
+      ><code title="Unicode escape sequence in RegExp literal">/\u<var>hhhh</var>/</code></a>',
+      'versions' => array(
+        'ecmascript' => 1,
+        'javascript' => 1.3,
+        'jscript' => '3.0',
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<a href="javascript:alert(\'foo\\%0Abar\')"
+        onclick="return !!alert(\'foo\\&#10;bar\');"
+      ><code title="Escaped newline in String literal">&quot;<var>foo</var>\<br>
+        <var>bar</var>&quot;</code></a>',
+      'versions' => array(
+        'ecmascript' => 5,
+        'javascript' => array('?', 'tested' => '1.8.1'),
+        'jscript'    => array('?', 'tested' => '5.6.6626'),
+        'jsc'        => array('?', 'tested' => 531.9),
+        'kjs'        => array('?', 'tested' => '4.3.2'),
+        'opera'      => array('tested' => '10.10')
+      )
+    )),
+    
     new ScriptFeature(array(
       'title' => 'Type declaration',
       'content' => <<<HTML
@@ -254,50 +353,498 @@ HTML
         'opera'      => array(5.02, 'tested' => TRUE)
       )
     )),
-            
+    
     new ScriptFeature(array(
-      'title' => 'Function expression',
-      'content' => '<code>= function
-            <var>identifier</var>(&hellip;) {&hellip;}</code>',
+      'title' => 'Object initializer with trailing comma',
+      'content' => '<code>{<var>name</var>: <var>value</var>,&nbsp;}</code>',
       'versions' => array(
-        '' => '"(function foo() { return 42; })() == 42"',
+        'ecmascript' => '-',
+        'javascript' => '1.3',
+        'jscript' => '-'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>abstract</code>',
+      'anchor' => 'a',
+      'versions' => array(
+        'javascript' => '2.0',
+        'jscript' => '7.0',
+        'ecmascript' => 4
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>arguments</code>',
+      'anchor' => 'arguments',
+      'versions' => array(
         'ecmascript' => 1,
-        'javascript' => array(1.2, 'tested' => 1.3),
-        'jscript'    => array('1.0', 'tested' => '5.1.5010'),
-        'jsc'        => array(525.13, 'tested' => TRUE),
-        'kjs'        => array('3.5.9', 'tested' => TRUE),
-        'opera'      => array(5.02, 'tested' => TRUE)
+        'javascript' => array(1.1,
+          'urn' => 'js15ref:Functions:arguments'),
+        'jscript' => '1.0',
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<a name="arguments.callee" id="arguments.callee"
+        href="javascript:void((function(){alert(arguments.callee);})())"
+        onclick="return !!(function(){alert(arguments.callee);})();"
+      ><code>arguments.callee</code></a>',
+      'versions' => array(
+        'ecmascript' => '1',
+        'javascript' => array(1.2,
+          'urn' => 'js15ref:Functions:arguments:callee'),
+        'jscript' => '3.0*'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<a name="arguments.caller" id="arguments.caller"><code>arguments.caller</code></a>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => '<a href="#arguments.caller" class="tooltip">1.1<span><span>; </span>deprecated
+      since 1.3</span></a>',
+        'jscript' => '<span class="tooltip">-<span> (see&nbsp;<code><a
+        href="#Function.prototype.caller"
+      >Function.prototype.caller</a></code><span>)</span></span></span>'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<a name="arguments.length" id="arguments.length"><code>arguments.length</code></a>',
+      'versions' => array(
+        'ecmascript' => '1',
+        'javascript' => '1.1',
+        'jscript' => '5.5'
       )
     )),
 
     new ScriptFeature(array(
-      'title' => 'Anonymous function expression',
-      'content' => '<code>= function(&hellip;) {&hellip;}</code>',
+      'content' => '<code>ActiveXObject(&hellip;)</code>',
       'versions' => array(
-        '' => '"(function() { return 42; })() == 42"',
-        'ecmascript' => 3,
-        'javascript' => array('1.3*', 'tested' => '1.3'),
-        'jscript'    => array('3.1.3510', 'tested' => TRUE),
-        'jsc'        => array(525.13, 'tested' => TRUE),
-        'kjs'        => array('3.5.9', 'tested' => TRUE),
-        'opera'      => array(5.02, 'tested' => TRUE)
+        'ecmascript' => '-',
+        'javascript' => '-',
+        'jscript' => '3.0'
       )
     )),
-        
+
     new ScriptFeature(array(
-      'title' => 'Function statement',
-      'content' => '<code>if (<var>&hellip;</var>) { function f() { <var>&hellip;</var> }; }</code>',
+      'title' => 'Array constructor/factory',
+      'content' => '<code title="Array constructor/factory">Array(&hellip;)</code>',
       'versions' => array(
-        '' => '"function f() {}; if (true) { function f() { return 42; }; } f() == 42"',
-        'ecmascript' => '-',
-        'javascript' => array(1.3, 'tested' => 1.3),
-        'jscript' => array('3.1.3510', 'tested' => TRUE),
-        'jsc' => array('525.27.1', 'tested' => TRUE),
-        'kjs'        => array('3.5.9', 'tested' => TRUE),
-        'opera' => array(5.02, 'tested' => TRUE),
+        'ecmascript' => '1',
+        'javascript' => '1.1',
+        'jscript' => '2.0'
       )
     )),
     
+    new ScriptFeature(array(
+      'content' => '<code>Array.every(&hellip;)</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => '1.6',
+        'jscript' => '-'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Array.some(&hellip;)</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => '1.6',
+        'jscript' => '-'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Array.prototype.concat(&hellip;)</code>',
+      'versions' => array(
+        'ecmascript' => '3',
+        'javascript' => '1.2',
+        'jscript' => '3.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Array.prototype.every(&hellip;)</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => '1.6',
+        'jscript' => '-'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Array.prototype.indexOf(&hellip;)</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => '1.6',
+        'jscript' => '-'
+      )
+    )),
+      
+    new ScriptFeature(array(
+      'content' => '<code>Array.prototype.join(&hellip;)</code>',
+      'versions' => array(
+        'ecmascript' => '1',
+        'javascript' => '1.1',
+        'jscript' => '2.0'
+      )
+    )),
+      
+    new ScriptFeature(array(
+      'content' => '<code>Array.prototype.length</code>',
+      'versions' => array(
+        'ecmascript' => '1',
+        'javascript' => '1.1',
+        'jscript' => '2.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Array.prototype.pop()</code>',
+      'versions' => array(
+        'ecmascript' => '3',
+        'javascript' => '1.2',
+        'jscript' => '5.5'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Array.prototype.push(&hellip;)</code>',
+      'versions' => array(
+        'ecmascript' => '3',
+        'javascript' => '1.2',
+        'jscript' => '5.5'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Array.prototype.reverse()</code>',
+      'versions' => array(
+        'ecmascript' => '1',
+        'javascript' => '1.1',
+        'jscript' => '2.0'
+      )
+    )),
+      
+    new ScriptFeature(array(
+      'content' => '<code>Array.prototype.shift()</code>',
+      'versions' => array(
+        'ecmascript' => '3',
+        'javascript' => '1.2',
+        'jscript' => '5.5'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Array.prototype.slice(&hellip;)</code>',
+      'versions' => array(
+        'ecmascript' => '3',
+        'javascript' => '1.2',
+        'jscript' => '3.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Array.prototype.some(&hellip;)</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => '1.6',
+        'jscript' => '-'
+      )
+    )),
+      
+    new ScriptFeature(array(
+      'content' => '<code>Array.prototype.sort(</code>[<code><var>comparator</var></code>]<code>)</code>',
+      'versions' => array(
+        'ecmascript' => '1',
+        'javascript' => '1.1',
+        'jscript' => '2.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<a
+        href="javascript:a=new(Array(1,2,3));alert(a.splice(1,1,4));alert(a);"
+        onclick="var a = new Array(1,2,3); alert(a.splice(1,1,4)); return !!alert(a);"
+      ><code>Array.prototype.splice(&hellip;)</code></a>',
+      'versions' => array(
+        'ecmascript' => '3',
+        'javascript' => '<a href="#Array.prototype.splice"
+        name="Array.prototype.splice" class="tooltip"
+      >1.2<span><span>; </span>no return value before 1.3</span></a>',
+        'jscript' => '5.5*'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<a href="javascript:a=new(Array(\'1\'));a.unshift(0);alert(a);"
+        onclick="var a = new Array(\'1\'); a.unshift(0); return !!alert(a);"
+      ><code>Array.prototype.unshift()</code></a>',
+      'versions' => array(
+        'ecmascript' => '3',
+        'javascript' => '1.2?',
+        'jscript' => '5.5'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<a name="b" id="b"></a><code>boolean</code>',
+      'versions' => array(
+        'ecmascript' => '4',
+        'javascript' => '2.0',
+        'jscript' => array('7.0',
+          'urn' => 'msdn:jscript7/html/jsdatBoolean.asp')
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Boolean(&hellip;)</code>',
+      'versions' => array(
+        'ecmascript' => '1',
+        'javascript' => array(1.1,
+          'urn' => 'js15ref:Global_Objects:Boolean'),
+        'jscript' => '2.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>byte</code>',
+      'versions' => array(
+        'ecmascript' => '4',
+        'javascript' => '2.0',
+        'jscript' => array('7.0',
+          'urn' => 'msdn:jscript7/html/jsdatbyte.asp')
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<a name="c" id="c"></a><code>@cc_on</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => '-',
+        'jscript' => '3.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>char</code>',
+      'versions' => array(
+        'ecmascript' => '4',
+        'javascript' => '2.0',
+        'jscript' => '7.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>class</code>',
+      'versions' => array(
+        'ecmascript' => '4',
+        'javascript' => '2.0',
+        'jscript' => array('7.0',
+          'urn' => 'msdn:jscript7/html/jsdatchar.asp')
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>const</code>',
+      'versions' => array(
+        'ecmascript' => '4',
+        'javascript' => '1.5',
+        'jscript' => '7.0'
+      )
+    )),
+          
+    new ScriptFeature(array(
+      'content' => '<a name="d" id="d"></a><code>Date.prototype.getFullYear()</code>',
+      'versions' => array(
+        'ecmascript' => '1',
+        'javascript' => '1.3',
+        'jscript' => '3.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Date.prototype.getMilliseconds()</code>',
+      'versions' => array(
+        'ecmascript' => '1',
+        'javascript' => '1.3',
+        'jscript' => '3.0'
+      )
+    )),
+      
+    new ScriptFeature(array(
+      'content' => '<code>Date.prototype.getUTCDate()</code>',
+      'versions' => array(
+        'ecmascript' => '1',
+        'javascript' => '1.3',
+        'jscript' => '3.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Date.prototype.getUTCDay()</code>',
+      'versions' => array(
+        'ecmascript' => '1',
+        'javascript' => '1.3',
+        'jscript' => '3.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Date.prototype.getUTCFullYear()</code>',
+      'versions' => array(
+        'ecmascript' => '1',
+        'javascript' => '1.3',
+        'jscript' => '3.0'
+      )
+    )),
+      
+    new ScriptFeature(array(
+      'content' => '<code>Date.prototype.getUTCHours()</code>',
+      'versions' => array(
+        'ecmascript' => '1',
+        'javascript' => '1.3',
+        'jscript' => '3.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Date.prototype.getUTCMilliseconds()</code>',
+      'versions' => array(
+        'ecmascript' => '1',
+        'javascript' => '1.3',
+        'jscript' => '3.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Date.prototype.getUTCMinutes()</code>',
+      'versions' => array(
+        'ecmascript' => '1',
+        'javascript' => '1.3',
+        'jscript' => '3.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Date.prototype.getUTCMonth()</code>',
+      'versions' => array(
+        'ecmascript' => '1',
+        'javascript' => '1.3',
+        'jscript' => '3.0'
+      )
+    )),
+      
+    new ScriptFeature(array(
+      'content' => '<code>Date.prototype.getUTCSeconds()</code>',
+      'versions' => array(
+        'ecmascript' => '1',
+        'javascript' => '1.3',
+        'jscript' => '3.0'
+      )
+    )),
+      
+    new ScriptFeature(array(
+      'content' => '<code>Date.prototype.getVarDate()</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => '-',
+        'jscript' => '3.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Date.prototype.setFullYear(<var>integer</var>)</code>',
+      'versions' => array(
+        'ecmascript' => '1',
+        'javascript' => '1.3',
+        'jscript' => '3.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Date.prototype.setMilliseconds(<var>integer</var>)</code>',
+      'versions' => array(
+        'ecmascript' => '1',
+        'javascript' => '1.3',
+        'jscript' => '3.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Date.prototype.setUTCDate(<var>integer</var>)</code>',
+      'versions' => array(
+        'ecmascript' => '1',
+        'javascript' => '1.3',
+        'jscript' => '3.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Date.prototype.setUTCDay(<var>integer</var>)</code>',
+      'versions' => array(
+        'ecmascript' => '1',
+        'javascript' => '1.3',
+        'jscript' => '3.0'
+      )
+    )),
+      
+    new ScriptFeature(array(
+      'content' => '<code>Date.prototype.setUTCFullYear(<var>integer</var>)</code>',
+      'versions' => array(
+        'ecmascript' => '1',
+        'javascript' => '1.3',
+        'jscript' => '3.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Date.prototype.setUTCHours(<var>integer</var>)</code>',
+      'versions' => array(
+        'ecmascript' => '1',
+        'javascript' => '1.3',
+        'jscript' => '3.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Date.prototype.setUTCMilliseconds(<var>integer</var>)</code>',
+      'versions' => array(
+        'ecmascript' => '1',
+        'javascript' => '1.3',
+        'jscript' => '3.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Date.prototype.setUTCMinutes(<var>integer</var>)</code>',
+      'versions' => array(
+        'ecmascript' => '1',
+        'javascript' => '1.3',
+        'jscript' => '3.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Date.prototype.setUTCMonth(<var>integer</var>)</code>',
+      'versions' => array(
+        'ecmascript' => '1',
+        'javascript' => '1.3',
+        'jscript' => '3.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Date.prototype.setUTCSeconds(<var>integer</var>)</code>',
+      'versions' => array(
+        'ecmascript' => '1',
+        'javascript' => '1.3',
+        'jscript' => '3.0'
+      )
+    )),
+      
     new ScriptFeature(array(
       'content' => '<code>Date.prototype.toDateString()</code>',
       'versions' => array(
@@ -383,20 +930,6 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.toString()</code>',
-      'versions' => array(
-        '' => 'jsx.object.isMethod(Date, "prototype", "toString")
-               && "(new Date()).toString()"',
-        'ecmascript' => 1,
-        'javascript' => array('1.0', 'tested' => 1.3),
-        'jscript'    => array('tested' => '5.1.5010'),
-        'jsc'        => array('tested' => 530.17),
-        'kjs'        => array('tested' => '3.5.9'),
-        'opera'      => array('tested' => 5.02),
-      )
-    )),
-    
-    new ScriptFeature(array(
       'content' => '<code>Date.prototype.toSource()</code>',
       'versions' => array(
         '' => 'jsx.object.isMethod(Date, "prototype", "toSource")
@@ -410,6 +943,20 @@ HTML
       )
     )),
         
+    new ScriptFeature(array(
+      'content' => '<code>Date.prototype.toString()</code>',
+      'versions' => array(
+        '' => 'jsx.object.isMethod(Date, "prototype", "toString")
+               && "(new Date()).toString()"',
+        'ecmascript' => 1,
+        'javascript' => array('1.0', 'tested' => 1.3),
+        'jscript'    => array('tested' => '5.1.5010'),
+        'jsc'        => array('tested' => 530.17),
+        'kjs'        => array('tested' => '3.5.9'),
+        'opera'      => array('tested' => 5.02),
+      )
+    )),
+    
     new ScriptFeature(array(
       'content' => '<code>Date.prototype.toTimeString()</code>',
       'versions' => array(
@@ -437,7 +984,550 @@ HTML
         'opera'      => array('tested' => 5.02),
       )
     )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>@debug</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => '-',
+        'jscript' => '7.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>debugger</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => '-',
+        'jscript' => '3.0'
+      )
+    )),
+      
+    new ScriptFeature(array(
+      'content' => '<code>decimal</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => '-',
+        'jscript' => array('7.0',
+          'urn' => 'msdn:jscript7/html/jsdatDecimal.asp')
+      )
+    )),
+      
+    new ScriptFeature(array(
+      'content' => '<code>decodeURI(&hellip;)</code>',
+      'versions' => array(
+        'ecmascript' => '3',
+        'javascript' => '1.5',
+        'jscript' => '5.5'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>decodeURIComponent(&hellip;)</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '1.5',
+        'jscript' => '5.5'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>delete</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => '3.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>do&hellip;while</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => '3.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>double</code>',
+      'versions' => array(
+        'ecmascript' => '4',
+        'javascript' => '2.0',
+        'jscript' => array('7.0',
+          'urn' => 'msdn:jscript7/html/jsdatdouble.asp')
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<a name="e" id="e"></a><code>encodeURI(&hellip;)</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '1.5',
+        'jscript' => '5.5'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>encodeURIComponent(&hellip;)</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '1.5',
+        'jscript' => '5.5'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>enum</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '2.0',
+        'jscript' => '7.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Enumerator(&hellip;)</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => '-',
+        'jscript' => '3.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Error(&hellip;)</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => '5.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Error.prototype.description</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => '5.0'
+      )
+    )),
+      
+    new ScriptFeature(array(
+      'content' => '<code>Error.prototype.message</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => '5.5'
+      )
+    )),
+      
+    new ScriptFeature(array(
+      'content' => '<code>Error.prototype.name</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => '5.5'
+      )
+    )),
+      
+    new ScriptFeature(array(
+      'content' => '<code>Error.prototype.number</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => '5.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Error.prototype.stack</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => array('tested' => 1.5),
+        'jscript' => '-',
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>expando</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => '7.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<a name="f" id="f"></a><code>final</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => '7.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>float</code>',
+      'versions' => array(
+        'ecmascript' => '4',
+        'javascript' => '2.0',
+        'jscript' => array('7.0',
+          'urn' => 'msdn:jscript7/html/jsdatfloat.asp')
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>for each ([var] <var>identifier</var> in <var>expression</var>)</code>',
+      'versions' => array(
+        'ecmascript' => 'E4X',
+        'javascript' => '1.6',
+        'jscript' => '-'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Function(&hellip;)</code>',
+      'versions' => array(
+        'ecmascript' => '1',
+        'javascript' => '1.1',
+        'jscript' => '2.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>function get <var>identifier</var>(&hellip;)</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => '7.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>function set <var>identifier</var>(&hellip;)</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => '7.0'
+      )
+    )),
+      
+    new ScriptFeature(array(
+      'title' => 'Function expression',
+      'content' => '<code>= function
+            <var>identifier</var>(&hellip;) {&hellip;}</code>',
+      'versions' => array(
+        '' => '"(function foo() { return 42; })() == 42"',
+        'ecmascript' => 1,
+        'javascript' => array(1.2, 'tested' => 1.3),
+        'jscript'    => array('1.0', 'tested' => '5.1.5010'),
+        'jsc'        => array(525.13, 'tested' => TRUE),
+        'kjs'        => array('3.5.9', 'tested' => TRUE),
+        'opera'      => array(5.02, 'tested' => TRUE)
+      )
+    )),
 
+    new ScriptFeature(array(
+      'title' => 'Anonymous function expression',
+      'content' => '<code>= function(&hellip;) {&hellip;}</code>',
+      'versions' => array(
+        '' => '"(function() { return 42; })() == 42"',
+        'ecmascript' => 3,
+        'javascript' => array('1.3*', 'tested' => '1.3'),
+        'jscript'    => array('3.1.3510', 'tested' => TRUE),
+        'jsc'        => array(525.13, 'tested' => TRUE),
+        'kjs'        => array('3.5.9', 'tested' => TRUE),
+        'opera'      => array(5.02, 'tested' => TRUE)
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code title="Expression closure">= <a
+        href="javascript:window.alert((function(x)%20x%20*%20x)(2))"
+        onclick="eval(\'window.alert((function(x) x * x)(2)); return false\')"
+      >function(&hellip;) <var>expression</var></a></code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => array('tested' => 1.8),
+        'jscript' => '-',
+      )
+    )),
+            
+    new ScriptFeature(array(
+      'title' => 'Function statement',
+      'content' => '<code>if (<var>&hellip;</var>) { function f() { <var>&hellip;</var> }; }</code>',
+      'versions' => array(
+        '' => '"function f() {}; if (true) { function f() { return 42; }; } f() == 42"',
+        'ecmascript' => '-',
+        'javascript' => array(1.3, 'tested' => 1.3),
+        'jscript' => array('3.1.3510', 'tested' => TRUE),
+        'jsc' => array('525.27.1', 'tested' => TRUE),
+        'kjs'        => array('3.5.9', 'tested' => TRUE),
+        'opera' => array(5.02, 'tested' => TRUE),
+      )
+    )),
+       
+    new ScriptFeature(array(
+      'content' => '<code>Function.prototype.arity</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '<a href="#Function.prototype.arity"
+        name="Function.prototype.arity" class="tooltip"
+      >1.2<span><span>; </span>deprecated since 1.4</span></a>',
+        'jscript' => '?'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Function.prototype.apply(&hellip;)</code>',
+      'versions' => array(
+        'ecmascript' => '3',
+        'javascript' => '1.3',
+        'jscript' => array('5.5', 'tested' => '5.5.6330')
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Function.prototype.arguments</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => <<<HTML
+          <span class="tooltip">1.0<span><span>; </span>deprecated since 1.4;
+          use <a href="#arguments"><code>arguments</code></a> instead</span></span>
+HTML
+        , 'jscript' => '2.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Function.prototype.arguments.callee</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => <<<HTML
+          <span class="tooltip">1.2<span><span>; </span>deprecated since 1.4;
+          use <code><a href="#arguments.callee">arguments.callee</a></code>
+          instead</span></span>
+HTML
+        , 'jscript' => '5.6'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Function.prototype.arguments.length</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => <<<HTML
+          <span class="tooltip">1.0<span><span>; </span>deprecated since 1.4;
+          use <a href="#arguments.length"><code>arguments.length</code></a>
+          instead</span></span>
+HTML
+        , 'jscript' => '?'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Function.prototype.call(&hellip;)</code>',
+      'versions' => array(
+        'ecmascript' => '3',
+        'javascript' => array(1.3,
+          'urn' => 'js15ref:Global_Objects:Function:call'),
+        'jscript' => array('5.5', 'tested' => '5.5.6330')
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<a name="Function.prototype.caller"
+        id="Function.prototype.caller"
+      ><code>Function.prototype.caller</code></a>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => '<span class="tooltip">-<span><span> (</span>see&nbsp;<code><a
+        href="#arguments.caller"
+      >arguments.caller</a></code><span>)</span></span></span>',
+        'jscript' => '2.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Function.prototype.length</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => '2.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Function.prototype.toSource()</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '1.3',
+        'jscript' => '?'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<a name="g" id="g"></a><code><var>Generator</var>.close()</code><sup><a href="#fn-decl-ver" name="decl-ver">V</a></sup>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => array(1.7,
+          'urn' => 'mdc:New_in_JavaScript_1.7#Closing_a_generator'),
+        'jscript' => '-'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code><var>Generator</var>.next()</code><sup><a href="#fn-decl-ver">V</a></sup>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => array(1.7,
+          'urn' => 'http://developer.mozilla.org/en/docs/New_in_JavaScript_1.7#Generators'),
+        'jscript' => '-'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code><var>Generator</var>.send(<var>expression</var>)</code><sup><a href="#fn-decl-ver">V</a></sup>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => array(1.7,
+          'urn' => 'http://developer.mozilla.org/en/docs/New_in_JavaScript_1.7#Resuming_a_generator_at_a_specific_point'),
+        'jscript' => '-'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code><var>Generator</var>.throw(<var>expression</var>)</code><sup><a href="#fn-decl-ver">V</a></sup>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => array(1.7,
+          'urn' => 'http://developer.mozilla.org/en/docs/New_in_JavaScript_1.7#Exceptions_in_generators'),
+        'jscript' => '-'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>GetObject(&hellip;)</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => '-',
+        'jscript' => '3.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => 'Global object',
+      'versions' => array(
+        'ecmascript' => '1',
+        'javascript' => '1.0',
+        'jscript' => '3.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<a name="h" id="h"></a><code>hide</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => '7.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<a name="i" id="i"></a><code>@if</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => '-',
+        'jscript' => '3.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>import</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => '7.0'
+      )
+    )),
+
+    new ScriptFeature(array(
+      'content' => '<code><var>"string"</var> in <var>objRef</var></code>',
+      'versions' => array(
+        'ecmascript' => '3',
+        'javascript' => '1.4',
+        'jscript' => '5.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Infinity</code>',
+      'versions' => array(
+        '' => '"Infinity > 0"',
+        'ecmascript' => 1,
+        'javascript' => 1.3,
+        'jscript' => '3.0',
+        'opera' => '7.0'
+      )
+    )),
+
+    new ScriptFeature(array(
+      'content' => '<code>instanceof</code>',
+      'versions' => array(
+        'ecmascript' => '3',
+        'javascript' => '1.4',
+        'jscript' => '5.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>int</code>',
+      'versions' => array(
+        'ecmascript' => '4',
+        'javascript' => '2.0',
+        'jscript' => array('7.0',
+          'urn' => 'http://msdn.microsoft.com/library/en-us/jscript7/html/jsdatint.asp')
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>interface</code>',
+      'versions' => array(
+        'ecmascript' => '4',
+        'javascript' => '2.0',
+        'jscript' => '7.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>internal</code>',
+      'versions' => array(
+        'ecmascript' => '4',
+        'javascript' => '2.0',
+        'jscript' => '7.0'
+      )
+    )),
+
+    new ScriptFeature(array(
+      'content' => '<code>isFinite(&hellip;)</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => '3.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Iterator(<var>objRef </var>)</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => array(1.7,
+          'urn' => 'http://developer.mozilla.org/en/docs/New_in_JavaScript_1.7#Iterators'),
+        'jscript' => '-'
+      )
+    )),
+    
     new ScriptFeature(array(
       'content' => '<code>JSON.parse()</code>',
       'versions' => array(
@@ -469,21 +1559,73 @@ HTML
     )),
     
     new ScriptFeature(array(
+      'content' => '<a name="l" id="l"></a><a name="let" id="let"><code
+        title="Block scoping: let statement"
+      >let&nbsp;(<var>assignment</var><var>[</var>, <var>&#8230;</var><var>]</var>)
+      {&nbsp;<var>[</var><var>statements</var><var>]</var>&nbsp;}</code></a><sup><a href="#fn-decl-ver">V</a></sup>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => array(1.7,
+          'urn' => 'http://developer.mozilla.org/en/docs/New_in_JavaScript_1.7#Block_scope_with_let'),
+        'jscript' => '-'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'title' => 'Block scoping: let expression',
+      'content' => <<<HTML
+        <code title="Block scoping: let expression">let&nbsp;(<var>assignment</var><var>[</var>,
+        <var>&#8230;</var><var>]</var>)&nbsp;<var>expression</var></code><sup><a href="#fn-decl-ver">V</a></sup>
+HTML
+      , 'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => array(1.7,
+          'urn' => 'http://developer.mozilla.org/en/docs/New_in_JavaScript_1.7#Block_scope_with_let'),
+        'jscript' => '-'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'title' => 'Block scoping: let definition',
+      'content' => <<<HTML
+        <code title="Block scoping: let definition">let&nbsp;<var>assignment</var><var>[</var>,
+        <var>&#8230;</var><var>]</var></code><sup><a href="#fn-decl-ver">V</a></sup>',
+HTML
+      , 'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => array(
+          'urn' => 'http://developer.mozilla.org/en/docs/New_in_JavaScript_1.7#Block_scope_with_let'),
+        'jscript' => '-'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>long</code>',
+      'versions' => array(
+        'ecmascript' => '4',
+        'javascript' => '2.0',
+        'jscript' => array('7.0',
+          'urn' => 'msdn:jscript7/html/jsdatlong.asp'),
+      )
+    )),
+       
+    new ScriptFeature(array(
       'content' => '<code>Math.max(<var>a</var>, <var>b</var>)</code>',
+      'anchors' => array('m'),
       'versions' => array(
         '' => 'jsx.object.isMethod(Math, "max")
                && Math.max(1, 2) == 2',
         'ecmascript' => 1,
         'javascript' => array('1.0',
-          'tested' => '1.5',
+          'tested' => '1.3',
           'urn' => 'js15ref:Global_Objects:Math:max'),
-        'jscript' => array('3.1.3510', 'tested' => TRUE),
+        'jscript' => array('3.0', 'tested' => '3.1.3510'),
         'jsc' => array('525.27.1', 'tested' => TRUE),
         'kjs'        => array('3.5.9', 'tested' => TRUE),
         'opera' => array(5.02, 'tested' => TRUE),
       )
     )),
-
+    
     new ScriptFeature(array(
       'content' => '<code>Math.max(<var>a</var>, <var>b</var>, <var>&hellip;</var>)</code>',
       'versions' => array(
@@ -492,10 +1634,169 @@ HTML
         'ecmascript' => 3,
         'javascript' => array('tested' => '1.5',
           'urn' => 'js15ref:Global_Objects:Math:max'),
-        'jscript' => array('5.5.6330', 'tested' => TRUE),
+        'jscript' => array(5.5, 'tested' => '5.5.6330'),
         'jsc' => array('525.27.1', 'tested' => TRUE),
         'kjs'        => array('3.5.9', 'tested' => TRUE),
         'opera' => array(5.02, 'tested' => TRUE)
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Math.min(<var>a</var>, <var>b</var>)</code>',
+      'versions' => array(
+        'javascript' => array('tested' => 1.3),
+        'jscript' => array('3.0', 'tested' => '3.1.3510'),
+        'ecmascript' => 1
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Math.min(<var>a</var>, <var>b</var>, <var>&hellip;</var>)</code>',
+      'versions' => array(
+        'javascript' => array('tested' => 1.5),
+        'jscript' => array('5.5', 'tested' => '5.5.6330'),
+        'ecmascript' => 3
+      )
+    )),
+        
+    new ScriptFeature(array(
+      'content' => '<code>NaN</code>',
+      'title'   => 'Not-a-number value',
+      'versions' => array(
+        '' => '"isNaN(NaN)"',
+        'ecmascript' => 1,
+        'javascript' => 1.3,
+        'jscript'    => '3.0',
+        'jsc'        => '?',
+        'kjs'        => '?',
+        'opera'      => '7.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Number(&hellip;)</code>',
+      'versions' => array(
+        'javascript' => '?',
+        'jscript' => array('1.0',
+          'urn' => 'msdn:jscript7/html/jsobjnumber.asp'),
+        'ecmascript' => '?'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Number.MAX_VALUE</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => array('2.0',
+          'urn' => 'msdn:jscript7/html/jspromaxvalue.asp'),
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Number.MIN_VALUE</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => array('2.0',
+          'urn' => 'msdn:jscript7/html/jsprominvalue.asp'),
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Number.NaN</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => array('2.0',
+          'urn' => 'msdn:jscript7/html/jspronannumber.asp')
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Number.NEGATIVE_INFINITY</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => array('2.0',
+          'urn' => 'msdn:jscript7/html/jspronegativeinf.asp')
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Number.POSITIVE_INFINITY</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => array('2.0',
+          'urn' => 'msdn:jscript7/html/jspropositiveinf.asp')
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<a name="o" id="o"></a><code>Object(&hellip;)</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => '3.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Object.getPrototypeOf(<var>o</var>:&nbsp;Object)</code>',
+      'versions' => array(
+        '' => 'isMethod(Object, "getPrototypeOf")',
+        'ecmascript' => '5',
+        'javascript' => array('1.8.1', 'tested' => '1.8.1'),
+        'jscript' => '-'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Object.prototype.__defineGetter__(<var>propertyName</var>:&nbsp;string,
+      <var>getter</var>:&nbsp;Function)</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => '1.5',
+        'jscript' => '-'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Object.prototype.__defineSetter__(<var>propertyName</var>:&nbsp;string,
+      <var>setter</var>:&nbsp;Function)</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => '1.5',
+        'jscript' => '-'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Object.prototype.__iterator__</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => array(1.7,
+          'urn' => 'http://developer.mozilla.org/en/docs/New_in_JavaScript_1.7#Iterators'),
+        'jscript' => '-'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Object.prototype.__proto__</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => '1.3',
+        'jscript' => '-'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Object.prototype.constructor(&hellip;)</code>',
+      'versions' => array(
+        'ecmascript' => '1',
+        'javascript' => '1.1',
+        'jscript' => '2.0'
       )
     )),
     
@@ -511,6 +1812,322 @@ HTML
       )
     )),
 
+    new ScriptFeature(array(
+      'content' => '<code>Object.prototype.isPrototypeOf(&hellip;)</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => '5.5'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Object.prototype.propertyIsEnumerable(&hellip;)</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => '5.5'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Object.prototype.prototype</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => '2.0'
+      )
+    )),
+      
+    new ScriptFeature(array(
+      'content' => '<code>Object.prototype.toSource()</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => '1.0',
+        'jscript' => '-'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>override</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => '7.0'
+      )
+    )),
+      
+    new ScriptFeature(array(
+      'content' => '<a name="p" id="p"></a><code>package</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => '7.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>@position</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => '-',
+        'jscript' => '7.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>print(<var>string</var>)</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => '-',
+        'jscript' => '7.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>private</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => '7.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>protected</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => '7.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>public</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => '7.0'
+      )
+    )),
+      
+    new ScriptFeature(array(
+      'content' => '<a name="q" id="q"></a><a name="r" id="r"></a><code>RegExp(<var>&hellip;</var></code>[<code>,
+      <span class="str">&quot;</span></code>[<code class="str">g</code>][<code>i</code>]<code
+        class="str"
+      >&quot;</code>]<code>)</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => '1.2',
+        'jscript' => '-'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>RegExp(<var>&hellip;</var></code>[<code>, <span
+        class="str"
+      >&quot;</span></code>[<code class="str">g</code>][<code>i</code>][<code>m</code>]<code
+        class="str"
+      >&quot;</code>]<code>)</code>',
+      'versions' => array(
+        'ecmascript' => '3',
+        'javascript' => '1.5',
+        'jscript' => '3.0'
+      )
+    )),
+      
+    new ScriptFeature(array(
+      'content' => '<code>RegExp.$<var>integer</var></code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => '3.0'
+      )
+    )),
+      
+    new ScriptFeature(array(
+      'content' => '<code>RegExp.</code>{<code>$&amp;</code> | <code>lastMatch</code>}',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '1.2',
+        'jscript' => '5.5'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>RegExp.</code>{<code>$\'</code> | <code>rightContext</code>}',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => '5.5'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>RegExp.</code>{<code>$+</code> | <code>lastParen</code>}',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => '5.5'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '{<code>RegExp</code> | <code><var>reArray</var></code>}<code>.</code>{<code>$_</code>
+      | <code>input</code>}',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '1.2',
+        'jscript' => '3.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>RegExp.</code>{<code>$`</code> | <code>leftContext</code>}',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => '5.5'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '{<code>RegExp</code> | <code><var>reArray</var></code>}<code>.index</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => '3.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>RegExp.prototype.compile(<var>&hellip;</var>)</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => '3.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>RegExp.prototype.exec(&hellip;)</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => '3.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>RegExp.prototype.global</code>',
+      'versions' => array(
+        'ecmascript' => '3',
+        'javascript' => '1.2',
+        'jscript' => '5.5'
+      )
+    )),
+      
+    new ScriptFeature(array(
+      'content' => '<code>RegExp.prototype.ignoreCase</code>',
+      'versions' => array(
+        'ecmascript' => '3',
+        'javascript' => '1.2',
+        'jscript' => '5.5'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>RegExp.prototype.multiline</code>',
+      'versions' => array(
+        'ecmascript' => '3',
+        'javascript' => '1.2',
+        'jscript' => '5.5'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>RegExp.prototype.source</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => '3.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<a name="s" id="s"></a><code>sbyte</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => '7.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code><a href="javascript:void(alert(ScriptEngine()))">ScriptEngine</a>()</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => '-',
+        'jscript' => '2.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code><a
+        href="javascript:void(alert(ScriptEngineBuildVersion()))"
+      >ScriptEngineBuildVersion</a>()</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => '-',
+        'jscript' => '2.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code><a
+        href="javascript:void(alert(ScriptEngineMajorVersion()))"
+      >ScriptEngineMajorVersion</a>()</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => '-',
+        'jscript' => '2.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code><a
+        href="javascript:void(alert(ScriptEngineMinorVersion()))"
+      >ScriptEngineMinorVersion</a>()</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => '-',
+        'jscript' => '2.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>@set</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => '-',
+        'jscript' => '3.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>short</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => '7.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<a href="#opNotEqual" title="!==">Strict Not Equal/Nonidentity
+      operator</a>'
+    )),
+      
     new ScriptFeature(array(
       'content' => '<code>String.fromCharCode(<var title="unsigned integer">uint</var>)</code>',
       'versions' => array(
@@ -539,6 +2156,15 @@ HTML
     )),
     
     new ScriptFeature(array(
+      'content' => '<code>String.prototype.concat(&hellip;)</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => '3.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
       'content' => '<code>String.prototype.localeCompare(<var>string</var>)</code>',
       'versions' => array(
         '' => '"jsx.object.isMethod(String, \"prototype\", \"localeCompare\")"
@@ -549,6 +2175,60 @@ HTML
         'jsc'        => array('tested' => '531.9.1'),
         'kjs'        => array('tested' => '4.3.2'),
         'opera'      => array('tested' => '10.01')
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>String.prototype.match(<var>RegExp</var>)</code>',
+      'versions' => array(
+        'ecmascript' => '3',
+        'javascript' => array(1.2, 'tested' => 1.3),
+        'jscript' => '3.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>String.prototype.replace(<var>string|RegExp</var>, <var>string</var>)</code>',
+      'versions' => array(
+        'ecmascript' => '3',
+        'javascript' => '1.2',
+        'jscript' => '1.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>String.prototype.replace(<var>string|RegExp</var>, <var>Function</var>)</code>',
+      'versions' => array(
+        'ecmascript' => 3,
+        'javascript' => array('tested' => 1.3),
+        'jscript' => array('tested' => '5.5.6330'),
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>String.prototype.search(<var>RegExp</var>)</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => '3.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>String.prototype.slice(&hellip;)</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '1.0',
+        'jscript' => '3.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>String.prototype.split(&hellip;)</code>',
+      'versions' => array(
+        'ecmascript' => '1',
+        'javascript' => '1.1',
+        'jscript' => '3.0'
       )
     )),
         
@@ -579,6 +2259,206 @@ HTML
         'opera'      => array('tested' => '10.01')
       )
     )),
+    
+    new ScriptFeature(array(
+      'content' => '<a name="switch" id="switch"><code>switch&nbsp;(<var>expression</var>)&nbsp;{
+      case&nbsp;<var>value</var>:&nbsp;<var>statements</var>;&nbsp;</code>[<code>break;</code>]
+      <var>&hellip;</var> <code>default:&nbsp;<var>statements</var>;&nbsp;</code>[<code>break;</code>]<code>&nbsp;}</code></a>',
+      'versions' => array(
+        'javascript' => array(1.2,
+          'urn' => 'js15ref:Statements:switch'),
+        'jscript' => array('3.0',
+          'urn' => 'msdn:jscript7/html/jsstmswitch.asp'),
+        'ecmascript' => 3
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<a name="t" id="t"></a><a name="throw" id="throw"><code>throw&nbsp;<var>expression</var></code></a>',
+     'versions' => array(
+        'javascript' => array(1.4,
+          'urn' => 'js15ref:Statements:throw'),
+        'jscript' => array('tested' => '5.1.5010'),
+        'ecmascript' => 3
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<a name="try" id="try"><code>try&nbsp;{&nbsp;</code>[<code><var>statements</var></code>]&nbsp;<code>}<br>
+        catch&nbsp;(<var>identifier</var>)&nbsp;{&nbsp;</code>[<code><var>statements</var></code>]&nbsp;<code>}</code></a>',
+      'versions' => array(
+        'javascript' => array(1.4,
+          'urn' => 'js15ref:Statements:try...catch'),
+        'jscript' => array('tested' => '5.1.5010',
+          'urn' => 'msdn:jscript7/html/jsstmtrycatch.asp'),
+        'ecmascript' => 3
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>try&nbsp;{&nbsp;</code>[<code><var>statements</var></code>]<code>&nbsp;}<br>
+      finally&nbsp;{&nbsp;</code>[<code><var>statements</var></code>]<code>&nbsp;}</code>',
+      'versions' => array(
+        'ecmascript' => 3,
+        'javascript' => 1.4,
+        'jscript' => '-'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>try&nbsp;{&nbsp;</code>[<code><var>statements</var></code>]<code>&nbsp;}<br>
+      catch&nbsp;(<var>identifier</var>)&nbsp;{&nbsp;</code>[<code><var>statements</var></code>]<code>&nbsp;}<br>
+      finally&nbsp;{&nbsp;</code>[<code><var>statements</var></code>]<code>&nbsp;}</code>',
+      'versions' => array(
+        'ecmascript' => '3',
+        'javascript' => '1.4',
+        'jscript' => '5.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>try&nbsp;{</code>&nbsp;[<code><var>statements</var></code>]<code>&nbsp;}<br>
+      catch&nbsp;(<var>identifier</var>&nbsp;if&nbsp;<var>expression</var>)&nbsp;{&nbsp;</code>[<code><var>statements</var></code>]&nbsp;<code>}</code><br>
+      [<code>catch&nbsp;(<var>identifier</var>)&nbsp;{&nbsp;</code>[<code><var>statements</var></code>]<code>&nbsp;}</code>]<br>
+      [<code>finally&nbsp;{&nbsp;</code>[<code><var>statements</var></code>]<code>&nbsp;}</code>]',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => '1.5',
+        'jscript' => '-'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>typeof <var>expression</var></code>',
+      'anchor' => 'typeof',
+      'versions' => array(
+        'ecmascript' => 1,
+        'javascript' => 1.1,
+        'jscript' => '1.0',
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>undefined</code>',
+      'anchors' => array('u', 'undefined'),
+      'versions' => array(
+        'ecmascript' => 1,
+        'javascript' => 1.3,
+        'jscript' => 5.5,
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>VBArray.prototype.dimensions()</code>',
+      'anchor' => 'v',
+      'versions' => array(
+        'javascript' => '-',
+        'jscript' => '3.0',
+        'ecmascript' => '-'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>VBArray.prototype.getItem(&hellip;)</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => '-',
+        'jscript' => '3.0'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>VBArray.prototype.lbound(&hellip;)</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => '-',
+        'jscript' => '3.0'
+      )
+    )),
+    
+    
+    
+    new ScriptFeature(array(
+      'content' => '<a name="w" id="w"></a><code>window</code>',
+      'versions' => array(
+        'javascript' => '<a
+        href="http://research.nihonsoft.org/javascript/ClientReferenceJS13/window.html"
+      >1.0</a><span class="tooltip">**<span><span>; </span>removed in <a
+        href="#javascript"
+      >1.4</a>; <a
+        href="http://developer.mozilla.org/en/docs/DOM:window"
+      >Gecko&nbsp;DOM feature</a> since <a href="#javascript">1.5</a></span></span>',
+        'jscript' => '-',
+        'ecmascript' => '-'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>window.setInterval(<var>string</var>, <var>msec</var>)</code>',
+      'versions' => array(
+          'ecmascript' => '-',
+          'javascript' => '<a
+        href="http://research.nihonsoft.org/javascript/ClientReferenceJS13/window.html#1203669"
+      >1.2</a><span class="tooltip">**<span><span>; </span>removed in <a
+        href="#javascript"
+      >1.4</a>; <a
+        href="http://developer.mozilla.org/en/docs/DOM:window.setInterval"
+      >Gecko&nbsp;DOM feature</a> since <a href="#javascript">1.5</a></span></span>',
+        'jscript' => '-'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>window.setInterval(<var>functionReference</var>, <var>msec</var></code>[<code>,
+      <var>arg1</var></code>[<code>, &hellip;, <var>argN</var></code>]]<code>)</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => '1.2<span class="tooltip">**<span><span>; </span>removed in
+      1.4; <a
+        href="http://developer.mozilla.org/en/docs/DOM:window.setInterval"
+      >Gecko&nbsp;DOM feature</a> since <a href="#javascript">1.5</a></span></span>',
+        'jscript' => '-'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>window.setTimeout(<var>string</var>, <var>msec</var>)</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => '<a
+        href="http://research.nihonsoft.org/javascript/ClientReferenceJS13/window.html#1203758"
+      >1.0</a><span class="tooltip">**<span><span>; </span>removed in <a
+        href="#javascript"
+      >1.4</a>; <a
+        href="http://developer.mozilla.org/en/docs/DOM:window.setTimeout"
+      >Gecko&nbsp;DOM feature</a> since <a href="#javascript">1.5</a></span></span>',
+        'jscript' => '-'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>window.setTimeout(<var>functionReference</var>, <var>msec</var></code>[<code>,
+      <var>arg1</var></code>[<code>, &hellip;, <var>argN</var></code>]]<code>)</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => array(1.2,
+          'urn' => 'http://research.nihonsoft.org/javascript/ClientReferenceJS13/window.html#1203758',
+          'tooltip' => '<span class="tooltip">**<span><span>; </span>removed in
+      1.4; <a
+        href="http://developer.mozilla.org/en/docs/DOM:window.setTimeout"
+      >Gecko&nbsp;DOM feature</a> since <a href="#javascript">1.5</a></span></span>'),
+        'jscript' => '-'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'title' => 'Generator expression',
+      'content' => '<code title="Generator expression">yield <var>expression</var></code><sup><a href="#fn-decl-ver">V</a></sup>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => array(1.7,
+          'urn' => 'http://developer.mozilla.org/en/docs/New_in_JavaScript_1.7#Generators'),
+        'jscript' => '-' ) )),
   ),
 ));
 
