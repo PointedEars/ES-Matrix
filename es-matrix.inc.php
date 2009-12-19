@@ -255,9 +255,9 @@ EOD
       'content' => '<code>[<var>value</var>,&nbsp;]</code>',
       'versions' => array(
         '' => '"[42,]"',
-        'ecmascript' => '-',
+        'ecmascript' => 3,
         'javascript' => 1.3,
-        'jscript' => '-',
+        'jscript' => array('?', 'tested' => '5.1.5010'),
       )
     )),
         
