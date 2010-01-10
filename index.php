@@ -1,24 +1,41 @@
 <?php
+
 if (! isset ($start_debug))
 {
   require('../../cgi_buffer/php/prepend.php');
 }
+
+$encoding = mb_detect_encoding(file_get_contents(__FILE__));
+header("Content-Type: text/html; charset=$encoding");
 
 $modi = @filemtime(__FILE__);
 header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $modi) . ' GMT');
 
 // Cached resource expires in HTTP/1.0 caches 24h after last retrieval
 header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
+
+require_once 'es-matrix.inc.php';
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
   "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<html lang="en">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $encoding; ?>">
     <meta http-equiv="Content-Script-Type" content="text/javascript">
     <meta http-equiv="Content-Style-Type" content="text/css">
     
     <title>ECMAScript Support Matrix</title>
+
+    <meta name="DCTERMS.alternative" content="ES Matrix">
+    <meta name="DCTERMS.audience" content="Web developers">
+    <meta name="DCTERMS.available" content="2009-12-15T04:06:35+00:00">
+    <meta name="DCTERMS.contributor" content="Michael Winter &lt;<?php echo randomEsc('m.winter@blueyonder.co.uk'); ?>&gt;">
+    <meta name="DCTERMS.contributor" content="Juriy 'kangax' Zaytsev &lt;<?php echo randomEsc('kangax@gmail.com'); ?>&gt;">
+    <meta name="DCTERMS.created" content="Thomas 'PointedEars' Lahn &lt;<?php echo randomEsc('js@PointedEars.de'); ?>&gt;">
+    <meta name="DCTERMS.creator" content="Thomas 'PointedEars' Lahn &lt;<?php echo randomEsc('js@PointedEars.de'); ?>&gt;">
+    <meta name="DCTERMS.date" content="<?php echo gmdate('D, d M Y H:i:s', $modi) . ' GMT'; ?>">
+        
     
     <link rel="stylesheet" href="/styles/tooltip.css" type="text/css">
     <link rel="stylesheet" href="../../style.css" type="text/css">
@@ -51,11 +68,13 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
     <p style="text-align: left">Copyright &copy;
       2005&#8211;<?php echo gmdate('Y', $modi); ?>
       Thomas Lahn
-      &lt;<a href="mailto:js@PointedEars.de">js@PointedEars.de</a>&gt;</p>
+      &lt;<a href="<?php echo randomEsc('mailto:js@PointedEars.de'); ?>"
+      ><?php echo randomEsc('js@PointedEars.de'); ?></a>&gt;
+      (<a href="#contributors">contributors</a>)</p>
     
     <p style="text-align: left">Last&nbsp;modified:
       <?php echo gmdate('Y-m-d\TH:i:s+00:00', $modi); ?>
-      (<a href="CHANGELOG">changelog</a>)</p>
+      (<a href="ChangeLog">changelog</a>)</p>
     
     <p style="text-align: left">Available online at &lt;<a
        href="<?php
@@ -78,18 +97,21 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
 ?>
     
     <h2 style="margin-top: 1em; padding-top: 1em; border-top: 1px solid black"
-        ><a name="contents" id="contents">Contents</a></h2>
+        ><a name="toc" id="toc">Table of Contents</a></h2>
     
     <ul>
-      <li><a href="#language-features">Language Features</a></li>
-      <li><a href="#javascript">JavaScript Version Information</a></li>
-      <li><a href="#jscript">JScript Version Information</a></li>
-      <li><a href="#jsc">JavaScriptCore Version Information</a></li>
-      <li><a href="#actionscript">ActionScript Version Information</a></li>
-      <li><a href="#ecmascript">ECMAScript Compatibility</a></li>
+      <li><a href="#language-features">Language features</a></li>
+      <li><a href="#javascript">JavaScript version information</a></li>
+      <li><a href="#jscript">JScript version information</a></li>
+      <li><a href="#jscore">JavaScriptCore version information</a></li>
+      <li><a href="#actionscript">ActionScript version information</a></li>
+      <li><a href="#ecmascript">ECMAScript compatibility</a></li>
+      <li><a href="#contributors">List of contributors</a></li>
     </ul>
     
     <h2><a name="features" id="features">Language&nbsp;Features</a></h2>
+    
+    <div><a href="#toc">&#8593; table of contents</a></div>
     
     <p>The following table lists all features of ECMAScript implementations
       that are not part of the first versions/editions of all of these
@@ -121,18 +143,8 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
       respective features could be tested; <em>it does not claim to be
       accurate or complete</em> (please note how each feature is marked).
       Any correction/addition as to how things really are is welcome and
-      will be credited where it is due.</strong></p>
-    
-    <h3>Thanks to:</h3>
-    
-    <ul>
-      <li>Michael Winter
-        &lt;<a href="mailto:m.winter@blueyonder.co.uk">m.winter@blueyonder.co.uk</a>&gt;
-        for tests with IE&nbsp;4.01 and NN&nbsp;4.08: Message-ID&nbsp;<a
-        href="http://groups.google.com/groups?as_umsgid=urctf.17012$iz3.5930@text.news.blueyonder.co.uk"
-        >&lt;urctf.17012$iz3.5930@text.news.blueyonder.co.uk&gt;</a></li>
-    </ul>
-    
+      will be <a href="#contributors">credited</a> where it is due.</strong></p>
+        
     <p><em>If you are using Firefox&nbsp;3.0 and the scrollable table body
       flows out of the table, you are observing <a
       href="https://bugzilla.mozilla.org/show_bug.cgi?id=423823"
@@ -167,7 +179,6 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
               }
             ?></th>
           <?php
-            require_once 'es-matrix.inc.php';
             $features->printHeaders();
           ?>
         </tr>
@@ -196,7 +207,8 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
           <td colspan="8">
             <table summary="Footnotes">
               <tr>
-                <th><sup><a href="#this-ua" name="fn-this-ua">1</a></sup></th>
+                <th nowrap><a name="fn-this-ua"><sup>1</sup></a>
+                  <a href="#this-ua" class="backref">&#8593;</a></th>
                 <td>
                   <ul>
                     <li>This user agent:
@@ -208,10 +220,11 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
                       </noscript>
                     </li>
     
-                    <li>This ECMAScript implementation<script type="text/javascript">
+                    <li><a name="script-engine-test" id="script-engine-test"
+                      >This ECMAScript implementation</a><script type="text/javascript">
                         var
                           jsx_object = jsx.object,
-                          bCanDetect = jsx_object.isMethod(null, "ScriptEngine"),
+                          bCanDetect = jsx_object.isMethod(this, "ScriptEngine"),
                       
                           /* No array or loop here for backwards compatibility */
                           out = "";
@@ -220,15 +233,15 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
                         {
                           out += ":<p><b>" + ScriptEngine();
   
-                          if (jsx_object.isMethod(null, "ScriptEngineMajorVersion"))
+                          if (jsx_object.isMethod(this, "ScriptEngineMajorVersion"))
                           {
                             out += " " + ScriptEngineMajorVersion();
   
-                            if (jsx_object.isMethod(null, "ScriptEngineMinorVersion"))
+                            if (jsx_object.isMethod(this, "ScriptEngineMinorVersion"))
                             {
                               out += "." + ScriptEngineMinorVersion();
   
-                              if (jsx_object.isMethod(null, "ScriptEngineBuildVersion"))
+                              if (jsx_object.isMethod(this, "ScriptEngineBuildVersion"))
                               {
                                 out += "." + ScriptEngineBuildVersion();
                               }
@@ -259,12 +272,23 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
                             else if (ua.indexOf("WebKit") > -1)
                             {
                               out += "Apple JavaScriptCore";
+
+                              var m = null;
+
+                              if (jsx_object.isMethod(ua, "match"))
+                              {
+                                m = ua.match(/\bAppleWebKit\/(\d+\.\d+(\.\d+)*)\b/);
+                              }
+
+                              if (m) out += " " + m[1];
                             }
                             else if (typeof netscape != "undefined" || ua.indexOf("Gecko") > -1)
                             {
+                              m = null;
+                              
                               if (jsx_object.isMethod(ua, "match"))
                               {
-                                var m = ua.match(/\brv:(\d+\.\d+(\.\d+)*)\b/);
+                                m = ua.match(/\brv:(\d+\.\d+(\.\d+)*)\b/);
                               }
                              
                               if (m) out += " at least";
@@ -273,11 +297,11 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
   
                               if (m)
                               {
-                                var rv = m[1];
+                                var rv = m[1], s = "";
   
                                 if (rv >= "1.9.1")
                                 {
-                                  var s = "1.8.1";
+                                  s = "1.8.1";
                                 }
                                 else if (rv >= "1.9")
                                 {
@@ -311,14 +335,16 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
                 </td>
               </tr>
               <tr>
-                <th><sup><a href="#generic" name="fn-generic">G</a></sup></th>
+                <th nowrap><a name="fn-generic"><sup>G</sup>
+                  <a href="#generic" class="backref">&#8593;</a></th>
                 <td>This method is intentionally specified or implemented as <em>generic</em>;
                   it does not require that its <code class="rswd">this</code>
                   value be an object of the same type. Therefore, it can be
                   transferred to other kinds of objects for use as a method.</td>
               </tr>
               <tr>
-                <th><sup><a href="#decl-ver" name="fn-decl-ver">V</a></sup></th>
+                <th nowrap><a name="fn-decl-ver"><sup>V</sup>
+                  <a href="#decl-ver" class="backref">&#8593;</a></th>
                 <td>Version needs to be declared in order to use this feature</td>
               </tr>
             </table>
@@ -354,6 +380,9 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
                   <li>Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.1.5)
                       Gecko/20091112 Iceweasel/3.5.5 (like Firefox/3.5.5;
                       Debian-3.5.5-1)</li>
+                  <li>Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.1.6)
+                      Gecko/20091216 Iceweasel/3.5.6 (like Firefox/3.5.6;
+                      Debian-3.5.6-1)</li>
                 </ul>
               </li>
               <li><span title="Microsoft JScript">JScript</span>
@@ -429,8 +458,11 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
     </table>
     
     <h2><a name="javascript" id="javascript">Netscape/Mozilla.org&nbsp;JavaScript
-    Version Information</a><sup>1)</sup></h2>
-    <table class="versions"
+    Version Information</a><a href="#fn-javascript"><sup>1)</sup></a></h2>
+
+   <div><a href="#toc">&#8593; table of contents</a></div>
+    
+   <table class="versions"
       summary="JavaScript versions and the user agents that support them"
     >
       <thead>
@@ -485,14 +517,13 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
       </thead>
       <tfoot>
         <tr>
-          <td colspan="13"><sup>1)</sup> Version information from the
-          JavaScript Guides and References; release dates from <a
-            href="about:"
-          >about:</a>&nbsp;documents, <a
-            href="http://www.mozilla.org/releases/cvstags.html"
-          >mozilla.org</a> and <a
-            href="http://en.wikipedia.org/wiki/Mozilla_Firefox#History"
-          >Wikipedia</a>.</td>
+          <td colspan="13"><a name="fn-javascript" id="fn-javascript"
+            >1)</a><a href="#javascript" class="backref">&#8593;</a>
+            Version information from the JavaScript Guides and References;
+            release dates from <a href="about:">about:</a>&nbsp;documents,
+            <a href="http://www.mozilla.org/releases/cvstags.html">mozilla.org</a>
+            and <a href="http://en.wikipedia.org/wiki/Mozilla_Firefox#History"
+                   >Wikipedia</a>.</td>
         </tr>
       </tfoot>
       <tbody>
@@ -704,7 +735,10 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
     </table>
     
     <h2><a name="jscript" id="jscript">Microsoft&nbsp;JScript Version
-    Information</a><sup>2)</sup></h2>
+    Information</a><a href="#fn-jscript"><sup>2)</sup></a></h2>
+ 
+    <div><a href="#toc">&#8593; table of contents</a></div>
+    
     <table class="versions"
       summary="JScript versions and the user agents that support them"
     >
@@ -726,30 +760,38 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
           <th>5.7.5730</th>
           <th>5.7.17184</th>
           <th>5.8.18241</th>
+          <th>.NET 7.0</th>
           <th><a
-            href="http://msdn2.microsoft.com/en-us/library/72bd815a(VS.71).aspx"
-            title="JScript .NET documentation"
-          >7.0 (.NET)</a></th>
+            href="http://msdn.microsoft.com/en-us/library/72bd815a%28VS.71%29.aspx"
+            title="JScript .NET 7.0 documentation"
+          >.NET 7.1</a></th>
           <th><a
-            href="http://msdn.microsoft.com/en-us/library/72bd815a.aspx"
-            title="JScript .NET documentation"
-          >8.0 (.NET)</a></th>
+            href="http://msdn.microsoft.com/en-us/library/72bd815a%28VS.80%29.aspx"
+            title="JScript .NET 8.0 documentation"
+          >.NET 8.0</a></th>
         </tr>
       </thead>
       <tfoot>
         <tr>
-          <td colspan="15"><sup>2)</sup> Version information from <a
-            href="http://msdn.microsoft.com/library/en-us/jscript7/html/jsoriVersionInformation.asp"
-          ><acronym title="Microsoft Developer Network">MSDN</acronym>&nbsp;Library</a>;
-          release&nbsp;dates from MSDN&nbsp;Library, <a
-            href="http://www.blooberry.com/indexdot/history/ie.htm"
-            title="Browser History: Windows Internet Explorer"
-          >blooberry.com</a> and <a href="http://en.wikipedia.org/">Wikipedia</a>.</td>
+          <td colspan="15"><a name="fn-jscript" id="fn-jscript"
+            >2)</a><a href="#jscript" class="backref">&#8593;</a>
+            Version information from <a
+              href="http://msdn.microsoft.com/library/en-us/jscript7/html/jsoriVersionInformation.asp"
+            ><acronym title="Microsoft Developer Network">MSDN</acronym>&nbsp;Library</a>;
+            release&nbsp;dates from MSDN&nbsp;Library, <a
+              href="http://www.blooberry.com/indexdot/history/ie.htm"
+              title="Browser History: Windows Internet Explorer"
+            >blooberry.com</a> and <a href="http://en.wikipedia.org/">Wikipedia</a>.<br>
+            <em>Note that the language version supported by an environment
+            may be greater than specified here due to security updates.
+            When in doubt, use the <a href="#script-engine-test"
+            >script engine test above</a> to determine the true version.</em>
+          </td>
         </tr>
       </tfoot>
       <tbody>
         <tr class="heading">
-          <th colspan="15">Implementations</th>
+          <th colspan="16">Implementations</th>
         </tr>
         <tr>
           <th><a href="http://microsoft.com/net/">Microsoft .NET Framework</a></th>
@@ -765,12 +807,13 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
           <td></td>
           <td></td>
           <td></td>
-          <td>1.0&#8211;3.5 (2000-07 &#8211;&nbsp;2008)</td>
-          <td></td>
+          <td>1.0 (2000-02)</td>
+          <td>1.1 (2003)</td>
+          <td>2.0&#8211;4.0 (2005&#8211;2010)</td>
         </tr>
     
         <tr class="heading">
-          <th colspan="15">Web Browsers</th>
+          <th colspan="16">Web Browsers</th>
         </tr>
         <tr>
           <th><a href="http://microsoft.com/ie/">Microsoft Internet Explorer</a></th>
@@ -785,18 +828,19 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
           <td>5.01 (for&nbsp;<abbr title="Windows NT">WinNT</abbr>)</td>
           <td>5.5 (2000-07)</td>
           <td>6.0 for <abbr title="Windows 95 and 98">Win9x</abbr>/NT/XP
-          (2001-10)</td>
-          <td>7.0 for <abbr title="Windows">Win</abbr>XP (2006-10)</td>
-          <td>8.0 beta 1 for <abbr title="Windows">Win</abbr>XP+
-          (2008-03-06)</td>
-          <td>8.0 beta 2 for <abbr title="Windows">Win</abbr>XP+
-          (2008-08-27)</td>
+            (2001-10)</td>
+          <td>7.0 for <abbr title="Windows">Win</abbr>XP+ (2006-10)</td>
+          <td>8.0 beta 1 for <abbr title="Windows">Win</abbr>XP SP2+
+            (2008-03)</td>
+          <td>8.0 beta 2 for <abbr title="Windows">Win</abbr>XP SP2+
+            (2008-08)</td>
+          <td></td>
           <td></td>
           <td></td>
         </tr>
     
         <tr class="heading">
-          <th colspan="15">Web Servers</th>
+          <th colspan="16">Web Servers</th>
         </tr>
         <tr>
           <th><a href="http://microsoft.com/iis/">Microsoft Internet
@@ -809,6 +853,7 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
           <td></td>
           <td></td>
           <td></td>
+          <td>5.1&#8211;6.0</td>
           <td></td>
           <td></td>
           <td></td>
@@ -818,7 +863,7 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
         </tr>
     
         <tr class="heading">
-          <th colspan="15">Operating Systems</th>
+          <th colspan="16">Operating Systems</th>
         </tr>
         <tr>
           <th><a href="http://microsoft.com/windows/">Microsoft Windows</a></th>
@@ -833,6 +878,7 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
           <td><abbr title="eXPeriment^H^H^H^Hence ;-)">XP</abbr> (2001-10)</td>
           <td>Vista (2008-03)</td>
           <td></td>
+          <td>7<br>(2009-10)</td>
           <td></td>
           <td></td>
           <td></td>
@@ -854,10 +900,11 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
           <td></td>
           <td></td>
           <td></td>
+          <td></td>
         </tr>
     
         <tr class="heading">
-          <th colspan="15"><acronym
+          <th colspan="16"><acronym
             title="Integrated Development Environment"
           >IDE</acronym>s</th>
         </tr>
@@ -875,14 +922,18 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
           <td></td>
           <td></td>
           <td></td>
-          <td>.NET (2002&#8211;2008)</td>
-          <td></td>
+          <td>7.0&nbsp;.NET (2002)</td>
+          <td>7.1 (2003)</td>
+          <td>8.0&nbsp;(2005) &#8211;10.0&nbsp;(2010)</td>
         </tr>
       </tbody>
     </table>
     
     <h2><a name="jscore" id="jscore">Apple&nbsp;JavaScriptCore Version
     Information</a></h2>
+ 
+    <div><a href="#toc">&#8593; table of contents</a></div>
+    
     <table class="versions"
       summary="JavaScript Core versions and the user agents that support them"
     >
@@ -903,7 +954,7 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
     </table>
     
     <h2><a name="actionscript" id="actionscript">Macromedia/Adobe&nbsp;ActionScript
-    Versions</a><sup>3)</sup></h2>
+    Versions</a><a href="#fn-actionscript"><sup>3)</sup></a></h2>
     <table class="versions"
       summary="ActionScript versions and the user agents that support them"
     >
@@ -916,9 +967,11 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
       </thead>
       <tfoot>
         <tr>
-          <td colspan="9"><sup>3)</sup> Version information from <a
-            href="http://macromedia.com/software/flash/"
-          >Macromedia</a></td>
+          <td colspan="9"><a name="fn-actionscript" id="fn-actionscript"
+            >3)</a><a href="#actionscript" class="backref">&#8593;</a>
+            Version information from <a
+              href="http://macromedia.com/software/flash/"
+            >Macromedia</a></td>
         </tr>
       </tfoot>
       <tbody>
@@ -932,6 +985,8 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
     </table>
     
     <h2><a name="ecmascript" id="ecmascript">ECMAScript Compatibility</a></h2>
+    
+    <div><a href="#toc">&#8593; table of contents</a></div>
     
     <p>The following table provides a rough overview of ECMAScript Editions
     and relations between them and versions of their implementations. Note
@@ -1039,7 +1094,28 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
       </tbody>
     </table>
     
-    <div style="margin-top: 1em; border-top: 1px solid black;">
+    <h2><a name="contributors" id="contributors">List of Contributors</a></h2>
+
+    <div><a href="#toc">&#8593; table of contents</a></div>
+    
+    <p><em>Thanks to:</em></p>
+    
+    <ul>
+      <li>Michael&nbsp;Winter
+        &lt;<a href="<?php echo randomEsc('mailto:m.winter@blueyonder.co.uk'); ?>"
+        ><?php echo randomEsc('m.winter@blueyonder.co.uk'); ?></a>&gt;
+        for tests with IE&nbsp;4.01 and NN&nbsp;4.08: Message-ID&nbsp;<a
+        href="http://groups.google.com/groups?as_umsgid=urctf.17012$iz3.5930@text.news.blueyonder.co.uk"
+        >&lt;urctf.17012$iz3.5930@text.news.blueyonder.co.uk&gt;</a></li>
+      <li><a href="http://perfectionkills.com/">Juriy&nbsp;'kangax'&nbsp;Zaytsev</a>
+        &lt;<a href="<?php echo randomEsc('mailto:kangax@gmail.com'); ?>"
+        ><?php echo randomEsc('kangax@gmail.com'); ?></a>&gt;
+        for tests with Safari&nbsp;2.0.2: Message-ID&nbsp;<a
+        href="http://groups.google.com/groups?as_umsgid=MpOdnVEQCfgNMN_WnZ2dnUVZ_rNi4p2d@giganews.com"
+        >&lt;MpOdnVEQCfgNMN_WnZ2dnUVZ_rNi4p2d@giganews.com&gt;</a></li>
+    </ul>
+    
+    <div style="margin-top: 1em; border-top: 1px solid black; padding-top: 1em">
     <div><a href="http://validator.w3.org/check/referer"><img
       src="/media/valid-html401.png" style="border: 0" alt="Valid HTML 4.01"
     ></a></div>

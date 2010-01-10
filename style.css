@@ -20,6 +20,10 @@ a[title] {
   cursor: pointer;
 }
 
+a.backref {
+  text-decoration: none;
+}
+
 acronym, abbr {
   border-bottom: 1px dotted black;
 }
@@ -245,8 +249,9 @@ table>tbody.scroll td:last-child {
   padding-right: 20px;
 }
 
-/* bottom-border fix for Geckos */
-table>tbody.scroll code, 
-table>tbody.scroll span {
-  background-color: transparent;
+/* keeps background color in line with table design */
+table code, 
+table span
+{
+  background-color: transparent !important;
 }

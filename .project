@@ -43,6 +43,11 @@
 			<locationURI>LCARS/scripts/php/features.class.php</locationURI>
 		</link>
 		<link>
+			<name>global.inc</name>
+			<type>1</type>
+			<locationURI>LCARS/scripts/php/global.inc</locationURI>
+		</link>
+		<link>
 			<name>tooltip.css</name>
 			<type>1</type>
 			<locationURI>LCARS/styles/tooltip.css</locationURI>

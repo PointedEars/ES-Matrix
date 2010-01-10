@@ -52,6 +52,33 @@ HTML
     )),
     
     new ScriptFeature(array(
+      'content' => '<code>&quot;\u<var>hhhh</var>&quot;</code>',
+      'title' => 'Unicode escape sequence in String literal',
+      'versions' => array(
+        '' => '"\'\\u20AC\' == \'€\'"',
+        'ecmascript' => 1,
+        'javascript' => 1.3,
+        'jscript' => array('3.0', 'tested' => '5.1.5010'),
+          )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<a href="javascript:alert(\'foo\\%0Abar\')"
+        onclick="return !!alert(\'foo\\&#10;bar\');"
+      ><code>&quot;<var>foo</var>\<br>
+        <var>bar</var>&quot;</code></a>',
+      'title' => 'Escaped newline in String literal',
+      'versions' => array(
+        'ecmascript' => 5,
+        'javascript' => array('?', 'tested' => '1.8.1'),
+        'jscript'    => array('?', 'tested' => '5.1.5010'),
+        'jsc'        => array('?', 'tested' => 531.9),
+        'kjs'        => array('?', 'tested' => '4.3.2'),
+        'opera'      => array('tested' => '10.10')
+      )
+    )),
+    
+    new ScriptFeature(array(
       'title'      => 'Unary plus (converts to Number)',
       'content'    => <<<EOD
               <a href="javascript:window.alert(+'042')"
@@ -67,67 +94,6 @@ EOD
         'jsc'        => array(525.19, 'tested' => TRUE),
         'kjs'        => array('3.5.9', 'tested' => TRUE),
         'opera'      => array(5.02, 'tested' => TRUE),
-      )
-    )),
-    
-    new ScriptFeature(array(
-      'title'      => 'RegExp literal with only optional global and case-insensitive modifier',
-      'content'    => '<code>/<var>regularExpression</var>/</code>[<code>g</code>][<code>i</code>]',
-      'versions'   => array(
-        '' => '"/abc/gi.constructor == RegExp"',
-        'javascript' => array('1.2',
-          'urn'    => 'js15ref:Global_Objects:RegExp',
-          'tested' => TRUE),
-        'jscript'    => array('3.1.3510',
-          'urn'    => 'msdn:jscript7/html/jsobjregexpression.asp',
-          'tested' => TRUE),
-        'ecmascript' => '-',
-        'jsc'        => array(525.19, 'tested' => TRUE),
-        'kjs'        => array('3.5.9', 'tested' => TRUE),
-        'opera' => array(5.02, 'tested' => TRUE),
-      )
-    )),
-    
-    new ScriptFeature(array(
-      'title'      => 'RegExp literal with optional multiline modifier',
-      'content'    => '<code>/<var>regularExpression</var>/</code>[<code>g</code>][<code>i</code>][<code>m</code>]',
-      'versions'   => array(
-        '' => '"/abc/gim.constructor == RegExp"',
-        'javascript' => array('1.5', 'tested' => TRUE),
-        'jscript'    => array('5.5.6330', 'tested' => TRUE),
-        'ecmascript' => 3,
-        'jsc'        => array(525.19, 'tested' => TRUE),
-        'kjs'        => array('3.5.9', 'tested' => TRUE),
-        'opera' => array(5.02, 'tested' => TRUE),
-      )
-    )),
-    
-    new ScriptFeature(array(
-      'title'      => 'RegExp literal with optional sticky modifier',
-      'content'    => '<code>/<var>regularExpression</var>/</code>[<code>g</code>][<code>i</code>][<code>m</code>][<code>y</code>]',
-      'versions'   => array(
-        'javascript' => array('1.8', 'tested' => '1.8.1'),
-        'jscript'    => '-',
-        'ecmascript' => '-',
-        'jsc'        => array('tested' => '531.9'),
-        'kjs'        => '-',
-        'opera' => array('?', 'tested' => '10.01'),
-      )
-    )),
-    
-    new ScriptFeature(array(
-      'title'      => 'Regular Expression with non-greedy matching',
-      'content'    => '<code>/(<var>&hellip;</var>+?|<var>&hellip;</var>*?)/</code>',
-      'versions'   => array(
-        '' => '"aaa".match(/^aa*?/) == "a" && "aaa".match(/^aa+?/) == "aa"',
-        'ecmascript' => 3,
-        'javascript' => array(1.5, 'tested' => TRUE,
-          'urn' => 'js15ref:Global_Objects:RegExp'),
-        'jscript'    => array('5.5.6330', 'tested' => TRUE,
-          'urn' => 'msdn:jscript7/html/jsobjregexpression.asp'),
-        'jsc'        => array(525.19, 'tested' => TRUE),
-        'kjs'        => array('3.5.9', 'tested' => TRUE),
-        'opera' => array(7.02, 'tested' => TRUE),
       )
     )),
     
@@ -183,6 +149,78 @@ EOD
     )),
 
     new ScriptFeature(array(
+      'title'      => 'Regular Expression with non-greedy matching',
+      'content'    => '<code>/(<var>&hellip;</var>+?|<var>&hellip;</var>*?)/</code>',
+      'versions'   => array(
+        '' => '"aaa".match(/^aa*?/) == "a" && "aaa".match(/^aa+?/) == "aa"',
+        'ecmascript' => 3,
+        'javascript' => array(1.5, 'tested' => TRUE,
+          'urn' => 'js15ref:Global_Objects:RegExp'),
+        'jscript'    => array('5.5.6330', 'tested' => TRUE,
+          'urn' => 'msdn:jscript7/html/jsobjregexpression.asp'),
+        'jsc'        => array(525.19, 'tested' => TRUE),
+        'kjs'        => array('3.5.9', 'tested' => TRUE),
+        'opera' => array(7.02, 'tested' => TRUE),
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>/\u<var>hhhh</var>/</code>',
+      'title' => 'Unicode escape sequence in RegExp literal',
+      'versions' => array(
+        '' => '"/\\u20AC/.test(\'€\')"',
+        'ecmascript' => 1,
+        'javascript' => 1.3,
+        'jscript' => array('3.0', 'tested' => '5.1.5010'),
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'title'      => 'RegExp literal with only optional global and case-insensitive modifier',
+      'content'    => '<code>/<var>regularExpression</var>/</code>[<code>g</code>][<code>i</code>]',
+      'versions'   => array(
+        '' => '"/abc/gi.constructor == RegExp"',
+        'javascript' => array('1.2',
+          'urn'    => 'js15ref:Global_Objects:RegExp',
+          'tested' => TRUE),
+        'jscript'    => array('3.1.3510',
+          'urn'    => 'msdn:jscript7/html/jsobjregexpression.asp',
+          'tested' => TRUE),
+        'ecmascript' => '-',
+        'jsc'        => array(525.19, 'tested' => TRUE),
+        'kjs'        => array('3.5.9', 'tested' => TRUE),
+        'opera' => array(5.02, 'tested' => TRUE),
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'title'      => 'RegExp literal with optional multiline modifier',
+      'content'    => '<code>/<var>regularExpression</var>/</code>[<code>g</code>][<code>i</code>][<code>m</code>]',
+      'versions'   => array(
+        '' => '"/abc/gim.constructor == RegExp"',
+        'javascript' => array('1.5', 'tested' => TRUE),
+        'jscript'    => array('5.5.6330', 'tested' => TRUE),
+        'ecmascript' => 3,
+        'jsc'        => array(525.19, 'tested' => TRUE),
+        'kjs'        => array('3.5.9', 'tested' => TRUE),
+        'opera' => array(5.02, 'tested' => TRUE),
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'title'      => 'RegExp literal with optional sticky modifier',
+      'content'    => '<code>/<var>regularExpression</var>/</code>[<code>g</code>][<code>i</code>][<code>m</code>][<code>y</code>]',
+      'versions'   => array(
+        'javascript' => array('1.8', 'tested' => '1.8.1'),
+        'jscript'    => '-',
+        'ecmascript' => '-',
+        'jsc'        => array('tested' => '531.9'),
+        'kjs'        => '-',
+        'opera' => array('?', 'tested' => '10.01'),
+      )
+    )),
+    
+    new ScriptFeature(array(
       'title' => 'Label',
       'content' => '<code><var>label</var>:</code>',
       'versions' => array(
@@ -198,6 +236,25 @@ EOD
         'opera'   => array(5.02, 'tested' => TRUE),
       )
     )),
+
+    new ScriptFeature(array(
+      'title' => 'Type declaration',
+      'content' => <<<HTML
+        <a href="javascript:tryThis('var foo: Object;', 'window.alert(e);')"
+          onclick="return tryThis('var foo: Object; false', 'window.alert(e); false')"
+          ><code><var>identifier</var> : <var>type</var></code></a>
+HTML
+      ,
+      'versions' => array(
+        'ecmascript' => 4,
+        'javascript' => '2.0',
+        'jscript' => '7.0',
+        'jsc'     => '-',
+        'kjs'     => '-',
+        'opera'   => '-',
+      )
+    )),
+
     
     new ScriptFeature(array(
       'anchors'  => array('equals'),
@@ -246,7 +303,7 @@ EOD
         '' => '"[42, 23]"',
         'ecmascript' => 3,
         'javascript' => 1.3,
-        'jscript'    => '2.0',
+        'jscript'    => array('2.0', 'tested' => '5.1.5010'),
       )
     )),
     
@@ -292,53 +349,6 @@ HTML
       )
     )),
         
-    new ScriptFeature(array(
-      'content' => '<a href="javascript:alert(\'Euro:%20%5Cu20AC\')"
-        onclick="return !!alert(\'Euro: \u20AC\');"
-      ><code title="Unicode escape sequence in String literal">&quot;\u<var>hhhh</var>&quot;</code></a>,
-      <a href="javascript:alert(/%5Cu20AC/)"
-        onclick="return !!alert(/\u20AC/);"
-      ><code title="Unicode escape sequence in RegExp literal">/\u<var>hhhh</var>/</code></a>',
-      'versions' => array(
-        'ecmascript' => 1,
-        'javascript' => 1.3,
-        'jscript' => '3.0',
-      )
-    )),
-    
-    new ScriptFeature(array(
-      'content' => '<a href="javascript:alert(\'foo\\%0Abar\')"
-        onclick="return !!alert(\'foo\\&#10;bar\');"
-      ><code title="Escaped newline in String literal">&quot;<var>foo</var>\<br>
-        <var>bar</var>&quot;</code></a>',
-      'versions' => array(
-        'ecmascript' => 5,
-        'javascript' => array('?', 'tested' => '1.8.1'),
-        'jscript'    => array('?', 'tested' => '5.6.6626'),
-        'jsc'        => array('?', 'tested' => 531.9),
-        'kjs'        => array('?', 'tested' => '4.3.2'),
-        'opera'      => array('tested' => '10.10')
-      )
-    )),
-    
-    new ScriptFeature(array(
-      'title' => 'Type declaration',
-      'content' => <<<HTML
-        <a href="javascript:tryThis('var foo: Object;', 'window.alert(e);')"
-          onclick="return tryThis('var foo: Object; false', 'window.alert(e); false')"
-          ><code><var>identifier</var> : <var>type</var></code></a>
-HTML
-      ,
-      'versions' => array(
-        'ecmascript' => 4,
-        'javascript' => '2.0',
-        'jscript' => '7.0',
-        'jsc'     => '-',
-        'kjs'     => '-',
-        'opera'   => '-',
-      )
-    )),
-
     new ScriptFeature(array(
       'title' => 'Object initializer',
       'content' => '<code>{<var>name</var>:
@@ -1359,6 +1369,15 @@ HTML
     )),
     
     new ScriptFeature(array(
+      'content' => '<code>Function.prototype.prototype</code>',
+      'versions' => array(
+        'ecmascript' => '?',
+        'javascript' => '?',
+        'jscript' => '2.0'
+      )
+    )),
+      
+    new ScriptFeature(array(
       'content' => '<code>Function.prototype.toSource()</code>',
       'versions' => array(
         'ecmascript' => '?',
@@ -1806,7 +1825,7 @@ HTML
         'ecmascript' => 3,
         'javascript' => array(1.5, 'tested' => TRUE),
         'jscript'    => array('5.5.6330', 'tested' => TRUE),
-        'jsc'        => array(525.13, 'tested' => TRUE),
+        'jsc'        => array(416.11, 'tested' => 525.13),
         'kjs'        => array('3.2', 'documented' => 3.2, 'tested' => '3.5.9'),
         'opera'      => array(5.02, 'tested' => TRUE)
       )
@@ -1830,15 +1849,6 @@ HTML
       )
     )),
     
-    new ScriptFeature(array(
-      'content' => '<code>Object.prototype.prototype</code>',
-      'versions' => array(
-        'ecmascript' => '?',
-        'javascript' => '?',
-        'jscript' => '2.0'
-      )
-    )),
-      
     new ScriptFeature(array(
       'content' => '<code>Object.prototype.toSource()</code>',
       'versions' => array(
