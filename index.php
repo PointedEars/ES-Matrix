@@ -415,6 +415,9 @@ require_once 'es-matrix.inc.php';
                   <li>Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US)
                       AppleWebKit/531.9 (KHTML, like Gecko) Version/4.0.3
                       Safari/531.9.1</li>
+                  <li>Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US)
+                      AppleWebKit/531.21.8 (KHTML, like Gecko) Version/4.0.4
+                      Safari/531.21.10</li>
                 </ul>
               </li>
               <li>Opera ECMAScript
@@ -435,6 +438,8 @@ require_once 'es-matrix.inc.php';
                   <li>Opera/9.64 (X11; Linux i686; U; en) Presto/2.1.1</li>
                   <li>Opera/9.80 (X11; Linux i686; U; en) Presto/2.2.15
                       Version/10.00</li>
+                  <li>Opera/9.80 (X11; Linux i686; U; en) Presto/2.2.15
+                      Version/10.10</li>
                 </ul>
               </li>
     
@@ -940,15 +945,25 @@ require_once 'es-matrix.inc.php';
       <thead>
         <tr>
           <th></th>
-          <th>JavaScriptCore&nbsp;525.19</th>
+          <th>JavaScriptCore&nbsp;412.6.2</th>
+          <th>525.19</th>
+          <th>525.27.1</th>
+          <th>530.17</th>
+          <th>531.9</th>
+          <th>531.21.8</th>
         </tr>
       </thead>
       <tbody>
         <tr class="odd">
           <th><a href="http://apple.com/safari/">Apple Safari</a></th>
-          <td>3.1.2 (2008&nbsp;<a
+          <td>2.0 (2005-04&nbsp;<a
             href="http://en.wikipedia.org/wiki/Common_Era"
           ><acronym title="Common Era">CE</acronym></a>)</td>
+          <td>3.1.2 (2008-06)</td>
+          <td>3.2.1 (2008-11)</td>
+          <td>4.0 (2009-06)</td>
+          <td>4.0.3 (2009-08)</td>
+          <td>4.0.4 (2009-11)</td>
         </tr>
       </tbody>
     </table>

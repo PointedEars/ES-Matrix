@@ -8,6 +8,10 @@ p {
   text-align: justify;        
 }
 
+div, p, li, th, td {
+  max-width: 60ex;
+}
+
 .closed {
   text-decoration: line-through;
 }
