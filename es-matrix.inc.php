@@ -22,6 +22,7 @@ HTML
   'safeVersions' => array(
     'javascript' => 1.3,
     'jscript'    => '5.1.5010',
+    'jsc'        => '525.13',
     'opera'      => '6.06'),
 
   'urns' => array(
@@ -46,7 +47,7 @@ HTML
           'urn' => 'es3:#page=74'),
         '' => '"1 !== \"1\""',
         'opera'      => array(5.02, 'tested' => TRUE),
-        'jsc'        => array('412.6.2?', 'tested' => '525.19'),
+        'jsc'        => array('412.6.2?', 'tested' => '525.13'),
         'kjs'        => array('3.5.9', 'tested' => TRUE)
       )
     )),
@@ -59,7 +60,7 @@ HTML
         'ecmascript' => 1,
         'javascript' => 1.3,
         'jscript' => array('3.0', 'tested' => '5.1.5010'),
-        'jsc'        => array('tested' => '531.21.8'),
+        'jsc'        => array('tested' => '525.13'),
         'opera'      => array('6.0', 'tested' => '6.06'),
         'kjs'        => array('tested' => '4.3.4'),
       )
@@ -75,7 +76,7 @@ HTML
         'ecmascript' => 5,
         'javascript' => array('', 'tested' => '1.8.1'),
         'jscript'    => array('', 'tested' => '5.1.5010'),
-        'jsc'        => array('', 'tested' => 531.9),
+        'jsc'        => array('', 'tested' => '525.13'),
         'kjs'        => array('', 'tested' => '4.3.2'),
         'opera'      => array('tested' => '10.10')
       )
@@ -94,7 +95,7 @@ EOD
         'ecmascript' => 1,
         'javascript' => array('1.3',      'tested' => TRUE),
         'jscript'    => array('3.1.3510', 'tested' => TRUE),
-        'jsc'        => array(525.19, 'tested' => TRUE),
+        'jsc'        => array('tested' => '525.13'),
         'kjs'        => array('3.5.9', 'tested' => TRUE),
         'opera'      => array(5.02, 'tested' => TRUE),
       )
@@ -111,7 +112,7 @@ EOD
         'jscript'    => array('5.5.6330',
           'urn' => 'msdn:jscript7/html/jsobjregexpression.asp',
           'tested' => TRUE),
-        'jsc'        => array('525.27.1', 'tested' => TRUE),
+        'jsc'     => array('tested' => '525.13'),
         'kjs'        => array('3.5.9', 'tested' => TRUE),
         'opera'   => array(7.02, 'tested' => TRUE),
       )
@@ -128,7 +129,7 @@ EOD
         'jscript' => array('5.5.6330',
           'urn' => 'msdn:jscript7/html/jsobjregexpression.asp',
           'tested' => TRUE),
-        'jsc'     => array('525.27.1', 'tested' => TRUE),
+        'jsc'     => array('tested' => '525.13'),
         'kjs'        => array('3.5.9', 'tested' => TRUE),
         'opera'   => array(7.02, 'tested' => TRUE),
       )
@@ -145,7 +146,7 @@ EOD
         'jscript' => array('5.5.6330',
           'urn' => 'msdn:jscript7/html/jsobjregexpression.asp',
           'tested' => TRUE),
-        'jsc'     => array('525.27.1', 'tested' => TRUE),
+        'jsc'     => array('tested' => '525.13'),
         'kjs'        => array('3.5.9', 'tested' => TRUE),
         'opera'   => array(7.02, 'tested' => TRUE),
       )
@@ -161,7 +162,7 @@ EOD
           'urn' => 'js15ref:Global_Objects:RegExp'),
         'jscript'    => array('5.5.6330', 'tested' => TRUE,
           'urn' => 'msdn:jscript7/html/jsobjregexpression.asp'),
-        'jsc'        => array(525.19, 'tested' => TRUE),
+        'jsc'        => array('tested' => '525.13'),
         'kjs'        => array('3.5.9', 'tested' => TRUE),
         'opera' => array(7.02, 'tested' => TRUE),
       )
@@ -175,7 +176,7 @@ EOD
         'ecmascript' => 1,
         'javascript' => 1.3,
         'jscript'    => array('3.0', 'tested' => '5.1.5010'),
-        'jsc'        => array('tested' => '531.21.8'),
+        'jsc'        => array('tested' => '525.13'),
         'kjs'        => array('tested' => '4.3.4'),
     )
     )),
@@ -192,7 +193,7 @@ EOD
           'urn'    => 'msdn:jscript7/html/jsobjregexpression.asp',
           'tested' => TRUE),
         'ecmascript' => '-',
-        'jsc'        => array(525.19, 'tested' => TRUE),
+        'jsc'        => array('tested' => '525.13'),
         'kjs'        => array('3.5.9', 'tested' => TRUE),
         'opera' => array(5.02, 'tested' => TRUE),
       )
@@ -206,7 +207,7 @@ EOD
         'javascript' => array('1.5', 'tested' => TRUE),
         'jscript'    => array('5.5.6330', 'tested' => TRUE),
         'ecmascript' => 3,
-        'jsc'        => array(525.19, 'tested' => TRUE),
+        'jsc'        => array('tested' => '525.13'),
         'kjs'        => array('3.5.9', 'tested' => TRUE),
         'opera' => array(5.02, 'tested' => TRUE),
       )
@@ -233,12 +234,12 @@ EOD
         'ecmascript' => 3,
         'javascript' => array(1.2, 'tested' => '1.5',
           'urn' => 'js15ref:Statements:label'),
-        'jscript' => array('3.1.3510',
+        'jscript'    => array('3.1.3510',
           'urn'    => 'msdn:jscript7/html/jsstmlabeled.asp',
           'tested' => TRUE),
-        'jsc'     => array('525.27.1', 'tested' => TRUE),
+        'jsc'        => array('tested' => '525.13'),
         'kjs'        => array('3.5.9', 'tested' => TRUE),
-        'opera'   => array(5.02, 'tested' => TRUE),
+        'opera'      => array(5.02, 'tested' => TRUE),
       )
     )),
 
@@ -295,7 +296,7 @@ HTML
         'ecmascript' => 3,
         'javascript' => array('1.3', 'tested' => '1.3'),
         'jscript'    => array('1.0', 'tested' => '5.1.5010'),
-        'jsc'        => array('tested' => '531.9.1'),
+        'jsc'        => array('tested' => '525.13'),
         'kjs'        => array('tested' => '4.3.2'),
         'opera'      => array('tested' => '5.02')
       )
@@ -309,7 +310,7 @@ HTML
         'ecmascript' => 3,
         'javascript' => 1.3,
         'jscript'    => array('2.0', 'tested' => '5.1.5010'),
-        'jsc'        => array('tested' => '531.21.8'),
+        'jsc'        => array('tested' => '525.13'),
         'kjs'        => array('tested' => '4.3.4'),
       )
     )),
@@ -322,7 +323,7 @@ HTML
         'ecmascript' => 3,
         'javascript' => 1.3,
         'jscript'    => array('', 'tested' => '5.1.5010'),
-        'jsc'        => array('tested' => '531.21.8'),
+        'jsc'        => array('tested' => '525.13'),
         'kjs'        => array('tested' => '4.3.4'),
       )
     )),
@@ -371,7 +372,7 @@ HTML
         'ecmascript' => 3,
         'javascript' => array(1.3, 'tested' => 1.3),
         'jscript'    => array('3.0', 'tested' => '5.1.5010'),
-        'jsc'        => array('525.27.1', 'tested' => TRUE),
+        'jsc'        => array('tested' => '525.13'),
         'kjs'        => array('3.5.9', 'tested' => TRUE),
         'opera'      => array(5.02, 'tested' => TRUE)
       )
@@ -386,7 +387,7 @@ HTML
         'ecmascript' => '-',
         'javascript' => '1.3',
         'jscript'    => '-',
-        'jsc'        => array('tested' => '531.21.8'),
+        'jsc'        => array('tested' => '525.13'),
         'kjs'        => array('tested' => '4.3.4'),
       )
     )),
@@ -411,6 +412,7 @@ HTML
         'javascript' => array(1.1,
           'urn' => 'js15ref:Functions:arguments'),
         'jscript'    => '1.0',
+        'jsc'        => array('tested' => '525.13'),
         'kjs'        => array('tested' => '4.3.4'),
       )
     )),
@@ -427,6 +429,7 @@ HTML
         'javascript' => array(1.2,
           'urn' => 'js15ref:Functions:arguments:callee'),
         'jscript' => '3.0*',
+        'jsc'        => array('tested' => '525.13'),
         'kjs'        => array('tested' => '4.3.4'),
       )
     )),
@@ -442,6 +445,7 @@ HTML
         'jscript' => '<span class="tooltip">-<span> (see&nbsp;<code><a
         href="#Function.prototype.caller"
       >Function.prototype.caller</a></code><span>)</span></span></span>',
+        'jsc'        => array('tested' => '-'),
         'kjs'        => array('tested' => '-'),
       )
     )),
@@ -454,6 +458,7 @@ HTML
         'ecmascript' => '1',
         'javascript' => '1.1',
         'jscript'    => '5.5',
+        'jsc'        => array('tested' => '525.13'),
         'kjs'        => array('tested' => '4.3.4'),
       )
     )),
@@ -892,7 +897,7 @@ HTML
         'ecmascript' => 3,
         'javascript' => array(1.5, 'tested' => 1.5),
         'jscript'    => array('tested' => '5.5.6330'),
-        'jsc'        => array('tested' => 530.17),
+        'jsc'        => array('tested' => '525.13'),
         'kjs'        => array('tested' => '3.5.9'),
         'opera'      => array('tested' => 5.02),
       )
@@ -906,7 +911,7 @@ HTML
         'ecmascript' => 1,
         'javascript' => array('tested' => 1.3),
         'jscript'    => array('tested' => '5.1.5010'),
-        'jsc'        => array('tested' => 530.17),
+        'jsc'        => array('tested' => '525.13'),
         'kjs'        => array('tested' => '3.5.9'),
         'opera'      => array('tested' => 5.02),
       )
@@ -920,7 +925,7 @@ HTML
         'ecmascript' => 3,
         'javascript' => array(1.5, 'tested' => 1.5),
         'jscript'    => array('tested' => '5.5.6330'),
-        'jsc'        => array('tested' => 530.17),
+        'jsc'        => array('tested' => '525.13'),
         'kjs'        => array('tested' => '3.5.9'),
         'opera'      => array('tested' => 5.02),
       )
@@ -962,7 +967,7 @@ HTML
         'ecmascript' => 3,
         'javascript' => array(1.5, 'tested' => 1.5),
         'jscript'    => array('tested' => '5.5.6330'),
-        'jsc'        => array('tested' => 530.17),
+        'jsc'        => array('tested' => '525.13'),
         'kjs'        => array('tested' => '3.5.9'),
         'opera'      => array('tested' => 5.02),
       )
@@ -990,7 +995,7 @@ HTML
         'ecmascript' => 1,
         'javascript' => array('1.0', 'tested' => 1.3),
         'jscript'    => array('tested' => '5.1.5010'),
-        'jsc'        => array('tested' => 530.17),
+        'jsc'        => array('tested' => '525.13'),
         'kjs'        => array('tested' => '3.5.9'),
         'opera'      => array('tested' => 5.02),
       )
@@ -1004,7 +1009,7 @@ HTML
         'ecmascript' => 3,
         'javascript' => array(1.5, 'tested' => 1.5),
         'jscript'    => array('tested' => '5.5.6330'),
-        'jsc'        => array('tested' => 530.17),
+        'jsc'        => array('tested' => '525.13'),
         'kjs'        => array('tested' => '3.5.9'),
         'opera'      => array('tested' => 5.02),
       )
@@ -1018,7 +1023,7 @@ HTML
         'ecmascript' => 1,
         'javascript' => array('tested' => 1.3),
         'jscript'    => array('tested' => '5.1.5010'),
-        'jsc'        => array('tested' => 530.17),
+        'jsc'        => array('tested' => '525.13'),
         'kjs'        => array('tested' => '3.5.9'),
         'opera'      => array('tested' => 5.02),
       )
@@ -1300,10 +1305,10 @@ HTML
         '' => '"function f() {}; if (true) { function f() { return 42; }; } f() == 42"',
         'ecmascript' => '-',
         'javascript' => array(1.3, 'tested' => 1.3),
-        'jscript' => array('3.1.3510', 'tested' => TRUE),
-        'jsc' => array('525.27.1', 'tested' => TRUE),
+        'jscript'    => array('3.1.3510', 'tested' => TRUE),
+        'jsc'        => array('tested' => '525.13'),
         'kjs'        => array('3.5.9', 'tested' => TRUE),
-        'opera' => array(5.02, 'tested' => TRUE),
+        'opera'      => array(5.02, 'tested' => TRUE),
       )
     )),
        
@@ -1515,8 +1520,9 @@ HTML
         '' => '"Infinity > 0"',
         'ecmascript' => 1,
         'javascript' => 1.3,
-        'jscript' => '3.0',
-        'opera' => '7.0'
+        'jscript'    => '3.0',
+        'jsc'        => array('tested' => '525.13'),
+        'opera'      => '7.0'
       )
     )),
 
@@ -1585,7 +1591,7 @@ HTML
         'ecmascript' => 5,
         'javascript' => array('tested' => '1.8.1'),
         'jscript'    => '-',
-        'jsc'        => '-',
+        'jsc'        => array('tested' => '-'),
         'kjs'        => '-',
         'opera'      => '-',
       )
@@ -1600,7 +1606,7 @@ HTML
         'ecmascript' => 5,
         'javascript' => array('tested' => '1.8.1'),
         'jscript'    => '-',
-        'jsc'        => '-',
+        'jsc'        => array('tested' => '-'),
         'kjs'        => '-',
         'opera'      => '-',
       )
@@ -1666,11 +1672,11 @@ HTML
         'ecmascript' => 1,
         'javascript' => array('1.0',
           'tested' => '1.3',
-          'urn' => 'js15ref:Global_Objects:Math:max'),
-        'jscript' => array('3.0', 'tested' => '3.1.3510'),
-        'jsc' => array('525.27.1', 'tested' => TRUE),
+          'urn'    => 'js15ref:Global_Objects:Math:max'),
+        'jscript'    => array('3.0', 'tested' => '3.1.3510'),
+        'jsc'        => array('tested' => '525.13'),
         'kjs'        => array('3.5.9', 'tested' => TRUE),
-        'opera' => array(5.02, 'tested' => TRUE),
+        'opera'      => array(5.02, 'tested' => TRUE),
       )
     )),
     
@@ -1682,10 +1688,10 @@ HTML
         'ecmascript' => 3,
         'javascript' => array('tested' => '1.5',
           'urn' => 'js15ref:Global_Objects:Math:max'),
-        'jscript' => array(5.5, 'tested' => '5.5.6330'),
-        'jsc' => array('525.27.1', 'tested' => TRUE),
+        'jscript'    => array(5.5, 'tested' => '5.5.6330'),
+        'jsc'        => array('tested' => '525.13'),
         'kjs'        => array('3.5.9', 'tested' => TRUE),
-        'opera' => array(5.02, 'tested' => TRUE)
+        'opera'      => array(5.02, 'tested' => TRUE)
       )
     )),
     
@@ -1716,7 +1722,7 @@ HTML
         'ecmascript' => 1,
         'javascript' => 1.3,
         'jscript'    => '3.0',
-        'jsc'        => '',
+        'jsc'        => array('tested' => '525.13'),
         'kjs'        => '',
         'opera'      => '7.0'
       )
@@ -1790,6 +1796,7 @@ HTML
         ''           => 'isMethod(42, "toString")',
         'javascript' => array('tested' => '2.0'),
         'jscript'    => array('assumed' => '1.0'),
+        'jsc'        => array('tested' => '525.13'),
       )
     )),
     
@@ -1808,7 +1815,8 @@ HTML
         '' => 'isMethod(Object, "getPrototypeOf")',
         'ecmascript' => '5',
         'javascript' => array('1.8.1', 'tested' => '1.8.1'),
-        'jscript' => '-'
+        'jscript' => '-',
+        'jsc'        => array('tested' => '-'),
       )
     )),
     
@@ -2186,7 +2194,7 @@ HTML
         'ecmascript' => 1,
         'javascript' => array(1.2, 'tested' => 1.3),
         'jscript'    => array('3.0', 'tested' => '5.1.5010'),
-        'jsc'        => array('530.17', 'tested' => TRUE),
+        'jsc'        => array('tested' => '525.13'),
         'kjs'        => array('tested' => '4.3.2'),
         'opera'      => array('tested' => '5.02',
           'comment' => '5.02 does not support Unicode')
@@ -2200,7 +2208,7 @@ HTML
         'ecmascript' => array(1, 'generic' => TRUE),
         'javascript' => array(1.2, 'tested' => 1.3),
         'jscript'    => array('3.0', 'tested' => '5.1.5010'),
-        'jsc'        => array('530.17', 'tested' => TRUE),
+        'jsc'        => array('tested' => '525.13'),
         'kjs'        => array('tested' => '4.3.2'),
         'opera'      => array('tested' => '5.02')
       )
@@ -2223,7 +2231,7 @@ HTML
         'ecmascript' => array(3, 'generic' => TRUE),
         'javascript' => array('tested' => '1.8.1'),
         'jscript'    => array('5.5', 'tested' => '5.5.6330'),
-        'jsc'        => array('tested' => '531.9.1'),
+        'jsc'        => array('tested' => '525.13'),
         'kjs'        => array('tested' => '4.3.2'),
         'opera'      => array('tested' => '10.01')
       )
@@ -2291,7 +2299,7 @@ HTML
         'ecmascript' => '-',
         'javascript' => array('1.8.1', 'tested' => '1.8.1'),
         'jscript'    => '-',
-        'jsc'        => '-',
+        'jsc'        => array('tested' => '-'),
         'kjs'        => '-',
         'opera'      => '-'
       ),
@@ -2305,7 +2313,7 @@ HTML
         'ecmascript' => '-',
         'javascript' => array('1.0', 'tested' => '1.3'),
         'jscript'    => '-',
-        'jsc'        => array('tested' => '531.9.1'),
+        'jsc'        => array('tested' => '525.13'),
         'kjs'        => array('tested' => '4.3.2'),
         'opera'      => array('tested' => '10.01')
       )

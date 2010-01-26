@@ -403,6 +403,9 @@ require_once 'es-matrix.inc.php';
                   <li>Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en-us)
                       AppleWebKit/412.6.2 (KHTML, like Gecko) Safari/412.2.2
                       (Safari&nbsp;2.0)</li>
+                  <li>Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US)
+                      AppleWebKit/525.13 (KHTML, like Gecko) Version/3.1
+                      Safari/525.13</li>
                   <li>Mozilla/5.0 (Windows; U; Windows NT 5.1; de-DE)
                       AppleWebKit/525.19 (KHTML, like Gecko) Version/3.1.2
                       Safari/525.21</li>
@@ -946,6 +949,7 @@ require_once 'es-matrix.inc.php';
         <tr>
           <th></th>
           <th>JavaScriptCore&nbsp;412.6.2</th>
+          <th>525.13</th>
           <th>525.19</th>
           <th>525.27.1</th>
           <th>530.17</th>
@@ -959,6 +963,7 @@ require_once 'es-matrix.inc.php';
           <td>2.0 (2005-04&nbsp;<a
             href="http://en.wikipedia.org/wiki/Common_Era"
           ><acronym title="Common Era">CE</acronym></a>)</td>
+          <td>3.1 (2008-03)</td>
           <td>3.1.2 (2008-06)</td>
           <td>3.2.1 (2008-11)</td>
           <td>4.0 (2009-06)</td>
