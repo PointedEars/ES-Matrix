@@ -99,12 +99,15 @@ require_once 'es-matrix.inc.php';
     <h2 style="margin-top: 1em; padding-top: 1em; border-top: 1px solid black"
         ><a name="toc" id="toc">Table of Contents</a></h2>
     
+    <div><a href="#top">&#8593; top of document</a></div>
+    
     <ul>
       <li><a href="#language-features">Language features</a></li>
-      <li><a href="#javascript">JavaScript version information</a></li>
-      <li><a href="#jscript">JScript version information</a></li>
-      <li><a href="#jscore">JavaScriptCore version information</a></li>
-      <li><a href="#actionscript">ActionScript version information</a></li>
+      <li><a href="#javascript">Netscape/Mozilla.org JavaScript version information</a></li>
+      <li><a href="#jscript">Microsoft JScript version information</a></li>
+      <li><a href="#v8">Google V8 version information</a></li>
+      <li><a href="#jsc">Apple JavaScriptCore version information</a></li>
+      <li><a href="#actionscript">Adobe ActionScript version information</a></li>
       <li><a href="#ecmascript">ECMAScript compatibility</a></li>
       <li><a href="#contributors">List of contributors</a></li>
     </ul>
@@ -271,16 +274,57 @@ require_once 'es-matrix.inc.php';
                             }
                             else if (ua.indexOf("WebKit") > -1)
                             {
-                              out += "Apple JavaScriptCore";
-
                               var m = null;
-
+                              
                               if (jsx_object.isMethod(ua, "match"))
                               {
-                                m = ua.match(/\bAppleWebKit\/(\d+\.\d+(\.\d+)*)\b/);
-                              }
+                                if (ua.indexOf("Chrome") > -1)
+                                {
+                                  m = ua.match(/\bChrome\/(\d+\.\d+(\.\d+)?)\b/);
 
-                              if (m) out += " " + m[1];
+                                  if (m) out += " at least";
+
+                                  out += " Google V8";
+                                  
+                                  if (m)
+                                  {
+                                    var
+                                      rv = m[1],
+                                      s = "";
+
+                                    if (rv >= "5.0.307")
+                                    {
+                                      s = "2.0";
+                                    }
+                                    else if (rv >= "4.0.249")
+                                    {
+                                      s = "1.3";
+                                    }
+                                    else if (rv >= "3.0")
+                                    {
+                                      s = "1.2";
+                                    }
+                                    else if (rv >= "2.0")
+                                    {
+                                      s = "0.4";
+                                    }
+                                    else
+                                    {
+                                      s = "0.3";
+                                    }
+
+                                    if (s) out += " " + s;
+                                  }
+                                }
+                                else
+                                {
+                                  out += "Apple JavaScriptCore";
+  
+                                  m = ua.match(/\bAppleWebKit\/(\d+\.\d+(\.\d+)*)\b/);
+
+                                  if (m) out += " " + m[1];
+                                }
+                              }
                             }
                             else if (typeof netscape != "undefined" || ua.indexOf("Gecko") > -1)
                             {
@@ -297,7 +341,8 @@ require_once 'es-matrix.inc.php';
   
                               if (m)
                               {
-                                var rv = m[1], s = "";
+                                rv = m[1];
+                                s = "";
   
                                 if (rv >= "1.9.1")
                                 {
@@ -398,7 +443,13 @@ require_once 'es-matrix.inc.php';
                       Trident/4.0; .NET CLR 1.1.4322; .NET CLR 2.0.50727)</li>
                 </ul>
               </li>
-              <li><abbr title="Apple WebKit JavaScriptCore">JSCore</abbr>
+              <li><abbr title="Google V8">V8</abbr>
+                <ul>
+                  <li>Mozilla/5.0 (X11; U; Linux i686; en-US)
+                      AppleWebKit/532.5 (KHTML, like Gecko) Chrome/4.0.249.43
+                      Safari/532.5</li>
+                </ul></li>
+              <li><abbr title="Apple WebKit JavaScriptCore">JSC</abbr>
                 <ul>
                   <li>Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en-us)
                       AppleWebKit/412.6.2 (KHTML, like Gecko) Safari/412.2.2
@@ -519,7 +570,7 @@ require_once 'es-matrix.inc.php';
           <th><a
             href="https://developer.mozilla.org/En/Firefox_3.6_for_developers#JavaScript"
             title="New in JavaScript 1.8.2"
-          >1.8.2</a> (future)</th>
+          >1.8.2</a></th>
           <th><a href="http://www.mozilla.org/js/language/js20/">2.0</a></th>
         </tr>
       </thead>
@@ -549,21 +600,6 @@ require_once 'es-matrix.inc.php';
           <td>1.6</td>
           <td>1.7</td>
           <td>1.8</td>
-          <td>-</td>
-          <td>-</td>
-          <td>-</td>
-        </tr>
-        <tr>
-          <th>Mozilla.org TraceMonkey</th>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
           <td>1.8.1</td>
           <td>1.8.2</td>
           <td>-</td>
@@ -646,9 +682,10 @@ require_once 'es-matrix.inc.php';
           (2006-07-12 &#8211;&nbsp;2008-11-12)</td>
           <td>3.0a2 &#8211;3.0.15b&#8212;<br>
           (2007-02-07 &#8211;&nbsp;2009-10-20&#8212;)</td>
-          <td>3.5&#8212;<br>
+          <td>3.5.x<br>
           (2009-06-30&#8212;)</td>
-          <td></td>
+          <td>3.6&#8212;<br>
+          (2010-01-21&#8212;)</td>
           <td></td>
         </tr>
     
@@ -937,7 +974,39 @@ require_once 'es-matrix.inc.php';
       </tbody>
     </table>
     
-    <h2><a name="jscore" id="jscore">Apple&nbsp;JavaScriptCore Version
+    <h2><a name="v8" id="v8">Google&nbsp;V8 Version
+    Information</a></h2>
+ 
+    <div><a href="#toc">&#8593; table of contents</a></div>
+    
+    <table class="versions"
+      summary="V8 versions and the user agents that support them"
+    >
+      <thead>
+        <tr>
+          <th></th>
+          <th>V8&nbsp;0.3</th>
+          <th>0.4</th>
+          <th>1.2</th>
+          <th>1.3</th>
+          <th>2.0</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="odd">
+          <th><a href="http://www.google.com/chrome/">Google Chrome</a></th>
+          <td>0.2&#8211;1.0 (2008-09&nbsp;<a
+            href="http://en.wikipedia.org/wiki/Common_Era"
+          ><acronym title="Common Era">CE</acronym></a>&#8212;2008-12)</td>
+          <td>2.0 (2009-05)</td>
+          <td>3.0 (2009-10)</td>
+          <td>4.0.249 (2010-01-25)</td>
+          <td>5.0.307 (2010-01-30)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2><a name="jsc" id="jsc">Apple&nbsp;JavaScriptCore Version
     Information</a></h2>
  
     <div><a href="#toc">&#8593; table of contents</a></div>
@@ -1061,17 +1130,35 @@ require_once 'es-matrix.inc.php';
           <th><a href="#javascript">JavaScript</a></th>
           <td>1.1, 1.3, 1.4</td>
           <td></td>
-          <td>1.5&#8211;1.8</td>
+          <td>1.5&#8211;1.8.1.x</td>
           <td>2.0</td>
-          <td>1.8.1&#8212; (2009-06-30&#8212;)</td>
+          <td>1.8.1 (2008-05)</td>
+          <td></td>
+        </tr>
+        <tr>
+          <th><a href="#jsc">JavaScriptCore</a></th>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
           <td></td>
         </tr>
         <tr>
           <th><a href="#jscript">JScript</a></th>
-          <td>1.0</td>
+          <td>1.0 (1996)</td>
           <td></td>
-          <td>5.5, 5.6</td>
-          <td>7.0 (.NET)</td>
+          <td>5.5 (2000)</td>
+          <td>.NET (2000)</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <th>KJS</th>
+          <td></td>
+          <td></td>
+          <td>1.0</td>
+          <td>-</td>
           <td></td>
           <td></td>
         </tr>
@@ -1080,6 +1167,15 @@ require_once 'es-matrix.inc.php';
           <td></td>
           <td></td>
           <td>6.0 (2001-12)</td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <th><a href="#v8">V8</a></th>
+          <td></td>
+          <td></td>
+          <td>0.3</td>
           <td></td>
           <td></td>
           <td></td>
@@ -1104,12 +1200,32 @@ require_once 'es-matrix.inc.php';
       </thead>
       <tbody>
         <tr>
+          <th><a href="#actionscript">ActionScript</a></th>
+          <td>2.0</td>
+        </tr>
+        <tr>
           <th><a href="#javascript">JavaScript</a></th>
           <td>1.6+</td>
         </tr>
         <tr>
-          <th><a href="#actionscript">ActionScript</a></th>
-          <td>2.0</td>
+          <th><a href="#jsc">JavaScriptCore</a></th>
+          <td>-</td>
+        </tr>
+        <tr>
+          <th><a href="#jscript">JScript</a></th>
+          <td>-</td>
+        </tr>
+        <tr>
+          <th>KJS</th>
+          <td>-</td>
+        </tr>
+        <tr>
+          <th><a href="http://www.opera.com/docs/specs/js/ecma/">Opera</a></th>
+          <td>-</td>
+        </tr>
+        <tr>
+          <th><a href="#v8">V8</a></th>
+          <td>-</td>
         </tr>
       </tbody>
     </table>

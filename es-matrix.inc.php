@@ -12,8 +12,8 @@ HTML
     ,
     'javascript' => '<a href="#javascript" title="Netscape/Mozilla.org JavaScript">JavaScript</a>',
     'jscript'    => '<a href="#jscript" title="Microsoft JScript">JScript</a>',
-    'jsc'        => '<a href="#jscore">
-      <abbr title="Apple WebKit JavaScriptCore">JSCore</abbr></a>',
+    'v8'         => '<a href="#v8"><abbr title="Google V8">V8</abbr></a>',
+    'jsc'        => '<a href="#jsc"><abbr title="Apple WebKit JavaScriptCore">JSC</abbr></a>',
     'opera'      => '<a href="#opera" title="Opera ECMAScript">Opera</a>',
     'kjs'        => '<a href="#kjs"><acronym title="Konqueror JavaScript">KJS</acronym></a>',
     //'as'         => '<a href="#actionscript">ActionScript</a>'
@@ -37,17 +37,18 @@ HTML
       'title'      => 'Strict Not Equal/Nonidentity operator',
       'content'    => '<code>!==</code>',
       'versions'   => array(
+        'ecmascript' => array(3,
+          'urn' => 'es3:#page=74'),
+        ''           => '"1 !== \"1\""',
         'javascript' => array('1.3',
           'urn'    => 'js15ref:Operators:Comparison_Operators',
           'tested' => TRUE),
         'jscript'    => array('1.0',
           'tested' => '5.1.5010',
           'urn' => 'msdn:ky6fyhws%28VS.85%29.aspx'),
-        'ecmascript' => array(3,
-          'urn' => 'es3:#page=74'),
-        '' => '"1 !== \"1\""',
-        'opera'      => array(5.02, 'tested' => TRUE),
+        'v8'         => array('tested' => '1.3'),
         'jsc'        => array('412.6.2?', 'tested' => '525.13'),
+        'opera'      => array(5.02, 'tested' => TRUE),
         'kjs'        => array('3.5.9', 'tested' => TRUE)
       )
     )),
@@ -56,10 +57,11 @@ HTML
       'content' => '<code>&quot;\u<var>hhhh</var>&quot;</code>',
       'title' => 'Unicode escape sequence in String literal',
       'versions' => array(
-        '' => '"\'\\u20AC\' == \'€\'"',
         'ecmascript' => 1,
+        ''           => '"\'\\u20AC\' == \'€\'"',
         'javascript' => 1.3,
-        'jscript' => array('3.0', 'tested' => '5.1.5010'),
+        'jscript'    => array('3.0', 'tested' => '5.1.5010'),
+        'v8'         => array('tested' => '1.3'),
         'jsc'        => array('tested' => '525.13'),
         'opera'      => array('6.0', 'tested' => '6.06'),
         'kjs'        => array('tested' => '4.3.4'),
@@ -76,9 +78,10 @@ HTML
         'ecmascript' => 5,
         'javascript' => array('', 'tested' => '1.8.1'),
         'jscript'    => array('', 'tested' => '5.1.5010'),
+        'v8'         => array('tested' => '1.3'),
         'jsc'        => array('', 'tested' => '525.13'),
+        'opera'      => array('tested' => '10.10'),
         'kjs'        => array('', 'tested' => '4.3.2'),
-        'opera'      => array('tested' => '10.10')
       )
     )),
     
@@ -91,13 +94,14 @@ HTML
 EOD
       ,
       'versions' => array(
-        '' => '"+\"42\" == 42"',
         'ecmascript' => 1,
+        '' => '"+\"42\" == 42"',
         'javascript' => array('1.3',      'tested' => TRUE),
         'jscript'    => array('3.1.3510', 'tested' => TRUE),
+        'v8'         => array('tested' => '1.3'),
         'jsc'        => array('tested' => '525.13'),
-        'kjs'        => array('3.5.9', 'tested' => TRUE),
         'opera'      => array(5.02, 'tested' => TRUE),
+        'kjs'        => array('3.5.9', 'tested' => TRUE),
       )
     )),
     
@@ -105,16 +109,17 @@ EOD
       'title'      => 'Regular Expression with non-capturing negative lookahead',
       'content'    => '<code>/(?!<var>&hellip;</var>)/</code>',
       'versions'   => array(
-        '' => '"abac".match(/a(?!b)./) == "ac"',
         'ecmascript' => 3,
+        ''           => '"abac".match(/a(?!b)./) == "ac"',
         'javascript' => array(1.5, 'tested' => TRUE,
           'urn'    => 'js15ref:Global_Objects:RegExp'),
         'jscript'    => array('5.5.6330',
           'urn' => 'msdn:jscript7/html/jsobjregexpression.asp',
           'tested' => TRUE),
-        'jsc'     => array('tested' => '525.13'),
+        'v8'         => array('tested' => '1.3'),
+        'jsc'        => array('tested' => '525.13'),
+        'opera'      => array(7.02, 'tested' => TRUE),
         'kjs'        => array('3.5.9', 'tested' => TRUE),
-        'opera'   => array(7.02, 'tested' => TRUE),
       )
     )),
     
@@ -122,16 +127,17 @@ EOD
       'title' => 'Regular Expression with non-capturing parentheses',
       'content' => '<code>/(?:<var>&hellip;</var>)/</code>',
       'versions' => array(
-        '' => '"ab".match(/a(?:b)/) == "ab"',
         'ecmascript' => 3,
+        ''           => '"ab".match(/a(?:b)/) == "ab"',
         'javascript' => array(1.5, 'tested' => TRUE,
           'urn' => 'js15ref:Global_Objects:RegExp'),
-        'jscript' => array('5.5.6330',
+        'jscript'    => array('5.5.6330',
           'urn' => 'msdn:jscript7/html/jsobjregexpression.asp',
           'tested' => TRUE),
-        'jsc'     => array('tested' => '525.13'),
+        'v8'         => array('tested' => '1.3'),
+        'jsc'        => array('tested' => '525.13'),
+        'opera'      => array(7.02, 'tested' => TRUE),
         'kjs'        => array('3.5.9', 'tested' => TRUE),
-        'opera'   => array(7.02, 'tested' => TRUE),
       )
     )),
     
@@ -139,16 +145,17 @@ EOD
       'title' => 'Regular Expression with non-capturing positive lookahead',
       'content' => '<code>/(?=<var>&hellip;</var>)/</code>',
       'versions' => array(
-        '' => '"ab".match(/a(?=b)/) == "a"',
         'ecmascript' => 3,
+        ''           => '"ab".match(/a(?=b)/) == "a"',
         'javascript' => array(1.5, 'tested' => TRUE,
           'urn' => 'js15ref:Global_Objects:RegExp'),
-        'jscript' => array('5.5.6330',
+        'jscript'    => array('5.5.6330',
           'urn' => 'msdn:jscript7/html/jsobjregexpression.asp',
           'tested' => TRUE),
-        'jsc'     => array('tested' => '525.13'),
+        'v8'         => array('tested' => '1.3'),
+        'jsc'        => array('tested' => '525.13'),
+        'opera'      => array(7.02, 'tested' => TRUE),
         'kjs'        => array('3.5.9', 'tested' => TRUE),
-        'opera'   => array(7.02, 'tested' => TRUE),
       )
     )),
 
@@ -156,15 +163,16 @@ EOD
       'title'      => 'Regular Expression with non-greedy matching',
       'content'    => '<code>/(<var>&hellip;</var>+?|<var>&hellip;</var>*?)/</code>',
       'versions'   => array(
-        '' => '"aaa".match(/^aa*?/) == "a" && "aaa".match(/^aa+?/) == "aa"',
         'ecmascript' => 3,
+        ''           => '"aaa".match(/^aa*?/) == "a" && "aaa".match(/^aa+?/) == "aa"',
         'javascript' => array(1.5, 'tested' => TRUE,
           'urn' => 'js15ref:Global_Objects:RegExp'),
         'jscript'    => array('5.5.6330', 'tested' => TRUE,
           'urn' => 'msdn:jscript7/html/jsobjregexpression.asp'),
+        'v8'         => array('tested' => '1.3'),
         'jsc'        => array('tested' => '525.13'),
+        'opera'      => array(7.02, 'tested' => TRUE),
         'kjs'        => array('3.5.9', 'tested' => TRUE),
-        'opera' => array(7.02, 'tested' => TRUE),
       )
     )),
     
@@ -172,30 +180,32 @@ EOD
       'content' => '<code>/\u<var>hhhh</var>/</code>',
       'title' => 'Unicode escape sequence in RegExp literal',
       'versions' => array(
-        '' => '"/\\u20AC/.test(\'€\')"',
         'ecmascript' => 1,
+        ''           => '"/\\u20AC/.test(\'€\')"',
         'javascript' => 1.3,
         'jscript'    => array('3.0', 'tested' => '5.1.5010'),
+        'v8'         => array('tested' => '1.3'),
         'jsc'        => array('tested' => '525.13'),
         'kjs'        => array('tested' => '4.3.4'),
-    )
+      )
     )),
     
     new ScriptFeature(array(
       'title'      => 'RegExp literal with only optional global and case-insensitive modifier',
       'content'    => '<code>/<var>regularExpression</var>/</code>[<code>g</code>][<code>i</code>]',
       'versions'   => array(
-        '' => '"/abc/gi.constructor == RegExp"',
+        'ecmascript' => '-',
+        ''           => '"/abc/gi.constructor == RegExp"',
         'javascript' => array('1.2',
           'urn'    => 'js15ref:Global_Objects:RegExp',
           'tested' => TRUE),
         'jscript'    => array('3.1.3510',
           'urn'    => 'msdn:jscript7/html/jsobjregexpression.asp',
           'tested' => TRUE),
-        'ecmascript' => '-',
+        'v8'         => array('tested' => '1.3'),
         'jsc'        => array('tested' => '525.13'),
+        'opera'      => array(5.02, 'tested' => TRUE),
         'kjs'        => array('3.5.9', 'tested' => TRUE),
-        'opera' => array(5.02, 'tested' => TRUE),
       )
     )),
     
@@ -203,13 +213,14 @@ EOD
       'title'      => 'RegExp literal with optional multiline modifier',
       'content'    => '<code>/<var>regularExpression</var>/</code>[<code>g</code>][<code>i</code>][<code>m</code>]',
       'versions'   => array(
-        '' => '"/abc/gim.constructor == RegExp"',
+        'ecmascript' => 3,
+        ''           => '"/abc/gim.constructor == RegExp"',
         'javascript' => array('1.5', 'tested' => TRUE),
         'jscript'    => array('5.5.6330', 'tested' => TRUE),
-        'ecmascript' => 3,
+        'v8'         => array('tested' => '1.3'),
         'jsc'        => array('tested' => '525.13'),
+        'opera'      => array(5.02, 'tested' => TRUE),
         'kjs'        => array('3.5.9', 'tested' => TRUE),
-        'opera' => array(5.02, 'tested' => TRUE),
       )
     )),
     
@@ -217,12 +228,13 @@ EOD
       'title'      => 'RegExp literal with optional sticky modifier',
       'content'    => '<code>/<var>regularExpression</var>/</code>[<code>g</code>][<code>i</code>][<code>m</code>][<code>y</code>]',
       'versions'   => array(
+        'ecmascript' => '-',
         'javascript' => array('1.8', 'tested' => '1.8.1'),
         'jscript'    => '-',
-        'ecmascript' => '-',
+        'v8'         => array('tested' => '-'),
         'jsc'        => array('tested' => '531.9'),
         'kjs'        => '-',
-        'opera' => array('', 'tested' => '10.01'),
+        'opera'      => array('', 'tested' => '10.01'),
       )
     )),
     
@@ -230,16 +242,17 @@ EOD
       'title' => 'Label',
       'content' => '<code><var>label</var>:</code>',
       'versions' => array(
-        '' => '"foo: true"',
         'ecmascript' => 3,
+        '' => '"foo: true"',
         'javascript' => array(1.2, 'tested' => '1.5',
           'urn' => 'js15ref:Statements:label'),
         'jscript'    => array('3.1.3510',
           'urn'    => 'msdn:jscript7/html/jsstmlabeled.asp',
           'tested' => TRUE),
+        'v8'         => array('tested' => '1.3'),
         'jsc'        => array('tested' => '525.13'),
-        'kjs'        => array('3.5.9', 'tested' => TRUE),
         'opera'      => array(5.02, 'tested' => TRUE),
+        'kjs'        => array('3.5.9', 'tested' => TRUE),
       )
     )),
 
@@ -254,10 +267,11 @@ HTML
       'versions' => array(
         'ecmascript' => 4,
         'javascript' => '2.0',
-        'jscript' => '7.0',
-        'jsc'     => '-',
-        'kjs'     => '-',
-        'opera'   => '-',
+        'jscript'    => '7.0',
+        'v8'         => array('tested' => '-'),
+        'jsc'        => '-',
+        'opera'      => '-',
+        'kjs'        => '-',
       )
     )),
 
@@ -267,14 +281,14 @@ HTML
       'title'    => 'Equals operator',
       'content'  => '<code>==</code>',
       'versions' => array(
-        '' => '1 == "1"',
         'ecmascript' => 1,
+        ''           => '1 == "1"',
         'javascript' => array(
             '<a class="tooltip" href="#equals" name="equals">1.0<span><span>
       (</span>deprecated since 1.4 <em>for comparison of two <code>JSObject</code>
       objects</em>; use the <code>JSObject.equals</code> method instead<span>)</span></span></a>',
-            'tested' => '1.3',
-          'urn' => '#equals',
+          'tested'  => '1.3',
+          'urn'     => '#equals',
           'tooltip' => '<span>
             (</span>deprecated since 1.4 <em>for comparison of two
             <code>JSObject</code> objects</em>; use the
@@ -282,6 +296,7 @@ HTML
             method instead<span>)</span></span>',
           'assumed' => TRUE),
         'jscript'    => array('1.0', 'assumed' => TRUE, 'tested' => '5.1.5010'),
+        'v8'         => array('tested' => '1.3'),
         'jsc'        => array(525.13, 'tested' => TRUE),
         'kjs'        => array('3.5.9', 'tested' => TRUE),
         'opera'      => array(5.02, 'tested' => TRUE)
@@ -292,10 +307,11 @@ HTML
       'title'    => 'Strict Equals/Identity operator',
       'content'  => '<code>===</code>',
       'versions' => array(
-        '' => '!(1 === "1")',
         'ecmascript' => 3,
+        ''           => '!(1 === "1")',
         'javascript' => array('1.3', 'tested' => '1.3'),
         'jscript'    => array('1.0', 'tested' => '5.1.5010'),
+        'v8'         => array('tested' => '1.3'),
         'jsc'        => array('tested' => '525.13'),
         'kjs'        => array('tested' => '4.3.2'),
         'opera'      => array('tested' => '5.02')
@@ -306,10 +322,11 @@ HTML
       'title' => 'Array initializer',
       'content' => '<code>[<var>value</var>, &hellip;]</code>',
       'versions' => array(
-        '' => '"[42, 23]"',
         'ecmascript' => 3,
+        ''           => '"[42, 23]"',
         'javascript' => 1.3,
         'jscript'    => array('2.0', 'tested' => '5.1.5010'),
+        'v8'         => array('tested' => '1.3'),
         'jsc'        => array('tested' => '525.13'),
         'kjs'        => array('tested' => '4.3.4'),
       )
@@ -319,10 +336,11 @@ HTML
       'title' => 'Array initializer with trailing comma',
       'content' => '<code>[<var>value</var>,&nbsp;]</code>',
       'versions' => array(
-        '' => '"[42,]"',
         'ecmascript' => 3,
+        ''           => '"[42,]"',
         'javascript' => 1.3,
         'jscript'    => array('', 'tested' => '5.1.5010'),
+        'v8'         => array('tested' => '1.3'),
         'jsc'        => array('tested' => '525.13'),
         'kjs'        => array('tested' => '4.3.4'),
       )
@@ -372,9 +390,10 @@ HTML
         'ecmascript' => 3,
         'javascript' => array(1.3, 'tested' => 1.3),
         'jscript'    => array('3.0', 'tested' => '5.1.5010'),
+        'v8'         => array('tested' => '1.3'),
         'jsc'        => array('tested' => '525.13'),
+        'opera'      => array(5.02, 'tested' => TRUE),
         'kjs'        => array('3.5.9', 'tested' => TRUE),
-        'opera'      => array(5.02, 'tested' => TRUE)
       )
     )),
     
@@ -387,6 +406,7 @@ HTML
         'ecmascript' => '-',
         'javascript' => '1.3',
         'jscript'    => '-',
+        'v8'         => array('tested' => '1.3'),
         'jsc'        => array('tested' => '525.13'),
         'kjs'        => array('tested' => '4.3.4'),
       )
@@ -403,15 +423,25 @@ HTML
     )),
     
     new ScriptFeature(array(
+      'content' => '<code>ActiveXObject(&hellip;)</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => '-',
+        'jscript' => '3.0'
+      )
+    )),
+
+    new ScriptFeature(array(
       'content' => '<code>arguments</code>',
       'anchor' => 'arguments',
       'versions' => array(
+        'ecmascript' => 1,
         ''           => '"function f() { return typeof arguments != \'undefined\' && arguments; };"
                          + " var a = f(); a && typeof a != \'undefined\'"',
-        'ecmascript' => 1,
         'javascript' => array(1.1,
           'urn' => 'js15ref:Functions:arguments'),
         'jscript'    => '1.0',
+        'v8'         => array('tested' => '1.3'),
         'jsc'        => array('tested' => '525.13'),
         'kjs'        => array('tested' => '4.3.4'),
       )
@@ -423,12 +453,13 @@ HTML
         onclick="return !!(function(){alert(arguments.callee);})();"
       ><code>arguments.callee</code></a>',
       'versions' => array(
+        'ecmascript' => '1',
         ''           => '"function f() { return typeof arguments != \'undefined\' && arguments; };"
                          + " var a = f(); a && typeof a != \'undefined\' && typeof a.callee != \'undefined\'"',
-        'ecmascript' => '1',
         'javascript' => array(1.2,
           'urn' => 'js15ref:Functions:arguments:callee'),
         'jscript' => '3.0*',
+        'v8'         => array('tested' => '1.3'),
         'jsc'        => array('tested' => '525.13'),
         'kjs'        => array('tested' => '4.3.4'),
       )
@@ -437,14 +468,15 @@ HTML
     new ScriptFeature(array(
       'content' => '<a name="arguments.caller" id="arguments.caller"><code>arguments.caller</code></a>',
       'versions' => array(
+        'ecmascript' => '-',
         ''           => '"function f() { return typeof arguments != \'undefined\' && arguments; };"
                          + " var a = f(); a && typeof a != \'undefined\' && typeof a.caller != \'undefined\'"',
-        'ecmascript' => '-',
         'javascript' => '<a href="#arguments.caller" class="tooltip">1.1<span><span>; </span>deprecated
       since 1.3</span></a>',
         'jscript' => '<span class="tooltip">-<span> (see&nbsp;<code><a
         href="#Function.prototype.caller"
       >Function.prototype.caller</a></code><span>)</span></span></span>',
+        'v8'         => array('tested' => '-'),
         'jsc'        => array('tested' => '-'),
         'kjs'        => array('tested' => '-'),
       )
@@ -453,22 +485,14 @@ HTML
     new ScriptFeature(array(
       'content' => '<a name="arguments.length" id="arguments.length"><code>arguments.length</code></a>',
       'versions' => array(
+        'ecmascript' => '1',
         ''           => '"function f() { return typeof arguments != \'undefined\' && arguments; };"
                          + " var a = f(); a && typeof a != \'undefined\' && typeof a.length == \'number\'"',
-        'ecmascript' => '1',
         'javascript' => '1.1',
         'jscript'    => '5.5',
+        'v8'         => array('tested' => '1.3'),
         'jsc'        => array('tested' => '525.13'),
         'kjs'        => array('tested' => '4.3.4'),
-      )
-    )),
-
-    new ScriptFeature(array(
-      'content' => '<code>ActiveXObject(&hellip;)</code>',
-      'versions' => array(
-        'ecmascript' => '-',
-        'javascript' => '-',
-        'jscript' => '3.0'
       )
     )),
 
@@ -497,6 +521,16 @@ HTML
         'ecmascript' => '-',
         'javascript' => '1.6',
         'jscript' => '-'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Array.prototype</code>',
+      'versions' => array(
+        'ecmascript' => 1,
+        ''           => '!!getFeature(_global, "Array", "prototype")',
+        'javascript' => array('assumed' => '1.1'),
+        'jscript'    => array('2.0'),
       )
     )),
     
@@ -654,6 +688,16 @@ HTML
     )),
     
     new ScriptFeature(array(
+      'content' => '<code>Boolean.prototype</code>',
+      'versions' => array(
+        'ecmascript' => 1,
+        ''           => '!!getFeature(_global, "Boolean", "prototype")',
+        'javascript' => array('assumed' => '1.1'),
+        'jscript'    => array('2.0'),
+      )
+    )),
+    
+    new ScriptFeature(array(
       'content' => '<code>byte</code>',
       'versions' => array(
         'ecmascript' => '4',
@@ -700,6 +744,16 @@ HTML
       )
     )),
           
+    new ScriptFeature(array(
+      'content' => '<code>Date.prototype</code>',
+      'versions' => array(
+        'ecmascript' => 1,
+        ''           => '!!getFeature(_global, "Date", "prototype")',
+        'javascript' => array('assumed' => '1.1'),
+        'jscript'    => array('2.0'),
+      )
+    )),
+    
     new ScriptFeature(array(
       'content' => '<a name="d" id="d"></a><code>Date.prototype.getFullYear()</code>',
       'versions' => array(
@@ -1311,7 +1365,18 @@ HTML
         'opera'      => array(5.02, 'tested' => TRUE),
       )
     )),
-       
+
+    new ScriptFeature(array(
+      'content' => '<code>Function.prototype</code>',
+      'versions' => array(
+        'ecmascript' => 1,
+        ''           => '!!getFeature(_global, "Function", "prototype")',
+        'javascript' => array('assumed' => '1.1'),
+        'jscript'    => array('2.0'),
+      )
+    )),
+    
+    
     new ScriptFeature(array(
       'content' => '<code>Function.prototype.arity</code>',
       'versions' => array(
@@ -1790,6 +1855,17 @@ HTML
     )),
     
     new ScriptFeature(array(
+      'content' => '<code>Number.prototype</code>',
+      'versions' => array(
+        'ecmascript' => 1,
+        ''           => '!!getFeature(_global, "Number", "prototype")',
+        'javascript' => array('tested' => '1.1'),
+        'jscript'    => array('2.0', 'tested' => '5.1.5010'),
+        'v8'         => array('tested' => '2.0'),
+      )
+    )),
+    
+    new ScriptFeature(array(
       'content' => '<code>Number.prototype.toString()</code>',
       'versions' => array(
         'ecmascript' => 1,
@@ -1819,6 +1895,17 @@ HTML
         'jsc'        => array('tested' => '-'),
       )
     )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Object.prototype</code>',
+      'versions' => array(
+        'ecmascript' => 1,
+        ''           => '!!getFeature(_global, "Object", "prototype")',
+        'javascript' => array('assumed' => '1.1'),
+        'jscript'    => array('2.0'),
+      )
+    )),
+    
     
     new ScriptFeature(array(
       'content' => '<code>Object.prototype.__defineGetter__(<var>propertyName</var>:&nbsp;string,
@@ -2187,6 +2274,16 @@ HTML
       operator</a>'
     )),
       
+    new ScriptFeature(array(
+      'content' => '<code>String.prototype</code>',
+      'versions' => array(
+        'ecmascript' => 1,
+        ''           => '!!getFeature(_global, "String", "prototype")',
+        'javascript' => array('assumed' => '1.1'),
+        'jscript'    => array('2.0'),
+      )
+    )),
+    
     new ScriptFeature(array(
       'content' => '<code>String.fromCharCode(<var title="unsigned integer">uint</var>)</code>',
       'versions' => array(
