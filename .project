@@ -53,4 +53,10 @@
 			<locationURI>LCARS/styles/tooltip.css</locationURI>
 		</link>
 	</linkedResources>
+	<variableList>
+		<variable>
+			<name>LCARS</name>
+			<value>file:/home/pelinux/LCARS</value>
+		</variable>
+	</variableList>
 </projectDescription>

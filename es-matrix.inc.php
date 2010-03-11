@@ -27,7 +27,7 @@ HTML
 
   'urns' => array(
     'mdc'     => 'https://developer.mozilla.org/en/',
-    'js15ref' => 'mdc:Core_JavaScript_1.5_Reference:',
+    'js15ref' => 'mdc:Core_JavaScript_1.5_Reference/',
     'msdn'    => 'http://msdn.microsoft.com/en-us/library/',
     'es3'     => 'http://www.mozilla.org/js/language/E262-3.pdf'),
 
@@ -54,7 +54,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>&quot;\u<var>hhhh</var>&quot;</code>',
+      'content' => '<code>&quot;\u<var>hhhh</var>&quot; : string</code>',
       'title' => 'Unicode escape sequence in String literal',
       'versions' => array(
         'ecmascript' => 1,
@@ -72,7 +72,7 @@ HTML
       'content' => '<a href="javascript:alert(\'The following should be in one line:\\n\\nfoo\\%0Abar\')"
         onclick="return !!alert(\'The following should be in one line:\\n\\nfoo\\&#10;bar\');"
       ><code>&quot;<var>foo</var>\<br>
-        <var>bar</var>&quot;</code></a>',
+        <var>bar</var>&quot; : string</code></a>',
       'title' => 'Escaped newline in String literal',
       'versions' => array(
         'ecmascript' => 5,
@@ -90,7 +90,7 @@ HTML
       'content'    => <<<EOD
               <a href="javascript:window.alert(+'042')"
                  onclick="window.alert(+'042'); return false"
-                 ><code>+<var>expression</var></code></a>
+                 ><code>+<var>expression</var> : number</code></a>
 EOD
       ,
       'versions' => array(
@@ -106,93 +106,9 @@ EOD
     )),
     
     new ScriptFeature(array(
-      'title'      => 'Regular Expression with non-capturing negative lookahead',
-      'content'    => '<code>/(?!<var>&hellip;</var>)/</code>',
-      'versions'   => array(
-        'ecmascript' => 3,
-        ''           => '"abac".match(/a(?!b)./) == "ac"',
-        'javascript' => array(1.5, 'tested' => TRUE,
-          'urn'    => 'js15ref:Global_Objects:RegExp'),
-        'jscript'    => array('5.5.6330',
-          'urn' => 'msdn:jscript7/html/jsobjregexpression.asp',
-          'tested' => TRUE),
-        'v8'         => array('tested' => '1.3'),
-        'jsc'        => array('tested' => '525.13'),
-        'opera'      => array(7.02, 'tested' => TRUE),
-        'kjs'        => array('3.5.9', 'tested' => TRUE),
-      )
-    )),
-    
-    new ScriptFeature(array(
-      'title' => 'Regular Expression with non-capturing parentheses',
-      'content' => '<code>/(?:<var>&hellip;</var>)/</code>',
-      'versions' => array(
-        'ecmascript' => 3,
-        ''           => '"ab".match(/a(?:b)/) == "ab"',
-        'javascript' => array(1.5, 'tested' => TRUE,
-          'urn' => 'js15ref:Global_Objects:RegExp'),
-        'jscript'    => array('5.5.6330',
-          'urn' => 'msdn:jscript7/html/jsobjregexpression.asp',
-          'tested' => TRUE),
-        'v8'         => array('tested' => '1.3'),
-        'jsc'        => array('tested' => '525.13'),
-        'opera'      => array(7.02, 'tested' => TRUE),
-        'kjs'        => array('3.5.9', 'tested' => TRUE),
-      )
-    )),
-    
-    new ScriptFeature(array(
-      'title' => 'Regular Expression with non-capturing positive lookahead',
-      'content' => '<code>/(?=<var>&hellip;</var>)/</code>',
-      'versions' => array(
-        'ecmascript' => 3,
-        ''           => '"ab".match(/a(?=b)/) == "a"',
-        'javascript' => array(1.5, 'tested' => TRUE,
-          'urn' => 'js15ref:Global_Objects:RegExp'),
-        'jscript'    => array('5.5.6330',
-          'urn' => 'msdn:jscript7/html/jsobjregexpression.asp',
-          'tested' => TRUE),
-        'v8'         => array('tested' => '1.3'),
-        'jsc'        => array('tested' => '525.13'),
-        'opera'      => array(7.02, 'tested' => TRUE),
-        'kjs'        => array('3.5.9', 'tested' => TRUE),
-      )
-    )),
-
-    new ScriptFeature(array(
-      'title'      => 'Regular Expression with non-greedy matching',
-      'content'    => '<code>/(<var>&hellip;</var>+?|<var>&hellip;</var>*?)/</code>',
-      'versions'   => array(
-        'ecmascript' => 3,
-        ''           => '"aaa".match(/^aa*?/) == "a" && "aaa".match(/^aa+?/) == "aa"',
-        'javascript' => array(1.5, 'tested' => TRUE,
-          'urn' => 'js15ref:Global_Objects:RegExp'),
-        'jscript'    => array('5.5.6330', 'tested' => TRUE,
-          'urn' => 'msdn:jscript7/html/jsobjregexpression.asp'),
-        'v8'         => array('tested' => '1.3'),
-        'jsc'        => array('tested' => '525.13'),
-        'opera'      => array(7.02, 'tested' => TRUE),
-        'kjs'        => array('3.5.9', 'tested' => TRUE),
-      )
-    )),
-    
-    new ScriptFeature(array(
-      'content' => '<code>/\u<var>hhhh</var>/</code>',
-      'title' => 'Unicode escape sequence in RegExp literal',
-      'versions' => array(
-        'ecmascript' => 1,
-        ''           => '"/\\u20AC/.test(\'€\')"',
-        'javascript' => 1.3,
-        'jscript'    => array('3.0', 'tested' => '5.1.5010'),
-        'v8'         => array('tested' => '1.3'),
-        'jsc'        => array('tested' => '525.13'),
-        'kjs'        => array('tested' => '4.3.4'),
-      )
-    )),
-    
-    new ScriptFeature(array(
       'title'      => 'RegExp literal with only optional global and case-insensitive modifier',
-      'content'    => '<code>/<var>regularExpression</var>/</code>[<code>g</code>][<code>i</code>]',
+      'content'    => '<code>/<var>&hellip;</var>/</code>[<code>g</code>][<code>i</code>]
+        <code>: RegExp</code>',
       'versions'   => array(
         'ecmascript' => '-',
         ''           => '"/abc/gi.constructor == RegExp"',
@@ -211,7 +127,8 @@ EOD
     
     new ScriptFeature(array(
       'title'      => 'RegExp literal with optional multiline modifier',
-      'content'    => '<code>/<var>regularExpression</var>/</code>[<code>g</code>][<code>i</code>][<code>m</code>]',
+      'content'    => '<code>/<var>&hellip;</var>/</code>[<code>g</code>][<code>i</code>][<code>m</code>]
+        <code>: RegExp</code>',
       'versions'   => array(
         'ecmascript' => 3,
         ''           => '"/abc/gim.constructor == RegExp"',
@@ -226,7 +143,8 @@ EOD
     
     new ScriptFeature(array(
       'title'      => 'RegExp literal with optional sticky modifier',
-      'content'    => '<code>/<var>regularExpression</var>/</code>[<code>g</code>][<code>i</code>][<code>m</code>][<code>y</code>]',
+      'content'    => '<code>/<var>&hellip;</var>/</code>[<code>g</code>][<code>i</code>][<code>m</code>][<code>y</code>]
+        <code>: RegExp</code>',
       'versions'   => array(
         'ecmascript' => '-',
         'javascript' => array('1.8', 'tested' => '1.8.1'),
@@ -238,6 +156,92 @@ EOD
       )
     )),
     
+    new ScriptFeature(array(
+      'title'      => 'Regular Expression with non-capturing negative lookahead',
+      'content'    => '<code>/(?!<var>&hellip;</var>)/ : RegExp</code>',
+      'versions'   => array(
+        'ecmascript' => 3,
+        ''           => '"abac".match(/a(?!b)./) == "ac"',
+        'javascript' => array(1.5, 'tested' => TRUE,
+          'urn'    => 'js15ref:Global_Objects:RegExp'),
+        'jscript'    => array('5.5.6330',
+          'urn' => 'msdn:jscript7/html/jsobjregexpression.asp',
+          'tested' => TRUE),
+        'v8'         => array('tested' => '1.3'),
+        'jsc'        => array('tested' => '525.13'),
+        'opera'      => array(7.02, 'tested' => TRUE),
+        'kjs'        => array('3.5.9', 'tested' => TRUE),
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'title' => 'Regular Expression with non-capturing parentheses',
+      'content' => '<code>/(?:<var>&hellip;</var>)/ : RegExp</code>',
+      'versions' => array(
+        'ecmascript' => 3,
+        ''           => '"ab".match(/a(?:b)/) == "ab"',
+        'javascript' => array(1.5, 'tested' => TRUE,
+          'urn' => 'js15ref:Global_Objects:RegExp'),
+        'jscript'    => array('5.5.6330',
+          'urn' => 'msdn:jscript7/html/jsobjregexpression.asp',
+          'tested' => TRUE),
+        'v8'         => array('tested' => '1.3'),
+        'jsc'        => array('tested' => '525.13'),
+        'opera'      => array(7.02, 'tested' => TRUE),
+        'kjs'        => array('3.5.9', 'tested' => TRUE),
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'title' => 'Regular Expression with non-capturing positive lookahead',
+      'content' => '<code>/(?=<var>&hellip;</var>)/ : RegExp</code>',
+      'versions' => array(
+        'ecmascript' => 3,
+        ''           => '"ab".match(/a(?=b)/) == "a"',
+        'javascript' => array(1.5, 'tested' => TRUE,
+          'urn' => 'js15ref:Global_Objects:RegExp'),
+        'jscript'    => array('5.5.6330',
+          'urn' => 'msdn:jscript7/html/jsobjregexpression.asp',
+          'tested' => TRUE),
+        'v8'         => array('tested' => '1.3'),
+        'jsc'        => array('tested' => '525.13'),
+        'opera'      => array(7.02, 'tested' => TRUE),
+        'kjs'        => array('3.5.9', 'tested' => TRUE),
+      )
+    )),
+
+    new ScriptFeature(array(
+      'title'      => 'Regular Expression with non-greedy matching',
+      'content'    => '<code>/(<var>&hellip;</var>+?|<var>&hellip;</var>*?)/
+        : RegExp</code>',
+      'versions'   => array(
+        'ecmascript' => 3,
+        ''           => '"aaa".match(/^aa*?/) == "a" && "aaa".match(/^aa+?/) == "aa"',
+        'javascript' => array(1.5, 'tested' => TRUE,
+          'urn' => 'js15ref:Global_Objects:RegExp'),
+        'jscript'    => array('5.5.6330', 'tested' => TRUE,
+          'urn' => 'msdn:jscript7/html/jsobjregexpression.asp'),
+        'v8'         => array('tested' => '1.3'),
+        'jsc'        => array('tested' => '525.13'),
+        'opera'      => array(7.02, 'tested' => TRUE),
+        'kjs'        => array('3.5.9', 'tested' => TRUE),
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>/\u<var>hhhh</var>/ : RegExp</code>',
+      'title' => 'Unicode escape sequence in RegExp literal',
+      'versions' => array(
+        'ecmascript' => 1,
+        ''           => '"/\\u20AC/.test(\'€\')"',
+        'javascript' => 1.3,
+        'jscript'    => array('3.0', 'tested' => '5.1.5010'),
+        'v8'         => array('tested' => '1.3'),
+        'jsc'        => array('tested' => '525.13'),
+        'kjs'        => array('tested' => '4.3.4'),
+      )
+    )),
+        
     new ScriptFeature(array(
       'title' => 'Label',
       'content' => '<code><var>label</var>:</code>',
@@ -293,13 +297,12 @@ HTML
             (</span>deprecated since 1.4 <em>for comparison of two
             <code>JSObject</code> objects</em>; use the
             <code>JSObject<span class="punct">.</span>equals</code>
-            method instead<span>)</span></span>',
-          'assumed' => TRUE),
-        'jscript'    => array('1.0', 'assumed' => TRUE, 'tested' => '5.1.5010'),
+            method instead<span>)</span></span>'),
+        'jscript'    => array('1.0', 'tested' => '5.1.5010'),
         'v8'         => array('tested' => '1.3'),
-        'jsc'        => array(525.13, 'tested' => TRUE),
-        'kjs'        => array('3.5.9', 'tested' => TRUE),
-        'opera'      => array(5.02, 'tested' => TRUE)
+        'jsc'        => array('tested' => '525.13'),
+        'kjs'        => array('tested' => '3.5.9'),
+        'opera'      => array('tested' => '5.02')
       )
     )),
 
@@ -320,7 +323,7 @@ HTML
     
     new ScriptFeature(array(
       'title' => 'Array initializer',
-      'content' => '<code>[<var>value</var>, &hellip;]</code>',
+      'content' => '<code>[<var>value</var>, <var>&hellip;</var>] : Array</code>',
       'versions' => array(
         'ecmascript' => 3,
         ''           => '"[42, 23]"',
@@ -334,7 +337,7 @@ HTML
     
     new ScriptFeature(array(
       'title' => 'Array initializer with trailing comma',
-      'content' => '<code>[<var>value</var>,&nbsp;]</code>',
+      'content' => '<code>[<var>value</var>,&nbsp;] : Array</code>',
       'versions' => array(
         'ecmascript' => 3,
         ''           => '"[42,]"',
@@ -349,11 +352,12 @@ HTML
     new ScriptFeature(array(
       'title' => 'Array comprehension',
       'content' => <<<HTML
-        <code>[<var>expression1</var> for (<var>var1</var> in <var>expression2</var>)</code>
-        <var>[</var>
-        <code>if (<var>expression3</var>)</code>
-        <var>]</var>
-        <code>]</code>
+        <code>[<var>expression</var> for (<var>propertyName</var>
+        in&nbsp;<var>Object</var>)</code>
+        [<code>if (<var>condition</var>)</code>]<code>] : Array</code><br>
+        <code>[<var>expression</var> for each (<var>propertyValue</var>
+        in&nbsp;<var>Object</var>)</code>
+        [<code>if (<var>condition</var>)</code>]<code>] : Array</code>
 HTML
       , 'versions' => array(
         'ecmascript' => '-',
@@ -368,8 +372,9 @@ HTML
     new ScriptFeature(array(
       'title' => 'Destructuring assignment',
       'content' => <<<HTML
-        <code><var>[</var>var<var>]</var> [<var>var1</var>,
-        <var>[var2]</var>, <var>var3</var>, <var>&hellip;</var>]&nbsp;= <var>Array</var></code>
+        [<code>var</code>] <code>[<var>var1</var>,</code>
+        [<code><var>var2</var></code>]<code>,
+        <var>var3</var>, <var>&hellip;</var>]&nbsp;= <var>Array</var></code>
 HTML
       , 'versions' => array(
         'ecmascript' => '-',
@@ -383,8 +388,8 @@ HTML
         
     new ScriptFeature(array(
       'title' => 'Object initializer',
-      'content' => '<code>{<var>name</var>:
-            <var>value</var>, &hellip;}</code>',
+      'content' => '<code>{<var>propertyName</var>:
+            <var>propertyValue</var>, <var>&hellip;</var>} : Object</code>',
       'versions' => array(
         '' => '{a: "b"}.a == "b"',
         'ecmascript' => 3,
@@ -401,9 +406,9 @@ HTML
       'title' => 'Object initializer with trailing comma',
       'content' => '<code><a href="javascript:window.alert%28eval%28\'%28{foo:%2042,}%29\'%29.foo%29;"
         onclick="window.alert(eval(\'({foo: 42,})\').foo); return false"
-        >{<var>name</var>: <var>value</var>,&nbsp;}</a></code>',
+        >{<var>propertyName</var>: <var>propertyValue</var>,&nbsp;} : Object</a></code>',
       'versions' => array(
-        'ecmascript' => '-',
+        'ecmascript' => 5,
         'javascript' => '1.3',
         'jscript'    => '-',
         'v8'         => array('tested' => '1.3'),
@@ -414,7 +419,7 @@ HTML
     
     new ScriptFeature(array(
       'content' => '<code>abstract</code>',
-      'anchor' => 'a',
+      'anchors' => array('a'),
       'versions' => array(
         'javascript' => '2.0',
         'jscript' => '7.0',
@@ -423,7 +428,8 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>ActiveXObject(&hellip;)</code>',
+      'content' => '<code>new ActiveXObject("<var>serverName</var>.<var>typeName</var>"</code>[<code>,
+        <var>location</var> : String</code>]<code>)</code>',
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => '-',
@@ -451,7 +457,7 @@ HTML
       'content' => '<a name="arguments.callee" id="arguments.callee"
         href="javascript:void((function(){alert(arguments.callee);})())"
         onclick="return !!(function(){alert(arguments.callee);})();"
-      ><code>arguments.callee</code></a>',
+      ><code>arguments.callee : Function</code></a>',
       'versions' => array(
         'ecmascript' => '1',
         ''           => '"function f() { return typeof arguments != \'undefined\' && arguments; };"
@@ -466,7 +472,8 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<a name="arguments.caller" id="arguments.caller"><code>arguments.caller</code></a>',
+      'content' => '<a name="arguments.caller" id="arguments.caller"><code>arguments.caller
+        : Function|null</code></a>',
       'versions' => array(
         'ecmascript' => '-',
         ''           => '"function f() { return typeof arguments != \'undefined\' && arguments; };"
@@ -483,7 +490,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<a name="arguments.length" id="arguments.length"><code>arguments.length</code></a>',
+      'content' => '<a name="arguments.length" id="arguments.length"><code>arguments.length : int</code></a>',
       'versions' => array(
         'ecmascript' => '1',
         ''           => '"function f() { return typeof arguments != \'undefined\' && arguments; };"
@@ -498,7 +505,7 @@ HTML
 
     new ScriptFeature(array(
       'title' => 'Array constructor/factory',
-      'content' => '<code title="Array constructor/factory">Array(&hellip;)</code>',
+      'content' => '<code title="Array constructor/factory">Array(<var>&hellip;</var>)</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.1',
@@ -507,7 +514,19 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Array.every(&hellip;)</code>',
+      'content' => '<code>Array.every(<var>iterable</var>,
+        <var>callback</var> : Function) : boolean</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => array(1.6,
+          'urn' => 'js15ref:Global_Objects/Array/every'),
+        'jscript' => '-'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Array.some(<var>iterable</var>,
+        <var>callback</var> : Function) : boolean</code>',
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => '1.6',
@@ -516,16 +535,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Array.some(&hellip;)</code>',
-      'versions' => array(
-        'ecmascript' => '-',
-        'javascript' => '1.6',
-        'jscript' => '-'
-      )
-    )),
-    
-    new ScriptFeature(array(
-      'content' => '<code>Array.prototype</code>',
+      'content' => '<code>Array.prototype : Array</code>',
       'versions' => array(
         'ecmascript' => 1,
         ''           => '!!getFeature(_global, "Array", "prototype")',
@@ -535,7 +545,9 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Array.prototype.concat(&hellip;)</code>',
+      'content' => '<code>Array.prototype.concat(</code>[<code><var>item1</var></code>[<code>,
+        <var>item2</var></code>[<code>, <var>&hellip;</var></code>]]]<code>)
+        : Array</code>',
       'versions' => array(
         'ecmascript' => '3',
         'javascript' => '1.2',
@@ -544,7 +556,9 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Array.prototype.every(&hellip;)</code>',
+      'content' => '<code>Array.prototype.every(<var>callback</var>
+        : Function</code>[<code>, <var>thisValue</var></code>]<code>)
+        : boolean</code>',
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => '1.6',
@@ -553,7 +567,8 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Array.prototype.indexOf(&hellip;)</code>',
+      'content' => '<code>Array.prototype.indexOf(<var>searchElement</var></code>[<code>,
+        <var>fromIndex</var> : int</code>]<code>) : int</code>',
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => '1.6',
@@ -562,7 +577,8 @@ HTML
     )),
       
     new ScriptFeature(array(
-      'content' => '<code>Array.prototype.join(&hellip;)</code>',
+      'content' => '<code>Array.prototype.join(<var>separator</var> : String)
+        : string</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.1',
@@ -571,7 +587,7 @@ HTML
     )),
       
     new ScriptFeature(array(
-      'content' => '<code>Array.prototype.length</code>',
+      'content' => '<code>Array.prototype.length : int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.1',
@@ -589,7 +605,9 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Array.prototype.push(&hellip;)</code>',
+      'content' => '<code>Array.prototype.push(</code>[<code><var>item1</var></code>[<code>,
+        <var>item2</var></code>[<code>,
+        <var>&hellip;</var></code>]]]<code>) : int</code>',
       'versions' => array(
         'ecmascript' => '3',
         'javascript' => '1.2',
@@ -598,7 +616,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Array.prototype.reverse()</code>',
+      'content' => '<code>Array.prototype.reverse() : Array</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.1',
@@ -616,7 +634,8 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Array.prototype.slice(&hellip;)</code>',
+      'content' => '<code>Array.prototype.slice(<var>start</var> : int</code>[<code>,
+        <var>end</var> : int</code>]<code>) : Array</code>',
       'versions' => array(
         'ecmascript' => '3',
         'javascript' => '1.2',
@@ -625,7 +644,8 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Array.prototype.some(&hellip;)</code>',
+      'content' => '<code>Array.prototype.some(<var>callback</var> : Function</code>[<code>,
+        <var>thisValue</var></code>]<code>) : boolean</code>',
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => '1.6',
@@ -634,7 +654,8 @@ HTML
     )),
       
     new ScriptFeature(array(
-      'content' => '<code>Array.prototype.sort(</code>[<code><var>comparator</var></code>]<code>)</code>',
+      'content' => '<code>Array.prototype.sort(</code>[<code><var>comparator</var>
+        : Function</code>]<code>) : Array</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.1',
@@ -646,20 +667,23 @@ HTML
       'content' => '<a
         href="javascript:a=new(Array(1,2,3));alert(a.splice(1,1,4));alert(a);"
         onclick="var a = new Array(1,2,3); alert(a.splice(1,1,4)); return !!alert(a);"
-      ><code>Array.prototype.splice(&hellip;)</code></a>',
+      ><code>Array.prototype.splice(<var>start</var> : int,
+        <var>deleteCount</var> : int</code>[<code>,
+        <var>item1</var></code>[<code>, <var>item2</var></code>[<code>,
+        <var>&hellip;</var></code>]]]<code>) :&nbsp;Array</code></a>',
       'versions' => array(
         'ecmascript' => '3',
         'javascript' => '<a href="#Array.prototype.splice"
         name="Array.prototype.splice" class="tooltip"
       >1.2<span><span>; </span>no return value before 1.3</span></a>',
-        'jscript' => '5.5*'
+        'jscript' => array('5.5*', 'tested' => '5.5.6330'),
       )
     )),
     
     new ScriptFeature(array(
       'content' => '<a href="javascript:a=new(Array(\'1\'));a.unshift(0);alert(a);"
         onclick="var a = new Array(\'1\'); a.unshift(0); return !!alert(a);"
-      ><code>Array.prototype.unshift()</code></a>',
+      ><code>Array.prototype.unshift() : int</code></a>',
       'versions' => array(
         'ecmascript' => '3',
         'javascript' => '1.2?',
@@ -678,7 +702,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Boolean(&hellip;)</code>',
+      'content' => '<code>Boolean(<var>&hellip;</var>)</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => array(1.1,
@@ -688,7 +712,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Boolean.prototype</code>',
+      'content' => '<code>Boolean.prototype : Boolean</code>',
       'versions' => array(
         'ecmascript' => 1,
         ''           => '!!getFeature(_global, "Boolean", "prototype")',
@@ -745,7 +769,7 @@ HTML
     )),
           
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype</code>',
+      'content' => '<code>Date.prototype : Date</code>',
       'versions' => array(
         'ecmascript' => 1,
         ''           => '!!getFeature(_global, "Date", "prototype")',
@@ -755,7 +779,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<a name="d" id="d"></a><code>Date.prototype.getFullYear()</code>',
+      'content' => '<a name="d" id="d"></a><code>Date.prototype.getFullYear() : int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.3',
@@ -764,7 +788,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.getMilliseconds()</code>',
+      'content' => '<code>Date.prototype.getMilliseconds() : int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.3',
@@ -773,7 +797,7 @@ HTML
     )),
       
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.getUTCDate()</code>',
+      'content' => '<code>Date.prototype.getUTCDate() : int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.3',
@@ -782,7 +806,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.getUTCDay()</code>',
+      'content' => '<code>Date.prototype.getUTCDay() : int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.3',
@@ -791,7 +815,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.getUTCFullYear()</code>',
+      'content' => '<code>Date.prototype.getUTCFullYear() : int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.3',
@@ -800,7 +824,7 @@ HTML
     )),
       
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.getUTCHours()</code>',
+      'content' => '<code>Date.prototype.getUTCHours() : int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.3',
@@ -809,7 +833,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.getUTCMilliseconds()</code>',
+      'content' => '<code>Date.prototype.getUTCMilliseconds() : int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.3',
@@ -818,7 +842,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.getUTCMinutes()</code>',
+      'content' => '<code>Date.prototype.getUTCMinutes() : int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.3',
@@ -827,7 +851,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.getUTCMonth()</code>',
+      'content' => '<code>Date.prototype.getUTCMonth() : int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.3',
@@ -836,7 +860,7 @@ HTML
     )),
       
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.getUTCSeconds()</code>',
+      'content' => '<code>Date.prototype.getUTCSeconds() : int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.3',
@@ -854,7 +878,9 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.setFullYear(<var>integer</var>)</code>',
+      'content' => '<code>Date.prototype.setFullYear(<var>year</var> : int</code>[<code>,
+        <var>month</var> : int</code>[<code>,
+        <var>date</var> : int</code>]]<code>) :&nbsp;int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.3',
@@ -863,7 +889,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.setMilliseconds(<var>integer</var>)</code>',
+      'content' => '<code>Date.prototype.setMilliseconds(<var>int</var>) : int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.3',
@@ -872,7 +898,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.setUTCDate(<var>integer</var>)</code>',
+      'content' => '<code>Date.prototype.setUTCDate(<var>int</var>) : int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.3',
@@ -881,7 +907,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.setUTCDay(<var>integer</var>)</code>',
+      'content' => '<code>Date.prototype.setUTCDay(<var>int</var>) : int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.3',
@@ -890,7 +916,9 @@ HTML
     )),
       
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.setUTCFullYear(<var>integer</var>)</code>',
+      'content' => '<code>Date.prototype.setUTCFullYear(<var>year</var> :&nbsp;int</code>[<code>,
+        <var>month</var> :&nbsp;int</code>[<code>,
+        <var>date</var> :&nbsp;int</code>]]<code>) :&nbsp;int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.3',
@@ -899,7 +927,9 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.setUTCHours(<var>integer</var>)</code>',
+      'content' => '<code>Date.prototype.setUTCHours(<var>hours</var> :&nbsp;int</code>[<code>,
+        <var>minutes</var> :&nbsp;int</code>[<code>,
+        <var>seconds</var> :&nbsp;int</code>]]<code>) :&nbsp;int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.3',
@@ -908,7 +938,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.setUTCMilliseconds(<var>integer</var>)</code>',
+      'content' => '<code>Date.prototype.setUTCMilliseconds(<var>int</var>) : int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.3',
@@ -917,7 +947,9 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.setUTCMinutes(<var>integer</var>)</code>',
+      'content' => '<code>Date.prototype.setUTCMinutes(<var>minutes</var> :&nbsp;int</code>[<code>,
+        <var>seconds</var> :&nbsp;int</code>[<code>,
+        <var>ms</var> :&nbsp;int</code>]]<code>) :&nbsp;int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.3',
@@ -926,7 +958,8 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.setUTCMonth(<var>integer</var>)</code>',
+      'content' => '<code>Date.prototype.setUTCMonth(<var>month</var> : int</code>[<code>,
+        <var>date</var> : int</code>]<code>) :&nbsp;int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.3',
@@ -935,7 +968,8 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.setUTCSeconds(<var>integer</var>)</code>',
+      'content' => '<code>Date.prototype.setUTCSeconds(<var>seconds</var> :&nbsp;int</code>[<code>,
+      <var>ms</var> : int</code>]<code>) :&nbsp;int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.3',
@@ -944,7 +978,7 @@ HTML
     )),
       
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.toDateString()</code>',
+      'content' => '<code>Date.prototype.toDateString() :&nbsp;string</code>',
       'versions' => array(
         '' => 'isMethod(Date, "prototype", "toDateString")
                && "(new Date()).toDateString()"',
@@ -958,7 +992,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.toGMTString()</code>',
+      'content' => '<code>Date.prototype.toGMTString() :&nbsp;string</code>',
       'versions' => array(
         '' => 'isMethod(Date, "prototype", "toGMTString")
                && "(new Date()).toGMTString()"',
@@ -972,7 +1006,27 @@ HTML
     )),
         
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.toLocaleDateString()</code>',
+      'content' => '<code>Date.prototype.toISOString() :&nbsp;string</code>',
+      'versions' => array(
+        '' => 'isMethod(Date, "prototype", "toISOString")
+               && "(new Date()).toISOString()"',
+        'ecmascript' => 5,
+        'javascript' => array('tested' => '1.8.1'),
+    )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Date.prototype.toJSON(</code>[<code><var>key</var></code>]<code>) :&nbsp;string</code>',
+      'versions' => array(
+        '' => 'isMethod(Date, "prototype", "toJSON")
+               && "(new Date()).toJSON()"',
+        'ecmascript' => 5,
+        'javascript' => array('tested' => '1.8.1'),
+        )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Date.prototype.toLocaleDateString() :&nbsp;string</code>',
       'versions' => array(
         '' => 'isMethod(Date, "prototype", "toLocaleDateString")
                && "(new Date()).toLocaleDateString()"',
@@ -986,7 +1040,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.toLocaleFormat()</code>',
+      'content' => '<code>Date.prototype.toLocaleFormat(<var>format</var> : String) :&nbsp;string</code>',
       'versions' => array(
         '' => 'isMethod(Date, "prototype", "toLocaleFormat")
                && "(new Date()).toLocaleFormat(\'%A, %B %e, %Y\')"',
@@ -1000,7 +1054,7 @@ HTML
     )),
         
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.toLocaleString()</code>',
+      'content' => '<code>Date.prototype.toLocaleString() :&nbsp;string</code>',
       'versions' => array(
         '' => 'isMethod(Date, "prototype", "toLocaleString")
                && "(new Date()).toLocaleString()"',
@@ -1014,7 +1068,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.toLocaleTimeString()</code>',
+      'content' => '<code>Date.prototype.toLocaleTimeString() :&nbsp;string</code>',
       'versions' => array(
         '' => 'isMethod(Date, "prototype", "toLocaleTimeString")
                && "(new Date()).toLocaleTimeString()"',
@@ -1028,7 +1082,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.toSource()</code>',
+      'content' => '<code>Date.prototype.toSource() :&nbsp;string</code>',
       'versions' => array(
         '' => 'isMethod(Date, "prototype", "toSource")
                && "(new Date()).toSource()"',
@@ -1042,7 +1096,7 @@ HTML
     )),
         
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.toString()</code>',
+      'content' => '<code>Date.prototype.toString() :&nbsp;string</code>',
       'versions' => array(
         '' => 'isMethod(Date, "prototype", "toString")
                && "(new Date()).toString()"',
@@ -1056,7 +1110,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.toTimeString()</code>',
+      'content' => '<code>Date.prototype.toTimeString() :&nbsp;string</code>',
       'versions' => array(
         '' => 'isMethod(Date, "prototype", "toTimeString")
                && "(new Date()).toTimeString()"',
@@ -1070,7 +1124,7 @@ HTML
     )),
        
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.toUTCString()</code>',
+      'content' => '<code>Date.prototype.toUTCString() :&nbsp;string</code>',
       'versions' => array(
         '' => 'isMethod(Date, "prototype", "toUTCString")
                && "(new Date()).toUTCString()"',
@@ -1112,7 +1166,7 @@ HTML
     )),
       
     new ScriptFeature(array(
-      'content' => '<code>decodeURI(&hellip;)</code>',
+      'content' => '<code>decodeURI(<var>String</var>) :&nbsp;string</code>',
       'versions' => array(
         'ecmascript' => '3',
         'javascript' => '1.5',
@@ -1121,7 +1175,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>decodeURIComponent(&hellip;)</code>',
+      'content' => '<code>decodeURIComponent(<var>String</var>) :&nbsp;string</code>',
       'versions' => array(
         'ecmascript' => '',
         'javascript' => '1.5',
@@ -1158,7 +1212,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<a name="e" id="e"></a><code>encodeURI(&hellip;)</code>',
+      'content' => '<a name="e" id="e"></a><code>encodeURI(<var>String</var>)</code>',
       'versions' => array(
         'ecmascript' => '',
         'javascript' => '1.5',
@@ -1167,7 +1221,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>encodeURIComponent(&hellip;)</code>',
+      'content' => '<code>encodeURIComponent(<var>String</var>) :&nbsp;string</code>',
       'versions' => array(
         'ecmascript' => '',
         'javascript' => '1.5',
@@ -1185,7 +1239,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Enumerator(&hellip;)</code>',
+      'content' => '<code>Enumerator(<var>&hellip;</var>)</code>',
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => '-',
@@ -1194,7 +1248,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Error(&hellip;)</code>',
+      'content' => '<code>Error(</code>[<code><var>message</var> : String</code>]<code>)</code>',
       'versions' => array(
         'ecmascript' => '',
         'javascript' => '',
@@ -1203,7 +1257,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Error.prototype.description</code>',
+      'content' => '<code>Error.prototype.description :&nbsp;string</code>',
       'versions' => array(
         'ecmascript' => '',
         'javascript' => '',
@@ -1212,7 +1266,7 @@ HTML
     )),
       
     new ScriptFeature(array(
-      'content' => '<code>Error.prototype.message</code>',
+      'content' => '<code>Error.prototype.message :&nbsp;string</code>',
       'versions' => array(
         'ecmascript' => '',
         'javascript' => '',
@@ -1221,7 +1275,7 @@ HTML
     )),
       
     new ScriptFeature(array(
-      'content' => '<code>Error.prototype.name</code>',
+      'content' => '<code>Error.prototype.name :&nbsp;string</code>',
       'versions' => array(
         'ecmascript' => '',
         'javascript' => '',
@@ -1230,7 +1284,7 @@ HTML
     )),
       
     new ScriptFeature(array(
-      'content' => '<code>Error.prototype.number</code>',
+      'content' => '<code>Error.prototype.number :&nbsp;int</code>',
       'versions' => array(
         'ecmascript' => '',
         'javascript' => '',
@@ -1239,11 +1293,12 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Error.prototype.stack</code>',
+      'content' => '<code>Error.prototype.stack :&nbsp;string</code>',
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => array('tested' => 1.5),
-        'jscript' => '-',
+        'jscript'    => '-',
+        'jsc'        => array('tested' => '-'),
       )
     )),
     
@@ -1276,7 +1331,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>for each ([var] <var>identifier</var> in <var>expression</var>)</code>',
+      'content' => '<code>for each ([var] <var>identifier</var> in <var>Object</var>)</code>',
       'versions' => array(
         'ecmascript' => 'E4X',
         'javascript' => '1.6',
@@ -1285,7 +1340,10 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Function(&hellip;)</code>',
+      'content' => '<code>Function(</code>[<code><var>p1</var> : String</code>[<code>,
+        <var>p2</var> : String</code>[<code>, <var>&hellip;</var></code>]<code>,
+        <var>pn</var> : String</code>]<code>,</code>]
+        <code><var>body</var> : String)</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.1',
@@ -1294,7 +1352,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>function get <var>identifier</var>(&hellip;)</code>',
+      'content' => '<code>function get <var>identifier</var>(<var>&hellip;</var>) :&nbsp;Function</code>',
       'versions' => array(
         'ecmascript' => '',
         'javascript' => '',
@@ -1303,7 +1361,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>function set <var>identifier</var>(&hellip;)</code>',
+      'content' => '<code>function set <var>identifier</var>(<var>&hellip;</var>) :&nbsp;Function</code>',
       'versions' => array(
         'ecmascript' => '',
         'javascript' => '',
@@ -1314,7 +1372,7 @@ HTML
     new ScriptFeature(array(
       'title' => 'Function expression',
       'content' => '<code>= function
-            <var>identifier</var>(&hellip;) {&hellip;}</code>',
+            <var>identifier</var>(<var>&hellip;</var>) {<var>&hellip;</var>} :&nbsp;Function</code>',
       'versions' => array(
         '' => '"(function foo() { return 42; })() == 42"',
         'ecmascript' => 1,
@@ -1328,7 +1386,7 @@ HTML
 
     new ScriptFeature(array(
       'title' => 'Anonymous function expression',
-      'content' => '<code>= function(&hellip;) {&hellip;}</code>',
+      'content' => '<code>= function(<var>&hellip;</var>) {<var>&hellip;</var>} :&nbsp;Function</code>',
       'versions' => array(
         '' => '"(function() { return 42; })() == 42"',
         'ecmascript' => 3,
@@ -1344,7 +1402,7 @@ HTML
       'content' => '<code title="Expression closure">= <a
         href="javascript:window.alert((function(x)%20x%20*%20x)(2))"
         onclick="eval(\'window.alert((function(x) x * x)(2)); return false\')"
-      >function(&hellip;) <var>expression</var></a></code>',
+      >function(<var>&hellip;</var>) <var>expression</var> : Function</a></code>',
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => array('tested' => 1.8),
@@ -1367,7 +1425,7 @@ HTML
     )),
 
     new ScriptFeature(array(
-      'content' => '<code>Function.prototype</code>',
+      'content' => '<code>Function.prototype :&nbsp;Function</code>',
       'versions' => array(
         'ecmascript' => 1,
         ''           => '!!getFeature(_global, "Function", "prototype")',
@@ -1378,7 +1436,7 @@ HTML
     
     
     new ScriptFeature(array(
-      'content' => '<code>Function.prototype.arity</code>',
+      'content' => '<code>Function.prototype.arity :&nbsp;int</code>',
       'versions' => array(
         'ecmascript' => '',
         'javascript' => '<a href="#Function.prototype.arity"
@@ -1389,7 +1447,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Function.prototype.apply(&hellip;)</code>',
+      'content' => '<code>Function.prototype.apply(</code>[<code><var>thisArg</var> : Object|undefined</code>[<code>, <var>argArray</var>&nbsp;:&nbsp;Array|arguments</code>]]<code>)</code>',
       'versions' => array(
         'ecmascript' => '3',
         'javascript' => '1.3',
@@ -1398,7 +1456,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Function.prototype.arguments</code>',
+      'content' => '<code>Function.prototype.arguments :&nbsp;arguments</code>',
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => <<<HTML
@@ -1410,7 +1468,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Function.prototype.arguments.callee</code>',
+      'content' => '<code>Function.prototype.arguments.callee :&nbsp;Function</code>',
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => <<<HTML
@@ -1423,7 +1481,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Function.prototype.arguments.length</code>',
+      'content' => '<code>Function.prototype.arguments.length :&nbsp;int</code>',
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => <<<HTML
@@ -1436,7 +1494,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Function.prototype.call(&hellip;)</code>',
+      'content' => '<code>Function.prototype.call(</code>[<code><var>thisArg</var> : Object|undefined</code>[<code>, <var>arg1</var></code>[,<code> <var>arg2</var>, <var>&hellip;</var></code>]]<code>)</code>',
       'versions' => array(
         'ecmascript' => '3',
         'javascript' => array(1.3,
@@ -1448,7 +1506,7 @@ HTML
     new ScriptFeature(array(
       'content' => '<a name="Function.prototype.caller"
         id="Function.prototype.caller"
-      ><code>Function.prototype.caller</code></a>',
+      ><code>Function.prototype.caller :&nbsp;Function|null</code></a>',
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => '<span class="tooltip">-<span><span> (</span>see&nbsp;<code><a
@@ -1459,7 +1517,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Function.prototype.length</code>',
+      'content' => '<code>Function.prototype.length :&nbsp;int</code>',
       'versions' => array(
         'ecmascript' => '',
         'javascript' => '',
@@ -1468,7 +1526,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Function.prototype.prototype</code>',
+      'content' => '<code>Function.prototype.prototype : Object</code>',
       'versions' => array(
         'ecmascript' => '',
         'javascript' => '',
@@ -1477,7 +1535,7 @@ HTML
     )),
       
     new ScriptFeature(array(
-      'content' => '<code>Function.prototype.toSource()</code>',
+      'content' => '<code>Function.prototype.toSource() : string</code>',
       'versions' => array(
         'ecmascript' => '',
         'javascript' => '1.3',
@@ -1526,7 +1584,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>GetObject(&hellip;)</code>',
+      'content' => '<code>GetObject(<var>&hellip;</var>)</code>',
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => '-',
@@ -1571,7 +1629,7 @@ HTML
     )),
 
     new ScriptFeature(array(
-      'content' => '<code><var>"string"</var> in <var>objRef</var></code>',
+      'content' => '(<code><var>String</var> in <var>Object</var>) : boolean</code>',
       'versions' => array(
         'ecmascript' => '3',
         'javascript' => '1.4',
@@ -1580,7 +1638,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Infinity</code>',
+      'content' => '<code>Infinity : number</code>',
       'versions' => array(
         '' => '"Infinity > 0"',
         'ecmascript' => 1,
@@ -1629,7 +1687,7 @@ HTML
     )),
 
     new ScriptFeature(array(
-      'content' => '<code>isFinite(&hellip;)</code>',
+      'content' => '<code>isFinite(<var>&hellip;</var>) : boolean</code>',
       'versions' => array(
         'ecmascript' => '',
         'javascript' => '',
@@ -1638,7 +1696,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Iterator(<var>objRef </var>)</code>',
+      'content' => '<code>Iterator(<var>Object</var>) : Iterator</code>',
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => array(1.7,
@@ -1648,7 +1706,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>JSON.parse()</code>',
+      'content' => '<code>JSON.parse(<var>text</var> :&nbsp;String</code>[<code>,<var>reviver</var> : Function</code>]<code>) : Object</code>',
       'versions' => array(
         '' => '"typeof JSON != \"undefined\""
                + "&& isMethod(JSON, \"parse\")"
@@ -1663,7 +1721,7 @@ HTML
     )),
         
     new ScriptFeature(array(
-      'content' => '<code>JSON.stringify()</code>',
+      'content' => '<code>JSON.stringify(<var>value</var></code>[<code>, <var>replacer</var></code>[<code>, <var>space</var></code>]]<code>) : string</code>',
       'versions' => array(
         '' => '"typeof JSON != \"undefined\""
                + " && isMethod(JSON, \"stringify\")"
@@ -1795,7 +1853,7 @@ HTML
     
     new ScriptFeature(array(
       'anchors' => array('Number'),
-      'content' => '<code>Number(&hellip;)</code>',
+      'content' => '<code>Number(<var>&hellip;</var>)</code>',
       'versions' => array(
         'javascript' => '',
         'jscript' => array('1.0',
@@ -1877,7 +1935,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<a name="o" id="o"></a><code>Object(&hellip;)</code>',
+      'content' => '<a name="o" id="o"></a><code>Object(<var>&hellip;</var>)</code>',
       'versions' => array(
         'ecmascript' => '',
         'javascript' => '',
@@ -1947,7 +2005,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Object.prototype.constructor(&hellip;)</code>',
+      'content' => '<code>Object.prototype.constructor(<var>&hellip;</var>)</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.1',
@@ -1956,7 +2014,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Object.prototype.hasOwnProperty(&hellip;)</code>',
+      'content' => '<code>Object.prototype.hasOwnProperty(<var>&hellip;</var>)</code>',
       'versions' => array(
         'ecmascript' => 3,
         'javascript' => array(1.5, 'tested' => TRUE),
@@ -1968,7 +2026,7 @@ HTML
     )),
 
     new ScriptFeature(array(
-      'content' => '<code>Object.prototype.isPrototypeOf(&hellip;)</code>',
+      'content' => '<code>Object.prototype.isPrototypeOf(<var>&hellip;</var>)</code>',
       'versions' => array(
         'ecmascript' => '',
         'javascript' => '',
@@ -1977,7 +2035,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Object.prototype.propertyIsEnumerable(&hellip;)</code>',
+      'content' => '<code>Object.prototype.propertyIsEnumerable(<var>&hellip;</var>)</code>',
       'versions' => array(
         'ecmascript' => '',
         'javascript' => '',
@@ -2156,7 +2214,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>RegExp.prototype.exec(&hellip;)</code>',
+      'content' => '<code>RegExp.prototype.exec(<var>&hellip;</var>)</code>',
       'versions' => array(
         'ecmascript' => '',
         'javascript' => '',
@@ -2312,7 +2370,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>String.prototype.concat(&hellip;)</code>',
+      'content' => '<code>String.prototype.concat(<var>&hellip;</var>)</code>',
       'versions' => array(
         'ecmascript' => '',
         'javascript' => '',
@@ -2371,7 +2429,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>String.prototype.slice(&hellip;)</code>',
+      'content' => '<code>String.prototype.slice(<var>&hellip;</var>)</code>',
       'versions' => array(
         'ecmascript' => '',
         'javascript' => '1.0',
@@ -2380,14 +2438,23 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>String.prototype.split(&hellip;)</code>',
+      'content' => '<code>String.prototype.split(<var>&hellip;</var>)</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.1',
         'jscript' => '3.0'
       )
     )),
-        
+
+    new ScriptFeature(array(
+      'content' => '<code>String.prototype.substr(<var>start</var></code>[<code>, <var>length</var></code>]<code>)</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => array('1.0', 'tested' => '1.8.1'),
+        'jscript' => '3.0'
+      )
+    )),
+    
     new ScriptFeature(array(
       'content' => '<code>String.prototype.trim()</code>',
       'versions' => array(
@@ -2515,7 +2582,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>VBArray.prototype.getItem(&hellip;)</code>',
+      'content' => '<code>VBArray.prototype.getItem(<var>&hellip;</var>)</code>',
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => '-',
@@ -2524,7 +2591,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>VBArray.prototype.lbound(&hellip;)</code>',
+      'content' => '<code>VBArray.prototype.lbound(<var>&hellip;</var>)</code>',
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => '-',
@@ -2566,7 +2633,7 @@ HTML
     
     new ScriptFeature(array(
       'content' => '<code>window.setInterval(<var>functionReference</var>, <var>msec</var></code>[<code>,
-      <var>arg1</var></code>[<code>, &hellip;, <var>argN</var></code>]]<code>)</code>',
+      <var>arg1</var></code>[<code>, <var>&hellip;</var>, <var>argN</var></code>]]<code>)</code>',
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => '1.2<span class="tooltip">**<span><span>; </span>removed in
@@ -2594,7 +2661,7 @@ HTML
     
     new ScriptFeature(array(
       'content' => '<code>window.setTimeout(<var>functionReference</var>, <var>msec</var></code>[<code>,
-      <var>arg1</var></code>[<code>, &hellip;, <var>argN</var></code>]]<code>)</code>',
+      <var>arg1</var></code>[<code>, <var>&hellip;</var>, <var>argN</var></code>]]<code>)</code>',
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => array(1.2,

@@ -1,0 +1,47 @@
+Current:
+
+  ,-- Local --------------------------------.   ,-- Remote --------------.
+  |                  checkout               |   |                        |  
+  | WORKING COPY  <------------  REPOSITORY |   | WEBSPACE               |
+  | /trunk           file://     /trunk/    |   |                        |
+  | /branches     ------------>  /branches/ |   | /scripts/es-matrix/    |
+  | /tags            commit      /tags/     |   |                        |
+  `-----------------------------------------'   `------------------------'            
+         |                                                   ^
+         '---------------------------------------------------'
+                                  SCP
+
+Future (planned):
+
+  ,-- Local ------.   checkout  ,-- Remote -------------------------------.
+  | WORKING COPY  |<------------| REPOSITORY          WEBSPACE            |
+  | /trunk        |   svn://?   | /trunk/    checkout                     |
+  | /branches     |------------>| /branches/ -------> /scripts/es-matrix/ |
+  | /tags         |   commit    | /tags/     file://                      |
+  `---------------'             `-----------------------------------------'
+
+Steps:
+
+0. Commit all changes to local repository.
+1. Back up all repositories to pe.dyn.
+2. Copy local repos. to remote.
+3. Add remote repos. location to workspace, use securest method available.
+4. Test remote repos. read access.
+5. Check out remote repos. to new local SVN project.
+6. Modify new working copy, and commit to test remote repos. write access.
+7. If 0. to 6. successful, then:
+   i.   Revert test change on remote repos.
+   ii.  Import remote code into new remote repos. branch.
+   iii. Update new local working copy from remote repos.
+   iv.  Move older local working copy out of the way.
+   v.   Move project to last location of older local working copy. 
+   vi.  Fix local Apache alias so that trunk is used by default.
+   vii. After test phase, remove older working copy.
+8. If 7. successful, then:
+   i.   Move remote code out of the way.
+   ii.  Check out remote repos. branch to remote working copy
+        in last dir. of remote code.  For the Web site, nothing
+        should have changed.
+   iii. From now on, branch trunk when appropriate, commit changes
+        to remote repos., and check out latest branch to remote dir.
+        (Test locally first?)

@@ -23,7 +23,7 @@ class ScriptFeature extends Feature
   {
     static $replaced = false;
     static $map = array(
-      // keywords
+      /* keywords */
       array(
         array(
           'abstract', 'boolean', 'byte', 'char', 'class', 'const', 'decimal',
@@ -35,7 +35,7 @@ class ScriptFeature extends Feature
           'try', 'catch', 'finally', 'if'),
         '<span class="rswd">\\1</span>'),
         
-      // operators
+      /* operators */
       array(
         '/(!?==?)/',
         '<span class="punct">\\1</span>'));
@@ -64,7 +64,7 @@ class ScriptFeature extends Feature
     if (is_array($ver))
     {
       return isset($ver['generic']) && $ver['generic']
-              ? '<sup><abbr title="Generic feature"><a href="#fn-generic">G</a></abbr></sup>'
+              ? '<sup><abbr title="Generic feature"><a href="#fn-generic" class="footnote-ref">G</a></abbr></sup>'
               : '';
     }
     else

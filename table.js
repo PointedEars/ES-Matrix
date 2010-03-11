@@ -6,7 +6,6 @@ var scroller, origHeight;
  * @param bVerbose : boolean
  *   If <code>true</code>, displays an error message if toggling
  *   is not possible.
- * @return undefined
  */
 function toggleScroll(bVerbose)
 {
@@ -195,7 +194,10 @@ if (typeof document != "undefined"
  */
 function alternateRows(restrictToRows)
 {
-  var tbodies = dhtml.gEBTN("tbody");
+  var
+    allRows = isNaN(restrictToRows),
+    tbodies = dhtml.gEBTN("tbody");
+  
   for (var i = tbodies && tbodies.length; i--;)
   {
     /* TODO */
@@ -208,7 +210,7 @@ function alternateRows(restrictToRows)
     
     for (var rows = tbodies[i].rows, j = rows.length; j--;)
     {
-      if (isNaN(restrictToRows) || j  % restrictToRows)
+      if (allRows || (j - restrictToRows) % 2)
       {
         var o = rows[j];
       

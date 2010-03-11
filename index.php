@@ -1,21 +1,27 @@
 <?php
+  /* DEBUG */
+  // phpinfo();
 
-if (! isset ($start_debug))
-{
-  require('../../cgi_buffer/php/prepend.php');
-}
+  if (! isset ($start_debug))
+  {
+    require('../../cgi_buffer/php/prepend.php');
+  }
+  
+  require_once 'es-matrix.inc.php';
+  
+  $encoding = mb_detect_encoding(file_get_contents(__FILE__));
+  header("Content-Type: text/html; charset=$encoding");
+  
+  $modi = max(array(
+    @filemtime(__FILE__),
+    @filemtime('es-matrix.inc.php'),
+    @filemtime('style.css'),
+    @filemtime('table.js')));
 
-$encoding = mb_detect_encoding(file_get_contents(__FILE__));
-header("Content-Type: text/html; charset=$encoding");
-
-$modi = @filemtime(__FILE__);
-header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $modi) . ' GMT');
-
-// Cached resource expires in HTTP/1.0 caches 24h after last retrieval
-header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
-
-require_once 'es-matrix.inc.php';
-
+  header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $modi) . ' GMT');
+  
+  /* Cached resource expires in HTTP/1.0 caches 24h after last retrieval */
+  header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
   "http://www.w3.org/TR/html4/strict.dtd">
@@ -44,14 +50,16 @@ require_once 'es-matrix.inc.php';
     <link rel="alternate stylesheet" href="ct.css" type="text/css" title="c't">
     <!--[if IE 7]>
       <style type="text/css">
-        /* IE 7: Support for scrollable tbody is buggy */
-  
+        /* IE 7: Support for scrollable tbody is buggy;
+          disabled because height: auto for the row appears to fix it */
+        /*
         table>tbody.scroll {
           height: auto;
           overflow: visible;
           border-top: 1px;
           border-left-color: black;
         }
+        */
       </style>
     <![endif]-->
     
@@ -76,12 +84,12 @@ require_once 'es-matrix.inc.php';
       <?php echo gmdate('Y-m-d\TH:i:s+00:00', $modi); ?>
       (<a href="ChangeLog">changelog</a>)</p>
     
-    <p style="text-align: left">Available online at &lt;<a
+    <p style="text-align: left">Available online at <a
        href="<?php
                $s = 'http://PointedEars.de/scripts/test/es-matrix/';
                echo $s;
              ?>"
-       ><?php echo $s; ?></a>&gt;.</p>
+       ><?php echo $s; ?></a></p>
     
 <?php
   if ($_SERVER['QUERY_STRING'] == 'redir')
@@ -210,7 +218,7 @@ require_once 'es-matrix.inc.php';
           <td colspan="8">
             <table summary="Footnotes">
               <tr>
-                <th nowrap><a name="fn-this-ua"><sup>1</sup></a>
+                <th class="nowrap"><a name="fn-this-ua"><sup>1</sup></a>
                   <a href="#this-ua" class="backref">&#8593;</a></th>
                 <td>
                   <ul>
@@ -380,7 +388,7 @@ require_once 'es-matrix.inc.php';
                 </td>
               </tr>
               <tr>
-                <th nowrap><a name="fn-generic"><sup>G</sup>
+                <th class="nowrap"><a name="fn-generic"><sup>G</sup></a>
                   <a href="#generic" class="backref">&#8593;</a></th>
                 <td>This method is intentionally specified or implemented as <em>generic</em>;
                   it does not require that its <code class="rswd">this</code>
@@ -388,7 +396,7 @@ require_once 'es-matrix.inc.php';
                   transferred to other kinds of objects for use as a method.</td>
               </tr>
               <tr>
-                <th nowrap><a name="fn-decl-ver"><sup>V</sup>
+                <th class="nowrap"><a name="fn-decl-ver"><sup>V</sup></a>
                   <a href="#decl-ver" class="backref">&#8593;</a></th>
                 <td>Version needs to be declared in order to use this feature</td>
               </tr>
@@ -801,7 +809,7 @@ require_once 'es-matrix.inc.php';
           <th><a
             href="http://msdn2.microsoft.com/en-us/library/hbxc2t98.aspx"
             title="JScript 5.6 documentation"
-          >5.6</a>.6626 &#8211;&nbsp;5.6.8819</th>
+          >5.6.6626</a> &#8211;&nbsp;5.6.8819</th>
           <th>5.7.5730</th>
           <th>5.7.17184</th>
           <th>5.8.18241</th>
@@ -1262,9 +1270,9 @@ require_once 'es-matrix.inc.php';
     </div>
   </body>
 </html>
-  <?php
+<?php
   if (! isset ($start_debug))
   {
     require('../../cgi_buffer/php/cgi_buffer.php');
   }
-  ?>
+?>
