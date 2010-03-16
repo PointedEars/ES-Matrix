@@ -2,7 +2,7 @@
   /* DEBUG */
   // phpinfo();
 
-  if (! isset ($start_debug))
+  if (! isset($start_debug))
   {
     require('../../cgi_buffer/php/prepend.php');
   }
@@ -1271,7 +1271,7 @@
   </body>
 </html>
 <?php
-  if (! isset ($start_debug))
+  if (! isset($start_debug))
   {
     require('../../cgi_buffer/php/cgi_buffer.php');
   }
