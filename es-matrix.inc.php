@@ -42,14 +42,14 @@ HTML
         ''           => '"1 !== \"1\""',
         'javascript' => array('1.3',
           'urn'    => 'js15ref:Operators:Comparison_Operators',
-          'tested' => TRUE),
+          'tested' => true),
         'jscript'    => array('1.0',
           'tested' => '5.1.5010',
           'urn' => 'msdn:ky6fyhws%28VS.85%29.aspx'),
         'v8'         => array('tested' => '1.3'),
         'jsc'        => array('412.6.2?', 'tested' => '525.13'),
-        'opera'      => array(5.02, 'tested' => TRUE),
-        'kjs'        => array('3.5.9', 'tested' => TRUE)
+        'opera'      => array(5.02, 'tested' => true),
+        'kjs'        => array('3.5.9', 'tested' => true)
       )
     )),
     
@@ -96,12 +96,12 @@ EOD
       'versions' => array(
         'ecmascript' => 1,
         '' => '"+\"42\" == 42"',
-        'javascript' => array('1.3',      'tested' => TRUE),
-        'jscript'    => array('3.1.3510', 'tested' => TRUE),
+        'javascript' => array('1.3',      'tested' => true),
+        'jscript'    => array('3.1.3510', 'tested' => true),
         'v8'         => array('tested' => '1.3'),
         'jsc'        => array('tested' => '525.13'),
-        'opera'      => array(5.02, 'tested' => TRUE),
-        'kjs'        => array('3.5.9', 'tested' => TRUE),
+        'opera'      => array(5.02, 'tested' => true),
+        'kjs'        => array('3.5.9', 'tested' => true),
       )
     )),
     
@@ -114,14 +114,14 @@ EOD
         ''           => '"/abc/gi.constructor == RegExp"',
         'javascript' => array('1.2',
           'urn'    => 'js15ref:Global_Objects:RegExp',
-          'tested' => TRUE),
+          'tested' => true),
         'jscript'    => array('3.1.3510',
           'urn'    => 'msdn:jscript7/html/jsobjregexpression.asp',
-          'tested' => TRUE),
+          'tested' => true),
         'v8'         => array('tested' => '1.3'),
         'jsc'        => array('tested' => '525.13'),
-        'opera'      => array(5.02, 'tested' => TRUE),
-        'kjs'        => array('3.5.9', 'tested' => TRUE),
+        'opera'      => array(5.02, 'tested' => true),
+        'kjs'        => array('3.5.9', 'tested' => true),
       )
     )),
     
@@ -132,12 +132,12 @@ EOD
       'versions'   => array(
         'ecmascript' => 3,
         ''           => '"/abc/gim.constructor == RegExp"',
-        'javascript' => array('1.5', 'tested' => TRUE),
-        'jscript'    => array('5.5.6330', 'tested' => TRUE),
+        'javascript' => array('1.5', 'tested' => true),
+        'jscript'    => array('5.5.6330', 'tested' => true),
         'v8'         => array('tested' => '1.3'),
         'jsc'        => array('tested' => '525.13'),
-        'opera'      => array(5.02, 'tested' => TRUE),
-        'kjs'        => array('3.5.9', 'tested' => TRUE),
+        'opera'      => array(5.02, 'tested' => true),
+        'kjs'        => array('3.5.9', 'tested' => true),
       )
     )),
     
@@ -162,15 +162,15 @@ EOD
       'versions'   => array(
         'ecmascript' => 3,
         ''           => '"abac".match(/a(?!b)./) == "ac"',
-        'javascript' => array(1.5, 'tested' => TRUE,
+        'javascript' => array(1.5, 'tested' => true,
           'urn'    => 'js15ref:Global_Objects:RegExp'),
         'jscript'    => array('5.5.6330',
           'urn' => 'msdn:jscript7/html/jsobjregexpression.asp',
-          'tested' => TRUE),
+          'tested' => true),
         'v8'         => array('tested' => '1.3'),
         'jsc'        => array('tested' => '525.13'),
-        'opera'      => array(7.02, 'tested' => TRUE),
-        'kjs'        => array('3.5.9', 'tested' => TRUE),
+        'opera'      => array(7.02, 'tested' => true),
+        'kjs'        => array('3.5.9', 'tested' => true),
       )
     )),
     
@@ -180,15 +180,15 @@ EOD
       'versions' => array(
         'ecmascript' => 3,
         ''           => '"ab".match(/a(?:b)/) == "ab"',
-        'javascript' => array(1.5, 'tested' => TRUE,
+        'javascript' => array(1.5, 'tested' => true,
           'urn' => 'js15ref:Global_Objects:RegExp'),
         'jscript'    => array('5.5.6330',
           'urn' => 'msdn:jscript7/html/jsobjregexpression.asp',
-          'tested' => TRUE),
+          'tested' => true),
         'v8'         => array('tested' => '1.3'),
         'jsc'        => array('tested' => '525.13'),
-        'opera'      => array(7.02, 'tested' => TRUE),
-        'kjs'        => array('3.5.9', 'tested' => TRUE),
+        'opera'      => array(7.02, 'tested' => true),
+        'kjs'        => array('3.5.9', 'tested' => true),
       )
     )),
     
@@ -198,15 +198,15 @@ EOD
       'versions' => array(
         'ecmascript' => 3,
         ''           => '"ab".match(/a(?=b)/) == "a"',
-        'javascript' => array(1.5, 'tested' => TRUE,
+        'javascript' => array(1.5, 'tested' => true,
           'urn' => 'js15ref:Global_Objects:RegExp'),
         'jscript'    => array('5.5.6330',
           'urn' => 'msdn:jscript7/html/jsobjregexpression.asp',
-          'tested' => TRUE),
+          'tested' => true),
         'v8'         => array('tested' => '1.3'),
         'jsc'        => array('tested' => '525.13'),
-        'opera'      => array(7.02, 'tested' => TRUE),
-        'kjs'        => array('3.5.9', 'tested' => TRUE),
+        'opera'      => array(7.02, 'tested' => true),
+        'kjs'        => array('3.5.9', 'tested' => true),
       )
     )),
 
@@ -217,14 +217,14 @@ EOD
       'versions'   => array(
         'ecmascript' => 3,
         ''           => '"aaa".match(/^aa*?/) == "a" && "aaa".match(/^aa+?/) == "aa"',
-        'javascript' => array(1.5, 'tested' => TRUE,
+        'javascript' => array(1.5, 'tested' => true,
           'urn' => 'js15ref:Global_Objects:RegExp'),
-        'jscript'    => array('5.5.6330', 'tested' => TRUE,
+        'jscript'    => array('5.5.6330', 'tested' => true,
           'urn' => 'msdn:jscript7/html/jsobjregexpression.asp'),
         'v8'         => array('tested' => '1.3'),
         'jsc'        => array('tested' => '525.13'),
-        'opera'      => array(7.02, 'tested' => TRUE),
-        'kjs'        => array('3.5.9', 'tested' => TRUE),
+        'opera'      => array(7.02, 'tested' => true),
+        'kjs'        => array('3.5.9', 'tested' => true),
       )
     )),
     
@@ -252,11 +252,11 @@ EOD
           'urn' => 'js15ref:Statements:label'),
         'jscript'    => array('3.1.3510',
           'urn'    => 'msdn:jscript7/html/jsstmlabeled.asp',
-          'tested' => TRUE),
+          'tested' => true),
         'v8'         => array('tested' => '1.3'),
         'jsc'        => array('tested' => '525.13'),
-        'opera'      => array(5.02, 'tested' => TRUE),
-        'kjs'        => array('3.5.9', 'tested' => TRUE),
+        'opera'      => array(5.02, 'tested' => true),
+        'kjs'        => array('3.5.9', 'tested' => true),
       )
     )),
 
@@ -397,8 +397,8 @@ HTML
         'jscript'    => array('3.0', 'tested' => '5.1.5010'),
         'v8'         => array('tested' => '1.3'),
         'jsc'        => array('tested' => '525.13'),
-        'opera'      => array(5.02, 'tested' => TRUE),
-        'kjs'        => array('3.5.9', 'tested' => TRUE),
+        'opera'      => array(5.02, 'tested' => true),
+        'kjs'        => array('3.5.9', 'tested' => true),
       )
     )),
     
@@ -1060,10 +1060,10 @@ HTML
                && "(new Date()).toLocaleString()"',
         'ecmascript' => 1,
         'javascript' => array('tested' => 1.3),
-        'jscript'    => array('5.1.5010', 'tested' => TRUE),
-        'jsc'        => array('525.13', 'tested' => TRUE),
-        'kjs'        => array('3.5.9', 'tested' => TRUE),
-        'opera'      => array(5.02, 'tested' => TRUE)
+        'jscript'    => array('5.1.5010', 'tested' => true),
+        'jsc'        => array('525.13', 'tested' => true),
+        'kjs'        => array('3.5.9', 'tested' => true),
+        'opera'      => array(5.02, 'tested' => true)
       )
     )),
     
@@ -1378,9 +1378,9 @@ HTML
         'ecmascript' => 1,
         'javascript' => array(1.2, 'tested' => 1.3),
         'jscript'    => array('1.0', 'tested' => '5.1.5010'),
-        'jsc'        => array(525.13, 'tested' => TRUE),
-        'kjs'        => array('3.5.9', 'tested' => TRUE),
-        'opera'      => array(5.02, 'tested' => TRUE)
+        'jsc'        => array(525.13, 'tested' => true),
+        'kjs'        => array('3.5.9', 'tested' => true),
+        'opera'      => array(5.02, 'tested' => true)
       )
     )),
 
@@ -1391,10 +1391,10 @@ HTML
         '' => '"(function() { return 42; })() == 42"',
         'ecmascript' => 3,
         'javascript' => array('1.3*', 'tested' => '1.3'),
-        'jscript'    => array('3.1.3510', 'tested' => TRUE),
-        'jsc'        => array(525.13, 'tested' => TRUE),
-        'kjs'        => array('3.5.9', 'tested' => TRUE),
-        'opera'      => array(5.02, 'tested' => TRUE)
+        'jscript'    => array('3.1.3510', 'tested' => true),
+        'jsc'        => array(525.13, 'tested' => true),
+        'kjs'        => array('3.5.9', 'tested' => true),
+        'opera'      => array(5.02, 'tested' => true)
       )
     )),
     
@@ -1417,10 +1417,10 @@ HTML
         '' => '"function f() {}; if (true) { function f() { return 42; }; } f() == 42"',
         'ecmascript' => '-',
         'javascript' => array(1.3, 'tested' => 1.3),
-        'jscript'    => array('3.1.3510', 'tested' => TRUE),
+        'jscript'    => array('3.1.3510', 'tested' => true),
         'jsc'        => array('tested' => '525.13'),
-        'kjs'        => array('3.5.9', 'tested' => TRUE),
-        'opera'      => array(5.02, 'tested' => TRUE),
+        'kjs'        => array('3.5.9', 'tested' => true),
+        'opera'      => array(5.02, 'tested' => true),
       )
     )),
 
@@ -1798,8 +1798,8 @@ HTML
           'urn'    => 'js15ref:Global_Objects:Math:max'),
         'jscript'    => array('3.0', 'tested' => '3.1.3510'),
         'jsc'        => array('tested' => '525.13'),
-        'kjs'        => array('3.5.9', 'tested' => TRUE),
-        'opera'      => array(5.02, 'tested' => TRUE),
+        'kjs'        => array('3.5.9', 'tested' => true),
+        'opera'      => array(5.02, 'tested' => true),
       )
     )),
     
@@ -1813,8 +1813,8 @@ HTML
           'urn' => 'js15ref:Global_Objects:Math:max'),
         'jscript'    => array(5.5, 'tested' => '5.5.6330'),
         'jsc'        => array('tested' => '525.13'),
-        'kjs'        => array('3.5.9', 'tested' => TRUE),
-        'opera'      => array(5.02, 'tested' => TRUE)
+        'kjs'        => array('3.5.9', 'tested' => true),
+        'opera'      => array(5.02, 'tested' => true)
       )
     )),
     
@@ -2017,11 +2017,11 @@ HTML
       'content' => '<code>Object.prototype.hasOwnProperty(<var>&hellip;</var>)</code>',
       'versions' => array(
         'ecmascript' => 3,
-        'javascript' => array(1.5, 'tested' => TRUE),
-        'jscript'    => array('5.5.6330', 'tested' => TRUE),
+        'javascript' => array(1.5, 'tested' => true),
+        'jscript'    => array('5.5.6330', 'tested' => true),
         'jsc'        => array(416.11, 'tested' => 525.13),
         'kjs'        => array('3.2', 'documented' => 3.2, 'tested' => '3.5.9'),
-        'opera'      => array(5.02, 'tested' => TRUE)
+        'opera'      => array(5.02, 'tested' => true)
       )
     )),
 
@@ -2360,7 +2360,7 @@ HTML
       'content' => '<code>String.prototype.charCodeAt(<var title="unsigned integer">uint</var>)</code>',
       'versions' => array(
         '' => "'x'.charCodeAt(0) == 120",
-        'ecmascript' => array(1, 'generic' => TRUE),
+        'ecmascript' => array(1, 'generic' => true),
         'javascript' => array(1.2, 'tested' => 1.3),
         'jscript'    => array('3.0', 'tested' => '5.1.5010'),
         'jsc'        => array('tested' => '525.13'),
@@ -2383,7 +2383,7 @@ HTML
       'versions' => array(
         '' => '"isMethod(String, \"prototype\", \"localeCompare\")"
               + "&& \"a\".localeCompare(\"ä\") <= 0"',
-        'ecmascript' => array(3, 'generic' => TRUE),
+        'ecmascript' => array(3, 'generic' => true),
         'javascript' => array('tested' => '1.8.1'),
         'jscript'    => array('5.5', 'tested' => '5.5.6330'),
         'jsc'        => array('tested' => '525.13'),
