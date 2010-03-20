@@ -82,7 +82,7 @@
     
     <p style="text-align: left">Last&nbsp;modified:
       <?php echo gmdate('Y-m-d\TH:i:s+00:00', $modi); ?>
-      (<a href="ChangeLog">changelog</a>)</p>
+      (<a href="/websvn/wsvn/es-matrix/?op=log&isdir=1">changelog</a>)</p>
     
     <p style="text-align: left">Available online at <a
        href="<?php
@@ -110,7 +110,7 @@
     <div><a href="#top">&#8593; top of document</a></div>
     
     <ul>
-      <li><a href="#language-features">Language features</a></li>
+      <li><a href="#features">Language features</a></li>
       <li><a href="#javascript">Netscape/Mozilla.org JavaScript version information</a></li>
       <li><a href="#jscript">Microsoft JScript version information</a></li>
       <li><a href="#v8">Google V8 version information</a></li>

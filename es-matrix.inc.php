@@ -232,7 +232,7 @@ EOD
       'content' => '<code>/\u<var>hhhh</var>/ : RegExp</code>',
       'title' => 'Unicode escape sequence in RegExp literal',
       'versions' => array(
-        'ecmascript' => 1,
+        'ecmascript' => 3,
         ''           => '"/\\u20AC/.test(\'€\')"',
         'javascript' => 1.3,
         'jscript'    => array('3.0', 'tested' => '5.1.5010'),
@@ -1343,7 +1343,7 @@ HTML
       'content' => '<code>Function(</code>[<code><var>p1</var> : String</code>[<code>,
         <var>p2</var> : String</code>[<code>, <var>&hellip;</var></code>]<code>,
         <var>pn</var> : String</code>]<code>,</code>]
-        <code><var>body</var> : String)</code>',
+        <code><var>body</var> : String) :&nbsp;Function</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.1',
@@ -1629,7 +1629,7 @@ HTML
     )),
 
     new ScriptFeature(array(
-      'content' => '(<code><var>String</var> in <var>Object</var>) : boolean</code>',
+      'content' => '(<code><var>String</var> in <var>Object</var></code>) <code>: boolean</code>',
       'versions' => array(
         'ecmascript' => '3',
         'javascript' => '1.4',
@@ -1738,8 +1738,8 @@ HTML
     new ScriptFeature(array(
       'content' => '<a name="l" id="l"></a><a name="let" id="let"><code
         title="Block scoping: let statement"
-      >let&nbsp;(<var>assignment</var><var>[</var>, <var>&#8230;</var><var>]</var>)
-      {&nbsp;<var>[</var><var>statements</var><var>]</var>&nbsp;}</code></a><sup><a href="#fn-decl-ver">V</a></sup>',
+      >let&nbsp;(<var>assignment</var></code>[<code>, <var>&#8230;</var></code>]<code>)
+      {&nbsp;</code>[<code><var>statements</var></code>]<code>&nbsp;}</code></a><sup><a href="#fn-decl-ver">V</a></sup>',
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => array(1.7,
@@ -1751,8 +1751,8 @@ HTML
     new ScriptFeature(array(
       'title' => 'Block scoping: let expression',
       'content' => <<<HTML
-        <code title="Block scoping: let expression">let&nbsp;(<var>assignment</var><var>[</var>,
-        <var>&#8230;</var><var>]</var>)&nbsp;<var>expression</var></code><sup><a href="#fn-decl-ver">V</a></sup>
+        <code title="Block scoping: let expression">let&nbsp;(<var>assignment</var></code>[<code>,
+        <var>&#8230;</var></code>]<code>)&nbsp;<var>expression</var></code><sup><a href="#fn-decl-ver">V</a></sup>
 HTML
       , 'versions' => array(
         'ecmascript' => '-',
@@ -1765,8 +1765,8 @@ HTML
     new ScriptFeature(array(
       'title' => 'Block scoping: let definition',
       'content' => <<<HTML
-        <code title="Block scoping: let definition">let&nbsp;<var>assignment</var><var>[</var>,
-        <var>&#8230;</var><var>]</var></code><sup><a href="#fn-decl-ver">V</a></sup>',
+        <code title="Block scoping: let definition">let&nbsp;<var>assignment</var></code>[<code>,
+        <var>&#8230;</var></code>]<sup><a href="#fn-decl-ver">V</a></sup>
 HTML
       , 'versions' => array(
         'ecmascript' => '-',
@@ -1787,7 +1787,8 @@ HTML
     )),
        
     new ScriptFeature(array(
-      'content' => '<code>Math.max(<var>a</var>, <var>b</var>)</code>',
+      'content' => '<code>Math.max(<var>a</var> :&nbsp;Number,
+        <var>b</var> :&nbsp;Number) :&nbsp;number</code>',
       'anchors' => array('m'),
       'versions' => array(
         '' => 'isMethod(Math, "max")
@@ -1804,7 +1805,8 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Math.max(<var>a</var>, <var>b</var>, <var>&hellip;</var>)</code>',
+      'content' => '<code>Math.max(<var>a</var> :&nbsp;Number,
+        <var>b</var> :&nbsp;Number, <var>&hellip;</var>) :&nbsp;number</code>',
       'versions' => array(
         '' => 'isMethod(Math, "max")
                && Math.max(1, 2, 3) == 3',
@@ -1819,7 +1821,8 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Math.min(<var>a</var>, <var>b</var>)</code>',
+      'content' => '<code>Math.min(<var>a</var> :&nbsp;Number,
+        <var>b</var> :&nbsp;Number) :&nbsp;number</code>',
       'versions' => array(
         'javascript' => array('tested' => 1.3),
         'jscript' => array('3.0', 'tested' => '3.1.3510'),
@@ -1828,7 +1831,8 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Math.min(<var>a</var>, <var>b</var>, <var>&hellip;</var>)</code>',
+      'content' => '<code>Math.min(<var>a</var> :&nbsp;Number,
+        <var>b</var> :&nbsp;Number, <var>&hellip;</var>) :&nbsp;number</code>',
       'versions' => array(
         'javascript' => array('tested' => 1.5),
         'jscript' => array('5.5', 'tested' => '5.5.6330'),
@@ -1838,7 +1842,7 @@ HTML
         
     new ScriptFeature(array(
       'anchors' => array('n'),
-      'content' => '<code>NaN</code>',
+      'content' => '<code>NaN :&nbsp;number</code>',
       'title'   => 'Not-a-number value',
       'versions' => array(
         '' => '"isNaN(NaN)"',
@@ -1853,7 +1857,8 @@ HTML
     
     new ScriptFeature(array(
       'anchors' => array('Number'),
-      'content' => '<code>Number(<var>&hellip;</var>)</code>',
+      'content' => '<code>Number(</code>[<code><var>expression</var></code>]<code>)
+        :&nbsp;number</code>',
       'versions' => array(
         'javascript' => '',
         'jscript' => array('1.0',
@@ -1863,7 +1868,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Number.MAX_VALUE</code>',
+      'content' => '<code>Number.MAX_VALUE :&nbsp;number</code>',
       'versions' => array(
         'ecmascript' => '',
         'javascript' => '',
@@ -1873,7 +1878,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Number.MIN_VALUE</code>',
+      'content' => '<code>Number.MIN_VALUE :&nbsp;number</code>',
       'versions' => array(
         'ecmascript' => '',
         'javascript' => '',
@@ -1883,7 +1888,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Number.NaN</code>',
+      'content' => '<code>Number.NaN :&nbsp;number</code>',
       'versions' => array(
         'ecmascript' => '',
         'javascript' => '',
@@ -1893,7 +1898,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Number.NEGATIVE_INFINITY</code>',
+      'content' => '<code>Number.NEGATIVE_INFINITY :&nbsp;number</code>',
       'versions' => array(
         'ecmascript' => '',
         'javascript' => '',
@@ -1903,7 +1908,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Number.POSITIVE_INFINITY</code>',
+      'content' => '<code>Number.POSITIVE_INFINITY :&nbsp;number</code>',
       'versions' => array(
         'ecmascript' => '',
         'javascript' => '',
@@ -1913,7 +1918,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Number.prototype</code>',
+      'content' => '<code>Number.prototype :&nbsp;Number</code>',
       'versions' => array(
         'ecmascript' => 1,
         ''           => '!!getFeature(_global, "Number", "prototype")',
@@ -1924,7 +1929,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Number.prototype.toString()</code>',
+      'content' => '<code>Number.prototype.toString() :&nbsp;string</code>',
       'versions' => array(
         'ecmascript' => 1,
         ''           => 'isMethod(42, "toString")',
@@ -1935,7 +1940,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<a name="o" id="o"></a><code>Object(<var>&hellip;</var>)</code>',
+      'content' => '<a name="o" id="o"></a><code>Object(</code>[<code><var>expression</var></code>]<code>) :&nbsp;Object</code>',
       'versions' => array(
         'ecmascript' => '',
         'javascript' => '',
@@ -1944,7 +1949,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Object.getPrototypeOf(<var>o</var>:&nbsp;Object)</code>',
+      'content' => '<code>Object.getPrototypeOf(<var>o</var> :&nbsp;Object) :&nbsp;Object</code>',
       'versions' => array(
         '' => 'isMethod(Object, "getPrototypeOf")',
         'ecmascript' => '5',
@@ -1955,7 +1960,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Object.prototype</code>',
+      'content' => '<code>Object.prototype :&nbsp;Object</code>',
       'versions' => array(
         'ecmascript' => 1,
         ''           => '!!getFeature(_global, "Object", "prototype")',
@@ -2005,7 +2010,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Object.prototype.constructor(<var>&hellip;</var>)</code>',
+      'content' => '<code>Object.prototype.constructor :&nbsp;Function</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.1',
@@ -2014,7 +2019,8 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Object.prototype.hasOwnProperty(<var>&hellip;</var>)</code>',
+      'content' => '<code>Object.prototype.hasOwnProperty(<var>propertyName</var> :&nbsp;String)
+         :&nbsp;boolean</code>',
       'versions' => array(
         'ecmascript' => 3,
         'javascript' => array(1.5, 'tested' => true),
@@ -2026,7 +2032,22 @@ HTML
     )),
 
     new ScriptFeature(array(
-      'content' => '<code>Object.prototype.isPrototypeOf(<var>&hellip;</var>)</code>',
+      'content' => '<code>Object.prototype.isPrototypeOf(<var>Object</var>)
+         :&nbsp;boolean</code>',
+      'versions' => array(
+        ''           => 'isMethod(Object.prototype, "isPrototypeOf")',
+        'ecmascript' => array(3, 'section' => '15.2.4.6'),
+        'javascript' => array('tested' => 1.5),
+        'jscript'    => array('tested' => '5.5'),
+        'jsc'        => array('tested' => 525.13),
+        'opera'      => array('tested' => '5.02'),
+        'kjs'        => array('tested' => '4.3.4')
+    )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Object.prototype.propertyIsEnumerable(<var>propertyName</var>
+         :&nbsp;String) :&nbsp;boolean</code>',
       'versions' => array(
         'ecmascript' => '',
         'javascript' => '',
@@ -2035,16 +2056,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Object.prototype.propertyIsEnumerable(<var>&hellip;</var>)</code>',
-      'versions' => array(
-        'ecmascript' => '',
-        'javascript' => '',
-        'jscript' => '5.5'
-      )
-    )),
-    
-    new ScriptFeature(array(
-      'content' => '<code>Object.prototype.toSource()</code>',
+      'content' => '<code>Object.prototype.toSource() :&nbsp;string</code>',
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => '1.0',
@@ -2119,7 +2131,7 @@ HTML
       'content' => '<a name="q" id="q"></a><a name="r" id="r"></a><code>RegExp(<var>&hellip;</var></code>[<code>,
       <span class="str">&quot;</span></code>[<code class="str">g</code>][<code>i</code>]<code
         class="str"
-      >&quot;</code>]<code>)</code>',
+      >&quot;</code>]<code>) :&nbsp;RegExp</code>',
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => '1.2',
@@ -2132,7 +2144,7 @@ HTML
         class="str"
       >&quot;</span></code>[<code class="str">g</code>][<code>i</code>][<code>m</code>]<code
         class="str"
-      >&quot;</code>]<code>)</code>',
+      >&quot;</code>]<code>) :&nbsp;RegExp</code>',
       'versions' => array(
         'ecmascript' => '3',
         'javascript' => '1.5',
