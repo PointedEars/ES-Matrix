@@ -387,6 +387,21 @@ HTML
     )),
         
     new ScriptFeature(array(
+      'content' => '<code>var \u<var>hhhh</var></code>',
+      'title' => 'Unicode escape sequence in Identifier',
+      'versions' => array(
+        'ecmascript' => 3,
+        ''           => '"var \\\\u0041 = 1; 1"',
+        'javascript' => array('tested' => 1.5),
+        'jscript'    => array('tested' => '5.5.6330'),
+        'v8'         => array('tested' => '2.0'),
+        'jsc'        => array('tested' => '525.13'),
+        'opera'      => array('tested' => '6.06'),
+        'kjs'        => array('tested' => '4.3.4'),
+      )
+    )),
+        
+    new ScriptFeature(array(
       'title' => 'Object initializer',
       'content' => '<code>{<var>propertyName</var>:
             <var>propertyValue</var>, <var>&hellip;</var>} : Object</code>',
