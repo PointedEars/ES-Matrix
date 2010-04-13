@@ -77,7 +77,7 @@
     
     <p style="text-align: left">Last&nbsp;modified:
       <?php echo gmdate('Y-m-d\TH:i:s+00:00', $modi); ?>
-      (<a href="ChangeLog.cgi">changelog</a>)</p>
+      (<a href="ChangeLog.cgi">changelog</a>) (<a href="diff.cgi">diff</a>)</p>
     
     <p style="text-align: left">Available online at <a
        href="<?php
