@@ -33,6 +33,7 @@
     <meta name="DCTERMS.available" content="2009-12-15T04:06:35+00:00">
     <meta name="DCTERMS.contributor" content="Michael Winter &lt;<?php echo randomEsc('m.winter@blueyonder.co.uk'); ?>&gt;">
     <meta name="DCTERMS.contributor" content="Juriy 'kangax' Zaytsev &lt;<?php echo randomEsc('kangax@gmail.com'); ?>&gt;">
+    <meta name="DCTERMS.contributor" content="BootNic &lt;<?php echo randomEsc('bootnic.bounce@gmail.com'); ?>&gt;">
     <meta name="DCTERMS.created" content="2005-11-29T00:42:12+01:00">
     <meta name="DCTERMS.creator" content="Thomas 'PointedEars' Lahn &lt;<?php echo randomEsc('js@PointedEars.de'); ?>&gt;">
     <meta name="DCTERMS.date" content="<?php echo gmdate('D, d M Y H:i:s', $modi) . ' GMT'; ?>">
@@ -1252,6 +1253,11 @@
         for tests with Safari&nbsp;2.0.2: Message-ID&nbsp;<a
         href="http://groups.google.com/groups?as_umsgid=MpOdnVEQCfgNMN_WnZ2dnUVZ_rNi4p2d@giganews.com"
         >&lt;MpOdnVEQCfgNMN_WnZ2dnUVZ_rNi4p2d@giganews.com&gt;</a></li>
+      <li>BootNic &lt;<a href="<?php echo randomEsc('mailto:bootnic.bounce@gmail.com'); ?>"
+        ><?php echo randomEsc('bootnic.bounce@gmail.com'); ?></a>&gt;
+        for helping with the scrollable tbody workaround for IE: Message-ID&nbsp;<a
+        href="http://groups.google.com/groups?as_umsgid=20100305112229.454328ac@bootnic.eternal-september.org"
+        >&lt;20100305112229.454328ac@bootnic.eternal-september.org&gt;</a></li>
     </ul>
     
     <div style="margin-top: 1em; border-top: 1px solid black; padding-top: 1em">
