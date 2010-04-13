@@ -138,11 +138,11 @@
       as a recommendation for design decisions, it should be taken as
       a light one.</p>
     
-    <p>In contrast, features have been
+    <!-- <p>In contrast, features have been
       <span class="unsafe"><span class="visual">highlighted with a yellowish
       background color</span></span> if this author considers them
       <em>unsafe</em>; that is, it is recommended not to use them without
-      feature test and fallback, or only in a controlled environment.</p>
+      feature test and fallback, or only in a controlled environment.</p> -->
     
     <p><strong>The content of this table is based on what could be found in
       vendor's online documentations to date and on occasions where the
