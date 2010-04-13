@@ -1,11 +1,6 @@
 <?php
   /* DEBUG */
   // phpinfo();
-
-  if (! isset($start_debug))
-  {
-    require('../../cgi_buffer/php/prepend.php');
-  }
   
   require_once 'es-matrix.inc.php';
   
@@ -38,7 +33,7 @@
     <meta name="DCTERMS.available" content="2009-12-15T04:06:35+00:00">
     <meta name="DCTERMS.contributor" content="Michael Winter &lt;<?php echo randomEsc('m.winter@blueyonder.co.uk'); ?>&gt;">
     <meta name="DCTERMS.contributor" content="Juriy 'kangax' Zaytsev &lt;<?php echo randomEsc('kangax@gmail.com'); ?>&gt;">
-    <meta name="DCTERMS.created" content="Thomas 'PointedEars' Lahn &lt;<?php echo randomEsc('js@PointedEars.de'); ?>&gt;">
+    <meta name="DCTERMS.created" content="2005-11-29T00:42:12+01:00">
     <meta name="DCTERMS.creator" content="Thomas 'PointedEars' Lahn &lt;<?php echo randomEsc('js@PointedEars.de'); ?>&gt;">
     <meta name="DCTERMS.date" content="<?php echo gmdate('D, d M Y H:i:s', $modi) . ' GMT'; ?>">
         
@@ -82,7 +77,7 @@
     
     <p style="text-align: left">Last&nbsp;modified:
       <?php echo gmdate('Y-m-d\TH:i:s+00:00', $modi); ?>
-      (<a href="/websvn/wsvn/es-matrix/?op=log&isdir=1">changelog</a>)</p>
+      (<a href="ChangeLog.cgi">changelog</a>)</p>
     
     <p style="text-align: left">Available online at <a
        href="<?php
@@ -594,7 +589,7 @@
         </tr>
       </tfoot>
       <tbody>
-        <tr class="heading">
+        <tr class="header">
           <th colspan="13">Implementations</th>
         </tr>
         <tr>
@@ -629,7 +624,7 @@
           <td>+</td>
         </tr>
     
-        <tr class="heading">
+        <tr class="header">
           <th colspan="13">Layout Engines</th>
         </tr>
         <tr>
@@ -649,7 +644,7 @@
           <td></td>
         </tr>
     
-        <tr class="heading">
+        <tr class="header">
           <th colspan="13">Web Browsers</th>
         </tr>
         <tr>
@@ -697,7 +692,7 @@
           <td></td>
         </tr>
     
-        <tr class="heading">
+        <tr class="header">
           <th colspan="13">Other Clients</th>
         </tr>
         <tr>
@@ -755,7 +750,7 @@
           <td></td>
         </tr>
     
-        <tr class="heading">
+        <tr class="header">
           <th colspan="13">Web Servers</th>
         </tr>
         <tr>
@@ -843,7 +838,7 @@
         </tr>
       </tfoot>
       <tbody>
-        <tr class="heading">
+        <tr class="header">
           <th colspan="16">Implementations</th>
         </tr>
         <tr>
@@ -865,7 +860,7 @@
           <td>2.0&#8211;4.0 (2005&#8211;2010)</td>
         </tr>
     
-        <tr class="heading">
+        <tr class="header">
           <th colspan="16">Web Browsers</th>
         </tr>
         <tr>
@@ -892,7 +887,7 @@
           <td></td>
         </tr>
     
-        <tr class="heading">
+        <tr class="header">
           <th colspan="16">Web Servers</th>
         </tr>
         <tr>
@@ -915,7 +910,7 @@
           <td></td>
         </tr>
     
-        <tr class="heading">
+        <tr class="header">
           <th colspan="16">Operating Systems</th>
         </tr>
         <tr>
@@ -956,7 +951,7 @@
           <td></td>
         </tr>
     
-        <tr class="heading">
+        <tr class="header">
           <th colspan="16"><acronym
             title="Integrated Development Environment"
           >IDE</acronym>s</th>
@@ -1270,9 +1265,3 @@
     </div>
   </body>
 </html>
-<?php
-  if (! isset($start_debug))
-  {
-    require('../../cgi_buffer/php/cgi_buffer.php');
-  }
-?>

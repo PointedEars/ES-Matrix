@@ -73,6 +73,10 @@ th, td {
   font-size: small;
 }
 
+th {
+  font-weight: bold;
+}
+
 .nowrap {
   white-space: nowrap;
 }
@@ -153,7 +157,7 @@ thead {
 }
 
 thead tr,
-tbody tr.heading
+tbody tr.header
 {
   font-weight: bold;
   background-color: #99f !important;
@@ -249,6 +253,10 @@ tfoot tbody tr:nth-child(even)
   font-weight: normal;
 }
 
+#features-table tbody tr.header th {
+  font-weight: bold;
+}
+
 /*
  * Not for IE 6 and below.
  * Bugfix for IE 7 follows in Conditional Comments below.
@@ -268,6 +276,11 @@ table>tbody.scroll {
 table>tbody.scroll tr {
   height: auto;
 }
+
+table>tbody.scroll tr.header {
+  display: none;
+}
+
 /*
  * ... and make enough room so that the text won't flow under the
  * vertical scrollbar.  However, that is still a dirty hack as we

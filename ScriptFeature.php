@@ -108,7 +108,7 @@ class ScriptFeature extends Feature
             {
               if (!empty($ver))
               {
-                echo ' title="Test code: ' . htmlspecialchars($ver) . '"';
+                echo ' title="Test code: ' . htmlspecialchars(stripslashes($ver)) . '"';
               }
               else
             {

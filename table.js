@@ -1,4 +1,5 @@
-var scroller, origHeight;
+var scroller;
+//var origHeight;
 
 /**
  * Toggles the scrollability of the body of the scroller table.
@@ -11,22 +12,36 @@ function toggleScroll(bVerbose)
 {
   if (scroller)
   {
-    var bScrollable = (dhtml.getStyleProperty(scroller, 'height') != "auto");
-
-    if (dhtml.setStyleProperty(scroller, 'height',
-          bScrollable ? 'auto' : origHeight + 'px')
-        &&
-        dhtml.setStyleProperty(scroller, 'overflow',
-          bScrollable ? 'visible' : 'scroll'))
+//    var bScrollable = (dhtml.getStyleProperty(scroller, 'height') != "auto");
+    var bScrollable = (scroller.className == "scroll");
+//
+//    if (dhtml.setStyleProperty(scroller, 'height',
+//          bScrollable ? 'auto' : origHeight + 'px')
+//        &&
+//        dhtml.setStyleProperty(scroller, 'overflow',
+//          bScrollable ? 'visible' : 'scroll'))
+//    {
+//      return true;
+//    }
+    
+    if (bScrollable)
     {
-      return true;
+      dom.removeClassName(scroller, "scroll");
     }
+    else
+    {
+      dom.addClassName(scroller, "scroll", true);
+    }
+    
+    return true;
   }
   
   if (bVerbose)
   {
     window.alert("Sorry, this feature is not supported by your user agent.");
   }
+  
+  return false;
 }
 
 /**
@@ -55,8 +70,8 @@ if (typeof document != "undefined"
         && (btToggleScroll = dhtml.getElem('id', 'btToggleScroll')))
     {
       btToggleScroll.style.display = "";
-      origHeight = parseFloat(
-        document.defaultView.getComputedStyle(scroller, null).height, 10);
+//      origHeight = parseFloat(
+//        document.defaultView.getComputedStyle(scroller, null).height, 10);
 
       // Firefox tbody-scroll bug workaround
       toggleScroll();
@@ -127,8 +142,18 @@ if (typeof document != "undefined"
          * @return Object
          */
         toObject: function(o) {
+          if (!o)
+          {
+            o = document.createElement(this.tagName);
+          }
+          
+          if (!o)
+          {
+            return null;
+          }
+          
           var attrs = this.attributes;
-          for (var i = 0, len = attrs && attrs.length; i < len; i++)
+          for (var i = 0, len = attrs && attrs.length; i < len; ++i)
           {
             var attr = attrs[i];
             
@@ -136,7 +161,7 @@ if (typeof document != "undefined"
             {
               case "style":
                 var sp = attr.value.properties;
-                for (var j = 0, len2 = sp && sp.length; j < len2; j++)
+                for (var j = 0, len2 = sp && sp.length; j < len2; ++j)
                 {
                   o.style[sp[j].name] = sp[j].value;
                 }
@@ -169,14 +194,8 @@ if (typeof document != "undefined"
           var o = document.getElementById("atoz");
           if (o)
           {
-            var inp = document.createElement(button.tagName);
-            
-            if (inp)
-            {
-              o.insertBefore(button.toObject(inp), o.firstChild.nextSibling);
-            }
+            o.insertBefore(button.toObject(), o.firstChild.nextSibling);
           }
-          o = br = inp = null;
         });
     }
   };
