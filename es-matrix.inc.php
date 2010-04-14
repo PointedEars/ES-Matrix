@@ -38,7 +38,8 @@ HTML
       'content'    => '<code>!==</code>',
       'versions'   => array(
         'ecmascript' => array(3,
-          'urn' => 'es3:#page=74'),
+          'urn' => 'es3:#page=74',
+          'section' => '11.9.5'),
         ''           => '"1 !== \"1\""',
         'javascript' => array('1.3',
           'urn'    => 'js15ref:Operators:Comparison_Operators',
@@ -47,7 +48,7 @@ HTML
           'tested' => '5.1.5010',
           'urn' => 'msdn:ky6fyhws%28VS.85%29.aspx'),
         'v8'         => array('tested' => '1.3'),
-        'jsc'        => array('412.6.2?', 'tested' => '525.13'),
+        'jsc'        => array('tested' => '412.6.2'),
         'opera'      => array(5.02, 'tested' => true),
         'kjs'        => array('3.5.9', 'tested' => true)
       )
@@ -57,7 +58,8 @@ HTML
       'content' => '<code>&quot;\u<var>hhhh</var>&quot; : string</code>',
       'title' => 'Unicode escape sequence in String literal',
       'versions' => array(
-        'ecmascript' => 1,
+        'ecmascript' => array(1,
+          'section' => '7.7.4/7.8.4'),
         ''           => '"\'\\u20AC\' == \'€\'"',
         'javascript' => 1.3,
         'jscript'    => array('3.0', 'tested' => '5.1.5010'),
@@ -75,8 +77,9 @@ HTML
         <var>bar</var>&quot; : string</code></a>',
       'title' => 'Escaped newline in String literal',
       'versions' => array(
-        'ecmascript' => 5,
-        'javascript' => array('', 'tested' => '1.8.1'),
+        'ecmascript' => array(5,
+          'section' => '7.8.4'),
+    'javascript' => array('', 'tested' => '1.8.1'),
         'jscript'    => array('', 'tested' => '5.1.5010'),
         'v8'         => array('tested' => '1.3'),
         'jsc'        => array('', 'tested' => '525.13'),
@@ -2487,7 +2490,7 @@ HTML
       'versions' => array(
         '' => "isMethod(String.prototype, 'trim')
                && ' x '.trim().length == 1",
-        'ecmascript' => '-',
+        'ecmascript' => 5,
         'javascript' => array('1.8.1', 'tested' => '1.8.1'),
         'jscript'    => '-',
         'jsc'        => array('tested' => '-'),

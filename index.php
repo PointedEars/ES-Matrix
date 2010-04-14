@@ -37,7 +37,6 @@
     <meta name="DCTERMS.created" content="2005-11-29T00:42:12+01:00">
     <meta name="DCTERMS.creator" content="Thomas 'PointedEars' Lahn &lt;<?php echo randomEsc('js@PointedEars.de'); ?>&gt;">
     <meta name="DCTERMS.date" content="<?php echo gmdate('D, d M Y H:i:s', $modi) . ' GMT'; ?>">
-        
     
     <link rel="stylesheet" href="/styles/tooltip.css" type="text/css">
     <link rel="stylesheet" href="../../style.css" type="text/css">
@@ -263,6 +262,27 @@
   
                           if (typeof navigator != "undefined")
                           {
+                            var inferVersion = function (version, versionMap, fallback) {
+                              var s = "";
+                              
+                              for (var i = 0, len = versionMap.length; i < len; ++i)
+                              {
+                                var mapping = versionMap[i];
+                                if (version >= mapping[0])
+                                {
+                                  s = mapping[1];
+                                  break;
+                                }
+                              }
+
+                              if (!s && fallback)
+                              {
+                                s = fallback;
+                              }
+
+                              return s;
+                            };
+                            
                             out += " Inference suggests it is<p><b>";
   
                             var ua = navigator.userAgent || "";
@@ -293,29 +313,14 @@
                                   if (m)
                                   {
                                     var
-                                      rv = m[1],
-                                      s = "";
-
-                                    if (rv >= "5.0.307")
-                                    {
-                                      s = "2.0";
-                                    }
-                                    else if (rv >= "4.0.249")
-                                    {
-                                      s = "1.3";
-                                    }
-                                    else if (rv >= "3.0")
-                                    {
-                                      s = "1.2";
-                                    }
-                                    else if (rv >= "2.0")
-                                    {
-                                      s = "0.4";
-                                    }
-                                    else
-                                    {
-                                      s = "0.3";
-                                    }
+                                      s = inferVersion(m[1],
+                                        [
+                                          ["5.0.307", "2.0"],
+                                          ["4.0.249", "1.3"],
+                                          ["3.0",     "1.2"],
+                                          ["2.0",     "0.4"]
+                                        ],
+                                        "0.3");
 
                                     if (s) out += " " + s;
                                   }
@@ -345,29 +350,15 @@
   
                               if (m)
                               {
-                                rv = m[1];
-                                s = "";
-  
-                                if (rv >= "1.9.1")
-                                {
-                                  s = "1.8.1";
-                                }
-                                else if (rv >= "1.9")
-                                {
-                                  s = "1.8";
-                                }
-                                else if (rv >= "1.8.1")
-                                {
-                                  s = "1.7";
-                                }
-                                else if (rv >= "1.8")
-                                {
-                                  s = "1.6";
-                                }
-                                else if (rv >= "0.6")
-                                {
-                                  s = "1.5";
-                                }
+                                s = inferVersion(m[1],
+                                  [
+                                    ["1.9.2", "1.8.2"],
+                                    ["1.9.1", "1.8.1"],
+                                    ["1.9",   "1.8"],
+                                    ["1.8.1", "1.7"],
+                                    ["1.8",   "1.6"],
+                                    ["0.6",   "1.5"]
+                                  ]);
   
                                 if (s) out += " " + s;
                               }
@@ -432,6 +423,8 @@
                   <li>Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.1.6)
                       Gecko/20091216 Iceweasel/3.5.6 (like Firefox/3.5.6;
                       Debian-3.5.6-1)</li>
+                  <li>Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.2.3)
+                      Gecko/20100404 Iceweasel/3.6.3 (like Firefox/3.6.3)</li>
                 </ul>
               </li>
               <li><span title="Microsoft JScript">JScript</span>
@@ -594,7 +587,8 @@
           <th colspan="13">Implementations</th>
         </tr>
         <tr>
-          <th>Netscape/Mozilla.org SpiderMonkey</th>
+          <th><a href="http://www.mozilla.org/js/spidermonkey/"
+                 >Netscape/Mozilla.org SpiderMonkey</a></th>
           <td>1.0</td>
           <td>1.1</td>
           <td>1.2</td>
@@ -609,8 +603,8 @@
           <td>-</td>
         </tr>
         <tr>
-          <th><a href="http://www.mozilla.org/js/language/Epimetheus.html">Mozilla.org
-          Epimetheus</a></th>
+          <th><a href="http://www.mozilla.org/js/language/Epimetheus.html"
+                 >Mozilla.org Epimetheus</a></th>
           <td></td>
           <td></td>
           <td></td>
@@ -623,6 +617,31 @@
           <td></td>
           <td></td>
           <td>+</td>
+        </tr>
+        <tr>
+          <th><a href="http://www.mozilla.org/rhino/"
+                 >Netscape/Mozilla.org Rhino</a></th>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>1.4R3 (1999-05)</td>
+          <td><a href="http://www.mozilla.org/rhino/rhino15R1.html"
+                 >1.5R1</a>&#8211;<a
+                 href="http://www.mozilla.org/rhino/rhino15R5.html"
+                 >1.5R5</a> (2000-09 &#8211;&nbsp;2004-03)</td>
+          <td><a href="http://www.mozilla.org/rhino/rhino16R1.html"
+                 >1.6R1</a>&#8211;<a
+                 href="https://developer.mozilla.org/en/New_in_Rhino_1.6R7"
+                 >1.6R7</a> (2004-11 &#8211;&nbsp;2007-08)</td>
+          <td><a href="https://developer.mozilla.org/en/New_in_Rhino_1.7R1"
+                 >1.7R1</a>&#8211;<a
+                 href="https://developer.mozilla.org/en/New_in_Rhino_1.7R2"
+                 >1.7R2</a>&#8212; (2008-03 &#8211;&nbsp;2009-03&#8212;)</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
         </tr>
     
         <tr class="header">
@@ -958,7 +977,7 @@
           >IDE</acronym>s</th>
         </tr>
         <tr>
-          <th><a href="http://microsoft.com/vs/">Microsoft Visual Studio</a></th>
+          <th><a href="http://www.microsoft.com/visualstudio/en-us/products">Microsoft Visual Studio</a></th>
           <td></td>
           <td></td>
           <td></td>

@@ -8,8 +8,18 @@ p {
   text-align: justify;        
 }
 
-div, p, li, th, td {
+div, p, ul, ol, th, td {
   max-width: 60ex;
+}
+
+ul, ol {
+  padding-left: 0;
+}
+
+ul li,
+ol li
+{
+  margin-left: 40px;
 }
 
 a[href^="http:"],
@@ -43,6 +53,10 @@ a[title] {
 
 a.backref {
   text-decoration: none;
+}
+
+span.section {
+  font-size: smaller; 
 }
 
 acronym, abbr {
