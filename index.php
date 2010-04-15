@@ -315,6 +315,7 @@
                                     var
                                       s = inferVersion(m[1],
                                         [
+                                          ["5.0.342", "2.1"],
                                           ["5.0.307", "2.0"],
                                           ["4.0.249", "1.3"],
                                           ["3.0",     "1.2"],
@@ -445,6 +446,9 @@
                   <li>Mozilla/5.0 (X11; U; Linux i686; en-US)
                       AppleWebKit/532.5 (KHTML, like Gecko) Chrome/4.0.249.43
                       Safari/532.5</li>
+                  <li>Mozilla/5.0 (X11; U; Linux i686; en-US)
+                      AppleWebKit/533.2 (KHTML, like Gecko) Chrome/5.0.342.9
+                      Safari/533.2</li>
                 </ul></li>
               <li><abbr title="Apple WebKit JavaScriptCore">JSC</abbr>
                 <ul>
@@ -1013,6 +1017,7 @@
           <th>1.2</th>
           <th>1.3</th>
           <th>2.0</th>
+          <th>2.1</th>
         </tr>
       </thead>
       <tbody>
@@ -1025,6 +1030,7 @@
           <td>3.0 (2009-10)</td>
           <td>4.0.249 (2010-01-25)</td>
           <td>5.0.307 (2010-01-30)</td>
+          <td>5.0.342</td>
         </tr>
       </tbody>
     </table>
@@ -1264,29 +1270,30 @@
         &lt;<a href="<?php echo randomEsc('mailto:m.winter@blueyonder.co.uk'); ?>"
         ><?php echo randomEsc('m.winter@blueyonder.co.uk'); ?></a>&gt;
         for tests with IE&nbsp;4.01 and NN&nbsp;4.08: Message-ID&nbsp;<a
-        href="http://groups.google.com/groups?as_umsgid=urctf.17012$iz3.5930@text.news.blueyonder.co.uk"
+        href="http://groups.google.com/groups/search?as_umsgid=urctf.17012$iz3.5930@text.news.blueyonder.co.uk"
         >&lt;urctf.17012$iz3.5930@text.news.blueyonder.co.uk&gt;</a></li>
       <li><a href="http://perfectionkills.com/">Juriy&nbsp;'kangax'&nbsp;Zaytsev</a>
         &lt;<a href="<?php echo randomEsc('mailto:kangax@gmail.com'); ?>"
         ><?php echo randomEsc('kangax@gmail.com'); ?></a>&gt;
         for tests with Safari&nbsp;2.0.2: Message-ID&nbsp;<a
-        href="http://groups.google.com/groups?as_umsgid=MpOdnVEQCfgNMN_WnZ2dnUVZ_rNi4p2d@giganews.com"
+        href="http://groups.google.com/groups/search?as_umsgid=MpOdnVEQCfgNMN_WnZ2dnUVZ_rNi4p2d@giganews.com"
         >&lt;MpOdnVEQCfgNMN_WnZ2dnUVZ_rNi4p2d@giganews.com&gt;</a></li>
       <li>BootNic &lt;<a href="<?php echo randomEsc('mailto:bootnic.bounce@gmail.com'); ?>"
         ><?php echo randomEsc('bootnic.bounce@gmail.com'); ?></a>&gt;
         for helping with the scrollable tbody workaround for IE: Message-ID&nbsp;<a
-        href="http://groups.google.com/groups?as_umsgid=20100305112229.454328ac@bootnic.eternal-september.org"
+        href="http://groups.google.com/groups/search?as_umsgid=20100305112229.454328ac@bootnic.eternal-september.org"
         >&lt;20100305112229.454328ac@bootnic.eternal-september.org&gt;</a></li>
     </ul>
     
     <div style="margin-top: 1em; border-top: 1px solid black; padding-top: 1em">
-    <div><a href="http://validator.w3.org/check/referer"><img
-      src="/media/valid-html401.png" style="border: 0" alt="Valid HTML 4.01"
-    ></a></div>
+    <div><a href="http://validator.w3.org/check/referer"
+            ><img src="/media/valid-html401.png" style="border: 0"
+                  alt="Valid HTML 4.01"></a></div>
     <p>built with<br>
-    <a href="http://www.eclipse.org/"><img src="/media/eclipse.jpg"
-      alt="eclipse" style="border: 0; width: 131px; height: 68px"
-    ></a></p>
+    <a href="http://www.eclipse.org/"
+       ><img src="/media/eclipse.jpg" alt="eclipse"
+             style="border: 0; width: 131px; height: 68px"
+             ></a></p>
     </div>
   </body>
 </html>

@@ -113,8 +113,8 @@ class ScriptFeature extends Feature
               else
             {
                 echo ' title="Not applicable: No automated test case'
-                  . ' is available for this feature.  Please click'
-                  . ' the feature code in the first column to run'
+                  . ' is available for this feature.  If possible, please'
+                  . ' click the feature code in the first column to run'
                   . ' a manual test."';
               }
             }
@@ -129,7 +129,7 @@ class ScriptFeature extends Feature
               {
                 ?><script type="text/javascript">
   // <![CDATA[
-  var s = test(<?php echo $ver; ?>, '+', '-');
+  var s = test(<?php echo $ver; ?>, '<span title="Yes">+</span>', '<span title="No">&#8722;</span>');
   tryThis("document.write(s);",
           "document.getElementById('<?php echo $id; ?>').appendChild("
           + "document.createTextNode(s));");

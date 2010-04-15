@@ -498,7 +498,7 @@ HTML
                          + " var a = f(); a && typeof a != \'undefined\' && typeof a.caller != \'undefined\'"',
         'javascript' => '<a href="#arguments.caller" class="tooltip">1.1<span><span>; </span>deprecated
       since 1.3</span></a>',
-        'jscript' => '<span class="tooltip">-<span> (see&nbsp;<code><a
+        'jscript' => '<span class="tooltip">&#8722;<span> (see&nbsp;<code><a
         href="#Function.prototype.caller"
       >Function.prototype.caller</a></code><span>)</span></span></span>',
         'v8'         => array('tested' => '-'),
@@ -1527,7 +1527,7 @@ HTML
       ><code>Function.prototype.caller :&nbsp;Function|null</code></a>',
       'versions' => array(
         'ecmascript' => '-',
-        'javascript' => '<span class="tooltip">-<span><span> (</span>see&nbsp;<code><a
+        'javascript' => '<span class="tooltip">&#8722;<span><span> (</span>see&nbsp;<code><a
         href="#arguments.caller"
       >arguments.caller</a></code><span>)</span></span></span>',
         'jscript' => '2.0'
@@ -1967,13 +1967,24 @@ HTML
     )),
     
     new ScriptFeature(array(
+      'content' => '<code>Object.getOwnPropertyNames(<var>o</var> :&nbsp;Object) :&nbsp;Array</code>',
+      'versions' => array(
+        '' => 'isMethod(Object, "getOwnPropertyNames")',
+        'ecmascript' => array(5,
+          'section' => '15.2.3.4'),
+        'v8'         => array('tested' => 2.1),
+      )
+    )),
+    
+    new ScriptFeature(array(
       'content' => '<code>Object.getPrototypeOf(<var>o</var> :&nbsp;Object) :&nbsp;Object</code>',
       'versions' => array(
         '' => 'isMethod(Object, "getPrototypeOf")',
-        'ecmascript' => '5',
-        'javascript' => array('1.8.1', 'tested' => '1.8.1'),
-        'jscript' => '-',
-        'jsc'        => array('tested' => '-'),
+        'ecmascript' => array(5,
+          'section' => '15.2.3.2'),
+            'javascript' => array('1.8.1', 'tested' => '1.8.1'),
+        'jscript'    => '-',
+        'v8'         => array('tested' => '2.0.6'),
       )
     )),
     
@@ -2022,8 +2033,10 @@ HTML
       'content' => '<code>Object.prototype.__proto__</code>',
       'versions' => array(
         'ecmascript' => '-',
+        ''           => '_hasOwnProperty(getFeature(_global, "Object", "prototype"), "__proto__")',
         'javascript' => '1.3',
-        'jscript' => '-'
+        'jscript'    => '-',
+        'v8'         => array('tested' => '2.0')
       )
     )),
     
