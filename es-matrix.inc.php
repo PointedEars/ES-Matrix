@@ -409,7 +409,7 @@ HTML
       'content' => '<code>{<var>propertyName</var>:
             <var>propertyValue</var>, <var>&hellip;</var>} : Object</code>',
       'versions' => array(
-        '' => '{a: "b"}.a == "b"',
+        '' => '"({a: \'b\'}).a == \'b\'"',
         'ecmascript' => 3,
         'javascript' => array(1.3, 'tested' => 1.3),
         'jscript'    => array('3.0', 'tested' => '5.1.5010'),
