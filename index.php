@@ -65,7 +65,7 @@
     <script type="text/javascript" src="table.js"></script>
   </head>
   
-  <body onload="alternateRows(); synhl(); initScroller();">
+  <body onload="alternateRows(); synhl(); scroller.init();">
     <h1><a name="top" id="top">ECMAScript Support Matrix</a></h1>
     
     <p style="text-align: left">Copyright &copy;
