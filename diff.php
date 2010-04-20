@@ -8,7 +8,6 @@ define('FORMAT_TEXT', 'text');
 
 $cmd = 'svn diff';
 $opts = '-r PREV:HEAD -x --ignore-eol-style --no-diff-deleted';
-$target = '.';
 $subtitle = 'Differences to previous revision';
 $type = isset($_REQUEST['type']) ? $_REQUEST['type'] : '';
 $format = isset($_REQUEST['format']) ? $_REQUEST['format'] : '';
@@ -23,7 +22,7 @@ if ($type === TYPE_CHANGELOG)
 if ($format === FORMAT_TEXT)
 {
   header('Content-Type: text/plain; charset=UTF-8');
-  passthru("$cmd $opts $target");
+  passthru("$cmd $opts");
 }
 else
 {
@@ -63,8 +62,19 @@ else
           echo "type=$type&amp;";
         }
 				?>format=<?php echo FORMAT_TEXT; ?>">plain text</a>)</h2>
+<?php
+  if (isset($_REQUEST['redir']) && $_REQUEST['redir'])
+  {
+?>
+    <p><strong>You have been redirected here because the URI that was used
+      to access this resource is obsolete, and may stop working in the future.
+      Please update your bookmarks. If you followed a link from another site,
+      please notify its webmaster about the change.</strong></p>
+<?php
+  }
+?>
     <pre><?php
-      exec("$cmd $opts $target | sed 's/&/&amp;/g; s/</\&lt;/g'", $output);
+      exec("$cmd $opts | sed 's/&/&amp;/g; s/</\&lt;/g'", $output);
       echo join("\r\n", $output);
       ?></pre>
   </body>
