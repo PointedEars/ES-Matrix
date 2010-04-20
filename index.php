@@ -22,7 +22,9 @@
   "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="en">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $encoding; ?>">
+    <meta http-equiv="Content-Type" content="text/html; charset=<?php
+      echo $encoding;
+      ?>">
     <meta http-equiv="Content-Script-Type" content="text/javascript">
     <meta http-equiv="Content-Style-Type" content="text/css">
     
@@ -31,12 +33,22 @@
     <meta name="DCTERMS.alternative" content="ES Matrix">
     <meta name="DCTERMS.audience" content="Web developers">
     <meta name="DCTERMS.available" content="2009-12-15T04:06:35+00:00">
-    <meta name="DCTERMS.contributor" content="Michael Winter &lt;<?php echo randomEsc('m.winter@blueyonder.co.uk'); ?>&gt;">
-    <meta name="DCTERMS.contributor" content="Juriy 'kangax' Zaytsev &lt;<?php echo randomEsc('kangax@gmail.com'); ?>&gt;">
-    <meta name="DCTERMS.contributor" content="BootNic &lt;<?php echo randomEsc('bootnic.bounce@gmail.com'); ?>&gt;">
+    <meta name="DCTERMS.contributor" content="Michael Winter &lt;<?php
+      echo randomEsc('m.winter@blueyonder.co.uk');
+      ?>&gt;">
+    <meta name="DCTERMS.contributor" content="Juriy 'kangax' Zaytsev &lt;<?php
+      echo randomEsc('kangax@gmail.com');
+      ?>&gt;">
+    <meta name="DCTERMS.contributor" content="BootNic &lt;<?php
+      echo randomEsc('bootnic.bounce@gmail.com');
+      ?>&gt;">
     <meta name="DCTERMS.created" content="2005-11-29T00:42:12+01:00">
-    <meta name="DCTERMS.creator" content="Thomas 'PointedEars' Lahn &lt;<?php echo randomEsc('js@PointedEars.de'); ?>&gt;">
-    <meta name="DCTERMS.date" content="<?php echo gmdate('D, d M Y H:i:s', $modi) . ' GMT'; ?>">
+    <meta name="DCTERMS.creator" content="Thomas 'PointedEars' Lahn &lt;<?php
+      echo randomEsc('js@PointedEars.de');
+      ?>&gt;">
+    <meta name="DCTERMS.date" content="<?php
+      echo gmdate('Y-m-d\TH:i:s+00:00', $modi);
+      ?>">
     
     <link rel="stylesheet" href="/styles/tooltip.css" type="text/css">
     <link rel="stylesheet" href="../../style.css" type="text/css">
@@ -77,7 +89,8 @@
     
     <p style="text-align: left">Last&nbsp;modified:
       <?php echo gmdate('Y-m-d\TH:i:s+00:00', $modi); ?>
-      (<a href="ChangeLog.cgi">changelog</a>) (<a href="diff.cgi">diff</a>)</p>
+      (<a href="diff?type=changelog">change&nbsp;log</a>)
+      (<a href="diff" title="Differences to previous revision">diff</a>)</p>
     
     <p style="text-align: left">Available online at <a
        href="<?php
