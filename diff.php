@@ -65,7 +65,7 @@ else
 				?>format=<?php echo FORMAT_TEXT; ?>">plain text</a>)</h2>
     <pre><?php
       exec("$cmd $opts $target | sed 's/&/&amp;/g; s/</\&lt;/g'", $output);
-      echo join("\n", $output);
+      echo join("\r\n", $output);
       ?></pre>
   </body>
 </html>
