@@ -7,7 +7,7 @@ define('TYPE_CHANGELOG', 'changelog');
 define('FORMAT_TEXT', 'text');
 
 $cmd = 'svn diff';
-$opts = '-r PREV -x --ignore-eol-style --no-diff-deleted';
+$opts = '-r PREV:HEAD -x --ignore-eol-style --no-diff-deleted';
 $target = '.';
 $subtitle = 'Differences to previous revision';
 $type = isset($_REQUEST['type']) ? $_REQUEST['type'] : '';
