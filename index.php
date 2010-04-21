@@ -94,7 +94,7 @@
       <ul class="horizontal">
         <li><a href="http://PointedEars.de/websvn/log.php?repname=es-matrix&path=%2Ftrunk%2F&isdir=1"
                >Change&nbsp;log</a></li>
-        <li><a href="http://PointedEars.de/websvn/listing.php?repname=es-matrix"
+        <li><a href="http://PointedEars.de/websvn/listing.php?repname=es-matrix&path=%2Ftrunk%2F#a0b40758157c8f16fa703ca3be466fa8a"
                title="Subversion repository browser">SVN</a></li>
       </ul>
     </div>
