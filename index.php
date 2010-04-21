@@ -87,12 +87,19 @@
       ><?php echo randomEsc('js@PointedEars.de'); ?></a>&gt;
       (<a href="#contributors">contributors</a>)</p>
     
-    <p style="text-align: left">Last&nbsp;modified:
-      <?php echo gmdate('Y-m-d\TH:i:s+00:00', $modi); ?>
-      (<a href="diff?type=changelog">change&nbsp;log</a>)
-      (<a href="diff" title="Differences to previous revision">diff</a>)</p>
+    <div>
+      <p style="margin-bottom: 0; text-align: left">Last&nbsp;modified:
+        <?php echo gmdate('Y-m-d\TH:i:s+00:00', $modi); ?></p>
+      
+      <ul class="horizontal">
+        <li><a href="http://PointedEars.de/websvn/log.php?repname=es-matrix&path=%2Ftrunk%2F&isdir=1"
+               >Change&nbsp;log</a></li>
+        <li><a href="http://PointedEars.de/websvn/listing.php?repname=es-matrix"
+               title="Subversion repository browser">SVN</a></li>
+      </ul>
+    </div>
     
-    <p style="text-align: left">Available online at <a
+    <p style="clear: left; text-align: left">Available online at <a
        href="<?php
                $s = 'http://PointedEars.de/scripts/test/es-matrix/';
                echo $s;

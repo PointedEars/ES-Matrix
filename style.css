@@ -22,6 +22,18 @@ ol li
   margin-left: 40px;
 }
 
+ul.horizontal {
+  float: left;
+  margin: 0 0 1em 0;
+  list-style: none;
+}
+
+ul.horizontal li {
+  float: left;
+  margin-left: 0;
+  margin-right: 0.5em;
+}
+
 a[href^="http:"],
 a[href^="https:"]
 {
@@ -38,6 +50,13 @@ a[href^="https:"]:after
   font-weight: normal;
 }
 */
+
+a[href^="http://PointedEars.de/"],
+a[href^="https://PointedEars.de/"]
+{
+  padding-right: 0;
+  background: none;
+}
 
 .closed {
   text-decoration: line-through;
