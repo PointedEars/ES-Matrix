@@ -1167,7 +1167,8 @@ HTML
     new ScriptFeature(array(
       'content' => '<code>debugger</code>',
       'versions' => array(
-        'ecmascript' => '-',
+        'ecmascript' => array(5,
+          'section' => '12.15'),
         'javascript' => '-',
         'jscript' => '3.0'
       )
@@ -2490,11 +2491,20 @@ HTML
     )),
 
     new ScriptFeature(array(
-      'content' => '<code>String.prototype.substr(<var>start</var></code>[<code>, <var>length</var></code>]<code>)</code>',
+      'content' => '<code>String.prototype.substr(<var>start</var></code>[<code>,
+        <var>length</var></code>]<code>)</code>',
       'versions' => array(
-        'ecmascript' => '-',
-        'javascript' => array('1.0', 'tested' => '1.8.1'),
-        'jscript' => '3.0'
+        'ecmascript' => array('3',
+          'section' => 'B.2.3'),
+        ''           => "isMethod(String.prototype, 'substr')
+                         && 'ab'.substr(-1) == 'b'",
+        'javascript' => array('1.2', 'tested' => '1.2'),
+        'jscript' => array('-',
+          'footnote' => 'Does not support negative values'),
+        'v8'         => array('tested' => '2.1'),
+        'jsc'        => array('tested' => '530.17'),
+        'kjs'        => array('tested' => '4.3.4'),
+        'opera'      => array('tested' => '5.02'),
       )
     )),
     
@@ -2513,7 +2523,8 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code><var>string</var>[<var title="unsigned integer">uint</var>]</code>',
+      'content' => '<code><var>string</var>[<var title="unsigned integer"
+        >uint</var>]</code>',
       'title' => 'String subscripting',
       'versions' => array(
         '' => "'x'[0] == 'x'",
@@ -2529,7 +2540,8 @@ HTML
     new ScriptFeature(array(
       'content' => '<a name="switch" id="switch"><code>switch&nbsp;(<var>expression</var>)&nbsp;{
       case&nbsp;<var>value</var>:&nbsp;<var>statements</var>;&nbsp;</code>[<code>break;</code>]
-      <var>&hellip;</var> <code>default:&nbsp;<var>statements</var>;&nbsp;</code>[<code>break;</code>]<code>&nbsp;}</code></a>',
+      <var>&hellip;</var>
+      <code>default:&nbsp;<var>statements</var>;&nbsp;</code>[<code>break;</code>]<code>&nbsp;}</code></a>',
       'versions' => array(
         'javascript' => array(1.2,
           'urn' => 'js15ref:Statements:switch'),
