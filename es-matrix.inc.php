@@ -1577,7 +1577,7 @@ HTML
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => array(1.7,
-          'urn' => 'http://developer.mozilla.org/en/docs/New_in_JavaScript_1.7#Generators'),
+          'urn' => 'mdc:docs/New_in_JavaScript_1.7#Generators'),
         'jscript' => '-'
       )
     )),
@@ -1587,7 +1587,7 @@ HTML
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => array(1.7,
-          'urn' => 'http://developer.mozilla.org/en/docs/New_in_JavaScript_1.7#Resuming_a_generator_at_a_specific_point'),
+          'urn' => 'mdc:docs/New_in_JavaScript_1.7#Resuming_a_generator_at_a_specific_point'),
         'jscript' => '-'
       )
     )),
@@ -1597,7 +1597,7 @@ HTML
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => array(1.7,
-          'urn' => 'http://developer.mozilla.org/en/docs/New_in_JavaScript_1.7#Exceptions_in_generators'),
+          'urn' => 'mdc:docs/New_in_JavaScript_1.7#Exceptions_in_generators'),
         'jscript' => '-'
       )
     )),
@@ -1719,7 +1719,7 @@ HTML
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => array(1.7,
-          'urn' => 'http://developer.mozilla.org/en/docs/New_in_JavaScript_1.7#Iterators'),
+          'urn' => 'mdc:docs/New_in_JavaScript_1.7#Iterators'),
         'jscript' => '-'
       )
     )),
@@ -1762,7 +1762,7 @@ HTML
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => array(1.7,
-          'urn' => 'http://developer.mozilla.org/en/docs/New_in_JavaScript_1.7#Block_scope_with_let'),
+          'urn' => 'mdc:docs/New_in_JavaScript_1.7#Block_scope_with_let'),
         'jscript' => '-'
       )
     )),
@@ -1776,7 +1776,7 @@ HTML
       , 'versions' => array(
         'ecmascript' => '-',
         'javascript' => array(1.7,
-          'urn' => 'http://developer.mozilla.org/en/docs/New_in_JavaScript_1.7#Block_scope_with_let'),
+          'urn' => 'mdc:docs/New_in_JavaScript_1.7#Block_scope_with_let'),
         'jscript' => '-'
       )
     )),
@@ -1790,7 +1790,7 @@ HTML
       , 'versions' => array(
         'ecmascript' => '-',
         'javascript' => array(
-          'urn' => 'http://developer.mozilla.org/en/docs/New_in_JavaScript_1.7#Block_scope_with_let'),
+          'urn' => 'mdc:docs/New_in_JavaScript_1.7#Block_scope_with_let'),
         'jscript' => '-'
       )
     )),
@@ -2025,7 +2025,7 @@ HTML
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => array(1.7,
-          'urn' => 'http://developer.mozilla.org/en/docs/New_in_JavaScript_1.7#Iterators'),
+          'urn' => 'mdc:docs/New_in_JavaScript_1.7#Iterators'),
         'jscript' => '-'
       )
     )),
@@ -2664,7 +2664,7 @@ HTML
       >1.0</a><span class="tooltip">**<span><span>; </span>removed in <a
         href="#javascript"
       >1.4</a>; <a
-        href="http://developer.mozilla.org/en/docs/DOM:window"
+        href="https://developer.mozilla.org/en/docs/DOM:window"
       >Gecko&nbsp;DOM feature</a> since <a href="#javascript">1.5</a></span></span>',
         'jscript' => '-',
         'ecmascript' => '-'
@@ -2680,7 +2680,7 @@ HTML
       >1.2</a><span class="tooltip">**<span><span>; </span>removed in <a
         href="#javascript"
       >1.4</a>; <a
-        href="http://developer.mozilla.org/en/docs/DOM:window.setInterval"
+        href="https://developer.mozilla.org/en/docs/DOM:window.setInterval"
       >Gecko&nbsp;DOM feature</a> since <a href="#javascript">1.5</a></span></span>',
         'jscript' => '-'
       )
@@ -2693,7 +2693,7 @@ HTML
         'ecmascript' => '-',
         'javascript' => '1.2<span class="tooltip">**<span><span>; </span>removed in
       1.4; <a
-        href="http://developer.mozilla.org/en/docs/DOM:window.setInterval"
+        href="https://developer.mozilla.org/en/docs/DOM:window.setInterval"
       >Gecko&nbsp;DOM feature</a> since <a href="#javascript">1.5</a></span></span>',
         'jscript' => '-'
       )
@@ -2708,7 +2708,7 @@ HTML
       >1.0</a><span class="tooltip">**<span><span>; </span>removed in <a
         href="#javascript"
       >1.4</a>; <a
-        href="http://developer.mozilla.org/en/docs/DOM:window.setTimeout"
+        href="https://developer.mozilla.org/en/docs/DOM:window.setTimeout"
       >Gecko&nbsp;DOM feature</a> since <a href="#javascript">1.5</a></span></span>',
         'jscript' => '-'
       )
@@ -2723,7 +2723,7 @@ HTML
           'urn' => 'http://research.nihonsoft.org/javascript/ClientReferenceJS13/window.html#1203758',
           'tooltip' => '<span class="tooltip">**<span><span>; </span>removed in
       1.4; <a
-        href="http://developer.mozilla.org/en/docs/DOM:window.setTimeout"
+        href="https://developer.mozilla.org/en/docs/DOM:window.setTimeout"
       >Gecko&nbsp;DOM feature</a> since <a href="#javascript">1.5</a></span></span>'),
         'jscript' => '-'
       )
@@ -2735,8 +2735,9 @@ HTML
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => array(1.7,
-          'urn' => 'http://developer.mozilla.org/en/docs/New_in_JavaScript_1.7#Generators'),
-        'jscript' => '-' ) )),
+          'urn' => 'mdc:docs/New_in_JavaScript_1.7#Generators'),
+        'jscript' => '-' )
+    )),
   ),
 ));
 

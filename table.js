@@ -18,7 +18,7 @@ function Scrollable(target, sClassName, iMaxHeight, callback)
               : target;
   if (!this.target)
   {
-    return;
+    return this;
   }
 
   if (!sClassName || typeof sClassName.valueOf() != "string")
@@ -35,20 +35,50 @@ function Scrollable(target, sClassName, iMaxHeight, callback)
   
   this.maxHeight = iMaxHeight;
 
-  if (this.target.offsetHeight < this.maxHeight)
+  if (dom.addClassName(this.target, this.className))
   {
-    if (typeof callback == "function")
-    {
-      callback(this);
-    }
-
-    /* Firefox tbody-scroll bug workaround */
-    this.toggleScroll();
-    this.toggleScroll();
-  }
-  else
-  {
-    dom.removeClassName(this.target, this.className);
+    var
+      me = this,
+      fCheck = function () {
+        if (me.target.offsetHeight < me.maxHeight)
+        {
+          fCheckEnd();
+    
+          if (typeof callback == "function")
+          {
+            callback(me);
+          }
+    
+          /* Firefox tbody-scroll bug workaround */
+          me.toggleScroll();
+          me.toggleScroll();
+          
+          return;
+        }
+        else
+        {
+          dom.runLater(fCheck, 1000);
+        }
+      },
+      
+      fCheckEnd = function () {
+        if (!isNaN(t))
+        {
+          window.clearTimeout(t);
+        }
+        
+        dom.removeEventListener(document, "MozAfterPaint", fCheck, true);
+        dom.removeEventListener(document.body, "unload", fCheckEnd);
+        fCheckEnd = fCheck = t = null;
+      },
+  
+      /* DOM Level 0: poll rendering status */
+      t = dom.runLater(fCheck, 1000);
+    
+    dom.addEventListener(document.body, "unload", fCheckEnd);
+    
+    /* Gecko 1.9.1: precise timing */
+    dom.addEventListener(document, "MozAfterPaint", fCheck, true);
   }
 }
 

@@ -92,9 +92,9 @@
         <?php echo gmdate('Y-m-d\TH:i:s+00:00', $modi); ?></p>
       
       <ul class="horizontal">
-        <li><a href="http://PointedEars.de/websvn/log.php?repname=es-matrix&path=%2Ftrunk%2F&isdir=1"
+        <li><a href="http://PointedEars.de/websvn/log.php?repname=es-matrix&path=%2Ftrunk%2F&isdir=1&showchanges=1"
                >Change&nbsp;log</a></li>
-        <li><a href="http://PointedEars.de/websvn/listing.php?repname=es-matrix&path=%2Ftrunk%2F#a0b40758157c8f16fa703ca3be466fa8a"
+        <li><a href="http://PointedEars.de/websvn/listing.php?repname=es-matrix&path=%2Ftrunk%2F"
                title="Subversion repository browser">SVN</a></li>
       </ul>
     </div>
@@ -532,7 +532,7 @@
           </td>
         </tr>
       </tfoot>
-      <tbody class="scroll" id="scroller">
+      <tbody id="scroller">
         <?php $features->printItems(); ?>
       </tbody>
     </table>
