@@ -20,8 +20,8 @@ HTML
   ),
 
   'safeVersions' => array(
-    'javascript' => 1.3,
-    'jscript'    => '5.1.5010',
+    'javascript' => 1.5,
+    'jscript'    => 5.6,
     'jsc'        => '525.13',
     'opera'      => '6.06'),
 
@@ -464,7 +464,7 @@ HTML
                          + " var a = f(); a && typeof a != \'undefined\'"',
         'javascript' => array(1.1,
           'urn' => 'js15ref:Functions:arguments'),
-        'jscript'    => '1.0',
+        'jscript'    => array('1.0', 'tested' => '5.1.5010'),
         'v8'         => array('tested' => '1.3'),
         'jsc'        => array('tested' => '525.13'),
         'kjs'        => array('tested' => '4.3.4'),
@@ -482,7 +482,7 @@ HTML
                          + " var a = f(); a && typeof a != \'undefined\' && typeof a.callee != \'undefined\'"',
         'javascript' => array(1.2,
           'urn' => 'js15ref:Functions:arguments:callee'),
-        'jscript' => '3.0*',
+        'jscript'    => array('3.0*', 'tested' => '5.1.5010'),
         'v8'         => array('tested' => '1.3'),
         'jsc'        => array('tested' => '525.13'),
         'kjs'        => array('tested' => '4.3.4'),
@@ -508,13 +508,13 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<a name="arguments.length" id="arguments.length"><code>arguments.length : int</code></a>',
+      'content' => '<a name="arguments.length" id="arguments.length"><code>arguments.length : number|int</code></a>',
       'versions' => array(
         'ecmascript' => '1',
         ''           => '"function f() { return typeof arguments != \'undefined\' && arguments; };"
                          + " var a = f(); a && typeof a != \'undefined\' && typeof a.length == \'number\'"',
         'javascript' => '1.1',
-        'jscript'    => '5.5',
+        'jscript'    => array('5.5', 'tested' => '5.1.5010'),
         'v8'         => array('tested' => '1.3'),
         'jsc'        => array('tested' => '525.13'),
         'kjs'        => array('tested' => '4.3.4'),
@@ -558,7 +558,7 @@ HTML
         'ecmascript' => 1,
         ''           => '!!getFeature(_global, "Array", "prototype")',
         'javascript' => array('assumed' => '1.1'),
-        'jscript'    => array('2.0'),
+        'jscript'    => array('2.0', 'tested' => '5.1.5010'),
       )
     )),
     
@@ -586,7 +586,7 @@ HTML
     
     new ScriptFeature(array(
       'content' => '<code>Array.prototype.indexOf(<var>searchElement</var></code>[<code>,
-        <var>fromIndex</var> : int</code>]<code>) : int</code>',
+        <var>fromIndex</var> : Number|int</code>]<code>) : number|int</code>',
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => '1.6',
@@ -605,7 +605,7 @@ HTML
     )),
       
     new ScriptFeature(array(
-      'content' => '<code>Array.prototype.length : int</code>',
+      'content' => '<code>Array.prototype.length : number|int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.1',
@@ -625,7 +625,7 @@ HTML
     new ScriptFeature(array(
       'content' => '<code>Array.prototype.push(</code>[<code><var>item1</var></code>[<code>,
         <var>item2</var></code>[<code>,
-        <var>&hellip;</var></code>]]]<code>) : int</code>',
+        <var>&hellip;</var></code>]]]<code>) : number|int</code>',
       'versions' => array(
         'ecmascript' => '3',
         'javascript' => '1.2',
@@ -652,8 +652,8 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Array.prototype.slice(<var>start</var> : int</code>[<code>,
-        <var>end</var> : int</code>]<code>) : Array</code>',
+      'content' => '<code>Array.prototype.slice(<var>start</var> : Number|int</code>[<code>,
+        <var>end</var> : Number|int</code>]<code>) : Array</code>',
       'versions' => array(
         'ecmascript' => '3',
         'javascript' => '1.2',
@@ -685,8 +685,8 @@ HTML
       'content' => '<a
         href="javascript:a=new(Array(1,2,3));alert(a.splice(1,1,4));alert(a);"
         onclick="var a = new Array(1,2,3); alert(a.splice(1,1,4)); return !!alert(a);"
-      ><code>Array.prototype.splice(<var>start</var> : int,
-        <var>deleteCount</var> : int</code>[<code>,
+      ><code>Array.prototype.splice(<var>start</var> : Number|int,
+        <var>deleteCount</var> : Number|int</code>[<code>,
         <var>item1</var></code>[<code>, <var>item2</var></code>[<code>,
         <var>&hellip;</var></code>]]]<code>) :&nbsp;Array</code></a>',
       'versions' => array(
@@ -701,7 +701,7 @@ HTML
     new ScriptFeature(array(
       'content' => '<a href="javascript:a=new(Array(\'1\'));a.unshift(0);alert(a);"
         onclick="var a = new Array(\'1\'); a.unshift(0); return !!alert(a);"
-      ><code>Array.prototype.unshift() : int</code></a>',
+      ><code>Array.prototype.unshift() : number|int</code></a>',
       'versions' => array(
         'ecmascript' => '3',
         'javascript' => '1.2?',
@@ -735,7 +735,7 @@ HTML
         'ecmascript' => 1,
         ''           => '!!getFeature(_global, "Boolean", "prototype")',
         'javascript' => array('assumed' => '1.1'),
-        'jscript'    => array('2.0'),
+        'jscript'    => array('2.0', 'tested' => '5.1.5010'),
       )
     )),
     
@@ -792,12 +792,12 @@ HTML
         'ecmascript' => 1,
         ''           => '!!getFeature(_global, "Date", "prototype")',
         'javascript' => array('assumed' => '1.1'),
-        'jscript'    => array('2.0'),
+        'jscript'    => array('2.0', 'tested' => '5.1.5010'),
       )
     )),
     
     new ScriptFeature(array(
-      'content' => '<a name="d" id="d"></a><code>Date.prototype.getFullYear() : int</code>',
+      'content' => '<a name="d" id="d"></a><code>Date.prototype.getFullYear() : number|int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.3',
@@ -806,7 +806,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.getMilliseconds() : int</code>',
+      'content' => '<code>Date.prototype.getMilliseconds() : number|int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.3',
@@ -815,7 +815,7 @@ HTML
     )),
       
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.getUTCDate() : int</code>',
+      'content' => '<code>Date.prototype.getUTCDate() : number|int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.3',
@@ -824,7 +824,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.getUTCDay() : int</code>',
+      'content' => '<code>Date.prototype.getUTCDay() : number|int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.3',
@@ -833,7 +833,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.getUTCFullYear() : int</code>',
+      'content' => '<code>Date.prototype.getUTCFullYear() : number|int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.3',
@@ -842,7 +842,7 @@ HTML
     )),
       
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.getUTCHours() : int</code>',
+      'content' => '<code>Date.prototype.getUTCHours() : number|int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.3',
@@ -851,7 +851,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.getUTCMilliseconds() : int</code>',
+      'content' => '<code>Date.prototype.getUTCMilliseconds() : number|int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.3',
@@ -860,7 +860,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.getUTCMinutes() : int</code>',
+      'content' => '<code>Date.prototype.getUTCMinutes() : number|int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.3',
@@ -869,7 +869,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.getUTCMonth() : int</code>',
+      'content' => '<code>Date.prototype.getUTCMonth() : number|int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.3',
@@ -878,7 +878,7 @@ HTML
     )),
       
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.getUTCSeconds() : int</code>',
+      'content' => '<code>Date.prototype.getUTCSeconds() : number|int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.3',
@@ -896,9 +896,9 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.setFullYear(<var>year</var> : int</code>[<code>,
-        <var>month</var> : int</code>[<code>,
-        <var>date</var> : int</code>]]<code>) :&nbsp;int</code>',
+      'content' => '<code>Date.prototype.setFullYear(<var>year</var> : Number|int</code>[<code>,
+        <var>month</var> : Number|int</code>[<code>,
+        <var>date</var> : Number|int</code>]]<code>) :&nbsp;number|int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.3',
@@ -907,7 +907,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.setMilliseconds(<var>int</var>) : int</code>',
+      'content' => '<code>Date.prototype.setMilliseconds(<var>Number|int</var>) : number|int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.3',
@@ -916,7 +916,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.setUTCDate(<var>int</var>) : int</code>',
+      'content' => '<code>Date.prototype.setUTCDate(<var>Number|int</var>) : number|int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.3',
@@ -925,7 +925,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.setUTCDay(<var>int</var>) : int</code>',
+      'content' => '<code>Date.prototype.setUTCDay(<var>Number|int</var>) : number|int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.3',
@@ -934,9 +934,9 @@ HTML
     )),
       
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.setUTCFullYear(<var>year</var> :&nbsp;int</code>[<code>,
-        <var>month</var> :&nbsp;int</code>[<code>,
-        <var>date</var> :&nbsp;int</code>]]<code>) :&nbsp;int</code>',
+      'content' => '<code>Date.prototype.setUTCFullYear(<var>year</var> :&nbsp;Number|int</code>[<code>,
+        <var>month</var> :&nbsp;Number|int</code>[<code>,
+        <var>date</var> :&nbsp;Number|int</code>]]<code>) :&nbsp;number|int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.3',
@@ -945,9 +945,9 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.setUTCHours(<var>hours</var> :&nbsp;int</code>[<code>,
-        <var>minutes</var> :&nbsp;int</code>[<code>,
-        <var>seconds</var> :&nbsp;int</code>]]<code>) :&nbsp;int</code>',
+      'content' => '<code>Date.prototype.setUTCHours(<var>hours</var> :&nbsp;Number|int</code>[<code>,
+        <var>minutes</var> :&nbsp;Number|int</code>[<code>,
+        <var>seconds</var> :&nbsp;Number|int</code>]]<code>) :&nbsp;number|int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.3',
@@ -956,7 +956,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.setUTCMilliseconds(<var>int</var>) : int</code>',
+      'content' => '<code>Date.prototype.setUTCMilliseconds(<var>Number|int</var>) : number|int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.3',
@@ -965,9 +965,9 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.setUTCMinutes(<var>minutes</var> :&nbsp;int</code>[<code>,
-        <var>seconds</var> :&nbsp;int</code>[<code>,
-        <var>ms</var> :&nbsp;int</code>]]<code>) :&nbsp;int</code>',
+      'content' => '<code>Date.prototype.setUTCMinutes(<var>minutes</var> :&nbsp;Number|int</code>[<code>,
+        <var>seconds</var> :&nbsp;Number|int</code>[<code>,
+        <var>ms</var> :&nbsp;Number|int</code>]]<code>) :&nbsp;number|int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.3',
@@ -976,8 +976,8 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.setUTCMonth(<var>month</var> : int</code>[<code>,
-        <var>date</var> : int</code>]<code>) :&nbsp;int</code>',
+      'content' => '<code>Date.prototype.setUTCMonth(<var>month</var> : Number|int</code>[<code>,
+        <var>date</var> : Number|int</code>]<code>) :&nbsp;number|int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.3',
@@ -986,8 +986,8 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Date.prototype.setUTCSeconds(<var>seconds</var> :&nbsp;int</code>[<code>,
-      <var>ms</var> : int</code>]<code>) :&nbsp;int</code>',
+      'content' => '<code>Date.prototype.setUTCSeconds(<var>seconds</var> :&nbsp;Number|int</code>[<code>,
+      <var>ms</var> : Number|int</code>]<code>) :&nbsp;number|int</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.3',
@@ -1303,7 +1303,7 @@ HTML
     )),
       
     new ScriptFeature(array(
-      'content' => '<code>Error.prototype.number :&nbsp;int</code>',
+      'content' => '<code>Error.prototype.number :&nbsp;number|int</code>',
       'versions' => array(
         'ecmascript' => '',
         'javascript' => '',
@@ -1449,13 +1449,13 @@ HTML
         'ecmascript' => 1,
         ''           => '!!getFeature(_global, "Function", "prototype")',
         'javascript' => array('assumed' => '1.1'),
-        'jscript'    => array('2.0'),
+        'jscript'    => array('2.0', 'tested' => '5.1.5010'),
       )
     )),
     
     
     new ScriptFeature(array(
-      'content' => '<code>Function.prototype.arity :&nbsp;int</code>',
+      'content' => '<code>Function.prototype.arity :&nbsp;number|int</code>',
       'versions' => array(
         'ecmascript' => '',
         'javascript' => '<a href="#Function.prototype.arity"
@@ -1500,7 +1500,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Function.prototype.arguments.length :&nbsp;int</code>',
+      'content' => '<code>Function.prototype.arguments.length :&nbsp;number|int</code>',
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => <<<HTML
@@ -1536,7 +1536,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Function.prototype.length :&nbsp;int</code>',
+      'content' => '<code>Function.prototype.length :&nbsp;number|int</code>',
       'versions' => array(
         'ecmascript' => '',
         'javascript' => '',
@@ -1548,9 +1548,20 @@ HTML
       'content' => '<code>Function.prototype.prototype : Object</code>',
       'versions' => array(
         'ecmascript' => '',
-        'javascript' => '',
-        'jscript' => '2.0'
-      )
+        ''           => 'typeof Function != "undefined"
+                         && getFeature(Function, "prototype", "prototype")
+                         && typeof Function.prototype.prototype == "object"',
+        'javascript' => array('tested' => '1.8.2',
+          'footnote' => 'tested in 1.8.2 only'),
+        'jscript'    => array('-',
+          'footnote' => 'tested in 5.0 and 6.0 only, 8.x and 9.x Preview contributed by LRN'),
+        'v8'         => array('-',
+          'footnote' => 'Chrome dev contributed by LRN'),
+        'jsc'        => array('-',
+          'footnote' => 'Safari 4.0.5 contributed by LRN'),
+        'opera'      => array('-',
+          'footnote' => '9.52 contributed by LRN'),
+    )
     )),
       
     new ScriptFeature(array(
@@ -1662,7 +1673,7 @@ HTML
         '' => '"Infinity > 0"',
         'ecmascript' => 1,
         'javascript' => 1.3,
-        'jscript'    => '3.0',
+        'jscript'    => array('3.0', 'tested' => '5.1.5010'),
         'jsc'        => array('tested' => '525.13'),
         'opera'      => '7.0'
       )
@@ -1864,10 +1875,10 @@ HTML
       'content' => '<code>NaN :&nbsp;number</code>',
       'title'   => 'Not-a-number value',
       'versions' => array(
-        '' => '"isNaN(NaN)"',
         'ecmascript' => 1,
+        ''           => 'typeof NaN == "number" && isNaN(NaN)',
         'javascript' => 1.3,
-        'jscript'    => '3.0',
+        'jscript'    => array('3.0', 'tested' => '5.1.5010'),
         'jsc'        => array('tested' => '525.13'),
         'kjs'        => '',
         'opera'      => '7.0'
@@ -1910,8 +1921,11 @@ HTML
       'content' => '<code>Number.NaN :&nbsp;number</code>',
       'versions' => array(
         'ecmascript' => '',
+        ''           => 'typeof Number != "undefined"
+                         && typeof Number.NaN == "number"
+                         && isNaN(Number.NaN)',
         'javascript' => '',
-        'jscript' => array('2.0',
+        'jscript'    => array('2.0', 'tested' => '5.1.5010',
           'urn' => 'msdn:jscript7/html/jspronannumber.asp')
       )
     )),
@@ -1953,7 +1967,7 @@ HTML
         'ecmascript' => 1,
         ''           => 'isMethod(42, "toString")',
         'javascript' => array('tested' => '2.0'),
-        'jscript'    => array('assumed' => '1.0'),
+        'jscript'    => array('tested' => '5.1.5010'),
         'jsc'        => array('tested' => '525.13'),
       )
     )),
@@ -1995,7 +2009,7 @@ HTML
         'ecmascript' => 1,
         ''           => '!!getFeature(_global, "Object", "prototype")',
         'javascript' => array('assumed' => '1.1'),
-        'jscript'    => array('2.0'),
+        'jscript'    => array('2.0', 'tested' => '5.1.5010'),
       )
     )),
     
@@ -2382,12 +2396,12 @@ HTML
         'ecmascript' => 1,
         ''           => '!!getFeature(_global, "String", "prototype")',
         'javascript' => array('assumed' => '1.1'),
-        'jscript'    => array('2.0'),
+        'jscript'    => array('2.0', 'tested' => '5.1.5010'),
       )
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>String.fromCharCode(<var title="unsigned integer">uint</var>)</code>',
+      'content' => '<code>String.fromCharCode(<var title="unsigned integer">Number|uint</var>)</code>',
       'versions' => array(
         '' => "String.fromCharCode(0x20AC) == '€'",
         'ecmascript' => 1,
@@ -2401,7 +2415,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>String.prototype.charCodeAt(<var title="unsigned integer">uint</var>)</code>',
+      'content' => '<code>String.prototype.charCodeAt(<var title="unsigned integer">Number|uint</var>)</code>',
       'versions' => array(
         '' => "'x'.charCodeAt(0) == 120",
         'ecmascript' => array(1, 'generic' => true),
@@ -2524,7 +2538,7 @@ HTML
     
     new ScriptFeature(array(
       'content' => '<code><var>string</var>[<var title="unsigned integer"
-        >uint</var>]</code>',
+        >Number|uint</var>]</code>',
       'title' => 'String subscripting',
       'versions' => array(
         '' => "'x'[0] == 'x'",

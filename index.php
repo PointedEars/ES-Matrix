@@ -126,12 +126,15 @@
     
     <ul>
       <li><a href="#features">Language features</a></li>
-      <li><a href="#javascript">Netscape/Mozilla.org JavaScript version information</a></li>
-      <li><a href="#jscript">Microsoft JScript version information</a></li>
-      <li><a href="#v8">Google V8 version information</a></li>
-      <li><a href="#jsc">Apple JavaScriptCore version information</a></li>
-      <li><a href="#actionscript">Adobe ActionScript version information</a></li>
-      <li><a href="#ecmascript">ECMAScript compatibility</a></li>
+      <li><a href="#version-info">Version information</a>
+        <ul>
+          <li><a href="#javascript">Netscape/Mozilla.org JavaScript</a></li>
+          <li><a href="#jscript">Microsoft JScript</a></li>
+          <li><a href="#v8">Google V8</a></li>
+          <li><a href="#jsc">Apple JavaScriptCore</a></li>
+          <li><a href="#actionscript">Adobe ActionScript</a></li>
+          <li><a href="#ecmascript">ECMAScript compatibility</a></li>
+        </ul></li>
       <li><a href="#contributors">List of contributors</a></li>
     </ul>
     
@@ -142,27 +145,30 @@
     <p>The following table lists all features of ECMAScript implementations
       that are not part of the first versions/editions of all of these
       languages, with the version/edition that introduced it; furthermore,
-      information about features that have been deprecated is included. That
-      means if a <em>language</em> feature is not listed here, you can
+      information about features that have been deprecated is included.
+      That means if a <em>language</em> feature is not listed here, you can
       consider it to be universally supported.</p>
     
     <p>In addition, features have been
       <span class="safe"><span class="visual">highlighted with a greenish
       background color</span></span> if this author considers them
       <em>safe</em> to use without prior feature test even when they do not
-      appear to be universally supported. This assessment is mostly based on
-      the fact that the versions of the implementations the features require
-      can be considered obsolete because the user agents known to implement
-      them can be considered obsolete. Note that this assessment is likely
-      to be subject to change as more implementations are evaluated. If taken
-      as a recommendation for design decisions, it should be taken as
-      a light one.</p>
+      appear to be formally specified or to be supported among all versions
+      of all implementations considered here.  This is based on the fact
+      that all minimum versions of the implementations that a&nbsp;feature
+      requires can be considered obsolete because the user&nbsp;agents known
+      to implement them can be considered obsolete (see the respective
+      <a href="#version-info">version information</a> for details).  Note
+      that this assessment is likely to be subject to change as more
+      implementations are evaluated.  If taken as a&nbsp;recommendation
+      for design decisions, it should be taken as a light&nbsp;one.</p>
     
     <!-- <p>In contrast, features have been
       <span class="unsafe"><span class="visual">highlighted with a yellowish
       background color</span></span> if this author considers them
-      <em>unsafe</em>; that is, it is recommended not to use them without
-      feature test and fallback, or only in a controlled environment.</p> -->
+      <em>unsafe</em>; that is, it is strongly recommended not to use them
+      without feature test and fallback, or only in a limited
+      environment.</p> -->
     
     <p><strong>The content of this table is based on what could be found in
       vendor's online documentations to date and on occasions where the
@@ -171,20 +177,19 @@
       Any correction/addition as to how things really are is welcome and
       will be <a href="#contributors">credited</a> where it is due.</strong></p>
         
-    <p><em>If you are using Firefox&nbsp;3.0 and the scrollable table body
+    <p><em>If you are using Firefox&nbsp;3.0.x and the scrollable table body
       flows out of the table, you are observing <a
       href="https://bugzilla.mozilla.org/show_bug.cgi?id=423823"
       title="Bug 135236 (VERIFIED FIXED): Overflowing tbody rows render background color for overflowing rows"
-      class="closed"
-      >Bug&nbsp;423823</a>, fixed since <a
+      class="closed">Bug&nbsp;423823</a>, fixed since <a
       href="http://www.mozilla-europe.org/en/firefox/3.0.2/releasenotes/"
-      >Firefox&nbsp;3.0.2</a>.<br>
-      Since this was a regression, this author deems it necessary not to cover
-      it with a workaround. Because new versions also include a number of <a
-      href="http://www.mozilla.org/security/known-vulnerabilities/firefox30.html"
-      >security fixes</a>, you are strongly recommended to <a
-      href="http://www.mozilla.com/firefox/"
-      >update&nbsp;Firefox</a>. As an alternative, you can toggle table body
+      >Firefox&nbsp;3.0.2</a>.  Since this was a regression, this author
+      deems it necessary not to cover it with a workaround.
+      <strong>The Firefox&nbsp;3.0 branch has met its
+      <a href="#javascript">end-of-life on 2010-03-30&nbsp;CE</a></strong>.
+      If you are still using Firefox&nbsp;3.0.x as your primary browser, you
+      are strongly recommended to <a href="http://www.mozilla.com/firefox/"
+      >update&nbsp;Firefox</a>.  As an alternative, you can toggle table body
       scrollability.</em></p>
     
     <table
@@ -537,8 +542,21 @@
       </tbody>
     </table>
     
-    <h2><a name="javascript" id="javascript">Netscape/Mozilla.org&nbsp;JavaScript
-    Version Information</a><a href="#fn-javascript"><sup>1)</sup></a></h2>
+    <h2><a name="version-info" id="version-info">Version Information</a></h2>
+
+    <div><a href="#toc">&#8593; table of contents</a></div>
+
+    <ul>
+      <li><a href="#javascript">Netscape/Mozilla.org JavaScript</a></li>
+      <li><a href="#jscript">Microsoft JScript</a></li>
+      <li><a href="#v8">Google V8</a></li>
+      <li><a href="#jsc">Apple JavaScriptCore</a></li>
+      <li><a href="#actionscript">Adobe ActionScript</a></li>
+      <li><a href="#ecmascript">ECMAScript compatibility</a></li>
+    </ul>
+    
+    <h3><a name="javascript" id="javascript">Netscape/Mozilla.org&nbsp;JavaScript
+    Version Information</a><a href="#fn-javascript"><sup>1)</sup></a></h3>
 
    <div><a href="#toc">&#8593; table of contents</a></div>
     
@@ -653,11 +671,11 @@
           <td><a href="http://www.mozilla.org/rhino/rhino15R1.html"
                  >1.5R1</a>&#8211;<a
                  href="http://www.mozilla.org/rhino/rhino15R5.html"
-                 >1.5R5</a> (2000-09 &#8211;&nbsp;2004-03)</td>
+                 >1.5R5</a> (2000&#8211;2004)</td>
           <td><a href="http://www.mozilla.org/rhino/rhino16R1.html"
                  >1.6R1</a>&#8211;<a
                  href="https://developer.mozilla.org/en/New_in_Rhino_1.6R7"
-                 >1.6R7</a> (2004-11 &#8211;&nbsp;2007-08)</td>
+                 >1.6R7</a> (2004&#8211;2007)</td>
           <td><a href="https://developer.mozilla.org/en/New_in_Rhino_1.7R1"
                  >1.7R1</a>&#8211;<a
                  href="https://developer.mozilla.org/en/New_in_Rhino_1.7R2"
@@ -693,46 +711,52 @@
         </tr>
         <tr>
           <th><a href="http://browser.netscape.com/">Netscape
-          Navigator/Browser</a></th>
-          <td>Navigator 2.0 (1996-03)</td>
-          <td>3.0 (1996-08)</td>
-          <td>4.0&#8211;4.05 (1997-06)</td>
-          <td>4.06&#8211;4.8 (1998&#8211;2002)</td>
+            Navigator/Browser</a>&nbsp;<span
+            title="Development discontinued">&#8224;</span></th>
+          <td>Navigator 2.0&nbsp;<span title="End-of-life">&#8224;</span>
+            (1996-03)</td>
+          <td>3.0&nbsp;<span title="End-of-life">&#8224;</span> (1996-08)</td>
+          <td>4.0&#8211;4.05&nbsp;<span title="End-of-life">&#8224;</span>
+            (1997-06)</td>
+          <td>4.06&#8211;4.8&nbsp;<span title="End-of-life">&#8224;</span>
+            (1998&#8211;2002)</td>
           <td>-</td>
-          <td>Navigator&nbsp;6.x &#8211;&nbsp;Browser&nbsp;8.1.3 (2000-11-14
-          &#8211;&nbsp;2007-04-02)</td>
+          <td>Navigator&nbsp;6.x &#8211;&nbsp;Browser&nbsp;8.1.3&nbsp;<span
+            title="End-of-life">&#8224;</span>
+            (2000&#8211;2007)</td>
           <td>-</td>
           <td>Navigator&nbsp;9.0b1 &#8211;&nbsp;9.0.0.6&nbsp;<span
-            title="End-of-life"
-          >&#8224;</span><br>
-          (2007-06-05 &#8211;&nbsp;2008-02-29)</td>
-          <td>-</td>
-          <td>-</td>
-          <td>-</td>
-          <td>-</td>
+            title="End-of-life">&#8224;</span><br>
+          (2007&#8211;2008)</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
         </tr>
         <tr>
           <th><a href="http://www.mozilla.com/firefox/">Mozilla
-          Phoenix/Firebird/Firefox</a></th>
+            Phoenix/Firebird/Firefox</a></th>
           <td></td>
           <td></td>
           <td></td>
           <td></td>
           <td></td>
           <td>Phoenix&nbsp;0.1 &#8211;&nbsp;Firefox&nbsp;1.0.x&nbsp;<span
-            title="End-of-life"
-          >&#8224;</span><br>
-          (2002-09-23 &#8211;&nbsp;2006-04-13)</td>
-          <td>Firefox&nbsp;1.5a1 &#8211;2.0a3&nbsp;<span title="End-of-life">&#8224;</span><br>
-          (2005-05-31 &#8211;&nbsp;2006-05-26)</td>
-          <td>2.0b1 &#8211;2.0.0.18&nbsp;<span title="End-of-life">&#8224;</span><br>
-          (2006-07-12 &#8211;&nbsp;2008-11-12)</td>
-          <td>3.0a2 &#8211;3.0.15b&#8212;<br>
-          (2007-02-07 &#8211;&nbsp;2009-10-20&#8212;)</td>
-          <td>3.5.x<br>
-          (2009-06-30&#8212;)</td>
-          <td>3.6&#8212;<br>
-          (2010-01-21&#8212;)</td>
+            title="End-of-life">&#8224;</span><br>
+            (2002&#8211;2006)</td>
+          <td>Firefox&nbsp;1.5a1&#8211;1.5.0.12&nbsp;<span
+            title="End-of-life">&#8224;</span><br>
+            (2005&#8211;2007)</td>
+          <td>2.0b1&#8211;2.0.0.18&nbsp;<span title="End-of-life"
+            >&#8224;</span><br>
+            (2006&#8211;2008)</td>
+          <td>3.0a2&#8211;3.0.19&nbsp;<span title="End-of-life"
+            >&#8224;</span><br>
+            (2007-02-07 &#8211;&nbsp;2010-03-30)</td>
+          <td>3.1a1&#8211;3.5.9&#8212;<br>
+            (2008-07-28 &#8212;&nbsp;2010-03-30)</td>
+          <td>3.6a1&#8212;3.6.3&#8212;<br>
+            (2010-01-21 &#8211;&nbsp;2010-04-01&#8212;)</td>
           <td></td>
         </tr>
     
@@ -741,20 +765,22 @@
         </tr>
         <tr>
           <th><a href="http://www.mozilla.org/products/mozilla1.x/">Mozilla
-          Application&nbsp;Suite</a></th>
+            Application&nbsp;Suite</a>&nbsp;<span
+            title="Development discontinued">&#8224;</span></th>
           <td></td>
           <td></td>
           <td></td>
           <td></td>
           <td></td>
-          <td>0.6&#8211;1.8a6 (2000-12-06 &#8211;&nbsp;2005-01-12)</td>
+          <td>0.6&#8211;1.8a6&nbsp;<span title="End-of-life">&#8224;</span>
+            (2000&#8211;2005)</td>
           <td>1.8b1&#8211;1.7.13&nbsp;<span title="End-of-life">&#8224;</span><br>
-          (2005-02-23 &#8211;&nbsp;2006-04-21)</td>
-          <td>-</td>
-          <td>-</td>
-          <td>-</td>
-          <td>-</td>
-          <td>-</td>
+            (2005&#8211;2006)</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
         </tr>
         <tr>
           <th><a href="http://www.mozilla.org/projects/seamonkey/">Mozilla
@@ -765,13 +791,14 @@
           <td></td>
           <td></td>
           <td></td>
-          <td>1.0&#8211;1.0.9 (2005-09-15 &#8211;&nbsp;2007-05-30)</td>
-          <td>1.1a&#8211;1.1.17&#8212;<br>
-          (2006-08-30 &#8211;&nbsp;2009-06-22&#8212;)</td>
+          <td>1.0&#8211;1.0.9&nbsp;<span title="End-of-life">&#8224;</span>
+            (2005&#8211;2007)</td>
+          <td>1.1a&#8211;1.1.19&nbsp;<span title="End-of-life">&#8224;</span><br>
+            (2006-08-30 &#8211;&nbsp;2010-03-10)</td>
           <td>2.0a1<br>
-          (2008-10-05)</td>
-          <td>2.0a2 &#8211;2.0RC2&#8212;<br>
-          (2008-12-10 &#8211;&nbsp;2009-10-10&#8212;)</td>
+            (2008-10-05)</td>
+          <td>2.0a2&#8211;2.0.4&#8212;<br>
+            (2008-12-10 &#8211;&nbsp;2010-03-30&#8212;)</td>
           <td></td>
           <td></td>
         </tr>
@@ -786,10 +813,10 @@
           <td></td>
           <td></td>
           <td></td>
-          <td>2.0a1 &#8212;2.0.0.23&#8212; (2006-07-28
-          &#8211;&nbsp;2009-01-03&#8212;)</td>
-          <td>3.0a1<br>
-          (2008-05-14&#8212;)</td>
+          <td>2.0a1&#8211;2.0.0.24&#8212;
+            (2006-07-28 &#8211;&nbsp;2010-03-15&#8212;)</td>
+          <td>3.0a1&#8211;3.0.4&#8212;
+            (2008-03-13 &#8211;&nbsp;2010-03-30&#8212;)</td>
           <td></td>
           <td></td>
         </tr>
@@ -826,8 +853,8 @@
       </tbody>
     </table>
     
-    <h2><a name="jscript" id="jscript">Microsoft&nbsp;JScript Version
-    Information</a><a href="#fn-jscript"><sup>2)</sup></a></h2>
+    <h3><a name="jscript" id="jscript">Microsoft&nbsp;JScript Version
+    Information</a><a href="#fn-jscript"><sup>2)</sup></a></h3>
  
     <div><a href="#toc">&#8593; table of contents</a></div>
     
@@ -873,7 +900,10 @@
             release&nbsp;dates from MSDN&nbsp;Library, <a
               href="http://www.blooberry.com/indexdot/history/ie.htm"
               title="Browser History: Windows Internet Explorer"
-            >blooberry.com</a> and <a href="http://en.wikipedia.org/">Wikipedia</a>.<br>
+            >blooberry.com</a> and <a href="http://en.wikipedia.org/">Wikipedia</a>,
+            end-of-life&nbsp;(&#8224;) dates from <a
+             href="http://support.microsoft.com/gp/lifeselectindex"
+              >support.microsoft.com</a>.<br>
             <em>Note that the language version supported by an environment
             may be greater than specified here due to security updates.
             When in doubt, use the <a href="#script-engine-test"
@@ -909,23 +939,30 @@
         </tr>
         <tr>
           <th><a href="http://microsoft.com/ie/">Microsoft Internet Explorer</a></th>
-          <td>3.0 (1996-08&nbsp;<a
+          <td>3.0&nbsp;<span title="End-of-life">&#8224;</span><br>
+            <span class="nowrap">(1996-08</span> <a
             href="http://en.wikipedia.org/wiki/Common_Era"
           ><acronym title="Common Era">CE</acronym></a>)</td>
           <td></td>
-          <td>4.0 (1997-10)</td>
-          <td>4.01 (for&nbsp;<abbr title="Windows NT">WinNT</abbr>)</td>
+          <td class="nowrap">4.0 <span title="End-of-life">&#8224;</span><br>
+            (1997-09)</td>
+          <td class="nowrap">4.01 <span title="End-of-life">&#8224;</span></td>
           <td></td>
-          <td>5.0 (1999-03)</td>
-          <td>5.01 (for&nbsp;<abbr title="Windows NT">WinNT</abbr>)</td>
-          <td>5.5 (2000-07)</td>
-          <td>6.0 for <abbr title="Windows 95 and 98">Win9x</abbr>/NT/XP
-            (2001-10)</td>
-          <td>7.0 for <abbr title="Windows">Win</abbr>XP+ (2006-10)</td>
-          <td>8.0 beta 1 for <abbr title="Windows">Win</abbr>XP SP2+
-            (2008-03)</td>
-          <td>8.0 beta 2 for <abbr title="Windows">Win</abbr>XP SP2+
-            (2008-08)</td>
+          <td>5.0&nbsp;<span title="End-of-life">&#8224;</span><br>
+            <span class="nowrap">(1999-03</span>
+            <span class="nowrap">&#8211; 2005-06)</span></td>
+          <td class="nowrap">5.01 <span title="End-of-life">&#8224;</span></td>
+          <td>5.5&nbsp;<span title="End-of-life">&#8224;</span><br>
+            <span class="nowrap">(2000-07</span>
+            <span class="nowrap">&#8211;&nbsp;2005-12)</span></td>
+          <td>6.0 for <abbr title="Windows 95 and 98">Win9x</abbr>/NT/XP<br>
+            <span class="nowrap">(2001-10)</span></td>
+          <td>7.0 for <abbr title="Windows">Win</abbr>XP+<br>
+            <span class="nowrap">(2006-10)</span></td>
+          <td>8.0 beta 1 for <abbr title="Windows">Win</abbr>XP SP2+<br>
+            <span class="nowrap">(2008-03)</span></td>
+          <td>8.0 beta&nbsp;2 for <abbr title="Windows">Win</abbr>XP SP2+<br>
+            <span class="nowrap">(2008-08)</span></td>
           <td></td>
           <td></td>
           <td></td>
@@ -939,13 +976,15 @@
           Information Server/Services</a></th>
           <td></td>
           <td></td>
-          <td>4.0</td>
+          <td>4.0&nbsp;<span title="End-of-life">&#8224;</span><br>
+            <span class="nowrap">(1998&#8211;2002)</span></td>
           <td></td>
           <td></td>
           <td></td>
           <td></td>
           <td></td>
-          <td>5.1&#8211;6.0</td>
+          <td>5.1&#8211;6.0&nbsp;<span title="End-of-life">&#8224;</span><br>
+            <span class="nowrap">(2000&#8211;2005)</span></td>
           <td></td>
           <td></td>
           <td></td>
@@ -960,17 +999,26 @@
         <tr>
           <th><a href="http://microsoft.com/windows/">Microsoft Windows</a></th>
           <td></td>
-          <td>NT&nbsp;4.0 (1996)</td>
+          <td>NT&nbsp;4.0&nbsp;<span title="End-of-life">&#8224;</span><br>
+            <span class="nowrap">(1996)</span></td>
           <td></td>
           <td></td>
           <td></td>
           <td></td>
-          <td>2000 (2000-02)</td>
-          <td><acronym title="Millennium Edition">Me</acronym> (2000-09)</td>
-          <td><abbr title="eXPeriment^H^H^H^Hence ;-)">XP</abbr> (2001-10)</td>
-          <td>Vista (2008-03)</td>
+          <td>2000&nbsp;<span title="End-of-life">&#8224;</span><br>
+            <span class="nowrap">(2000-02</span>
+            <span class="nowrap">&#8211;&nbsp;2005-06)</span></td>
+          <td><acronym title="Millennium Edition">Me</acronym>&nbsp;<span
+            title="End-of-life">&#8224;</span><br>
+            <span class="nowrap">(2000-09</span>
+            <span class="nowrap">&#8211;&nbsp;2005-12)</span></td>
+          <td><abbr title="eXPeriment^H^H^H^Hence ;-)">XP</abbr><br>
+            <span class="nowrap">(2001-10)</span></td>
+          <td>Vista<br>
+            <span class="nowrap">(2008-03)</span></td>
           <td></td>
-          <td>7<br>(2009-10)</td>
+          <td>7<br>
+            <span class="nowrap">(2009-10)</span></td>
           <td></td>
           <td></td>
           <td></td>
@@ -986,7 +1034,8 @@
           <td></td>
           <td></td>
           <td></td>
-          <td>2003 (2003-04)</td>
+          <td>2003<br>
+            <span class="nowrap">(2003-04)</span></td>
           <td></td>
           <td></td>
           <td></td>
@@ -1006,7 +1055,8 @@
           <td></td>
           <td></td>
           <td></td>
-          <td>6.0 (1998)</td>
+          <td>6.0&nbsp;<span title="End-of-life">&#8224;</span><br>
+            <span class="nowrap">(1998&#8211;2005)</span></td>
           <td></td>
           <td></td>
           <td></td>
@@ -1021,8 +1071,8 @@
       </tbody>
     </table>
     
-    <h2><a name="v8" id="v8">Google&nbsp;V8 Version
-    Information</a></h2>
+    <h3><a name="v8" id="v8">Google&nbsp;V8 Version
+    Information</a></h3>
  
     <div><a href="#toc">&#8593; table of contents</a></div>
     
@@ -1043,20 +1093,25 @@
       <tbody>
         <tr class="odd">
           <th><a href="http://www.google.com/chrome/">Google Chrome</a></th>
-          <td>0.2&#8211;1.0 (2008-09&nbsp;<a
+          <td>0.2&#8211;1.0<br>
+            (2008-09&nbsp;<a
             href="http://en.wikipedia.org/wiki/Common_Era"
           ><acronym title="Common Era">CE</acronym></a>&#8212;2008-12)</td>
-          <td>2.0 (2009-05)</td>
-          <td>3.0 (2009-10)</td>
-          <td>4.0.249 (2010-01-25)</td>
-          <td>5.0.307 (2010-01-30)</td>
+          <td>2.0<br>
+            (2009-05)</td>
+          <td>3.0<br>
+            (2009-10)</td>
+          <td>4.0.249<br>
+            (2010-01-25)</td>
+          <td>5.0.307<br>
+            (2010-01-30)</td>
           <td>5.0.342</td>
         </tr>
       </tbody>
     </table>
 
-    <h2><a name="jsc" id="jsc">Apple&nbsp;JavaScriptCore Version
-    Information</a></h2>
+    <h3><a name="jsc" id="jsc">Apple&nbsp;JavaScriptCore Version
+    Information</a></h3>
  
     <div><a href="#toc">&#8593; table of contents</a></div>
     
@@ -1066,7 +1121,9 @@
       <thead>
         <tr>
           <th></th>
-          <th>JavaScriptCore&nbsp;412.6.2</th>
+          <th>JavaScriptCore&nbsp;48&#8211;312.6</th>
+          <th>412&#8211;419.13</th>
+          <th>522.11&#8211;523.10</th>
           <th>525.13</th>
           <th>525.19</th>
           <th>525.27.1</th>
@@ -1078,21 +1135,32 @@
       <tbody>
         <tr class="odd">
           <th><a href="http://apple.com/safari/">Apple Safari</a></th>
-          <td>2.0 (2005-04&nbsp;<a
+          <td>0.8&#8211;1.3.2&nbsp;<span title="End-of-life">&#8224;</span><br>
+            (2003&#8211;2006&nbsp;<a
             href="http://en.wikipedia.org/wiki/Common_Era"
-          ><acronym title="Common Era">CE</acronym></a>)</td>
-          <td>3.1 (2008-03)</td>
-          <td>3.1.2 (2008-06)</td>
-          <td>3.2.1 (2008-11)</td>
-          <td>4.0 (2009-06)</td>
-          <td>4.0.3 (2009-08)</td>
-          <td>4.0.4 (2009-11)</td>
+            ><acronym title="Common Era">CE</acronym></a>)</td>
+          <td>2.0&#8211;2.0.4<br>
+            (2005-04 &#8211;&nbsp;2006-01)</td>
+          <td>3.0&#8211;3.0.4<br>
+             (2007-06 &#8211;&nbsp;2007-10)</td>
+          <td>3.1<br>
+            (2008-03)</td>
+          <td>3.1.2<br>
+            (2008-06)</td>
+          <td>3.2.1<br>
+            (2008-11)</td>
+          <td>4.0<br>
+            (2009-06)</td>
+          <td>4.0.3<br>
+            (2009-08)</td>
+          <td>4.0.4<br>
+            (2009-11)</td>
         </tr>
       </tbody>
     </table>
     
-    <h2><a name="actionscript" id="actionscript">Macromedia/Adobe&nbsp;ActionScript
-    Versions</a><a href="#fn-actionscript"><sup>3)</sup></a></h2>
+    <h3><a name="actionscript" id="actionscript">Macromedia/Adobe&nbsp;ActionScript
+    Versions</a><a href="#fn-actionscript"><sup>3)</sup></a></h3>
     <table class="versions"
       summary="ActionScript versions and the user agents that support them"
     >
@@ -1122,7 +1190,7 @@
       </tbody>
     </table>
     
-    <h2><a name="ecmascript" id="ecmascript">ECMAScript Compatibility</a></h2>
+    <h3><a name="ecmascript" id="ecmascript">ECMAScript Compatibility</a></h3>
     
     <div><a href="#toc">&#8593; table of contents</a></div>
     

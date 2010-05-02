@@ -108,7 +108,13 @@ class ScriptFeature extends Feature
             {
               if (!empty($ver))
               {
-                echo ' title="Test code: ' . htmlspecialchars(stripslashes($ver)) . '"';
+                echo ' title="Test code: '
+                  . htmlspecialchars(
+                      stripslashes(
+                        preg_replace('/\s{2,}/', ' ', $ver)
+                      )
+                    )
+                  . '"';
               }
               else
             {
