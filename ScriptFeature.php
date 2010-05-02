@@ -1,6 +1,6 @@
 <?php
 
-require_once '../../php/features.class.php';
+require_once 'includes/features.class.php';
 
 class ScriptFeature extends Feature
 {
