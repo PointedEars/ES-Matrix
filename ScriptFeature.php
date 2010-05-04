@@ -135,7 +135,7 @@ class ScriptFeature extends Feature
               {
                 ?><script type="text/javascript">
   // <![CDATA[
-  var s = test(<?php echo $ver; ?>, '<span title="Yes">+</span>', '<span title="No">&#8722;</span>');
+  var s = test(<?php echo $ver; ?>, '<span title="Yes">+<\/span>', '<span title="No">&#8722;<\/span>');
   tryThis("document.write(s);",
           "document.getElementById('<?php echo $id; ?>').appendChild("
           + "document.createTextNode(s));");
