@@ -1,11 +1,17 @@
 /**
- * Toggles the scrollability of the body of the scroller table.
+ * Makes an element scrollable
  * 
- * @param bVerbose : boolean
- *   If <code>true</code>, displays an error message if toggling
- *   is not possible.
+ * @param target : string|Element
+ *   Reference to the element object representing the element to be made
+ *   scrollable, or its ID.
+ * @param sClassName
+ *   CSS class name to be used for formatting the element as scrollable
+ * @param iMaxHeight
+ *   Maximum height of the element when it is made scrollable
+ * @param callback
+ *   Reference to the object to be called when the element could be made
+ *   scrollable.
  */
-
 function Scrollable(target, sClassName, iMaxHeight, callback)
 {
   if (!target)
@@ -13,7 +19,8 @@ function Scrollable(target, sClassName, iMaxHeight, callback)
     return throwThis("", "target must be a string or an object reference");
   }
 
-  this.target = (isMethod(target, "valueOf") && typeof target.valueOf() == "string")
+  this.target = (isMethod(target, "valueOf")
+                  && typeof target.valueOf() == "string")
               ? dom.getElementById(target)
               : target;
   if (!this.target)
@@ -82,6 +89,13 @@ function Scrollable(target, sClassName, iMaxHeight, callback)
   }
 }
 
+/**
+ * Toggles the scrollability of the body of the scroller table.
+ * 
+ * @param bVerbose : boolean
+ *   If <code>true</code>, displays an error message if toggling
+ *   is not possible.
+ */
 Scrollable.prototype.toggleScroll = function (bVerbose) {
   var target = this.target;
   if (target)
@@ -212,12 +226,15 @@ HTMLSerializer.prototype.toObject = function(o) {
         }
         break;
       
-      case "onclick":
-        o[attr.name] = new Function(attr.value);
-        break;
-        
       default:
-        o[attr.name] = attr.value;
+        if (/^on/i.test(attr.name))
+        {
+          o[attr.name.toLowerCase()] = new Function(attr.value);
+        }
+        else
+        {
+          o[attr.name] = attr.value;
+        }
     }
   }
   
