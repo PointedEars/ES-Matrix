@@ -2,6 +2,13 @@
 
 require_once 'includes/features.class.php';
 
+function getTestLink($sCode = '', $sContent = '')
+{
+  return '<a href="javascript:' . rawurlencode($sCode . ' void 0') . '"
+              onclick="' . htmlentities($sCode . '; return false') . '"
+              ><code>' . $sContent . '</code></a>';
+}
+
 class ScriptFeature extends Feature
 {
   protected $versions = array(
@@ -95,12 +102,13 @@ class ScriptFeature extends Feature
     $row++;
     
     $column = 0;
+    $thisVersions =& $this->versions;
     
     foreach ($versions as $key => $value)
     {
       $column++;
       $id = "td$row-$column";
-      $ver = $this->versions[$key];
+      $ver = isset($thisVersions[$key]) ? $thisVersions[$key] : '';
 ?>
           <td id="<?php echo $id; ?>"<?php
             echo $this->getAssumed($ver) . $this->getTested($ver);
@@ -110,7 +118,7 @@ class ScriptFeature extends Feature
               {
                 echo ' title="Test code: '
                   . htmlspecialchars(
-                      stripslashes(
+                      preg_replace('/\\\(["\'])/', '\1',
                         preg_replace('/\s{2,}/', ' ', $ver)
                       )
                     )
@@ -135,7 +143,8 @@ class ScriptFeature extends Feature
               {
                 ?><script type="text/javascript">
   // <![CDATA[
-  var s = test(<?php echo $ver; ?>, '<span title="Yes">+<\/span>', '<span title="No">&#8722;<\/span>');
+  var s = test(<?php echo $ver; ?>, '<span title="Supported">+<\/span>',
+    '<span title="Not supported">&#8722;<\/span>');
   tryThis("document.write(s);",
           "document.getElementById('<?php echo $id; ?>').appendChild("
           + "document.createTextNode(s));");

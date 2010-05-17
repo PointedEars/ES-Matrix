@@ -132,6 +132,7 @@
           <li><a href="#jscript">Microsoft JScript</a></li>
           <li><a href="#v8">Google V8</a></li>
           <li><a href="#jsc">Apple JavaScriptCore</a></li>
+          <li><a href="#opera">Opera ECMAScript</a></li>
           <li><a href="#actionscript">Adobe ActionScript</a></li>
           <li><a href="#ecmascript">ECMAScript compatibility</a></li>
         </ul></li>
@@ -502,7 +503,7 @@
               </li>
               <li>Opera ECMAScript
                 <ul>
-                  <li>Mozilla/4.0 (Windows 3.95;DE) Opera 3.60 [de]</li>
+                  <!-- <li>Mozilla/4.0 (Windows 3.95;DE) Opera 3.60 [de]</li> -->
                   <li>Mozilla/4.0 (compatible; MSIE 5.0; Windows NT 5.1)
                       Opera 5.02 [en]</li>
                   <li>Mozilla/4.0 (compatible; MSIE 5.0; Windows XP)
@@ -511,7 +512,7 @@
                       Opera 7.02 [en]</li>
                   <li>Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; en)
                       Opera 8.0</li>
-                  <li>Opera/9.27 (Windows NT 5.1; U; en)</li>
+                  <!-- <li>Opera/9.27 (Windows NT 5.1; U; en)</li>
                   <li>Opera/9.52 (Windows NT 5.1; U; en)</li>
                   <li>Opera/9.62 (Windows NT 5.1; U; en) Presto/2.1.1</li>
                   <li>Opera/9.64 (Windows NT 5.1; U; en) Presto/2.1.1</li>
@@ -519,7 +520,7 @@
                   <li>Opera/9.80 (X11; Linux i686; U; en) Presto/2.2.15
                       Version/10.00</li>
                   <li>Opera/9.80 (X11; Linux i686; U; en) Presto/2.2.15
-                      Version/10.10</li>
+                      Version/10.10</li> -->
                 </ul>
               </li>
     
@@ -551,6 +552,7 @@
       <li><a href="#jscript">Microsoft JScript</a></li>
       <li><a href="#v8">Google V8</a></li>
       <li><a href="#jsc">Apple JavaScriptCore</a></li>
+      <li><a href="#opera">Opera ECMAScript</a></li>
       <li><a href="#actionscript">Adobe ActionScript</a></li>
       <li><a href="#ecmascript">ECMAScript compatibility</a></li>
     </ul>
@@ -1116,7 +1118,7 @@
     <div><a href="#toc">&#8593; table of contents</a></div>
     
     <table class="versions"
-      summary="JavaScript Core versions and the user agents that support them"
+      summary="Apple JavaScriptCore versions and the user agents that support them"
     >
       <thead>
         <tr>
@@ -1159,6 +1161,57 @@
       </tbody>
     </table>
     
+    <h3><a name="opera" id="opera">Opera&nbsp;ECMAScript Version
+    Information</a></h3>
+ 
+    <div><a href="#toc">&#8593; table of contents</a></div>
+    
+    <table class="versions"
+      summary="Opera ECMAScript versions and the user agents that support them"
+    >
+      <thead>
+        <tr>
+          <th></th>
+          <th>Opera&nbsp;ECMAScript&nbsp;3.60</th>
+          <th>5.02</th>
+          <th>6.06</th>
+          <th>7.02</th>
+          <th>8.0</th>
+          <th>9.27</th>
+          <th>9.52</th>
+          <th>9.62</th>
+          <th>9.64</th>
+          <th>10.10</th>
+          <th>10.51</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="odd">
+          <th><a href="http://opera.com/">Opera Browser</a></th>
+          <td>3.60&nbsp;<span title="End-of-life">&#8224;</span><br>
+            (1995?)</td>
+          <td>5.02&nbsp;<span title="End-of-life">&#8224;</span></td>
+          <td>6.06</td>
+          <td>7.02<br>
+            (2003&#8211;2005)</td>
+          <td>8.0<br>
+            (2005&#8211;2008)</td>
+          <td>9.27<br>
+            (2008)</td>
+          <td>9.52<br>
+            (2008)</td>
+          <td>9.62<br>
+            (2008&#8211;2009)</td>
+          <td>9.64<br>
+            (2009)</td>
+          <td>10.10<br>
+            (2009&#8211;2010)</td>
+          <td>10.51<br>
+            (2010)</td>
+        </tr>
+      </tbody>
+    </table>
+
     <h3><a name="actionscript" id="actionscript">Macromedia/Adobe&nbsp;ActionScript
     Versions</a><a href="#fn-actionscript"><sup>3)</sup></a></h3>
     <table class="versions"
