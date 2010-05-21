@@ -743,7 +743,7 @@
           <td></td>
           <td></td>
           <td></td>
-          <td>Phoenix&nbsp;0.1 &#8211;&nbsp;Firefox&nbsp;1.0.x&nbsp;<span
+          <td>Phoenix&nbsp;0.1 &#8211;&nbsp;Firefox&nbsp;1.0.8&nbsp;<span
             title="End-of-life">&#8224;</span><br>
             (2002&#8211;2006)</td>
           <td>Firefox&nbsp;1.5a1&#8211;1.5.0.12&nbsp;<span

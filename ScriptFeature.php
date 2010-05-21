@@ -2,6 +2,13 @@
 
 require_once 'includes/features.class.php';
 
+/**
+ * Returns an (X)HTML test link
+ *
+ * @param string $sCode
+ * @param string $sContent
+ * @return string
+ */
 function getTestLink($sCode = '', $sContent = '')
 {
   return '<a href="javascript:' . rawurlencode($sCode . ' void 0') . '"
@@ -9,8 +16,16 @@ function getTestLink($sCode = '', $sContent = '')
               ><code>' . $sContent . '</code></a>';
 }
 
+/**
+ * A script language feature
+ */
 class ScriptFeature extends Feature
 {
+  /**
+   * The implementation versions by which a featureis supported
+   *
+   * @var Array
+   */
   protected $versions = array(
     'javascript'   => '-',
     'jscript'      => '-',

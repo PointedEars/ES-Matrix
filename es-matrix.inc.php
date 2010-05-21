@@ -307,8 +307,8 @@ HTML
         ''           => '1 == "1"',
         'javascript' => array(
             '<a class="tooltip" href="#equals" name="equals">1.0<span><span>
-      (</span>deprecated since 1.4 <em>for comparison of two <code>JSObject</code>
-      objects</em>; use the <code>JSObject.equals</code> method instead<span>)</span></span></a>',
+      (</span>deprecated since 1.4 <em>for comparison of two <code class="donthl">JSObject</code>
+      objects</em>; use the <code class="donthl">JSObject.equals</code> method instead<span>)</span></span></a>',
           'tested'  => '1.3',
           'urn'     => '#equals',
           'tooltip' => '<span>
@@ -481,7 +481,7 @@ HTML
 
     new ScriptFeature(array(
       'content' => '<code>arguments</code>',
-      'anchor' => 'arguments',
+      'anchors' => array('arguments'),
       'versions' => array(
         'ecmascript' => 1,
         ''           => '"function f() { return typeof arguments != \'undefined\' && arguments; };"
@@ -520,13 +520,14 @@ HTML
         : Function|null</code></a>',
       'versions' => array(
         'ecmascript' => '-',
-        ''           => '"function f() { return typeof arguments != \'undefined\' && arguments; };"
-                         + " var a = f(); a && typeof a != \'undefined\' && typeof a.caller != \'undefined\'"',
+        ''           => '"function f1() { return typeof arguments != \'undefined\' && arguments.caller; };"
+                         + "function f2() { return f1(); };"
+                         + "f2() == f2"',
         'javascript' => '<a href="#arguments.caller" class="tooltip">1.1<span><span>; </span>deprecated
       since 1.3</span></a>',
-        'jscript' => '<span class="tooltip">&#8722;<span> (see&nbsp;<code><a
-        href="#Function.prototype.caller"
-      >Function.prototype.caller</a></code><span>)</span></span></span>',
+        'jscript' => '<span class="tooltip">&#8722;<span><span>
+          (</span>see&nbsp;<code class="donthl"><a href="#Function.prototype.caller"
+          >Function.prototype.caller</a></code><span>)</span></span></span>',
         'v8'         => array('tested' => '-'),
         'jsc'        => array('tested' => '-'),
         'opera'      => array('tested' => '-'),
@@ -1547,7 +1548,7 @@ HTML
         'ecmascript' => '-',
         'javascript' => <<<HTML
           <span class="tooltip">1.0<span><span>; </span>deprecated since 1.4;
-          use <a href="#arguments"><code>arguments</code></a> instead</span></span>
+          use <a href="#arguments"><code class="donthl">arguments</code></a> instead</span></span>
 HTML
         , 'jscript' => '2.0'
       )
@@ -1559,7 +1560,7 @@ HTML
         'ecmascript' => '-',
         'javascript' => <<<HTML
           <span class="tooltip">1.2<span><span>; </span>deprecated since 1.4;
-          use <code><a href="#arguments.callee">arguments.callee</a></code>
+          use <code class="donthl"><a href="#arguments.callee">arguments.callee</a></code>
           instead</span></span>
 HTML
         , 'jscript' => '5.6'
@@ -1572,7 +1573,7 @@ HTML
         'ecmascript' => '-',
         'javascript' => <<<HTML
           <span class="tooltip">1.0<span><span>; </span>deprecated since 1.4;
-          use <a href="#arguments.length"><code>arguments.length</code></a>
+          use <a href="#arguments.length"><code class="donthl">arguments.length</code></a>
           instead</span></span>
 HTML
         , 'jscript' => ''
@@ -1595,10 +1596,11 @@ HTML
       ><code>Function.prototype.caller :&nbsp;Function|null</code></a>',
       'versions' => array(
         'ecmascript' => '-',
-        'javascript' => '<span class="tooltip">&#8722;<span><span> (</span>see&nbsp;<code><a
-        href="#arguments.caller"
-      >arguments.caller</a></code><span>)</span></span></span>',
-        'jscript' => '2.0'
+        ''           => '"function f1() { return f1.caller; };"
+                         + "function f2() { return f1(); };"
+                         + "f2() == f2"',
+        'javascript' => array('tested' => '1.0'),
+        'jscript'    => '2.0'
       )
     )),
     
@@ -2035,7 +2037,7 @@ HTML
       'versions' => array(
         'ecmascript' => 1,
         ''           => 'isMethod(42, "toString")',
-        'javascript' => array('tested' => '2.0'),
+        'javascript' => array('tested' => '1.2'),
         'jscript'    => array('tested' => '5.1.5010'),
         'jsc'        => array('tested' => '525.13'),
         'opera'      => array('tested' => '5.02'),
