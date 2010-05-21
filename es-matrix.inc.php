@@ -107,13 +107,11 @@ HTML
     
     new ScriptFeature(array(
       'title'      => 'RegExp literal with empty negated character range',
-      'content'    => getTestLink(
-        'window.alert(/[^]/)',
-        '/[^]/ :&nbsp;RegExp'),
+      'content'    => '<code>/[^]/ :&nbsp;RegExp</code>',
       'versions'   => array(
         'ecmascript' => 3,
         'javascript' => '',
-        'jscript'    => '',
+        'jscript'    => array('tested' => '-'),
         'v8'         => '',
         'jsc'        => '',
         'opera'      => array('tested' => '5.02'),
