@@ -110,7 +110,22 @@ Scrollable.prototype.toggleScroll = function (bVerbose) {
     {
       dom.addClassName(target, className, true);
     }
-    
+
+    var hash;
+    if (typeof window != "undefined"
+        && (hash = getFeature(window, "location", "hash"))
+        && /^#?[^#]+/.test(hash))
+    {
+      if (isMethod(window, "location", "replace"))
+      {
+        window.location.replace(hash);
+      }
+      else
+      {
+        window.location.hash = hash;
+      }
+    }
+
     return true;
   }
   

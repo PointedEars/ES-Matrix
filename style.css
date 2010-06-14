@@ -62,8 +62,20 @@ a[href^="https://PointedEars.de/"]
   text-decoration: line-through;
 }
 
-[title], .footnote-ref {
+[title],
+.footnote-ref,
+.footnote-ref :link,
+.footnote-ref :visited
+{
   cursor: help;
+}
+
+.footnote-ref .tooltip {
+  border-bottom: none;
+}
+
+.footnotes th {
+  text-align: right;
 }
 
 a[title] {

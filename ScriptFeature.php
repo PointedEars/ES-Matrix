@@ -1,6 +1,9 @@
 <?php
 
 require_once 'includes/features.class.php';
+require_once 'includes/footnotes.class.php';
+
+$footnotes = new FootnoteList('[', ']', true);
 
 /**
  * Returns an (X)HTML test link
@@ -83,11 +86,17 @@ class ScriptFeature extends Feature
   
   protected function getGeneric($ver)
   {
+    global $footnotes;
+    
     if (is_array($ver))
     {
       return isset($ver['generic']) && $ver['generic']
-              ? '<sup><abbr title="Generic feature"><a href="#fn-generic" class="footnote-ref">G</a></abbr></sup>'
-              : '';
+        ? $footnotes->add('generic', '<abbr title="Generic feature">G</abbr>',
+            'This method is intentionally specified or implemented as <em>generic</em>;
+            it does not require that its <code class="rswd">this</code>
+            value be an object of the same type. Therefore, it can be
+            transferred to other kinds of objects for use as a method.')
+        : '';
     }
     else
     {
@@ -134,8 +143,10 @@ class ScriptFeature extends Feature
                 echo ' title="Test code: '
                   . htmlspecialchars(
                       preg_replace('/\\\(["\'])/', '\1',
-                        preg_replace('/\s{2,}/', ' ', $ver)
-                      )
+                        reduceWhitespace($ver)
+                      ),
+                      ENT_COMPAT,
+                      FEATURES_ENCODING
                     )
                   . '"';
               }
@@ -151,6 +162,11 @@ class ScriptFeature extends Feature
             if ($key)
             {
               echo $this->getVer($ver) . $this->getGeneric($ver);
+              
+              if (is_array($ver) && isset($ver['footnote']) && $ver['footnote'])
+              {
+                echo $ver['footnote'];
+              }
             }
             else
           {
@@ -167,7 +183,7 @@ class ScriptFeature extends Feature
 </script><?php
               }
               else
-              {
+            {
                 echo '<abbr>N/A</abbr>';
               }
             }
