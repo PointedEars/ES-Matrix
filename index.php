@@ -1,6 +1,6 @@
 <?php
   /* DEBUG */
-  // phpinfo();
+// phpinfo();
   
   require_once 'es-matrix.inc.php';
   
@@ -72,6 +72,7 @@
     
     <script type="text/javascript" src="../../object.js"></script>
     <script type="text/javascript" src="../../types.js"></script>
+    <script type="text/javascript" src="../../xpath.js"></script>
     <script type="text/javascript" src="../debug.js"></script>
     <script type="text/javascript" src="../../dhtml.js"></script>
     <script type="text/javascript" src="table.js"></script>
@@ -237,188 +238,6 @@
         </tr>
         <tr>
           <td colspan="8">
-            <table summary="Footnotes">
-              <tr>
-                <th class="nowrap"><a name="fn-this-ua"><sup>1</sup></a>
-                  <a href="#this-ua" class="backref">&#8593;</a></th>
-                <td>
-                  <ul>
-                    <li>This user agent:
-                      <script type="text/javascript">
-                        document.write('<p><b>' + navigator.userAgent + '<\/b><\/p>');
-                      </script>
-                      <noscript>
-                        <p><?php echo $_SERVER['HTTP_USER_AGENT']; ?></p>
-                      </noscript>
-                    </li>
-    
-                    <li><a name="script-engine-test" id="script-engine-test"
-                      >This ECMAScript implementation</a><script type="text/javascript">
-                        var
-                          jsx_object = jsx.object,
-                          bCanDetect = jsx_object.isMethod(this, "ScriptEngine"),
-                      
-                          /* No array or loop here for backwards compatibility */
-                          out = "";
-                     
-                        if (bCanDetect)
-                        {
-                          out += ":<p><b>" + ScriptEngine();
-  
-                          if (jsx_object.isMethod(this, "ScriptEngineMajorVersion"))
-                          {
-                            out += " " + ScriptEngineMajorVersion();
-  
-                            if (jsx_object.isMethod(this, "ScriptEngineMinorVersion"))
-                            {
-                              out += "." + ScriptEngineMinorVersion();
-  
-                              if (jsx_object.isMethod(this, "ScriptEngineBuildVersion"))
-                              {
-                                out += "." + ScriptEngineBuildVersion();
-                              }
-                            }
-                          }
-  
-                          out += "<\/b><\/p>";
-                        }
-                        else
-                        {
-                          out = " cannot be detected directly.";
-  
-                          if (typeof navigator != "undefined")
-                          {
-                            var inferVersion = function (version, versionMap, fallback) {
-                              var s = "";
-                              
-                              for (var i = 0, len = versionMap.length; i < len; ++i)
-                              {
-                                var mapping = versionMap[i];
-                                if (version >= mapping[0])
-                                {
-                                  s = mapping[1];
-                                  break;
-                                }
-                              }
-
-                              if (!s && fallback)
-                              {
-                                s = fallback;
-                              }
-
-                              return s;
-                            };
-                            
-                            out += " Inference suggests it is<p><b>";
-  
-                            var ua = navigator.userAgent || "";
-      
-                            if (typeof window != "undefined"
-                                && jsx_object.getFeature(window, "opera"))
-                            {
-                              out += "Opera ECMAScript";
-                            }
-                            else if (ua.indexOf("Konqueror") > -1)
-                            {
-                              out += "KJS (Konqueror JavaScript)";
-                            }
-                            else if (ua.indexOf("WebKit") > -1)
-                            {
-                              var m = null;
-                              
-                              if (jsx_object.isMethod(ua, "match"))
-                              {
-                                if (ua.indexOf("Chrome") > -1)
-                                {
-                                  m = ua.match(/\bChrome\/(\d+\.\d+(\.\d+)?)\b/);
-
-                                  if (m) out += " at least";
-
-                                  out += " Google V8";
-                                  
-                                  if (m)
-                                  {
-                                    var
-                                      s = inferVersion(m[1],
-                                        [
-                                          ["5.0.342", "2.1"],
-                                          ["5.0.307", "2.0"],
-                                          ["4.0.249", "1.3"],
-                                          ["3.0",     "1.2"],
-                                          ["2.0",     "0.4"]
-                                        ],
-                                        "0.3");
-
-                                    if (s) out += " " + s;
-                                  }
-                                }
-                                else
-                                {
-                                  out += "Apple JavaScriptCore";
-  
-                                  m = ua.match(/\bAppleWebKit\/(\d+\.\d+(\.\d+)*)\b/);
-
-                                  if (m) out += " " + m[1];
-                                }
-                              }
-                            }
-                            else if (typeof netscape != "undefined" || ua.indexOf("Gecko") > -1)
-                            {
-                              m = null;
-                              
-                              if (jsx_object.isMethod(ua, "match"))
-                              {
-                                m = ua.match(/\brv:(\d+\.\d+(\.\d+)*)\b/);
-                              }
-                             
-                              if (m) out += " at least";
-                            
-                              out += " Netscape/Mozilla.org JavaScript<sup>TM<\/sup>";
-  
-                              if (m)
-                              {
-                                s = inferVersion(m[1],
-                                  [
-                                    ["1.9.2", "1.8.2"],
-                                    ["1.9.1", "1.8.1"],
-                                    ["1.9",   "1.8"],
-                                    ["1.8.1", "1.7"],
-                                    ["1.8",   "1.6"],
-                                    ["0.6",   "1.5"]
-                                  ]);
-  
-                                if (s) out += " " + s;
-                              }
-                            }
-                          
-                            out += "<\/b><\/p>but I could be wrong.";
-                          }
-                        }
-  
-                        document.write(out);
-                      </script>
-                    </li>
-                  </ul>
-                </td>
-              </tr>
-              <tr>
-                <th class="nowrap"><a name="fn-generic"><sup>G</sup></a>
-                  <a href="#generic" class="backref">&#8593;</a></th>
-                <td>This method is intentionally specified or implemented as <em>generic</em>;
-                  it does not require that its <code class="rswd">this</code>
-                  value be an object of the same type. Therefore, it can be
-                  transferred to other kinds of objects for use as a method.</td>
-              </tr>
-              <tr>
-                <th class="nowrap"><a name="fn-decl-ver"><sup>V</sup></a>
-                  <a href="#decl-ver" class="backref">&#8593;</a></th>
-                <td>Version needs to be declared in order to use this feature</td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="8">
             <p><a name="tested" id="tested">When a feature has been marked as
             <span class="tested">tested</span>, the following user&nbsp;agents
               have been used for the tests:</a></p>
@@ -542,6 +361,8 @@
         <?php $features->printItems(); ?>
       </tbody>
     </table>
+    
+    <?php $footnotes->flush(); ?>
     
     <h2><a name="version-info" id="version-info">Version Information</a></h2>
 
@@ -881,15 +702,19 @@
           <th>5.7.5730</th>
           <th>5.7.17184</th>
           <th>5.8.18241</th>
-          <th>.NET 7.0</th>
+          <th>7.0 (.NET)</th>
           <th><a
             href="http://msdn.microsoft.com/en-us/library/72bd815a%28VS.71%29.aspx"
-            title="JScript .NET 7.0 documentation"
-          >.NET 7.1</a></th>
+            title="JScript 7.1 (.NET) documentation"
+          >7.1 (.NET)</a></th>
           <th><a
             href="http://msdn.microsoft.com/en-us/library/72bd815a%28VS.80%29.aspx"
-            title="JScript .NET 8.0 documentation"
-          >.NET 8.0</a></th>
+            title="JScript 8.0 documentation"
+          >8.0</a></th>
+          <th><a
+            href="http://msdn.microsoft.com/en-us/library/72bd815a.aspx"
+            title="JScript 10.0 documentation"
+          >10.0</a></th>
         </tr>
       </thead>
       <tfoot>
@@ -915,7 +740,7 @@
       </tfoot>
       <tbody>
         <tr class="header">
-          <th colspan="16">Implementations</th>
+          <th colspan="17">Implementations</th>
         </tr>
         <tr>
           <th><a href="http://microsoft.com/net/">Microsoft .NET Framework</a></th>
@@ -931,13 +756,14 @@
           <td></td>
           <td></td>
           <td></td>
-          <td>1.0 (2000-02)</td>
+          <td>1.0 (2002-01)</td>
           <td>1.1 (2003)</td>
-          <td>2.0&#8211;4.0 (2005&#8211;2010)</td>
+          <td>2.0&#8211;3.5&nbsp;SP1 (2005&#8211;2008)</td>
+          <td>4.0&#8212; (2010-04-12&#8212;)</td>
         </tr>
     
         <tr class="header">
-          <th colspan="16">Web Browsers</th>
+          <th colspan="17">Web Browsers</th>
         </tr>
         <tr>
           <th><a href="http://microsoft.com/ie/">Microsoft Internet Explorer</a></th>
@@ -968,10 +794,11 @@
           <td></td>
           <td></td>
           <td></td>
+          <td></td>
         </tr>
     
         <tr class="header">
-          <th colspan="16">Web Servers</th>
+          <th colspan="17">Web Servers</th>
         </tr>
         <tr>
           <th><a href="http://microsoft.com/iis/">Microsoft Internet
@@ -993,10 +820,11 @@
           <td></td>
           <td></td>
           <td></td>
+          <td></td>
         </tr>
     
         <tr class="header">
-          <th colspan="16">Operating Systems</th>
+          <th colspan="17">Operating Systems</th>
         </tr>
         <tr>
           <th><a href="http://microsoft.com/windows/">Microsoft Windows</a></th>
@@ -1024,10 +852,11 @@
           <td></td>
           <td></td>
           <td></td>
+          <td></td>
         </tr>
         <tr>
-          <th><a href="http://microsoft.com/windowsserver2003/">Microsoft
-          Windows Server</a></th>
+          <th><a href="http://microsoft.com/windowsserver2003/"
+                 >Microsoft Windows Server</a></th>
           <td></td>
           <td></td>
           <td></td>
@@ -1044,15 +873,17 @@
           <td></td>
           <td></td>
           <td></td>
+          <td></td>
         </tr>
     
         <tr class="header">
-          <th colspan="16"><acronym
+          <th colspan="17"><acronym
             title="Integrated Development Environment"
           >IDE</acronym>s</th>
         </tr>
         <tr>
-          <th><a href="http://www.microsoft.com/visualstudio/en-us/products">Microsoft Visual Studio</a></th>
+          <th><a href="http://www.microsoft.com/visualstudio/en-us/products"
+                 >Microsoft Visual Studio</a></th>
           <td></td>
           <td></td>
           <td></td>
@@ -1066,9 +897,10 @@
           <td></td>
           <td></td>
           <td></td>
-          <td>7.0&nbsp;.NET (2002)</td>
-          <td>7.1 (2003)</td>
-          <td>8.0&nbsp;(2005) &#8211;10.0&nbsp;(2010)</td>
+          <td>.NET&nbsp;7.0<br>(2002)</td>
+          <td>.NET&nbsp;7.1<br>(2003)</td>
+          <td>8.0&#8211;9.0<br>(2005&#8211;2008)</td>
+          <td>10.0&#8212;<br>(2010-04-12&#8212;)</td>
         </tr>
       </tbody>
     </table>
@@ -1302,7 +1134,7 @@
           <td></td>
           <td>1.5&#8211;1.8.1.x</td>
           <td>2.0</td>
-          <td>1.8.1 (2008-05)</td>
+          <td>1.8.1&#8212; (2008-05&#8212;)</td>
           <td></td>
         </tr>
         <tr>
@@ -1318,8 +1150,8 @@
           <th><a href="#jscript">JScript</a></th>
           <td>1.0 (1996)</td>
           <td></td>
-          <td>5.5 (2000)</td>
-          <td>.NET (2000)</td>
+          <td>5.5&#8212; (2000&#8212;)</td>
+          <td>7.0&#8212; (2000&#8212;)</td>
           <td></td>
           <td></td>
         </tr>

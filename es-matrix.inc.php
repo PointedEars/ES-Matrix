@@ -2,12 +2,171 @@
 
 require_once 'ScriptFeature.php';
 
+$scriptEngineTest = <<<HTML
+                  <ul>
+                    <li>This user agent:
+                      <script type="text/javascript">
+                        document.write('<p><b>' + navigator.userAgent + '<\/b><\/p>');
+                      </script>
+                      <noscript>
+                        <p>{$_SERVER['HTTP_USER_AGENT']}</p>
+                      </noscript>
+                    </li>
+    
+                    <li><a name="script-engine-test" id="script-engine-test"
+                      >This ECMAScript implementation</a><script type="text/javascript">
+                        var
+                          jsx_object = jsx.object,
+                          bCanDetect = jsx_object.isMethod(this, "ScriptEngine"),
+                      
+                          /* No array or loop here for backwards compatibility */
+                          out = "";
+                     
+                        if (bCanDetect)
+                        {
+                          out += ":<p><b>" + ScriptEngine();
+  
+                          if (jsx_object.isMethod(this, "ScriptEngineMajorVersion"))
+                          {
+                            out += " " + ScriptEngineMajorVersion();
+  
+                            if (jsx_object.isMethod(this, "ScriptEngineMinorVersion"))
+                            {
+                              out += "." + ScriptEngineMinorVersion();
+  
+                              if (jsx_object.isMethod(this, "ScriptEngineBuildVersion"))
+                              {
+                                out += "." + ScriptEngineBuildVersion();
+                              }
+                            }
+                          }
+  
+                          out += "<\/b><\/p>";
+                        }
+                        else
+                        {
+                          out = " cannot be detected directly.";
+  
+                          if (typeof navigator != "undefined")
+                          {
+                            var inferVersion = function (version, versionMap, fallback) {
+                              var s = "";
+                              
+                              for (var i = 0, len = versionMap.length; i < len; ++i)
+                              {
+                                var mapping = versionMap[i];
+                                if (version >= mapping[0])
+                                {
+                                  s = mapping[1];
+                                  break;
+                                }
+                              }
+
+                              if (!s && fallback)
+                              {
+                                s = fallback;
+                              }
+
+                              return s;
+                            };
+                            
+                            out += " Inference suggests it is<p><b>";
+  
+                            var ua = navigator.userAgent || "";
+      
+                            if (typeof window != "undefined"
+                                && jsx_object.getFeature(window, "opera"))
+                            {
+                              out += "Opera ECMAScript";
+                            }
+                            else if (ua.indexOf("Konqueror") > -1)
+                            {
+                              out += "KJS (Konqueror JavaScript)";
+                            }
+                            else if (ua.indexOf("WebKit") > -1)
+                            {
+                              var m = null;
+                              
+                              if (jsx_object.isMethod(ua, "match"))
+                              {
+                                if (ua.indexOf("Chrome") > -1)
+                                {
+                                  m = ua.match(/\bChrome\/(\d+\.\d+(\.\d+)?)\b/);
+
+                                  if (m) out += " at least";
+
+                                  out += " Google V8";
+                                  
+                                  if (m)
+                                  {
+                                    var
+                                      s = inferVersion(m[1],
+                                        [
+                                          ["5.0.342", "2.1"],
+                                          ["5.0.307", "2.0"],
+                                          ["4.0.249", "1.3"],
+                                          ["3.0",     "1.2"],
+                                          ["2.0",     "0.4"]
+                                        ],
+                                        "0.3");
+
+                                    if (s) out += " " + s;
+                                  }
+                                }
+                                else
+                                {
+                                  out += "Apple JavaScriptCore";
+  
+                                  m = ua.match(/\bAppleWebKit\/(\d+\.\d+(\.\d+)*)\b/);
+
+                                  if (m) out += " " + m[1];
+                                }
+                              }
+                            }
+                            else if (typeof netscape != "undefined" || ua.indexOf("Gecko") > -1)
+                            {
+                              m = null;
+                              
+                              if (jsx_object.isMethod(ua, "match"))
+                              {
+                                m = ua.match(/\brv:(\d+\.\d+(\.\d+)*)\b/);
+                              }
+                             
+                              if (m) out += " at least";
+                            
+                              out += " Netscape/Mozilla.org JavaScript<sup>TM<\/sup>";
+  
+                              if (m)
+                              {
+                                s = inferVersion(m[1],
+                                  [
+                                    ["1.9.2", "1.8.2"],
+                                    ["1.9.1", "1.8.1"],
+                                    ["1.9",   "1.8"],
+                                    ["1.8.1", "1.7"],
+                                    ["1.8",   "1.6"],
+                                    ["0.6",   "1.5"]
+                                  ]);
+  
+                                if (s) out += " " + s;
+                              }
+                            }
+                          
+                            out += "<\/b><\/p>but I could be wrong.";
+                          }
+                        }
+  
+                        document.write(out);
+                      </script>
+                    </li>
+                  </ul>
+HTML;
+
 $features = new FeatureList(array(
   'versions' => array(
     'ecmascript' => '<a href="#ecmascript">ECMAScript</a>',
     ''           => <<<HTML
-This <abbr title="implementation">impl.</abbr><sup><a
-name="this-ua" href="#fn-this-ua">1</a></sup>
+This <abbr title="implementation">impl.</abbr>{$footnotes->add('this-impl', '', $scriptEngineTest, '')}
 HTML
     ,
     'javascript' => '<a href="#javascript" title="Netscape/Mozilla.org JavaScript">JavaScript</a>',
@@ -83,7 +242,8 @@ HTML
         'v8'         => array('tested' => '1.3'),
         'jsc'        => array('', 'tested' => '525.13'),
         'opera'      => array('tested' => '-',
-          'footnote' => 'Opera 5.02 to 7.02 read escaped newline'),
+          'footnote' => $footnotes->add('esc-newline-opera', 2,
+            'Opera 5.02 to 7.02 read escaped newline')),
         'kjs'        => array('', 'tested' => '4.3.2'),
       )
     )),
@@ -110,12 +270,12 @@ HTML
       'content'    => '<code>/[^]/ :&nbsp;RegExp</code>',
       'versions'   => array(
         'ecmascript' => 3,
-        'javascript' => '',
+        'javascript' => array('tested' => '1.5'),
         'jscript'    => array('tested' => '-'),
-        'v8'         => '',
-        'jsc'        => '',
+        'v8'         => array('tested' => '2.1'),
+        'jsc'        => array('tested' => '530.17'),
         'opera'      => array('tested' => '5.02'),
-        'kjs'        => '',
+        'kjs'        => array('tested' => '4.4.3'),
       )
     )),
     
@@ -303,17 +463,12 @@ HTML
       'versions' => array(
         'ecmascript' => 1,
         ''           => '1 == "1"',
-        'javascript' => array(
-            '<a class="tooltip" href="#equals" name="equals">1.0<span><span>
-      (</span>deprecated since 1.4 <em>for comparison of two <code class="donthl">JSObject</code>
-      objects</em>; use the <code class="donthl">JSObject.equals</code> method instead<span>)</span></span></a>',
-          'tested'  => '1.3',
-          'urn'     => '#equals',
-          'tooltip' => '<span>
-            (</span>deprecated since 1.4 <em>for comparison of two
-            <code>JSObject</code> objects</em>; use the
-            <code>JSObject<span class="punct">.</span>equals</code>
-            method instead<span>)</span></span>'),
+        'javascript' => array('tested'  => '1.0',
+          'footnote' => $footnotes->add('equals-JavaScript', '',
+            'deprecated since 1.4 <em>for comparison of two
+             <code>JSObject</code> objects</em>; use the
+             <code>JSObject<span class="punct">.</span>equals</code>
+             method instead')),
         'jscript'    => array('1.0', 'tested' => '5.1.5010'),
         'v8'         => array('tested' => '1.3'),
         'jsc'        => array('tested' => '525.13'),
@@ -363,7 +518,8 @@ HTML
         'v8'         => array('tested' => '1.3'),
         'jsc'        => array('tested' => '525.13'),
         'opera'      => array('tested' => '7.02',
-          'footnote' => '5.02 and 6.06 show length 2, should be 1'),
+          'footnote' => $footnotes->add('array-init-opera', '',
+            '5.02 and 6.06 show length 2, should be 1')),
         'kjs'        => array('tested' => '4.3.4'),
       )
     )),
@@ -377,7 +533,7 @@ HTML
         <code>[<var>expression</var> for each (<var>propertyValue</var>
         in&nbsp;<var>Object</var>)</code>
         [<code>if (<var>condition</var>)</code>]<code>]
-        :&nbsp;Array</code><sup><a href="#fn-decl-ver" name="decl-ver">V</a></sup>
+        :&nbsp;Array</code>{$footnotes->add('decl-ver', 'V', 'Version needs to be declared in order to use this feature')}
 HTML
       , 'versions' => array(
         'ecmascript' => '-',
@@ -521,11 +677,15 @@ HTML
         ''           => '"function f1() { return typeof arguments != \'undefined\' && arguments.caller; };"
                          + "function f2() { return f1(); };"
                          + "f2() == f2"',
-        'javascript' => '<a href="#arguments.caller" class="tooltip">1.1<span><span>; </span>deprecated
-      since 1.3</span></a>',
-        'jscript' => '<span class="tooltip">&#8722;<span><span>
-          (</span>see&nbsp;<code class="donthl"><a href="#Function.prototype.caller"
-          >Function.prototype.caller</a></code><span>)</span></span></span>',
+        'javascript' => array('1.1',
+          'footnote' => $footnotes->add('arguments.caller-JS1.3', '',
+                          'deprecated since 1.3')
+        ),
+        'jscript'    => array('-',
+          'footnote' => $footnotes->add('arguments.caller-JScript', '',
+                          'see&nbsp;<a href="#Function.prototype.caller"
+                           ><code>Function.prototype.caller</code></a>')
+        ),
         'v8'         => array('tested' => '-'),
         'jsc'        => array('tested' => '-'),
         'opera'      => array('tested' => '-'),
@@ -574,6 +734,27 @@ HTML
     )),
     
     new ScriptFeature(array(
+      'content' => '<code>Array.isArray(<var>arg</var>) : boolean</code>',
+      'versions' => array(
+        'ecmascript' => array('5',
+          'section' => '15.4.3.2'),
+        ''           => 'isMethod(_global, "Array", "isArray")',
+        'javascript' => '',
+        'jscript'    => '',
+        'opera'      => '',
+        )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code><var>array</var>.length :&nbsp;number|int</code>',
+      'versions' => array(
+        'ecmascript' => '1',
+        'javascript' => '1.1',
+        'jscript' => ''
+      )
+    )),
+    
+    new ScriptFeature(array(
       'content' => '<code>Array.some(<var>iterable</var>,
         <var>callback</var> : Function) : boolean</code>',
       'versions' => array(
@@ -610,11 +791,23 @@ HTML
     )),
     
     new ScriptFeature(array(
+      'content' => '<code>Array.prototype.constructor : Array</code>',
+      'versions' => array(
+        'ecmascript' => 1,
+        ''           => 'getFeature(_global, "Array", "prototype", "constructor") == getFeature(_global, "Array")',
+        'javascript' => array('1.1'),
+        'jscript'    => '',
+        'opera'      => '',
+      )
+    )),
+    
+    new ScriptFeature(array(
       'content' => '<code>Array.prototype.every(<var>callback</var>
         : Function</code>[<code>, <var>thisValue</var></code>]<code>)
         : boolean</code>',
       'versions' => array(
-        'ecmascript' => '-',
+        'ecmascript' => array('5',
+          'section' => '15.4.4.16'),
         ''           => 'isMethod(_global, "Array", "prototype", "every")',
         'javascript' => '1.6',
         'jscript'    => '-',
@@ -623,10 +816,39 @@ HTML
     )),
     
     new ScriptFeature(array(
+      'content' => '<code>Array.prototype.filter(<var>callback</var>
+        :&nbsp;Function</code>[<code>, <var>thisArg</var>
+        :&nbsp;Object</code>]<code>) :&nbsp;number|int</code>',
+      'versions' => array(
+        'ecmascript' => array('5',
+          'section' => '15.4.4.20'),
+        ''           => 'isMethod(_global, "Array", "prototype", "filter")',
+        'javascript' => '1.6',
+        'jscript'    => '',
+        'opera'      => '',
+      )
+    )),
+      
+    new ScriptFeature(array(
+      'content' => '<code>Array.prototype.forEach(<var>callback</var>
+        :&nbsp;Function</code>[<code>, <var>thisArg</var>
+        :&nbsp;Object</code>]<code>) :&nbsp;number|int</code>',
+      'versions' => array(
+        'ecmascript' => array('5',
+          'section' => '15.4.4.18'),
+        ''           => 'isMethod(_global, "Array", "prototype", "forEach")',
+        'javascript' => '1.6',
+        'jscript'    => '',
+        'opera'      => '',
+      )
+    )),
+    
+    new ScriptFeature(array(
       'content' => '<code>Array.prototype.indexOf(<var>searchElement</var></code>[<code>,
         <var>fromIndex</var> : Number|int</code>]<code>) : number|int</code>',
       'versions' => array(
-        'ecmascript' => '-',
+        'ecmascript' => array('5',
+          'section' => '15.4.4.14'),
         ''           => 'isMethod(_global, "Array", "prototype", "indexOf")',
         'javascript' => '1.6',
         'jscript'    => '-',
@@ -649,6 +871,19 @@ HTML
     )),
       
     new ScriptFeature(array(
+      'content' => '<code>Array.prototype.lastIndexOf(<var>searchElement</var></code>[<code>,
+        <var>fromIndex</var> : Number|int</code>]<code>) : number|int</code>',
+      'versions' => array(
+        'ecmascript' => array('5',
+          'section' => '15.4.4.15'),
+        ''           => 'isMethod(_global, "Array", "prototype", "lastIndexOf")',
+        'javascript' => '1.6',
+        'jscript'    => '',
+        'opera'      => '',
+      )
+    )),
+      
+    new ScriptFeature(array(
       'content' => '<code>Array.prototype.length : number|int</code>',
       'versions' => array(
         'ecmascript' => '1',
@@ -661,6 +896,20 @@ HTML
       )
     )),
     
+    new ScriptFeature(array(
+      'content' => '<code>Array.prototype.map(<var>callback</var>
+        :&nbsp;Function</code>[<code>, <var>thisArg</var>
+        :&nbsp;Object</code>]<code>) :&nbsp;number|int</code>',
+      'versions' => array(
+        'ecmascript' => array('5',
+          'section' => '15.4.4.19'),
+        ''           => 'isMethod(_global, "Array", "prototype", "map")',
+        'javascript' => '1.6',
+        'jscript'    => '',
+        'opera'      => '',
+      )
+    )),
+      
     new ScriptFeature(array(
       'content' => '<code>Array.prototype.pop()</code>',
       'versions' => array(
@@ -680,9 +929,36 @@ HTML
         <var>&hellip;</var></code>]]]<code>) : number|int</code>',
       'versions' => array(
         'ecmascript' => '3',
-        'javascript' => '1.2',
+        'javascript' => array('1.2',
+          'footnotes' => array(
+            'Since 1.3: returns the new length of the array rather than the last element added to the array.'
+          )),
         'jscript'    => '5.5',
         'opera'      => array('tested' => '5.02'),
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Array.prototype.reduce(<var>callback</var>
+        :&nbsp;Function</code>[<code>, <var>initialValue</var></code>]<code>) : any</code>',
+      'versions' => array(
+        'ecmascript' => array('5',
+          'section' => '15.4.4.21'),
+        'javascript' => '1.8',
+        'jscript'    => '',
+        'opera'      => '',
+      )
+    )),
+      
+    new ScriptFeature(array(
+      'content' => '<code>Array.prototype.reduceRight(<var>callback</var>
+        :&nbsp;Function</code>[<code>, <var>initialValue</var></code>]<code>) : any</code>',
+      'versions' => array(
+        'ecmascript' => array('5',
+          'section' => '15.4.4.22'),
+        'javascript' => '1.8',
+        'jscript'    => '',
+        'opera'      => '',
       )
     )),
     
@@ -715,8 +991,8 @@ HTML
         'javascript' => '1.2',
         'jscript'    => '3.0',
         'opera'      => array('tested' => '5.02',
-          'footnote' => 'Opera 6.06 does not support negative values for'
-                        . ' <var>start</var>'),
+          'footnote' => $footnotes->add('slice-opera', '',
+            'Opera 6.06 does not support negative values for <var>start</var>')),
       )
     )),
     
@@ -725,7 +1001,8 @@ HTML
         :&nbsp;Function</code>[<code>,
         <var>thisValue</var></code>]<code>) : boolean</code>',
       'versions' => array(
-        'ecmascript' => '-',
+        'ecmascript' => array('5',
+          'section' => '15.4.4.17'),
         'javascript' => '1.6',
         'jscript'    => '-',
         'opera'      => array('tested' => '-'),
@@ -737,7 +1014,14 @@ HTML
         : Function</code>]<code>) : Array</code>',
       'versions' => array(
         'ecmascript' => '1',
-        'javascript' => '1.1',
+        'javascript' => array('1.1',
+          'footnote' =>
+              $footnotes->add('sort-JS1.1', '',
+                '1.1: Does not work on some platforms; converts undefined elements to null')
+            . $footnotes->add('sort-JS1.2', '',
+                '1.2: Sorts undefined elements to the end of the array')
+            . $footnotes->add('sort-JS1.8', '', '1.8: Stable sort')
+        ),
         'jscript'    => '2.0'
       )
     )),
@@ -752,10 +1036,29 @@ HTML
         <var>&hellip;</var></code>]]]<code>) :&nbsp;Array</code></a>',
       'versions' => array(
         'ecmascript' => '3',
-        'javascript' => '<a href="#Array.prototype.splice"
-        name="Array.prototype.splice" class="tooltip"
-      >1.2<span><span>; </span>no return value before 1.3</span></a>',
+        'javascript' => array('1.2',
+          'footnote' => $footnotes->add('slice-JS1.3', '',
+            'since 1.3: returns an array containing the removed elements')
+        ),
         'jscript' => array('5.5*', 'tested' => '5.5.6330'),
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Array.prototype.toSource() :&nbsp;string</code></a>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => '1.3',
+        'jscript' => '',
+      )
+    )),
+
+    new ScriptFeature(array(
+      'content' => '<code>Array.prototype.toString() :&nbsp;string</code></a>',
+      'versions' => array(
+        'ecmascript' => '1',
+        'javascript' => '1.1',
+        'jscript' => '',
       )
     )),
     
@@ -769,7 +1072,7 @@ HTML
         'jscript' => '5.5'
       )
     )),
-    
+
     new ScriptFeature(array(
       'content' => '<a name="b" id="b"></a><code>boolean</code>',
       'versions' => array(
@@ -798,6 +1101,33 @@ HTML
         'javascript' => array('assumed' => '1.1'),
         'jscript'    => array('2.0', 'tested' => '5.1.5010'),
         'opera'      => array('tested' => '5.02'),
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Boolean.prototype.toSource() :&nbsp;string</code></a>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => '1.3',
+        'jscript' => '',
+      )
+    )),
+
+    new ScriptFeature(array(
+      'content' => '<code>Boolean.prototype.toString() :&nbsp;string</code></a>',
+      'versions' => array(
+        'ecmascript' => '1',
+        'javascript' => '1.1',
+        'jscript' => '',
+      )
+    )),
+
+    new ScriptFeature(array(
+      'content' => '<code>Boolean.prototype.valueOf() :&nbsp;boolean</code></a>',
+      'versions' => array(
+        'ecmascript' => '1',
+        'javascript' => '1.1',
+        'jscript' => '',
       )
     )),
     
@@ -1524,9 +1854,10 @@ HTML
       'content' => '<code>Function.prototype.arity :&nbsp;number|int</code>',
       'versions' => array(
         'ecmascript' => '',
-        'javascript' => '<a href="#Function.prototype.arity"
-        name="Function.prototype.arity" class="tooltip"
-      >1.2<span><span>; </span>deprecated since 1.4</span></a>',
+        'javascript' => array('1.2',
+          'footnote' => $footnotes->add('arity-JS1.4', '',
+            'deprecated since 1.4')
+        ),
         'jscript' => ''
       )
     )),
@@ -1544,11 +1875,12 @@ HTML
       'content' => '<code>Function.prototype.arguments :&nbsp;arguments</code>',
       'versions' => array(
         'ecmascript' => '-',
-        'javascript' => <<<HTML
-          <span class="tooltip">1.0<span><span>; </span>deprecated since 1.4;
-          use <a href="#arguments"><code class="donthl">arguments</code></a> instead</span></span>
-HTML
-        , 'jscript' => '2.0'
+        'javascript' => array('1.0',
+          'footnote' => $footnotes->add('Function.prototype.arguments-JS1.4', '',
+            'deprecated since 1.4; use
+             <a href="#arguments"><code>arguments</code></a> instead')
+        ),
+        'jscript' => '2.0'
       )
     )),
     
@@ -1556,12 +1888,13 @@ HTML
       'content' => '<code>Function.prototype.arguments.callee :&nbsp;Function</code>',
       'versions' => array(
         'ecmascript' => '-',
-        'javascript' => <<<HTML
-          <span class="tooltip">1.2<span><span>; </span>deprecated since 1.4;
-          use <code class="donthl"><a href="#arguments.callee">arguments.callee</a></code>
-          instead</span></span>
-HTML
-        , 'jscript' => '5.6'
+        'javascript' => array('1.2',
+          'footnote' => $footnotes->add('Function.prototype.arguments.callee-JS1.4',
+            '', 'deprecated since 1.4; use
+                <a href="#arguments.callee"><code>arguments.callee</code></a>
+                instead')
+        ),
+        'jscript' => '5.6'
       )
     )),
     
@@ -1569,17 +1902,21 @@ HTML
       'content' => '<code>Function.prototype.arguments.length :&nbsp;number|int</code>',
       'versions' => array(
         'ecmascript' => '-',
-        'javascript' => <<<HTML
-          <span class="tooltip">1.0<span><span>; </span>deprecated since 1.4;
-          use <a href="#arguments.length"><code class="donthl">arguments.length</code></a>
-          instead</span></span>
-HTML
-        , 'jscript' => ''
+        'javascript' => array('1.0',
+          'footnote' => $footnotes->add('Function.prototype.arguments.length-JS1.4',
+            '', 'deprecated since 1.4; use
+                <a href="#arguments.length"><code>arguments.length</code></a>
+                instead')
+        ),
+        'jscript' => ''
       )
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Function.prototype.call(</code>[<code><var>thisArg</var> : Object|undefined</code>[<code>, <var>arg1</var></code>[,<code> <var>arg2</var>, <var>&hellip;</var></code>]]<code>)</code>',
+      'content' => '<code>Function.prototype.call(</code>[<code><var>thisArg</var>
+        :&nbsp;Object|undefined</code>[<code>,
+        <var>arg1</var></code>[,<code> <var>arg2</var>,
+        <var>&hellip;</var></code>]]<code>)</code>',
       'versions' => array(
         'ecmascript' => '3',
         'javascript' => array(1.3,
@@ -1619,16 +1956,21 @@ HTML
                          && getFeature(Function, "prototype", "prototype")
                          && typeof Function.prototype.prototype == "object"',
         'javascript' => array('tested' => '1.8.2',
-          'footnote' => 'tested in 1.8.2 only'),
+          'footnote' => $footnotes->add('Fun-proto-JavaScript', '',
+            'tested in 1.8.2 only')),
         'jscript'    => array('-',
-          'footnote' => 'tested in 5.0 and 6.0 only, 8.x and 9.x Preview contributed by LRN'),
+          'footnote' => $footnotes->add('Fun-proto-JScript', '',
+            'tested in 5.0 and 6.0 only, 8.x and 9.x Preview contributed by LRN')),
         'v8'         => array('-',
-          'footnote' => 'Chrome dev contributed by LRN'),
+          'footnote' => $footnotes->add('Fun-proto-V8', '',
+            'Chrome dev contributed by LRN')),
         'jsc'        => array('-',
-          'footnote' => 'Safari 4.0.5 contributed by LRN'),
+          'footnote' => $footnotes->add('Fun-proto-JSC', '',
+            'Safari 4.0.5 contributed by LRN')),
         'opera'      => array('-',
-          'footnote' => '9.52 contributed by LRN'),
-    )
+          'footnote' => $footnotes->add('Fun-proto-Opera', '',
+            '9.52 contributed by LRN')),
+      )
     )),
       
     new ScriptFeature(array(
@@ -1641,7 +1983,8 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<a name="g" id="g"></a><code><var>Generator</var>.close()</code><sup><a href="#fn-decl-ver">V</a></sup>',
+      'content' => '<a name="g" id="g"></a><code><var>Generator</var>.close()</code>'
+        . $footnotes->add('decl-ver'),
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => array(1.7,
@@ -1651,7 +1994,8 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code><var>Generator</var>.next()</code><sup><a href="#fn-decl-ver">V</a></sup>',
+      'content' => '<code><var>Generator</var>.next()</code>'
+        . $footnotes->add('decl-ver'),
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => array(1.7,
@@ -1661,7 +2005,8 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code><var>Generator</var>.send(<var>expression</var>)</code><sup><a href="#fn-decl-ver">V</a></sup>',
+      'content' => '<code><var>Generator</var>.send(<var>expression</var>)</code>'
+        . $footnotes->add('decl-ver'),
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => array(1.7,
@@ -1671,7 +2016,8 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code><var>Generator</var>.throw(<var>expression</var>)</code><sup><a href="#fn-decl-ver">V</a></sup>',
+      'content' => '<code><var>Generator</var>.throw(<var>expression</var>)</code>'
+        . $footnotes->add('decl-ver'),
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => array(1.7,
@@ -1836,7 +2182,8 @@ HTML
       'content' => '<a name="l" id="l"></a><a name="let" id="let"><code
         title="Block scoping: let statement"
       >let&nbsp;(<var>assignment</var></code>[<code>, <var>&#8230;</var></code>]<code>)
-      {&nbsp;</code>[<code><var>statements</var></code>]<code>&nbsp;}</code></a><sup><a href="#fn-decl-ver">V</a></sup>',
+      {&nbsp;</code>[<code><var>statements</var></code>]<code>&nbsp;}</code></a>'
+        . $footnotes->add('decl-ver'),
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => array(1.7,
@@ -1849,7 +2196,7 @@ HTML
       'title' => 'Block scoping: let expression',
       'content' => <<<HTML
         <code title="Block scoping: let expression">let&nbsp;(<var>assignment</var></code>[<code>,
-        <var>&#8230;</var></code>]<code>)&nbsp;<var>expression</var></code><sup><a href="#fn-decl-ver">V</a></sup>
+        <var>&#8230;</var></code>]<code>)&nbsp;<var>expression</var></code>{$footnotes->add('decl-ver')}
 HTML
       , 'versions' => array(
         'ecmascript' => '-',
@@ -1863,7 +2210,7 @@ HTML
       'title' => 'Block scoping: let definition',
       'content' => <<<HTML
         <code title="Block scoping: let definition">let&nbsp;<var>assignment</var></code>[<code>,
-        <var>&#8230;</var></code>]<sup><a href="#fn-decl-ver">V</a></sup>
+        <var>&#8230;</var></code>]{$footnotes->add('decl-ver')}
 HTML
       , 'versions' => array(
         'ecmascript' => '-',
@@ -2589,7 +2936,8 @@ HTML
                          && 'ab'.substr(-1) == 'b'",
         'javascript' => array('1.2', 'tested' => '1.2'),
         'jscript' => array('-',
-          'footnote' => 'Does not support negative values'),
+          'footnote' => $footnotes->add('Str-proto-substr-JScript', '',
+            'Does not support negative values')),
         'v8'         => array('tested' => '2.1'),
         'jsc'        => array('tested' => '530.17'),
         'kjs'        => array('tested' => '4.3.4'),
@@ -2748,79 +3096,81 @@ HTML
     new ScriptFeature(array(
       'content' => '<a name="w" id="w"></a><code>window</code>',
       'versions' => array(
-        'javascript' => '<a
-        href="http://research.nihonsoft.org/javascript/ClientReferenceJS13/window.html"
-      >1.0</a><span class="tooltip">**<span><span>; </span>removed in <a
-        href="#javascript"
-      >1.4</a>; <a
-        href="https://developer.mozilla.org/en/docs/DOM:window"
-      >Gecko&nbsp;DOM feature</a> since <a href="#javascript">1.5</a></span></span>',
+        'ecmascript' => '-',
+        'javascript' => array('1.0',
+          'urn' => 'http://research.nihonsoft.org/javascript/ClientReferenceJS13/window.html',
+          'footnote' => $footnotes->add('window-JS1.4', '',
+            'removed in <a href="#javascript">1.4</a>;
+             <a href="https://developer.mozilla.org/en/docs/DOM:window"
+                >Gecko&nbsp;DOM feature</a> since
+                <a href="#javascript">1.5</a>')
+        ),
         'jscript' => '-',
-        'ecmascript' => '-'
       )
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>window.setInterval(<var>string</var>, <var>msec</var>)</code>',
-      'versions' => array(
-          'ecmascript' => '-',
-          'javascript' => '<a
-        href="http://research.nihonsoft.org/javascript/ClientReferenceJS13/window.html#1203669"
-      >1.2</a><span class="tooltip">**<span><span>; </span>removed in <a
-        href="#javascript"
-      >1.4</a>; <a
-        href="https://developer.mozilla.org/en/docs/DOM:window.setInterval"
-      >Gecko&nbsp;DOM feature</a> since <a href="#javascript">1.5</a></span></span>',
-        'jscript' => '-'
-      )
-    )),
-    
-    new ScriptFeature(array(
-      'content' => '<code>window.setInterval(<var>functionReference</var>, <var>msec</var></code>[<code>,
-      <var>arg1</var></code>[<code>, <var>&hellip;</var>, <var>argN</var></code>]]<code>)</code>',
-      'versions' => array(
-        'ecmascript' => '-',
-        'javascript' => '1.2<span class="tooltip">**<span><span>; </span>removed in
-      1.4; <a
-        href="https://developer.mozilla.org/en/docs/DOM:window.setInterval"
-      >Gecko&nbsp;DOM feature</a> since <a href="#javascript">1.5</a></span></span>',
-        'jscript' => '-'
-      )
-    )),
-    
-    new ScriptFeature(array(
-      'content' => '<code>window.setTimeout(<var>string</var>, <var>msec</var>)</code>',
-      'versions' => array(
-        'ecmascript' => '-',
-        'javascript' => '<a
-        href="http://research.nihonsoft.org/javascript/ClientReferenceJS13/window.html#1203758"
-      >1.0</a><span class="tooltip">**<span><span>; </span>removed in <a
-        href="#javascript"
-      >1.4</a>; <a
-        href="https://developer.mozilla.org/en/docs/DOM:window.setTimeout"
-      >Gecko&nbsp;DOM feature</a> since <a href="#javascript">1.5</a></span></span>',
-        'jscript' => '-'
-      )
-    )),
-    
-    new ScriptFeature(array(
-      'content' => '<code>window.setTimeout(<var>functionReference</var>, <var>msec</var></code>[<code>,
-      <var>arg1</var></code>[<code>, <var>&hellip;</var>, <var>argN</var></code>]]<code>)</code>',
+      'content' => '<code>window.setInterval(<var>string</var>,
+        <var>msec</var>)</code>',
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => array(1.2,
+          'urn' => 'http://research.nihonsoft.org/javascript/ClientReferenceJS13/window.html#1203669',
+          'footnote' => $footnotes->add('setInterval-JS1.4', '',
+            'removed in <a href="#javascript">1.4</a>;
+             <a href="https://developer.mozilla.org/en/docs/DOM:window.setInterval"
+                >Gecko&nbsp;DOM feature</a> since <a href="#javascript">1.5</a>')
+        ),
+        'jscript' => '-'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>window.setInterval(<var>functionReference</var>,
+        <var>msec</var></code>[<code>, <var>arg1</var></code>[<code>,
+        <var>&hellip;</var>, <var>argN</var></code>]]<code>)</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => array('1.2',
+          'footnote' => $footnotes->add('setInterval-JS1.4')
+        ),
+        'jscript' => '-'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>window.setTimeout(<var>string</var>,
+        <var>msec</var>)</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => array('1.0',
           'urn' => 'http://research.nihonsoft.org/javascript/ClientReferenceJS13/window.html#1203758',
-          'tooltip' => '<span class="tooltip">**<span><span>; </span>removed in
-      1.4; <a
-        href="https://developer.mozilla.org/en/docs/DOM:window.setTimeout"
-      >Gecko&nbsp;DOM feature</a> since <a href="#javascript">1.5</a></span></span>'),
+          'footnote' => $footnotes->add('setTimeout-JS1.4', '',
+            'removed in <a href="#javascript">1.4</a>;
+             <a href="https://developer.mozilla.org/en/docs/DOM:window.setTimeout"
+                >Gecko&nbsp;DOM feature</a> since <a href="#javascript">1.5</a>')
+        ),
+        'jscript' => '-'
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>window.setTimeout(<var>functionReference</var>,
+        <var>msec</var></code>[<code>, <var>arg1</var></code>[<code>,
+        <var>&hellip;</var>, <var>argN</var></code>]]<code>)</code>',
+      'versions' => array(
+        'ecmascript' => '-',
+        'javascript' => array(1.2,
+          'tooltip' => $footnotes->add('setTimeout-JS1.4')
+        ),
         'jscript' => '-'
       )
     )),
     
     new ScriptFeature(array(
       'title' => 'Generator expression',
-      'content' => '<code title="Generator expression">yield <var>expression</var></code><sup><a href="#fn-decl-ver">V</a></sup>',
+      'content' => '<code title="Generator expression">yield <var>expression</var></code>'
+        . $footnotes->add('decl-ver'),
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => array(1.7,
