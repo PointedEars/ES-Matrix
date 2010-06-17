@@ -165,6 +165,7 @@ HTML;
 $features = new FeatureList(array(
   'versions' => array(
     'ecmascript' => '<a href="#ecmascript">ECMAScript</a>',
+    /* FIXME: Need late evaluation here because of repetition */
     ''           => <<<HTML
 This <abbr title="implementation">impl.</abbr>{$footnotes->add('this-impl', '', $scriptEngineTest, '')}
 HTML
@@ -242,7 +243,7 @@ HTML
         'v8'         => array('tested' => '1.3'),
         'jsc'        => array('', 'tested' => '525.13'),
         'opera'      => array('tested' => '-',
-          'footnote' => $footnotes->add('esc-newline-opera', 2,
+          'footnote' => $footnotes->add('esc-newline-opera', '',
             'Opera 5.02 to 7.02 read escaped newline')),
         'kjs'        => array('', 'tested' => '4.3.2'),
       )
@@ -1045,7 +1046,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Array.prototype.toSource() :&nbsp;string</code></a>',
+      'content' => '<code>Array.prototype.toSource() :&nbsp;string</code>',
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => '1.3',
@@ -1054,7 +1055,7 @@ HTML
     )),
 
     new ScriptFeature(array(
-      'content' => '<code>Array.prototype.toString() :&nbsp;string</code></a>',
+      'content' => '<code>Array.prototype.toString() :&nbsp;string</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.1',
@@ -1074,7 +1075,8 @@ HTML
     )),
 
     new ScriptFeature(array(
-      'content' => '<a name="b" id="b"></a><code>boolean</code>',
+      'content' => '<code>boolean</code>',
+      'anchors' => array('b'),
       'versions' => array(
         'ecmascript' => '4',
         'javascript' => '2.0',
@@ -1105,7 +1107,7 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Boolean.prototype.toSource() :&nbsp;string</code></a>',
+      'content' => '<code>Boolean.prototype.toSource() :&nbsp;string</code>',
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => '1.3',
@@ -1114,7 +1116,7 @@ HTML
     )),
 
     new ScriptFeature(array(
-      'content' => '<code>Boolean.prototype.toString() :&nbsp;string</code></a>',
+      'content' => '<code>Boolean.prototype.toString() :&nbsp;string</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.1',
@@ -1123,7 +1125,7 @@ HTML
     )),
 
     new ScriptFeature(array(
-      'content' => '<code>Boolean.prototype.valueOf() :&nbsp;boolean</code></a>',
+      'content' => '<code>Boolean.prototype.valueOf() :&nbsp;boolean</code>',
       'versions' => array(
         'ecmascript' => '1',
         'javascript' => '1.1',
