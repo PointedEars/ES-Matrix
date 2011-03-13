@@ -8,6 +8,10 @@ p {
   text-align: justify;        
 }
 
+li p {
+  text-align: left;
+}
+
 div, p, ul, ol, th, td {
   max-width: 60ex;
 }
@@ -32,6 +36,23 @@ ul.horizontal li {
   float: left;
   margin-left: 0;
   margin-right: 0.5em;
+}
+
+a:link {
+  background-color: transparent;
+  color: #00c;
+}
+
+a:visited {
+  background-color: transparent;
+  color: #609;
+}
+
+a:link:focus, a:visited:focus,
+a:link:hover, a:visited:hover
+{
+  background-color: transparent;
+  color: #090;
 }
 
 a[href^="http:"],
@@ -67,7 +88,12 @@ a[href^="https://PointedEars.de/"]
 .footnote-ref :link,
 .footnote-ref :visited
 {
+  border-bottom: 1px dotted #666;
   cursor: help;
+}
+
+tr[title], th[title], td[title] {
+  border-bottom: none;
 }
 
 .footnote-ref .tooltip {
@@ -79,6 +105,7 @@ a[href^="https://PointedEars.de/"]
 }
 
 a[title] {
+  border-bottom: none;
   cursor: pointer;
 }
 
@@ -91,7 +118,7 @@ span.section {
 }
 
 acronym, abbr {
-  border-bottom: 1px dotted black;
+  border-bottom: 1px dotted #666;
 }
 
 /* Konqueror 3.5.9 fix */
@@ -209,7 +236,21 @@ tbody tr.header
   color:#000;
 }
 
-thead th a:link:hover, thead td a:link:hover {
+thead th a:link, thead td a:link {
+  background-color: transparent;
+  color: #009;
+}
+
+thead th a:visited, thead td a:visited {
+  background-color: transparent;
+  color: #606;
+}
+
+thead th a:link:focus,    thead td a:link:focus,
+thead th a:visited:focus, thead td a:visited:focus,
+thead th a:link:hover,    thead td a:link:hover,
+thead th a:visited:hover, thead td a:visited:hover
+{
   background-color: transparent;
   color: #fff;
 }
@@ -229,6 +270,13 @@ tbody tr {
 
 tbody tr.safe {
   background-color: #9f9;
+}
+
+tbody tr.safe a:link:focus, tbody tr.safe a:visited:focus,
+tbody tr.safe a:link:hover, tbody tr.safe a:visited:hover
+{
+  background-color: transparent;
+  color: #060;
 }
 
 tbody tr.safe:hover {
@@ -340,4 +388,14 @@ table code,
 table span
 {
   background-color: transparent !important;
+}
+
+span {
+  width: auto;
+  height: auto;
+}
+
+.timeline .blue {
+  background-color: #006;
+  color: white;
 }

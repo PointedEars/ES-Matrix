@@ -142,14 +142,14 @@ var scroller = new Object();
  * Initializes the scrollable toggle
  */
 scroller.init = function () {
-  scroller = new Scrollable('scroller', 'scroll', 400,
-    function () {
-      var btToggleScroll;
-      if ((btToggleScroll = dom.getElem('id', 'btToggleScroll')))
-      {
-        btToggleScroll.style.display = "";
-      }
-    });
+//  scroller = new Scrollable('scroller', 'scroll', 400,
+//    function () {
+//      var btToggleScroll;
+//      if ((btToggleScroll = dom.getElem('id', 'btToggleScroll')))
+//      {
+//        btToggleScroll.style.display = "";
+//      }
+//    });
 };
 
 function HTMLSerializer(properties)

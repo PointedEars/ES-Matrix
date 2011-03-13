@@ -103,95 +103,11 @@ class ScriptFeature extends Feature
       return '';
     }
   }
-  
-  public function printMe()
-  {
-    ?>
-<tr<?php echo $this->getSafeStr(); ?>>
-          <th<?php echo $this->getTitleStr(); ?>><?php
-            echo $this->getAnchors();
-            echo /*preg_replace_callback(
-              '#(<code>)(.+?)(</code>)#',
-              array('self', 'shl'),*/
-              preg_replace('/&hellip;/', '&#8230;', $this->content)/*)*/;
-            ?></th>
-<?php
-    $versions = $this->versions;
-    if (!is_null($this->list))
-    {
-      $versions =& $this->list->versions;
-    }
 
-    static $row = 0;
-    $row++;
-    
-    $column = 0;
-    $thisVersions =& $this->versions;
-    
-    foreach ($versions as $key => $value)
-    {
-      $column++;
-      $id = "td$row-$column";
-      $ver = isset($thisVersions[$key]) ? $thisVersions[$key] : '';
-?>
-          <td id="<?php echo $id; ?>"<?php
-            echo $this->getAssumed($ver) . $this->getTested($ver);
-            if (!$key)
-            {
-              if (!empty($ver))
-              {
-                echo ' title="Test code: '
-                  . htmlspecialchars(
-                      preg_replace('/\\\(["\'])/', '\1',
-                        reduceWhitespace($ver)
-                      ),
-                      ENT_COMPAT,
-                      FEATURES_ENCODING
-                    )
-                  . '"';
-              }
-              else
-            {
-                echo ' title="Not applicable: No automated test case'
-                  . ' is available for this feature.  If possible, please'
-                  . ' click the feature code in the first column to run'
-                  . ' a manual test."';
-              }
-            }
-            ?>><?php
-            if ($key)
-            {
-              echo $this->getVer($ver) . $this->getGeneric($ver);
-              
-              if (is_array($ver) && isset($ver['footnote']) && $ver['footnote'])
-              {
-                echo $ver['footnote'];
-              }
-            }
-            else
-          {
-              if (!empty($ver))
-              {
-                ?><script type="text/javascript">
-  // <![CDATA[
-  var s = test(<?php echo $ver; ?>, '<span title="Supported">+<\/span>',
-    '<span title="Not supported">&#8722;<\/span>');
-  tryThis("document.write(s);",
-          "document.getElementById('<?php echo $id; ?>').appendChild("
-          + "document.createTextNode(s));");
-  // ]]>
-</script><?php
-              }
-              else
-            {
-                echo '<abbr>N/A</abbr>';
-              }
-            }
-            ?></td>
-<?php
-    }
-?>
-        </tr>
-<?php
+  protected function getVer($vInfo)
+  {
+    return parent::getVer($vInfo) . $this->getGeneric($vInfo);
   }
 }
+
+?>

@@ -16,8 +16,7 @@ $scriptEngineTest = <<<HTML
                     <li><a name="script-engine-test" id="script-engine-test"
                       >This ECMAScript implementation</a><script type="text/javascript">
                         var
-                          jsx_object = jsx.object,
-                          bCanDetect = jsx_object.isMethod(this, "ScriptEngine"),
+                          bCanDetect = isMethod(this, "ScriptEngine"),
                       
                           /* No array or loop here for backwards compatibility */
                           out = "";
@@ -26,15 +25,15 @@ $scriptEngineTest = <<<HTML
                         {
                           out += ":<p><b>" + ScriptEngine();
   
-                          if (jsx_object.isMethod(this, "ScriptEngineMajorVersion"))
+                          if (isMethod(this, "ScriptEngineMajorVersion"))
                           {
                             out += " " + ScriptEngineMajorVersion();
   
-                            if (jsx_object.isMethod(this, "ScriptEngineMinorVersion"))
+                            if (isMethod(this, "ScriptEngineMinorVersion"))
                             {
                               out += "." + ScriptEngineMinorVersion();
   
-                              if (jsx_object.isMethod(this, "ScriptEngineBuildVersion"))
+                              if (isMethod(this, "ScriptEngineBuildVersion"))
                               {
                                 out += "." + ScriptEngineBuildVersion();
                               }
@@ -50,12 +49,27 @@ $scriptEngineTest = <<<HTML
                           if (typeof navigator != "undefined")
                           {
                             var inferVersion = function (version, versionMap, fallback) {
+                              function gte(v1, v2)
+                              {
+																v1 = v1.split(".");
+																v2 = v2.split(".");
+																for (var i = 0, len = v1.length; i < len; ++i)
+																{
+																  if (parseInt(v1[i], 10) < parseInt(v2[i], 10))
+																  {
+																    return false;
+																  }
+																}
+																
+																return true;
+															}
+															
                               var s = "";
                               
                               for (var i = 0, len = versionMap.length; i < len; ++i)
                               {
                                 var mapping = versionMap[i];
-                                if (version >= mapping[0])
+                                if (gte(version, mapping[0]))
                                 {
                                   s = mapping[1];
                                   break;
@@ -75,7 +89,7 @@ $scriptEngineTest = <<<HTML
                             var ua = navigator.userAgent || "";
       
                             if (typeof window != "undefined"
-                                && jsx_object.getFeature(window, "opera"))
+                                && getFeature(window, "opera"))
                             {
                               out += "Opera ECMAScript";
                             }
@@ -87,7 +101,7 @@ $scriptEngineTest = <<<HTML
                             {
                               var m = null;
                               
-                              if (jsx_object.isMethod(ua, "match"))
+                              if (isMethod(ua, "match"))
                               {
                                 if (ua.indexOf("Chrome") > -1)
                                 {
@@ -102,6 +116,12 @@ $scriptEngineTest = <<<HTML
                                     var
                                       s = inferVersion(m[1],
                                         [
+                                        	["11.0.672", "3.1.4.0"],
+                                        	["10.0.648", "3.0.12.18"],
+                                        	["9.0.597", "2.5.9.6"],
+                                        	["8.0.552", "2.4.9.19"],
+                                          ["7.0.517", "2.3.11.22"],
+                                        	["6.0.466", "2.2"],
                                           ["5.0.342", "2.1"],
                                           ["5.0.307", "2.0"],
                                           ["4.0.249", "1.3"],
@@ -127,14 +147,14 @@ $scriptEngineTest = <<<HTML
                             {
                               m = null;
                               
-                              if (jsx_object.isMethod(ua, "match"))
+                              if (isMethod(ua, "match"))
                               {
                                 m = ua.match(/\brv:(\d+\.\d+(\.\d+)*)\b/);
                               }
                              
                               if (m) out += " at least";
                             
-                              out += " Netscape/Mozilla.org JavaScript<sup>TM<\/sup>";
+                              out += " Netscape/Mozilla.org JavaScript&#8482";
   
                               if (m)
                               {
@@ -180,10 +200,13 @@ HTML
   ),
 
   'safeVersions' => array(
-    'javascript' => 1.5,
-    'jscript'    => 5.6,
-    'jsc'        => '525.13',
-    'opera'      => '6.06'),
+    'javascript' => '1.5',
+    'jscript'    => '5.6',
+    'v8'         => '2.5.9.6',
+    'jsc'        => '533.17.8',
+    'opera'      => '6.06',
+    'kjs'        => '3.5.9'
+  ),
 
   'urns' => array(
     'mdc'     => 'https://developer.mozilla.org/en/',
@@ -267,11 +290,27 @@ HTML
     )),
     
     new ScriptFeature(array(
+      'title'      => 'RegExp literal with unescaped forward slash in character class',
+      'content'    => '<code>/[/]/ :&nbsp;RegExp</code>',
+      'versions'   => array(
+        'ecmascript' => 3,
+        ''           => '"\'/\'.match(/[/]/).length == 1"',
+  			'javascript' => array('tested' => '1.5'),
+        'jscript'    => array('tested' => '5.1.5010'),
+        'v8'         => array('tested' => '2.5.9.6'),
+        'jsc'        => array('tested' => '531.22.7'),
+        'opera'      => array('tested' => '7.02'),
+        'kjs'        => array('tested' => '4.4.5'),
+      )
+    )),
+    
+    new ScriptFeature(array(
       'title'      => 'RegExp literal with empty negated character range',
       'content'    => '<code>/[^]/ :&nbsp;RegExp</code>',
       'versions'   => array(
         'ecmascript' => 3,
-        'javascript' => array('tested' => '1.5'),
+        ''           => '"\'\\\\n\'.match(/[^]/).length == 1"',
+    		'javascript' => array('tested' => '1.5'),
         'jscript'    => array('tested' => '-'),
         'v8'         => array('tested' => '2.1'),
         'jsc'        => array('tested' => '530.17'),
@@ -534,13 +573,16 @@ HTML
         <code>[<var>expression</var> for each (<var>propertyValue</var>
         in&nbsp;<var>Object</var>)</code>
         [<code>if (<var>condition</var>)</code>]<code>]
-        :&nbsp;Array</code>{$footnotes->add('decl-ver', 'V', 'Version needs to be declared in order to use this feature')}
+        :&nbsp;Array</code>
 HTML
       , 'versions' => array(
         'ecmascript' => '-',
         'javascript' => array(1.7,
-          'urn' => 'mdc:docs/New_in_JavaScript_1.7#Array_comprehensions'),
+          'urn' => 'mdc:docs/New_in_JavaScript_1.7#Array_comprehensions',
+          'footnote' => $footnotes->add('decl-ver', 'V',
+            'Version needs to be declared in order to use this feature')),
         'jscript'    => '-',
+        'v8'         => array('tested' => '-'),
         'jsc'        => '-',
         'opera'      => array('tested' => '-'),
         'kjs'        => '-',
@@ -559,6 +601,7 @@ HTML
         'javascript' => array(1.7,
           'urn' => 'mdc:docs/New_in_JavaScript_1.7#Destructuring_assignment'),
         'jscript'    => '-',
+        'v8'         => array('tested' => '-'),
         'jsc'        => '-',
         'opera'      => array('tested' => '-'),
         'kjs'        => '-',
@@ -617,7 +660,8 @@ HTML
       'anchors' => array('a'),
       'versions' => array(
         'javascript' => '2.0',
-        'jscript' => '7.0',
+        'jscript'    => '7.0',
+        'v8'         => array('tested' => '-'),
         'ecmascript' => 4
       )
     )),
@@ -630,6 +674,7 @@ HTML
         ''           => 'isMethod(_global, "ActiveXObject")',
         'javascript' => '-',
         'jscript'    => '3.0',
+        'v8'         => array('tested' => '-'),
         'opera'      => array('tested' => '-'),
       )
     )),
@@ -717,7 +762,9 @@ HTML
         ''           => 'isMethod(_global, "Array") && Array(2).length == 2',
         'javascript' => '1.1',
         'jscript'    => '2.0',
+        'v8'         => array('tested' => '2.1'),
         'opera'      => array('tested' => '5.02'),
+        'kjs'        => array('tested' => '4.4.4'),
       )
     )),
     
@@ -730,7 +777,9 @@ HTML
         'javascript' => array(1.6,
           'urn' => 'js15ref:Global_Objects/Array/every'),
         'jscript'    => '-',
+        'v8'         => array('tested' => '-'),
         'opera'      => array('tested' => '-'),
+        'kjs'        => array('tested' => '-'),
       )
     )),
     
@@ -742,7 +791,9 @@ HTML
         ''           => 'isMethod(_global, "Array", "isArray")',
         'javascript' => '',
         'jscript'    => '',
+        'v8'         => array('tested' => '2.1'),
         'opera'      => '',
+        'kjs'        => array('tested' => '-'),
         )
     )),
     
@@ -763,7 +814,9 @@ HTML
         ''           => 'isMethod(_global, "Array", "some")',
         'javascript' => '1.6',
         'jscript' => '-',
+        'v8'         => array('tested' => '-'),
         'opera'      => array('tested' => '-'),
+        'kjs'        => array('tested' => '-'),
         )
     )),
     
@@ -774,7 +827,9 @@ HTML
         ''           => '!!getFeature(_global, "Array", "prototype")',
         'javascript' => array('assumed' => '1.1'),
         'jscript'    => array('2.0', 'tested' => '5.1.5010'),
+        'v8'         => array('tested' => '2.1'),
         'opera'      => array('tested' => '5.02'),
+        'kjs'        => array('tested' => '4.4.4'),
       )
     )),
     
@@ -787,7 +842,9 @@ HTML
         ''           => 'isMethod(_global, "Array", "prototype", "concat")',
         'javascript' => '1.2',
         'jscript'    => '3.0',
+        'v8'         => array('tested' => '2.1'),
         'opera'      => array('tested' => '5.02'),
+        'kjs'        => array('tested' => '4.4.4'),
       )
     )),
     
@@ -798,7 +855,9 @@ HTML
         ''           => 'getFeature(_global, "Array", "prototype", "constructor") == getFeature(_global, "Array")',
         'javascript' => array('1.1'),
         'jscript'    => '',
+        'v8'         => array('tested' => '2.1'),
         'opera'      => '',
+        'kjs'        => array('tested' => '4.4.4'),
       )
     )),
     
@@ -812,7 +871,9 @@ HTML
         ''           => 'isMethod(_global, "Array", "prototype", "every")',
         'javascript' => '1.6',
         'jscript'    => '-',
+        'v8'         => array('tested' => '2.1'),
         'opera'      => array('tested' => '-'),
+        'kjs'        => array('tested' => '4.4.4'),
       )
     )),
     
@@ -826,7 +887,9 @@ HTML
         ''           => 'isMethod(_global, "Array", "prototype", "filter")',
         'javascript' => '1.6',
         'jscript'    => '',
+        'v8'         => array('tested' => '2.1'),
         'opera'      => '',
+        'kjs'        => array('tested' => '4.4.4'),
       )
     )),
       
@@ -840,7 +903,9 @@ HTML
         ''           => 'isMethod(_global, "Array", "prototype", "forEach")',
         'javascript' => '1.6',
         'jscript'    => '',
+        'v8'         => array('tested' => '2.1'),
         'opera'      => '',
+        'kjs'        => array('tested' => '4.4.4'),
       )
     )),
     
@@ -853,7 +918,9 @@ HTML
         ''           => 'isMethod(_global, "Array", "prototype", "indexOf")',
         'javascript' => '1.6',
         'jscript'    => '-',
+        'v8'         => array('tested' => '2.1'),
         'opera'      => array('tested' => '-'),
+        'kjs'        => array('tested' => '4.4.4'),
       )
     )),
       
@@ -866,8 +933,10 @@ HTML
                          + " && (a = new Array(\'1\', \'2\')).join() == \'1,2\'"
                          + " && a.join(\'|\') == \'1|2\'"',
         'javascript' => '1.1',
-        'jscript' => '2.0',
+        'jscript'    => '2.0',
+        'v8'         => array('tested' => '2.1'),
         'opera'      => array('tested' => '5.02'),
+        'kjs'        => array('tested' => '4.4.4'),
       )
     )),
       
@@ -880,7 +949,9 @@ HTML
         ''           => 'isMethod(_global, "Array", "prototype", "lastIndexOf")',
         'javascript' => '1.6',
         'jscript'    => '',
+        'v8'         => array('tested' => '2.1'),
         'opera'      => '',
+        'kjs'        => array('tested' => '4.4.4'),
       )
     )),
       
@@ -893,7 +964,9 @@ HTML
                         + " && (new Array(\'1\', \'2\')).length == 2"',
         'javascript' => '1.1',
         'jscript'    => '2.0',
+        'v8'         => array('tested' => '2.1'),
         'opera'      => array('tested' => '5.02'),
+        'kjs'        => array('tested' => '4.4.4'),
       )
     )),
     
@@ -904,10 +977,13 @@ HTML
       'versions' => array(
         'ecmascript' => array('5',
           'section' => '15.4.4.19'),
-        ''           => 'isMethod(_global, "Array", "prototype", "map")',
+        ''           => 'isMethod(_global, "Array", "prototype", "map")
+                         && !/jsx/.test(Array.prototype.map)',
         'javascript' => '1.6',
         'jscript'    => '',
+        'v8'         => array('tested' => '2.1'),
         'opera'      => '',
+        'kjs'        => '',
       )
     )),
       
@@ -920,7 +996,9 @@ HTML
                         + " && typeof a[1] == \'undefined\'"',
         'javascript' => '1.2',
         'jscript'    => '5.5',
+        'v8'         => array('tested' => '2.1'),
         'opera'      => array('tested' => '5.02'),
+        'kjs'        => array('tested' => '4.4.4'),
       )
     )),
     
@@ -1102,7 +1180,9 @@ HTML
         ''           => '!!getFeature(_global, "Boolean", "prototype")',
         'javascript' => array('assumed' => '1.1'),
         'jscript'    => array('2.0', 'tested' => '5.1.5010'),
+        'v8'         => array('tested' => '2.1'),
         'opera'      => array('tested' => '5.02'),
+        'kjs'        => array('tested' => '4.4.4'),
       )
     )),
     
@@ -1187,7 +1267,9 @@ HTML
         ''           => '!!getFeature(_global, "Date", "prototype")',
         'javascript' => array('assumed' => '1.1'),
         'jscript'    => array('2.0', 'tested' => '5.1.5010'),
+        'v8'         => array('tested' => '2.1'),
         'opera'      => array('tested' => '5.02'),
+        'kjs'        => array('tested' => '4.4.4'),
       )
     )),
     
@@ -1398,6 +1480,7 @@ HTML
         'ecmascript' => 3,
         'javascript' => array(1.5, 'tested' => 1.5),
         'jscript'    => array('tested' => '5.5.6330'),
+        'v8'         => array('tested' => '2.1'),
         'jsc'        => array('tested' => '525.13'),
         'opera'      => array('tested' => '5.02'),
         'kjs'        => array('tested' => '3.5.9'),
@@ -1412,6 +1495,7 @@ HTML
         'ecmascript' => 1,
         'javascript' => array('tested' => 1.3),
         'jscript'    => array('tested' => '5.1.5010'),
+        'v8'         => array('tested' => '2.1'),
         'jsc'        => array('tested' => '525.13'),
         'opera'      => array('tested' => '5.02'),
         'kjs'        => array('tested' => '3.5.9'),
@@ -1425,7 +1509,9 @@ HTML
                && "(new Date()).toISOString()"',
         'ecmascript' => 5,
         'javascript' => array('tested' => '1.8.1'),
+        'v8'         => array('tested' => '2.1'),
         'opera'      => array('tested' => '-'),
+        'kjs'        => array('tested' => '-'),
       )
     )),
     
@@ -1436,7 +1522,9 @@ HTML
                && "(new Date()).toJSON()"',
         'ecmascript' => 5,
         'javascript' => array('tested' => '1.8.1'),
+        'v8'         => array('tested' => '2.1'),
         'opera'      => array('tested' => '-'),
+        'kjs'        => array('tested' => '-'),
       )
     )),
     
@@ -1448,6 +1536,7 @@ HTML
         'ecmascript' => 3,
         'javascript' => array(1.5, 'tested' => 1.5),
         'jscript'    => array('tested' => '5.5.6330'),
+        'v8'         => array('tested' => '2.1'),
         'jsc'        => array('tested' => '525.13'),
         'opera'      => array('tested' => '5.02'),
         'kjs'        => array('tested' => '3.5.9'),
@@ -1462,6 +1551,7 @@ HTML
         'ecmascript' => '-',
         'javascript' => array(1.6, 'tested' => 1.6),
         'jscript'    => '-',
+        'v8'         => array('tested' => '-'),
         'jsc'        => '-',
         'kjs'        => '-',
         'opera'      => '-'
@@ -1476,6 +1566,7 @@ HTML
         'ecmascript' => 1,
         'javascript' => array('tested' => 1.3),
         'jscript'    => array('5.1.5010', 'tested' => true),
+        'v8'         => array('tested' => '2.1'),
         'jsc'        => array('525.13', 'tested' => true),
         'opera'      => array('tested' => '5.02'),
         'kjs'        => array('3.5.9', 'tested' => true),
@@ -1490,6 +1581,7 @@ HTML
         'ecmascript' => 3,
         'javascript' => array(1.5, 'tested' => 1.5),
         'jscript'    => array('tested' => '5.5.6330'),
+        'v8'         => array('tested' => '2.1'),
         'jsc'        => array('tested' => '525.13'),
         'opera'      => array('tested' => '5.02'),
         'kjs'        => array('tested' => '3.5.9'),
@@ -1504,6 +1596,7 @@ HTML
         'ecmascript' => '-',
         'javascript' => array('1.0', 'tested' => 1.3),
         'jscript'    => '-',
+        'v8'         => array('tested' => '-'),
         'jsc'        => '-',
         'opera'      => array('tested' => '-'),
         'kjs'        => '-',
@@ -1518,6 +1611,7 @@ HTML
         'ecmascript' => 1,
         'javascript' => array('1.0', 'tested' => 1.3),
         'jscript'    => array('tested' => '5.1.5010'),
+        'v8'         => array('tested' => '2.1'),
         'jsc'        => array('tested' => '525.13'),
         'opera'      => array('tested' => '5.02'),
         'kjs'        => array('tested' => '3.5.9'),
@@ -1530,8 +1624,9 @@ HTML
         '' => 'isMethod(Date, "prototype", "toTimeString")
                && "(new Date()).toTimeString()"',
         'ecmascript' => 3,
-        'javascript' => array(1.5, 'tested' => 1.5),
+        'javascript' => array('1.5', 'tested' => '1.5'),
         'jscript'    => array('tested' => '5.5.6330'),
+        'v8'         => array('tested' => '2.1'),
         'jsc'        => array('tested' => '525.13'),
         'opera'      => array('tested' => '5.02'),
         'kjs'        => array('tested' => '3.5.9'),
@@ -1544,8 +1639,9 @@ HTML
         '' => 'isMethod(Date, "prototype", "toUTCString")
                && "(new Date()).toUTCString()"',
         'ecmascript' => 1,
-        'javascript' => array('tested' => 1.3),
+        'javascript' => array('tested' => '1.3'),
         'jscript'    => array('tested' => '5.1.5010'),
+        'v8'         => array('tested' => '2.1'),
         'jsc'        => array('tested' => '525.13'),
         'opera'      => array('tested' => '5.02'),
         'kjs'        => array('tested' => '3.5.9'),
@@ -1848,6 +1944,7 @@ HTML
         'javascript' => array('assumed' => '1.1'),
         'jscript'    => array('2.0', 'tested' => '5.1.5010'),
         'opera'      => array('tested' => '5.02'),
+        'kjs'        => array('tested' => '-'),
       )
     )),
     
@@ -1937,7 +2034,11 @@ HTML
                          + "function f2() { return f1(); };"
                          + "f2() == f2"',
         'javascript' => array('tested' => '1.0'),
-        'jscript'    => '2.0'
+        'jscript'    => array('2.0', 'tested' => '5.1.5010'),
+        'v8'         => array('tested' => '2.1'),
+        'jsc'        => array('tested' => '522.15.5'),
+        'opera'      => array('tested' => '9.62'),
+        'kjs'        => array('tested' => '4.4.4'),
       )
     )),
     
@@ -1953,7 +2054,7 @@ HTML
     new ScriptFeature(array(
       'content' => '<code>Function.prototype.prototype : Object</code>',
       'versions' => array(
-        'ecmascript' => '',
+        'ecmascript' => '-',
         ''           => 'typeof Function != "undefined"
                          && getFeature(Function, "prototype", "prototype")
                          && typeof Function.prototype.prototype == "object"',
@@ -1963,9 +2064,7 @@ HTML
         'jscript'    => array('-',
           'footnote' => $footnotes->add('Fun-proto-JScript', '',
             'tested in 5.0 and 6.0 only, 8.x and 9.x Preview contributed by LRN')),
-        'v8'         => array('-',
-          'footnote' => $footnotes->add('Fun-proto-V8', '',
-            'Chrome dev contributed by LRN')),
+        'v8'         => array('tested' => '-'),
         'jsc'        => array('-',
           'footnote' => $footnotes->add('Fun-proto-JSC', '',
             'Safari 4.0.5 contributed by LRN')),
@@ -1985,45 +2084,45 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<a name="g" id="g"></a><code><var>Generator</var>.close()</code>'
-        . $footnotes->add('decl-ver'),
+      'content' => '<a name="g" id="g"></a><code><var>Generator</var>.close()</code>',
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => array(1.7,
-          'urn' => 'mdc:New_in_JavaScript_1.7#Closing_a_generator'),
+          'urn' => 'mdc:New_in_JavaScript_1.7#Closing_a_generator',
+          'footnote' => $footnotes->add('decl-ver')),
         'jscript' => '-'
       )
     )),
     
     new ScriptFeature(array(
-      'content' => '<code><var>Generator</var>.next()</code>'
-        . $footnotes->add('decl-ver'),
+      'content' => '<code><var>Generator</var>.next()</code>',
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => array(1.7,
-          'urn' => 'mdc:docs/New_in_JavaScript_1.7#Generators'),
+          'urn' => 'mdc:docs/New_in_JavaScript_1.7#Generators',
+          'footnote' => $footnotes->add('decl-ver')),
         'jscript' => '-'
       )
     )),
     
     new ScriptFeature(array(
-      'content' => '<code><var>Generator</var>.send(<var>expression</var>)</code>'
-        . $footnotes->add('decl-ver'),
+      'content' => '<code><var>Generator</var>.send(<var>expression</var>)</code>',
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => array(1.7,
-          'urn' => 'mdc:docs/New_in_JavaScript_1.7#Resuming_a_generator_at_a_specific_point'),
+          'urn' => 'mdc:docs/New_in_JavaScript_1.7#Resuming_a_generator_at_a_specific_point',
+          'footnote' => $footnotes->add('decl-ver')),
         'jscript' => '-'
       )
     )),
     
     new ScriptFeature(array(
-      'content' => '<code><var>Generator</var>.throw(<var>expression</var>)</code>'
-        . $footnotes->add('decl-ver'),
+      'content' => '<code><var>Generator</var>.throw(<var>expression</var>)</code>',
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => array(1.7,
-          'urn' => 'mdc:docs/New_in_JavaScript_1.7#Exceptions_in_generators'),
+          'urn' => 'mdc:docs/New_in_JavaScript_1.7#Exceptions_in_generators',
+          'footnote' => $footnotes->add('decl-ver')),
         'jscript' => '-'
       )
     )),
@@ -2089,8 +2188,10 @@ HTML
         'ecmascript' => 1,
         'javascript' => 1.3,
         'jscript'    => array('3.0', 'tested' => '5.1.5010'),
+        'v8'         => array('tested' => '2.1'),
         'jsc'        => array('tested' => '525.13'),
         'opera'      => array('tested' => '5.02'),
+        'kjs'        => array('tested' => '4.4.4'),
       )
     )),
 
@@ -2159,6 +2260,7 @@ HTML
         'ecmascript' => 5,
         'javascript' => array('tested' => '1.8.1'),
         'jscript'    => '-',
+        'v8'         => array('tested' => '2.1'),
         'jsc'        => array('tested' => '-'),
         'opera'      => array('tested' => '-'),
         'kjs'        => '-',
@@ -2174,6 +2276,7 @@ HTML
         'ecmascript' => 5,
         'javascript' => array('tested' => '1.8.1'),
         'jscript'    => '-',
+        'v8'         => array('tested' => '2.1'),
         'jsc'        => array('tested' => '-'),
         'opera'      => array('tested' => '-'),
         'kjs'        => '-',
@@ -2184,12 +2287,12 @@ HTML
       'content' => '<a name="l" id="l"></a><a name="let" id="let"><code
         title="Block scoping: let statement"
       >let&nbsp;(<var>assignment</var></code>[<code>, <var>&#8230;</var></code>]<code>)
-      {&nbsp;</code>[<code><var>statements</var></code>]<code>&nbsp;}</code></a>'
-        . $footnotes->add('decl-ver'),
+      {&nbsp;</code>[<code><var>statements</var></code>]<code>&nbsp;}</code></a>',
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => array(1.7,
-          'urn' => 'mdc:docs/New_in_JavaScript_1.7#Block_scope_with_let'),
+          'urn' => 'mdc:docs/New_in_JavaScript_1.7#Block_scope_with_let',
+          'footnote' => $footnotes->add('decl-ver')),
         'jscript' => '-'
       )
     )),
@@ -2198,12 +2301,13 @@ HTML
       'title' => 'Block scoping: let expression',
       'content' => <<<HTML
         <code title="Block scoping: let expression">let&nbsp;(<var>assignment</var></code>[<code>,
-        <var>&#8230;</var></code>]<code>)&nbsp;<var>expression</var></code>{$footnotes->add('decl-ver')}
+        <var>&#8230;</var></code>]<code>)&nbsp;<var>expression</var></code>
 HTML
       , 'versions' => array(
         'ecmascript' => '-',
         'javascript' => array(1.7,
-          'urn' => 'mdc:docs/New_in_JavaScript_1.7#Block_scope_with_let'),
+          'urn' => 'mdc:docs/New_in_JavaScript_1.7#Block_scope_with_let',
+          'footnote' => $footnotes->add('decl-ver')),
         'jscript' => '-'
       )
     )),
@@ -2212,12 +2316,13 @@ HTML
       'title' => 'Block scoping: let definition',
       'content' => <<<HTML
         <code title="Block scoping: let definition">let&nbsp;<var>assignment</var></code>[<code>,
-        <var>&#8230;</var></code>]{$footnotes->add('decl-ver')}
+        <var>&#8230;</var></code>]
 HTML
       , 'versions' => array(
         'ecmascript' => '-',
         'javascript' => array(
-          'urn' => 'mdc:docs/New_in_JavaScript_1.7#Block_scope_with_let'),
+          'urn' => 'mdc:docs/New_in_JavaScript_1.7#Block_scope_with_let',
+          'footnote' => $footnotes->add('decl-ver')),
         'jscript' => '-'
       )
     )),
@@ -2244,6 +2349,7 @@ HTML
           'tested' => '1.3',
           'urn'    => 'js15ref:Global_Objects:Math:max'),
         'jscript'    => array('3.0', 'tested' => '3.1.3510'),
+        'v8'         => array('tested' => '2.1'),
         'jsc'        => array('tested' => '525.13'),
         'opera'      => array('tested' => '5.02'),
        'kjs'        => array('3.5.9', 'tested' => true),
@@ -2260,6 +2366,7 @@ HTML
         'javascript' => array('tested' => '1.5',
           'urn' => 'js15ref:Global_Objects:Math:max'),
         'jscript'    => array(5.5, 'tested' => '5.5.6330'),
+        'v8'         => array('tested' => '2.1'),
         'jsc'        => array('tested' => '525.13'),
         'opera'      => array('tested' => '5.02'),
         'kjs'        => array('3.5.9', 'tested' => true),
@@ -2297,7 +2404,7 @@ HTML
         'jscript'    => array('3.0', 'tested' => '5.1.5010'),
         'jsc'        => array('tested' => '525.13'),
         'opera'      => array('tested' => '5.02'),
-        'kjs'        => '',
+        'kjs'        => array('tested' => '4.4.4'),
       )
     )),
     
@@ -2343,6 +2450,7 @@ HTML
         'javascript' => '',
         'jscript'    => array('2.0', 'tested' => '5.1.5010',
           'urn' => 'msdn:jscript7/html/jspronannumber.asp'),
+        'v8'         => array('tested' => '2.1'),
         'opera'      => array('tested' => '5.02'),
       )
     )),
@@ -2376,6 +2484,7 @@ HTML
         'jscript'    => array('2.0', 'tested' => '5.1.5010'),
         'v8'         => array('tested' => '2.0'),
         'opera'      => array('tested' => '5.02'),
+        'kjs'        => array('tested' => '4.4.4'),
       )
     )),
     
@@ -2386,8 +2495,10 @@ HTML
         ''           => 'isMethod(42, "toString")',
         'javascript' => array('tested' => '1.2'),
         'jscript'    => array('tested' => '5.1.5010'),
+        'v8'         => array('tested' => '2.1'),
         'jsc'        => array('tested' => '525.13'),
         'opera'      => array('tested' => '5.02'),
+        'kjs'        => array('tested' => '4.4.4'),
       )
     )),
     
@@ -2401,6 +2512,94 @@ HTML
     )),
     
     new ScriptFeature(array(
+      'content' => '<code>Object.defineProperties(<var>o</var> :&nbsp;Object,
+        <var>properties</var> :&nbsp;Object)
+        :&nbsp;Object</code>',
+      'versions' => array(
+        ''           => '"var o = new Object(),"
+                        + " b = isMethod(Object, \'defineProperties\')"
+                        + "   && Object.defineProperties(o, {"
+                        + "        a: {"
+                        + "          value: {b: \'c\'},"
+                        + "          writable: false,"
+                        + "          configurable: false,"
+                        + "          enumerable: false"
+                        + "        },"
+                        + "        b: {"
+                        + "          value: {c: \'d\'},"
+                        + "          writable: false,"
+                        + "          configurable: false,"
+                        + "          enumerable: false"
+                        + "        }"
+                        + "      })"
+                        + "   && (typeof o.a == \'object\') && o.a"
+                        + "   && (o.a.b == \'c\')"
+                        + "   && (o.a = 42)"
+                        + "   && (o.a != 42)"
+                        + "   && (typeof o.b == \'object\') && o.b"
+                        + "   && (o.b.c == \'d\')"
+                        + "   && (o.b = 42)"
+                        + "   && (o.b != 42);"
+                        + " delete o.a;"
+                        + " delete o.b;"
+                        + " b = b && (typeof o.a != \'undefined\')"
+                        + "   && (typeof o.b != \'undefined\');"
+                        + " if (b) {"
+                        + "   var found = false;"
+                        + "   for (var p in o)"
+                        + "     if (p == \'a\' || p == \'b\')"
+                        + "       { found = true; break; }"
+                        + " }"
+                        + " b && !found"',
+            'ecmascript' => array(5,
+          'section' => '15.2.3.7'),
+        'javascript' => array('tested' => '-'),
+        'jscript'    => array('tested' => '-'),
+        'v8'         => array('tested' => '2.1'),
+        'jsc'        => array('tested' => '533.16'),
+        'opera'      => array('tested' => '-'),
+        'kjs'        => array('tested' => '-'),
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>Object.defineProperty(<var>o</var> :&nbsp;Object,
+        <var>property</var> :&nbsp;String, <var>attr</var> :&nbsp;Object)
+        :&nbsp;Object</code>',
+      'versions' => array(
+        ''           => '"var o = new Object(),"
+                        + " b = isMethod(Object, \'defineProperty\')"
+                        + "   && Object.defineProperty(o, \'a\', {"
+                        + "        value: {b: \'c\'},"
+                        + "        writable: false,"
+                        + "        configurable: false,"
+                        + "        enumerable: false"
+                        + "      })"
+                        + "   && (typeof o.a == \'object\') && o.a"
+                        + "   && (o.a.b == \'c\')"
+                        + "   && (o.a = 42)"
+                        + "   && (o.a != 42);"
+                        + " delete o.a;"
+                        + " b = b && (typeof o.a != \'undefined\');"
+                        + " if (b)"
+                        + " {"
+                        + "   var found = false;"
+                        + "   for (var p in o)"
+                        + "     if (p == \'a\') { found = true; break; }"
+                        + " }"
+                        + " b && !found"',
+        'ecmascript' => array(5,
+          'section' => '15.2.3.6'),
+        'javascript' => array('tested' => '-'),
+        'jscript'    => array('tested' => '-'),
+        'v8'         => array('tested' => '2.1'),
+        'jsc'        => array('tested' => '533.16'),
+        'opera'      => array('tested' => '-'),
+        'kjs'        => array('tested' => '-'),
+      )
+    )),
+    
+    new ScriptFeature(array(
       'content' => '<code>Object.getOwnPropertyNames(<var>o</var> :&nbsp;Object) :&nbsp;Array</code>',
       'versions' => array(
         '' => 'isMethod(Object, "getOwnPropertyNames")',
@@ -2408,6 +2607,7 @@ HTML
           'section' => '15.2.3.4'),
         'v8'         => array('tested' => 2.1),
         'opera'      => array('tested' => '-'),
+        'kjs'        => array('tested' => '-'),
       )
     )),
     
@@ -2421,6 +2621,7 @@ HTML
         'jscript'    => '-',
         'v8'         => array('tested' => '2.0.6'),
         'opera'      => array('tested' => '-'),
+        'kjs'        => array('tested' => '-'),
       )
     )),
     
@@ -2431,14 +2632,16 @@ HTML
         ''           => '!!getFeature(_global, "Object", "prototype")',
         'javascript' => array('assumed' => '1.1'),
         'jscript'    => array('2.0', 'tested' => '5.1.5010'),
+        'v8'         => array('tested' => '2.1'),
         'opera'      => array('tested' => '5.02'),
+        'kjs'        => array('tested' => '4.4.4'),
       )
     )),
     
     
     new ScriptFeature(array(
-      'content' => '<code>Object.prototype.__defineGetter__(<var>propertyName</var>:&nbsp;string,
-      <var>getter</var>:&nbsp;Function)</code>',
+      'content' => '<code>Object.prototype.__defineGetter__(<var>propertyName</var>
+        :&nbsp;String, <var>getter</var> :&nbsp;Function)</code>',
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => '1.5',
@@ -2447,8 +2650,8 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code>Object.prototype.__defineSetter__(<var>propertyName</var>:&nbsp;string,
-      <var>setter</var>:&nbsp;Function)</code>',
+      'content' => '<code>Object.prototype.__defineSetter__(<var>propertyName</var>
+        :&nbsp;String, <var>setter</var> :&nbsp;Function)</code>',
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => '1.5',
@@ -2475,6 +2678,7 @@ HTML
         'jscript'    => '-',
         'v8'         => array('tested' => '2.0'),
         'opera'      => array('tested' => '-'),
+        'kjs'        => array('tested' => '4.4.4'),
       )
     )),
     
@@ -2506,11 +2710,12 @@ HTML
       'versions' => array(
         ''           => 'isMethod(Object.prototype, "isPrototypeOf")',
         'ecmascript' => array(3, 'section' => '15.2.4.6'),
-        'javascript' => array('tested' => 1.5),
+        'javascript' => array('tested' => '1.5'),
         'jscript'    => array('tested' => '5.5'),
-        'jsc'        => array('tested' => 525.13),
+        'v8'         => array('tested' => '2.1'),
+        'jsc'        => array('tested' => '525.13'),
         'opera'      => array('tested' => '5.02'),
-        'kjs'        => array('tested' => '4.3.4')
+        'kjs'        => array('tested' => '4.3.4'),
     )
     )),
     
@@ -2807,23 +3012,7 @@ HTML
         'jscript' => '7.0'
       )
     )),
-    
-    new ScriptFeature(array(
-      'content' => '<a href="#opNotEqual" title="!==">Strict Not Equal/Nonidentity
-      operator</a>'
-    )),
-      
-    new ScriptFeature(array(
-      'content' => '<code>String.prototype</code>',
-      'versions' => array(
-        'ecmascript' => 1,
-        ''           => '!!getFeature(_global, "String", "prototype")',
-        'javascript' => array('assumed' => '1.1'),
-        'jscript'    => array('2.0', 'tested' => '5.1.5010'),
-        'opera'      => array('tested' => '5.02'),
-      )
-    )),
-    
+          
     new ScriptFeature(array(
       'content' => '<code>String.fromCharCode(<var title="unsigned integer">Number|uint</var>)</code>',
       'versions' => array(
@@ -2831,10 +3020,24 @@ HTML
         'ecmascript' => 1,
         'javascript' => array(1.2, 'tested' => 1.3),
         'jscript'    => array('3.0', 'tested' => '5.1.5010'),
+        'v8'         => array('tested' => '2.1'),
         'jsc'        => array('tested' => '525.13'),
         'opera'      => array('tested' => '6.06',
           'comment' => '5.02 does not support Unicode'),
         'kjs'        => array('tested' => '4.3.2'),
+      )
+    )),
+    
+    new ScriptFeature(array(
+      'content' => '<code>String.prototype</code>',
+      'versions' => array(
+        'ecmascript' => 1,
+        ''           => '!!getFeature(_global, "String", "prototype")',
+        'javascript' => array('assumed' => '1.1'),
+        'jscript'    => array('2.0', 'tested' => '5.1.5010'),
+        'v8'         => array('tested' => '2.1'),
+        'opera'      => array('tested' => '5.02'),
+        'kjs'        => array('tested' => '4.4.4'),
       )
     )),
     
@@ -2845,6 +3048,7 @@ HTML
         'ecmascript' => array(1, 'generic' => true),
         'javascript' => array(1.2, 'tested' => 1.3),
         'jscript'    => array('3.0', 'tested' => '5.1.5010'),
+        'v8'         => array('tested' => '2.1'),
         'jsc'        => array('tested' => '525.13'),
         'opera'      => array('tested' => '5.02'),
         'kjs'        => array('tested' => '4.3.2'),
@@ -2868,6 +3072,7 @@ HTML
         'ecmascript' => array(3, 'generic' => true),
         'javascript' => array('tested' => '1.8.1'),
         'jscript'    => array('5.5', 'tested' => '5.5.6330'),
+        'v8'         => array('tested' => '2.1'),
         'jsc'        => array('tested' => '525.13'),
         'opera'      => array('tested' => '7.02'),
         'kjs'        => array('tested' => '4.3.2'),
@@ -2939,7 +3144,13 @@ HTML
         'javascript' => array('1.2', 'tested' => '1.2'),
         'jscript' => array('-',
           'footnote' => $footnotes->add('Str-proto-substr-JScript', '',
-            'Does not support negative values')),
+            'Does not support negative values'
+            . ' [<a href=""'
+            . ' onclick="window.alert(\'&quot;XV&quot;.substr(-1, 1) === &quot;\' + &quot;XV&quot;.substr(-1, 1) + \'&quot;\');'
+            . ' return false"'
+            . '>test case</a>]'
+          )
+        ),
         'v8'         => array('tested' => '2.1'),
         'jsc'        => array('tested' => '530.17'),
         'kjs'        => array('tested' => '4.3.4'),
@@ -2962,8 +3173,8 @@ HTML
     )),
     
     new ScriptFeature(array(
-      'content' => '<code><var>string</var>[<var title="unsigned integer"
-        >Number|uint</var>]</code>',
+      'content' => '<code><var>string</var>[<var
+        >Number</var>|<var title="unsigned integer">uint</var>]</code>',
       'title' => 'String subscripting',
       'versions' => array(
         '' => "'x'[0] == 'x'",
@@ -3171,12 +3382,13 @@ HTML
     
     new ScriptFeature(array(
       'title' => 'Generator expression',
-      'content' => '<code title="Generator expression">yield <var>expression</var></code>'
-        . $footnotes->add('decl-ver'),
+      'content' => '<code title="Generator expression">yield
+        <var>expression</var></code>',
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => array(1.7,
-          'urn' => 'mdc:docs/New_in_JavaScript_1.7#Generators'),
+          'urn' => 'mdc:docs/New_in_JavaScript_1.7#Generators',
+          'footnote' => $footnotes->add('decl-ver')),
         'jscript' => '-' )
     )),
   ),

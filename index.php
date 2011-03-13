@@ -5,7 +5,7 @@
   require_once 'es-matrix.inc.php';
   
   $encoding = mb_detect_encoding(file_get_contents(__FILE__));
-  header("Content-Type: text/html; charset=$encoding");
+  header("Content-Type: text/html" . ($encoding ? "; charset=$encoding" : ""));
   
   $modi = max(array(
     @filemtime(__FILE__),
@@ -15,6 +15,9 @@
 
   header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $modi) . ' GMT');
   
+  /* Cached resource expires in HTTP/1.1 caches 24h after last retrieval */
+  header('Cache-Control: max-age=86400, s-maxage=86400, must-revalidate, proxy-revalidate');
+  
   /* Cached resource expires in HTTP/1.0 caches 24h after last retrieval */
   header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
 ?>
@@ -22,8 +25,11 @@
   "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="en">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=<?php
-      echo $encoding;
+    <meta http-equiv="Content-Type" content="text/html<?php
+      if ($encoding)
+      {
+        echo "; charset= $encoding";
+      }
       ?>">
     <meta http-equiv="Content-Script-Type" content="text/javascript">
     <meta http-equiv="Content-Style-Type" content="text/css">
@@ -49,7 +55,7 @@
     <meta name="DCTERMS.date" content="<?php
       echo gmdate('Y-m-d\TH:i:s+00:00', $modi);
       ?>">
-    
+
     <link rel="stylesheet" href="/styles/tooltip.css" type="text/css">
     <link rel="stylesheet" href="../../style.css" type="text/css">
     <link rel="stylesheet" href="style.css" type="text/css">
@@ -80,6 +86,7 @@
   
   <body onload="alternateRows(); synhl(); scroller.init();">
     <h1><a name="top" id="top">ECMAScript Support Matrix</a></h1>
+    <p class="subtitle">or <span>Why There Is No Javascript</span></p>
     
     <p style="text-align: left">Copyright &copy;
       2005&#8211;<?php echo gmdate('Y', $modi); ?>
@@ -121,11 +128,12 @@
 ?>
     
     <h2 style="margin-top: 1em; padding-top: 1em; border-top: 1px solid black"
-        ><a name="toc" id="toc">Table of Contents</a></h2>
+        ><a name="toc" id="toc">Table of contents</a></h2>
     
-    <div><a href="#top">&#8593; top of document</a></div>
+    <div><a href="#top">&#8593; Top of document</a></div>
     
     <ul>
+      <li><a href="#foreword">Foreword and rationale</a></li>
       <li><a href="#features">Language features</a></li>
       <li><a href="#version-info">Version information</a>
         <ul>
@@ -140,9 +148,62 @@
       <li><a href="#contributors">List of contributors</a></li>
     </ul>
     
+    <h2><a name="foreword" id="foreword">Foreword and Rationale</a></h2>
+    
+    <p>Many people talk of <strong>JavaScript</strong> as if it was a fully
+       specified and uniformly implemented programming language.  But it is
+       only one implementation (at the time of writing, not even the widest
+       distributed one) of a standard for an extensible programming language,
+       <strong>ECMAScript</strong>, which is only enjoying several
+       <em>implementations</em> that are widely distributed (primarily, but not
+       solely, through web browsers).  This common misconception reaches so far as
+       some rather knowledgable people &ndash;&nbsp;out of lazyness or ignorance
+       &ndash;&nbsp;choose to refer to this pseudo-language using an alternate spelling,
+       like “Javascript” or “javascript”, to distinguish it from the original,
+       <a href="#javascript">JavaScript™</a> (an example of this can still be seen
+       in the <a href="http://jibbering.com/faq/">comp.lang.javascript FAQ</a>).
+       This is rather unsurprising since JavaScript is, as
+       Douglas&nbsp;Crockford put it so aptly, <a
+       href="http://javascript.crockford.com/javascript.html"
+       >the world's most misunderstood programming language</a>.</p>
+    
+    <p>However, this author is firmly convinced that either naming scheme is
+       misleading, that both should first be deprecated, and eventually abolished.
+       The former kind, because it simply misses the point. The latter,
+       because it oversimplifies the issue, shadows the problems
+       that are likely to occur if script code is not written so that it works
+       with all common implementations, and is potentially ambiguous or leads
+       to odd typesetting (like "javascript" at the beginning of a sentence.)
+       Such oversimplifying talk for seeming experts is potentially and evidentially
+       harmful, not only for the supposed experts themselves, but also for
+       the beginners which are mislead and confused by this.   It is important
+       to realize the differences, the advantages and the bugs.</p>
+    
+    <p>Therefore, for lack of a better alternative, the precise and equally
+       concise term <strong>ECMAScript implementation(s)</strong> should be
+       used when talking about features that several implementations (ought
+       to) have in common (per the ECMAScript Language Specification).  And
+       whenever it was talked about the one, original implementation,
+       it should be indicated so, like <strong>Netscape/Mozilla.org
+       JavaScript</strong> or simply <strong>JavaScript™</strong>.</p>
+        
+    <p>This overview began as a comparison of different “JavaScript” features
+       and, as time passed and insight grew, evolved into a comparison between
+       the major ECMAScript implementations, detailing the differences,
+       the quirks and the bugs.  It has served its author (and its dedicated
+       readers) for years in writing client-side scripts that work cross-browser,
+       and helped to see the distinction between core language features, and
+       APIs with language binding, like the DOM.  (The features of the latter
+       API will be compared in another Matrix.)</p>
+       
+    <p>Whenever you read that key line from arguably the most groundbreaking
+       hacker movie “<a href="http://en.wikipedia.org/wiki/The_Matrix"
+       >The Matrix</a>” &#8213;“The Matrix has you!”&#8213; your suggestion
+       is being considered as a contribution to this overview.  See below.</p>
+
     <h2><a name="features" id="features">Language&nbsp;Features</a></h2>
     
-    <div><a href="#toc">&#8593; table of contents</a></div>
+    <div><a href="#toc">&#8593; Table of contents</a></div>
     
     <p>The following table lists all features of ECMAScript implementations
       that are not part of the first versions/editions of all of these
@@ -318,6 +379,9 @@
                   <li>Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US)
                       AppleWebKit/531.21.8 (KHTML, like Gecko) Version/4.0.4
                       Safari/531.21.10</li>
+                  <li>Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US)
+                      AppleWebKit/533.16 (KHTML, like Gecko) Version/5.0
+                      Safari/533.16</li>
                 </ul>
               </li>
               <li>Opera ECMAScript
@@ -357,7 +421,7 @@
           </td>
         </tr>
       </tfoot>
-      <tbody id="scroller">
+      <tbody id="scroller" class="scroll">
         <?php $features->printItems(); ?>
       </tbody>
     </table>
@@ -366,7 +430,7 @@
     
     <h2><a name="version-info" id="version-info">Version Information</a></h2>
 
-    <div><a href="#toc">&#8593; table of contents</a></div>
+    <div><a href="#toc">&#8593; Table of contents</a></div>
 
     <ul>
       <li><a href="#javascript">Netscape/Mozilla.org JavaScript</a></li>
@@ -376,16 +440,17 @@
       <li><a href="#opera">Opera ECMAScript</a></li>
       <li><a href="#actionscript">Adobe ActionScript</a></li>
       <li><a href="#ecmascript">ECMAScript compatibility</a></li>
+      <li><a href="#timeline">Timeline</a></li>
     </ul>
     
     <h3><a name="javascript" id="javascript">Netscape/Mozilla.org&nbsp;JavaScript
     Version Information</a><a href="#fn-javascript"><sup>1)</sup></a></h3>
 
-   <div><a href="#toc">&#8593; table of contents</a></div>
+    <div><a href="#version-info">&#8593; Version information</a></div>
     
-   <table class="versions"
-      summary="JavaScript versions and the user agents that support them"
-    >
+    <table class="versions"
+         summary="JavaScript versions and the user agents that support them"
+         >
       <thead>
         <tr>
           <th class="right">JavaScript</th>
@@ -394,51 +459,56 @@
             title="JavaScript Authoring Guide for JavaScript 1.0"
             >1.0</a></th>
           <th><a
-            href="http://wp.netscape.com/eng/mozilla/3.0/handbook/javascript/"
-            title="JavaScript Guide for JavaScript 1.1"
-          >1.1</a></th>
+            href="http://web.archive.org/wp.netscape.com/eng/mozilla/3.0/handbook/javascript/"
+            title="JavaScript Guide for JavaScript 1.1 (archived at the Internet Wayback Machine)"
+            >1.1</a></th>
           <th><a
             href="http://research.nihonsoft.org/javascript/jsref/"
-            title="Client-side JavaScript 1.2 Reference"
-          >1.2</a></th>
+            title="Client-side JavaScript 1.2 Reference (archived at Nihonsoft Research)"
+            >1.2</a></th>
           <th><a
             href="http://research.nihonsoft.org/javascript/ClientReferenceJS13/"
-            title="Client-side JavaScript 1.3 Reference"
-          >1.3</a></th>
+            title="Client-side JavaScript 1.3 Reference (archived at Nihonsoft Research)"
+            >1.3</a></th>
           <th><a
             href="http://research.nihonsoft.org/javascript/CoreReferenceJS14/"
-            title="Core JavaScript 1.4 Reference"
-          >1.4</a></th>
+            title="Core JavaScript 1.4 Reference (archived at Nihonsoft Research)"
+            >1.4</a></th>
           <th><a
             href="http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference"
             title="Core JavaScript 1.5 Reference"
-          >1.5</a></th>
+            >1.5</a></th>
           <th><a
             href="http://developer.mozilla.org/en/docs/New_in_JavaScript_1.6"
             title="New in JavaScript 1.6"
-          >1.6</a></th>
+            >1.6</a></th>
           <th><a
             href="http://developer.mozilla.org/en/docs/New_in_JavaScript_1.7"
             title="New in JavaScript 1.7"
-          >1.7</a></th>
+            >1.7</a></th>
           <th><a
             href="http://developer.mozilla.org/en/docs/New_in_JavaScript_1.8"
             title="New in JavaScript 1.8"
-          >1.8</a></th>
+            >1.8</a></th>
           <th><a
             href="http://developer.mozilla.org/en/docs/New_in_JavaScript_1.8.1"
             title="New in JavaScript 1.8.1"
-          >1.8.1</a></th>
+            >1.8.1</a></th>
           <th><a
             href="https://developer.mozilla.org/En/Firefox_3.6_for_developers#JavaScript"
             title="New in JavaScript 1.8.2"
-          >1.8.2</a></th>
-          <th><a href="http://www.mozilla.org/js/language/js20/">2.0</a></th>
+            >1.8.2</a></th>
+          <th><a
+            href="https://developer.mozilla.org/en/JavaScript/New_in_JavaScript/1.8.5"
+            title="New in JavaScript 1.8.5"
+            >1.8.5</a></th>
+          <th><a href="http://replay.waybackmachine.org/20061205033609/http://www.mozilla.org/js/language/js20/"
+                 >2.0</a> (historic)</th>
         </tr>
       </thead>
       <tfoot>
         <tr>
-          <td colspan="13"><a name="fn-javascript" id="fn-javascript"
+          <td colspan="14"><a name="fn-javascript" id="fn-javascript"
             >1)</a><a href="#javascript" class="backref">&#8593;</a>
             Version information from the JavaScript Guides and References;
             release dates from <a href="about:">about:</a>&nbsp;documents,
@@ -449,11 +519,11 @@
       </tfoot>
       <tbody>
         <tr class="header">
-          <th colspan="13">Implementations</th>
+          <th colspan="14">Implementations</th>
         </tr>
         <tr>
           <th><a href="http://www.mozilla.org/js/spidermonkey/"
-                 >Netscape/Mozilla.org SpiderMonkey</a></th>
+                 >Netscape/Mozilla.org SpiderMonkey</a> (in C)</th>
           <td>1.0</td>
           <td>1.1</td>
           <td>1.2</td>
@@ -463,189 +533,154 @@
           <td>1.6</td>
           <td>1.7</td>
           <td>1.8</td>
-          <td>1.8.1</td>
+          <td>1.8.1 (<a
+            href="https://developer.mozilla.org/En/SpiderMonkey/Internals/Tracing_JIT"
+            >TraceMonkey</a>)</td>
           <td>1.8.2</td>
-          <td>-</td>
+          <td>1.8.5 (<a
+            href="https://wiki.mozilla.org/JaegerMonkey">JägerMonkey</a>)</td>
         </tr>
         <tr>
           <th><a href="http://www.mozilla.org/js/language/Epimetheus.html"
-                 >Mozilla.org Epimetheus</a></th>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+                 >Mozilla.org Epimetheus</a> (in C++)</th>
+          <td colspan="12"></td>
           <td>+</td>
         </tr>
         <tr>
           <th><a href="http://www.mozilla.org/rhino/"
-                 >Netscape/Mozilla.org Rhino</a></th>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td>1.4R3 (1999-05)</td>
+                 >Netscape/Mozilla.org Rhino</a> (in Java)</th>
+          <td colspan="4"></td>
+          <td>1.4R3 (<span title="1999-05-10">1999</span>)</td>
           <td><a href="http://www.mozilla.org/rhino/rhino15R1.html"
                  >1.5R1</a>&#8211;<a
                  href="http://www.mozilla.org/rhino/rhino15R5.html"
-                 >1.5R5</a> (2000&#8211;2004)</td>
+                 >1.5R5</a>
+            (<span title="2000-09-10 &#8211;&nbsp;2004-03-25">2000&#8211;2004</span>)</td>
           <td><a href="http://www.mozilla.org/rhino/rhino16R1.html"
                  >1.6R1</a>&#8211;<a
                  href="https://developer.mozilla.org/en/New_in_Rhino_1.6R7"
-                 >1.6R7</a> (2004&#8211;2007)</td>
+                 >1.6R7</a>
+            (<span title="2004-11-29 &#8211;nbsp;2007-08-20">2004&#8211;2007</span>)</td>
           <td><a href="https://developer.mozilla.org/en/New_in_Rhino_1.7R1"
                  >1.7R1</a>&#8211;<a
                  href="https://developer.mozilla.org/en/New_in_Rhino_1.7R2"
-                 >1.7R2</a>&#8212; (2008-03 &#8211;&nbsp;2009-03&#8212;)</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+                 >1.7R2</a>
+            (<span title="2008-03-06 &#8211;&nbsp;2009-03-22">2008&#8211;2009</span>)</td>
         </tr>
     
         <tr class="header">
-          <th colspan="13">Layout Engines</th>
+          <th colspan="14">Layout Engines</th>
         </tr>
         <tr>
           <th><a href="https://developer.mozilla.org/en/docs/Gecko">Netscape/Mozilla.org
-          NGLayout/Gecko</a></th>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <abbr title="Next Generation Layout Engine">NGLayout</abbr>/Gecko</a></th>
+          <td colspan="5"></td>
           <td>0.6&#8211;1.8a6</td>
           <td>1.8b1&#8211;1.8</td>
           <td>1.8.1</td>
           <td>1.9</td>
           <td>1.9.1</td>
           <td>1.9.2</td>
-          <td></td>
+          <td>1.9.3, 2.0</td>
         </tr>
     
         <tr class="header">
-          <th colspan="13">Web Browsers</th>
+          <th colspan="14">Web Browsers</th>
         </tr>
         <tr>
           <th><a href="http://browser.netscape.com/">Netscape
             Navigator/Browser</a>&nbsp;<span
             title="Development discontinued">&#8224;</span></th>
           <td>Navigator 2.0&nbsp;<span title="End-of-life">&#8224;</span>
-            (1996-03)</td>
-          <td>3.0&nbsp;<span title="End-of-life">&#8224;</span> (1996-08)</td>
+            (<span title="1996-03">1996</span>)</td>
+          <td>3.0&nbsp;<span title="End-of-life">&#8224;</span> (<span title="1996-08">1996</span>)</td>
           <td>4.0&#8211;4.05&nbsp;<span title="End-of-life">&#8224;</span>
-            (1997-06)</td>
+            (<span title="1997-06">1997</span>)</td>
           <td>4.06&#8211;4.8&nbsp;<span title="End-of-life">&#8224;</span>
-            (1998&#8211;2002)</td>
+            (<span title="1998-08-17 &#8211;&nbsp;2002-08">1998&#8211;2002</span>)</td>
           <td>-</td>
           <td>Navigator&nbsp;6.x &#8211;&nbsp;Browser&nbsp;8.1.3&nbsp;<span
-            title="End-of-life">&#8224;</span>
-            (2000&#8211;2007)</td>
+            title="End-of-life">&#8224;</span><br>
+            (<span title="2000-11-14 &#8211;&nbsp;2007-04-02">2000&#8211;2007</span>)</td>
           <td>-</td>
           <td>Navigator&nbsp;9.0b1 &#8211;&nbsp;9.0.0.6&nbsp;<span
             title="End-of-life">&#8224;</span><br>
-          (2007&#8211;2008)</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          (<span title="2007-06-05 &#8211;&nbsp;2008-02-29">2007&#8211;2008</span>)</td>
         </tr>
         <tr>
           <th><a href="http://www.mozilla.com/firefox/">Mozilla
             Phoenix/Firebird/Firefox</a></th>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td colspan="5"></td>
           <td>Phoenix&nbsp;0.1 &#8211;&nbsp;Firefox&nbsp;1.0.8&nbsp;<span
             title="End-of-life">&#8224;</span><br>
-            (2002&#8211;2006)</td>
+            (<span title="2002-09-23 &#8211;&nbsp;2006-04-13">2002&#8211;2006</span>)</td>
           <td>Firefox&nbsp;1.5a1&#8211;1.5.0.12&nbsp;<span
             title="End-of-life">&#8224;</span><br>
-            (2005&#8211;2007)</td>
+            (<span title="2005-05-31 &#8211;&nbsp;2006-05-26">2005&#8211;2007</span>)</td>
           <td>2.0b1&#8211;2.0.0.18&nbsp;<span title="End-of-life"
             >&#8224;</span><br>
-            (2006&#8211;2008)</td>
+            (<span title="2006-07-12 &#8211;&nbsp;2008-11-12">2006&#8211;2008</span>)</td>
           <td>3.0a2&#8211;3.0.19&nbsp;<span title="End-of-life"
             >&#8224;</span><br>
-            (2007-02-07 &#8211;&nbsp;2010-03-30)</td>
-          <td>3.1a1&#8211;3.5.9&#8212;<br>
-            (2008-07-28 &#8212;&nbsp;2010-03-30)</td>
-          <td>3.6a1&#8212;3.6.3&#8212;<br>
-            (2010-01-21 &#8211;&nbsp;2010-04-01&#8212;)</td>
-          <td></td>
+            (<span title="2007-02-07 &#8211;&nbsp;2010-03-30">2007&#8211;2010</span>)</td>
+          <td>3.1a1&#8211;3.5.17<br>
+            (2008&#8209;07&#8209;28 &#8211;&nbsp;2011&#8209;03&#8209;01)</td>
+          <td>3.6a1&#8211;3.6.15<br>
+            (2010&#8209;01&#8209;21 &#8211;&nbsp;2011&#8209;03&#8209;04)</td>
+          <td>3.7a1&#8211;4.0RC1<br>
+            (2010&#8209;02&#8209;10 &#8211;&nbsp;2011&#8209;03&#8209;09)</td>
         </tr>
     
         <tr class="header">
-          <th colspan="13">Other Clients</th>
+          <th colspan="14">Other Clients</th>
         </tr>
         <tr>
           <th><a href="http://www.mozilla.org/products/mozilla1.x/">Mozilla
             Application&nbsp;Suite</a>&nbsp;<span
             title="Development discontinued">&#8224;</span></th>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td>0.6&#8211;1.8a6&nbsp;<span title="End-of-life">&#8224;</span>
-            (2000&#8211;2005)</td>
-          <td>1.8b1&#8211;1.7.13&nbsp;<span title="End-of-life">&#8224;</span><br>
-            (2005&#8211;2006)</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td colspan="5"></td>
+          <td>0.6&#8211;1.8a6&#8211;1.7.13&nbsp;<span title="End-of-life">&#8224;</span><br>
+            (<span title="2000-12-06 &#8211;&nbsp;2006-04-21">2000&#8211;2006</span>)</td>
+          <td>1.8b1&nbsp;<span title="End-of-life">&#8224;</span><br>
+            (<span title="2005-02-23">2005</span>)</td>
         </tr>
         <tr>
           <th><a href="http://www.mozilla.org/projects/seamonkey/">Mozilla
           SeaMonkey</a></th>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td>1.0&#8211;1.0.9&nbsp;<span title="End-of-life">&#8224;</span>
-            (2005&#8211;2007)</td>
+          <td colspan="6"></td>
+          <td>1.0a&#8211;1.0.9&nbsp;<span title="End-of-life">&#8224;</span><br>
+            (<span title="2005-09-15 &#8211;&nbsp;2007-05-30">2005&#8211;2007</span>)</td>
           <td>1.1a&#8211;1.1.19&nbsp;<span title="End-of-life">&#8224;</span><br>
-            (2006-08-30 &#8211;&nbsp;2010-03-10)</td>
-          <td>2.0a1<br>
-            (2008-10-05)</td>
-          <td>2.0a2&#8211;2.0.4&#8212;<br>
-            (2008-12-10 &#8211;&nbsp;2010-03-30&#8212;)</td>
-          <td></td>
-          <td></td>
+            (<span title="2006-08-30 &#8211;&nbsp;2010-03-16">2006&#8211;2010</span>)</td>
+          <td>&nbsp;</td>
+          <td>2.0a1&#8211;2.0.12<br>
+            (2008&#8209;10&#8209;05 &#8211;&nbsp;2011&#8209;03&#8209;02)</td>
+          <td>&nbsp;</td>
+          <td>2.1a1&#8211;2.1b2<br>
+            (2010&#8209;05&#8209;18 &#8211;&nbsp;2011&#8209;02&#8209;14)</td>
         </tr>
         <tr>
           <th><a href="http://www.mozilla.com/thunderbird/">Mozilla
           Thunderbird</a></th>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td>2.0a1&#8211;2.0.0.24&#8212;
-            (2006-07-28 &#8211;&nbsp;2010-03-15&#8212;)</td>
-          <td>3.0a1&#8211;3.0.4&#8212;
-            (2008-03-13 &#8211;&nbsp;2010-03-30&#8212;)</td>
-          <td></td>
-          <td></td>
+          <td colspan="5"></td>
+          <td>0.1&#8211;1.0.8&nbsp;<span title="End-of-life">&#8224;</span><br>
+            (<span title="2003-07-28 &#8211;&nbsp;2006-04-21">2003&#8211;2006</span>)</td>
+          <td>1.1a1&#8211;1.5.0.14&nbsp;<span title="End-of-life">&#8224;</span><br>
+            (<span title="2005-06-02 &#8211;&nbsp;2007-12-19">2005&#8211;2007</span>)</td>
+          <td>2.0a1&#8211;2.0.0.24&nbsp;<span title="End-of-life">&#8224;</span><br>
+            (<span title="2006-07-28 &#8211;&nbsp;2010-03-15">2006&#8211;2010</span>)</td>
+          <td>3.0a1, 3.0a2&nbsp;<span title="End-of-life">&#8224;</span><br>
+            (<span title="2008-05-13, 2008-08-12">2008</span>)</td>
+          <td>3.0a3&#8211;3.0.11&nbsp;<span title="End-of-life">&#8224;</span><br>
+            (<span title="2008-10-14 &#8211;&nbsp;2010-12-09">2008&#8211;2010</span>)</td>
+          <td>3.1a1&#8211;3.1.9<br>
+            (2010&#8209;02&#8209;03 &#8211;&nbsp;2011&#8209;03&#8209;04)</td>
+          <td>3.3a1, 3.3a2<br>
+            (2010&#8209;11&#8209;23, 2011&#8209;01&#8209;20)</td>
         </tr>
     
         <tr class="header">
-          <th colspan="13">Web Servers</th>
+          <th colspan="14">Web Servers</th>
         </tr>
         <tr>
           <th><a href="http://wp.netscape.com/enterprise/">Netscape
@@ -666,12 +701,15 @@
             title="iPlanet Web Server, Enterprise Edition Server-Side JavaScript 1.4 Guide"
           >4.1</a> (1999)</td>
           <td>6.0</td>
-          <td>?</td>
-          <td>?</td>
-          <td>?</td>
-          <td>?</td>
-          <td>?</td>
-          <td>?</td>
+        </tr>
+        <tr>
+          <th><a href="http://firecat.nihonsoft.org/">NihonSoft
+          firecat</a></th>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>1.0.x Beta4 (2008)</td>
         </tr>
       </tbody>
     </table>
@@ -679,11 +717,11 @@
     <h3><a name="jscript" id="jscript">Microsoft&nbsp;JScript Version
     Information</a><a href="#fn-jscript"><sup>2)</sup></a></h3>
  
-    <div><a href="#toc">&#8593; table of contents</a></div>
+    <div><a href="#version-info">&#8593; Version information</a></div>
     
     <table class="versions"
-      summary="JScript versions and the user agents that support them"
-    >
+         summary="JScript versions and the user agents that support them"
+         >
       <thead>
         <tr>
           <th class="right">JScript</th>
@@ -744,18 +782,7 @@
         </tr>
         <tr>
           <th><a href="http://microsoft.com/net/">Microsoft .NET Framework</a></th>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td colspan="12"></td>
           <td>1.0 (2002-01)</td>
           <td>1.1 (2003)</td>
           <td>2.0&#8211;3.5&nbsp;SP1 (2005&#8211;2008)</td>
@@ -774,7 +801,8 @@
           <td></td>
           <td class="nowrap">4.0 <span title="End-of-life">&#8224;</span><br>
             (1997-09)</td>
-          <td class="nowrap">4.01 <span title="End-of-life">&#8224;</span></td>
+          <td class="nowrap">4.01 <span title="End-of-life">&#8224;</span><br>
+          	(1997-11)</td>
           <td></td>
           <td>5.0&nbsp;<span title="End-of-life">&#8224;</span><br>
             <span class="nowrap">(1999-03</span>
@@ -791,10 +819,6 @@
             <span class="nowrap">(2008-03)</span></td>
           <td>8.0 beta&nbsp;2 for <abbr title="Windows">Win</abbr>XP SP2+<br>
             <span class="nowrap">(2008-08)</span></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
         </tr>
     
         <tr class="header">
@@ -803,24 +827,12 @@
         <tr>
           <th><a href="http://microsoft.com/iis/">Microsoft Internet
           Information Server/Services</a></th>
-          <td></td>
-          <td></td>
+          <td colspan="2"></td>
           <td>4.0&nbsp;<span title="End-of-life">&#8224;</span><br>
             <span class="nowrap">(1998&#8211;2002)</span></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td colspan="5"></td>
           <td>5.1&#8211;6.0&nbsp;<span title="End-of-life">&#8224;</span><br>
             <span class="nowrap">(2000&#8211;2005)</span></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
         </tr>
     
         <tr class="header">
@@ -831,10 +843,7 @@
           <td></td>
           <td>NT&nbsp;4.0&nbsp;<span title="End-of-life">&#8224;</span><br>
             <span class="nowrap">(1996)</span></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td colspan="4"></td>
           <td>2000&nbsp;<span title="End-of-life">&#8224;</span><br>
             <span class="nowrap">(2000-02</span>
             <span class="nowrap">&#8211;&nbsp;2005-06)</span></td>
@@ -844,36 +853,17 @@
             <span class="nowrap">&#8211;&nbsp;2005-12)</span></td>
           <td><abbr title="eXPeriment^H^H^H^Hence ;-)">XP</abbr><br>
             <span class="nowrap">(2001-10)</span></td>
-          <td>Vista<br>
+          <td colspan="2">Vista<br>
             <span class="nowrap">(2008-03)</span></td>
-          <td></td>
           <td>7<br>
             <span class="nowrap">(2009-10)</span></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
         </tr>
         <tr>
           <th><a href="http://microsoft.com/windowsserver2003/"
                  >Microsoft Windows Server</a></th>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td colspan="8"></td>
           <td>2003<br>
             <span class="nowrap">(2003-04)</span></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
         </tr>
     
         <tr class="header">
@@ -884,19 +874,10 @@
         <tr>
           <th><a href="http://www.microsoft.com/visualstudio/en-us/products"
                  >Microsoft Visual Studio</a></th>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td colspan="4"></td>
           <td>6.0&nbsp;<span title="End-of-life">&#8224;</span><br>
             <span class="nowrap">(1998&#8211;2005)</span></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td colspan="7"></td>
           <td>.NET&nbsp;7.0<br>(2002)</td>
           <td>.NET&nbsp;7.1<br>(2003)</td>
           <td>8.0&#8211;9.0<br>(2005&#8211;2008)</td>
@@ -908,7 +889,7 @@
     <h3><a name="v8" id="v8">Google&nbsp;V8 Version
     Information</a></h3>
  
-    <div><a href="#toc">&#8593; table of contents</a></div>
+    <div><a href="#version-info">&#8593; Version information</a></div>
     
     <table class="versions"
       summary="V8 versions and the user agents that support them"
@@ -922,10 +903,16 @@
           <th>1.3</th>
           <th>2.0</th>
           <th>2.1</th>
+          <th>2.2</th>
+          <th>2.3.11.22</th>
+          <th>2.4.9.19</th>
+          <th>2.5.9.6</th>
+          <th>3.0.12.18</th>
+          <th>3.1.4.0</th>
         </tr>
       </thead>
       <tbody>
-        <tr class="odd">
+        <tr>
           <th><a href="http://www.google.com/chrome/">Google Chrome</a></th>
           <td>0.2&#8211;1.0<br>
             (2008-09&nbsp;<a
@@ -939,7 +926,20 @@
             (2010-01-25)</td>
           <td>5.0.307<br>
             (2010-01-30)</td>
-          <td>5.0.342</td>
+          <td>5.0.342<br>
+            (2010-04-07)</td>
+          <td>6.0.466.0<br>
+            (2010-07-15)</td>
+          <td>7.0.517<br>
+            (2010-10-21)</td>
+          <td>8.0.552<br>
+            (2010-12-02)</td>
+          <td>9.0.597<br>
+            (2011-02-03)</td>
+          <td>10.0.648<br>
+            (2011-03-11)</td>
+          <td>11.0.672<br>
+            (2011-03-08)</td>
         </tr>
       </tbody>
     </table>
@@ -947,7 +947,7 @@
     <h3><a name="jsc" id="jsc">Apple&nbsp;JavaScriptCore Version
     Information</a></h3>
  
-    <div><a href="#toc">&#8593; table of contents</a></div>
+    <div><a href="#version-info">&#8593; Version information</a></div>
     
     <table class="versions"
       summary="Apple JavaScriptCore versions and the user agents that support them"
@@ -964,10 +964,12 @@
           <th>530.17</th>
           <th>531.9</th>
           <th>531.21.8</th>
+          <th>531.22.7</th>
+          <th>533.16</th>
         </tr>
       </thead>
       <tbody>
-        <tr class="odd">
+        <tr>
           <th><a href="http://apple.com/safari/">Apple Safari</a></th>
           <td>0.8&#8211;1.3.2&nbsp;<span title="End-of-life">&#8224;</span><br>
             (2003&#8211;2006&nbsp;<a
@@ -989,6 +991,10 @@
             (2009-08)</td>
           <td>4.0.4<br>
             (2009-11)</td>
+          <td>4.0.5<br>
+            (2010-03-11)</td>
+          <td>5.0<br>
+            (2010-06-07)</td>
         </tr>
       </tbody>
     </table>
@@ -996,7 +1002,7 @@
     <h3><a name="opera" id="opera">Opera&nbsp;ECMAScript Version
     Information</a></h3>
  
-    <div><a href="#toc">&#8593; table of contents</a></div>
+    <div><a href="#version-info">&#8593; Version information</a></div>
     
     <table class="versions"
       summary="Opera ECMAScript versions and the user agents that support them"
@@ -1018,12 +1024,36 @@
         </tr>
       </thead>
       <tbody>
-        <tr class="odd">
+        <tr class="header">
+          <th colspan="12">Layout Engines</th>
+        </tr>
+        <tr>
+          <th>Opera Elektra</th>
+          <td colspan="2"></td>
+          <td>+</td>
+        </tr>
+        <tr>
+          <th>Opera Presto</th>
+          <td colspan="3"></td>
+          <td>1.0</td>
+          <td>&nbsp;</td>
+          <td>2.0</td>
+          <td>2.1</td>
+          <td colspan="2">2.1.1</td>
+          <td>2.4</td>
+          <td>2.5</td>
+        </tr>
+        <tr class="header">
+          <th colspan="12">Web Browsers</th>
+        </tr>
+        <tr>
           <th><a href="http://opera.com/">Opera Browser</a></th>
           <td>3.60&nbsp;<span title="End-of-life">&#8224;</span><br>
-            (1995?)</td>
-          <td>5.02&nbsp;<span title="End-of-life">&#8224;</span></td>
-          <td>6.06</td>
+            (1999-05)</td>
+          <td>5.02&nbsp;<span title="End-of-life">&#8224;</span><br>
+          	(2000-12)</td>
+          <td>6.06<br>
+            (2001-11)</td>
           <td>7.02<br>
             (2003&#8211;2005)</td>
           <td>8.0<br>
@@ -1046,6 +1076,9 @@
 
     <h3><a name="actionscript" id="actionscript">Macromedia/Adobe&nbsp;ActionScript
     Versions</a><a href="#fn-actionscript"><sup>3)</sup></a></h3>
+    
+    <div><a href="#version-info">&#8593; Version information</a></div>
+    
     <table class="versions"
       summary="ActionScript versions and the user agents that support them"
     >
@@ -1077,7 +1110,7 @@
     
     <h3><a name="ecmascript" id="ecmascript">ECMAScript Compatibility</a></h3>
     
-    <div><a href="#toc">&#8593; table of contents</a></div>
+    <div><a href="#version-info">&#8593; Version information</a></div>
     
     <p>The following table provides a rough overview of ECMAScript Editions
     and relations between them and versions of their implementations. Note
@@ -1121,12 +1154,9 @@
       <tbody>
         <tr>
           <th><a href="#actionscript">ActionScript</a></th>
-          <td></td>
-          <td></td>
+          <td colspan="2"></td>
           <td>2.0 (2004)</td>
           <td>3.0 (2008&#8212;)</td>
-          <td></td>
-          <td></td>
         </tr>
         <tr>
           <th><a href="#javascript">JavaScript</a></th>
@@ -1135,16 +1165,9 @@
           <td>1.5&#8211;1.8.1.x</td>
           <td>2.0</td>
           <td>1.8.1&#8212; (2008-05&#8212;)</td>
-          <td></td>
         </tr>
         <tr>
           <th><a href="#jsc">JavaScriptCore</a></th>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
         </tr>
         <tr>
           <th><a href="#jscript">JScript</a></th>
@@ -1152,35 +1175,22 @@
           <td></td>
           <td>5.5&#8212; (2000&#8212;)</td>
           <td>7.0&#8212; (2000&#8212;)</td>
-          <td></td>
-          <td></td>
         </tr>
         <tr>
           <th>KJS</th>
-          <td></td>
-          <td></td>
+          <td colspan="2"></td>
           <td>1.0</td>
           <td>-</td>
-          <td></td>
-          <td></td>
         </tr>
         <tr>
           <th><a href="http://www.opera.com/docs/specs/js/ecma/">Opera</a></th>
-          <td></td>
-          <td></td>
+          <td colspan="2"></td>
           <td>6.0 (2001-12)</td>
-          <td></td>
-          <td></td>
-          <td></td>
         </tr>
         <tr>
           <th><a href="#v8">V8</a></th>
-          <td></td>
-          <td></td>
+          <td colspan="2"></td>
           <td>0.3</td>
-          <td></td>
-          <td></td>
-          <td></td>
         </tr>
       </tbody>
     </table>
@@ -1232,9 +1242,182 @@
       </tbody>
     </table>
     
+    <h3><a name="timeline" id="timeline">Timeline</a></h3>
+
+    <div><a href="#version-info">&#8593; Version information</a></div>
+    
+    <table class="timeline">
+      <thead>
+        <tr>
+          <th rowspan="3">Date</th>
+          <th colspan="2">1996</th>
+          <th colspan="3">1997</th>
+          <th>1998</th>
+          <th colspan="3">1999</th>
+          <th colspan="5">2000</th>
+          <th>2001</th>
+          <th colspan="2">2002</th>
+          <th>2003</th>
+          <th>2004</th>
+          <th colspan="3">2005</th>
+          <th colspan="4">2006</th>
+          <th colspan="3">2007</th>
+          <th colspan="8">2008</th>
+          <th colspan="7">2009</th>
+          <th colspan="12">2010</th>
+        </tr>
+        <tr>
+          <th>1996-03</th>
+          <th>1996-08</th>
+          <th>1997-06</th>
+          <th>1997-09</th>
+          <th>1997-11</th>
+          <th>1998-08</th>
+          <th>1999-03</th>
+          <th>1999-05</th>
+          <th>1999-12</th>
+          <th>2000-02</th>
+          <th>2000-03</th>
+          <th>2000-07</th>
+          <th>2000-08</th>
+          <th>2000-09</th>
+          <th>2001-10</th>
+          <th>2002-01</th>
+          <th>2002-02</th>
+          <th>2003-04</th>
+          <th>2004</th>
+          <th>2005-04</th>
+          <th>2005-06</th>
+          <th>2005-12</th>
+          <th>2006-01</th>
+          <th>2006-07</th>
+          <th>2006-08</th>
+          <th>2006-10</th>
+          <th>2007-02</th>
+          <th>2007-06</th>
+          <th>2007-10</th>
+          <th>2008-03</th>
+          <th>2008-06</th>
+          <th>2008-07</th>
+          <th>2008-08</th>
+          <th>2008-09</th>
+          <th>2008-10</th>
+          <th>2008-11</th>
+          <th>2008-12</th>
+          <th>2009-03</th>
+          <th>2009-04</th>
+          <th>2009-05</th>
+          <th>2009-06</th>
+          <th>2009-08</th>
+          <th>2009-10</th>
+          <th>2009-11</th>
+          <th colspan="3">2010-01</th>
+          <th colspan="4">2010-03</th>
+          <th colspan="3">2010-04</th>
+          <th>2010-06</th>
+          <th>2010-07</th>
+        </tr>
+        <tr>
+          <th colspan="5"></th>
+          <th>1997-11-18</th>
+          <th colspan="18"></th>
+          <th>2006-07-28</th>
+          <th>2006-08-30</th>
+          <th></th>
+          <th>2007-02-07</th>
+          <th colspan="2"></th>
+          <th>2008-03-13</th>
+          <th></th>
+          <th>2008-07-28</th>
+          <th colspan="2"></th>
+          <th>2008-10-05</th>
+          <th></th>
+          <th>2008-12-10</th>
+          <th colspan="7"></th>
+          <th>2010-01-21</th>
+          <th>2010-01-25</th>
+          <th>2010-01-30</th>
+          <th>2010-03-10</th>
+          <th>2010-03-11</th>
+          <th>2010-03-15</th>
+          <th>2010-03-30</th>
+          <th>2010-04-01</th>
+          <th>2010-04-07</th>
+          <th>2010-04-12</th>
+          <th>2010-06-07</th>
+          <th>2010-07-15</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>Netscape</th>
+          <td></td>
+          <td class="blue">Navigator 2.0</td>
+          <td class="blue">3.0</td>
+          <td colspan="3" class="blue" nowrap>4.0 &#8211; 4.05</td>
+          <td colspan="2" class="blue">4.06 &#8211; 4.8</td>
+          <td colspan="2"></td>
+          <td colspan="9" class="blue">Navigator 6.x &#8211;&nbsp;Browser 8.1.3</td>
+          <td colspan="4"></td>
+          <td class="blue">Navigator 9.0b1 &#8211;&nbsp;9.0.0.6</td>
+        </tr>
+        <tr>
+          <th>JavaScript</th>
+          <td></td>
+          <td class="blue">1.0</td>
+          <td class="blue">1.1</td>
+          <td colspan="3" class="blue">1.2</td>
+          <td colspan="2" class="blue">1.3</td>
+          <td colspan="2" class="blue">1.4</td>
+          <td colspan="9" class="blue">1.5</td>
+          <td colspan="4" class="blue">1.6</td>
+          <td class="blue">1.7</td>
+          <td colspan="6" class="blue">1.8</td>
+          <td colspan="15" class="blue">1.8.1</td>
+          <td colspan="12" class="blue">1.8.2</td>
+        </tr>
+        <tr>
+          <th>Internet Explorer</th>
+          <td colspan="2"></td>
+          <td class="blue">3.0</td>
+          <td colspan="2" class="blue">4.0</td>
+          <td class="blue">4.01</td>
+        </tr>
+        <tr>
+          <th>JScript</th>
+          <td colspan="2"></td>
+          <td class="blue">1.0</td>
+          <td colspan="2" class="blue">3.0</td>
+          <td class="blue">3.1</td>
+          <td class="blue" nowrap>4.0 &#8211; 4.1</td>
+          <td colspan="3" class="blue">5.0</td>
+          <td colspan="2" class="blue">5.1</td>
+          <td colspan="3" class="blue">5.5</td>
+          <td colspan="11" class="blue">5.6</td>
+          <td colspan="7" class="blue">5.7</td>
+          <td colspan="24" class="blue">5.8</td>
+        </tr>
+        <tr>
+          <th>ECMAScript</th>
+          <td colspan="2"></td>
+          <td colspan="2" class="blue">1</td>
+          <td colspan="5" class="blue">2</td>
+          <td colspan="4" class="blue">3</td>
+          <td colspan="25" class="blue">4</td>
+          <td></td>
+          <td colspan="18" class="blue">5</td>
+        </tr>
+        <tr>
+          <th>Opera</th>
+          <td colspan="7"></td>
+          <td class="blue">3.60</td>
+        </tr>
+      </tbody>
+    </table>
+    
     <h2><a name="contributors" id="contributors">List of Contributors</a></h2>
 
-    <div><a href="#toc">&#8593; table of contents</a></div>
+    <div><a href="#toc">&#8593; Table of contents</a></div>
     
     <p><em>Thanks to:</em></p>
     

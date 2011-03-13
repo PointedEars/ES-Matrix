@@ -3,7 +3,6 @@
 	<name>ECMAScript Support Matrix</name>
 	<comment></comment>
 	<projects>
-		<project>LCARS</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
