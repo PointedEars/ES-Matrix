@@ -150,55 +150,82 @@
     
     <h2><a name="foreword" id="foreword">Foreword and Rationale</a></h2>
     
-    <p>Many people talk of <strong>JavaScript</strong> as if it was a fully
-       specified and uniformly implemented programming language.  But it is
-       only one implementation (at the time of writing, not even the widest
-       distributed one) of a standard for an extensible programming language,
-       <strong>ECMAScript</strong>, which is only enjoying several
-       <em>implementations</em> that are widely distributed (primarily, but not
-       solely, through web browsers).  This common misconception reaches so far as
-       some rather knowledgable people &ndash;&nbsp;out of lazyness or ignorance
-       &ndash;&nbsp;choose to refer to this pseudo-language using an alternate spelling,
-       like “Javascript” or “javascript”, to distinguish it from the original,
-       <a href="#javascript">JavaScript™</a> (an example of this can still be seen
-       in the <a href="http://jibbering.com/faq/">comp.lang.javascript FAQ</a>).
+    <p>Many people talk about <strong>JavaScript</strong> as if it was a fully
+       specified and universally implemented programming language.  But that is
+       in fact only the name of one implementation (at the time of writing,
+       not even the widest distributed one) of a standard for an extensible
+       programming language, <strong>ECMAScript</strong>, which is enjoying
+       <em>several implementations</em> that are widely distributed
+       (primarily, but not solely, through web browsers).  This common
+       misconception reaches so far as some rather knowledgable people
+       &ndash;&nbsp;out of lazyness or ignorance &ndash;&nbsp;choose
+       to refer to this pseudo-language using an alternate capitalization,
+       like “Javascript” or “javascript” in an attempt to distinguish it
+       from the original, <a href="#javascript">JavaScript™</a> (an example
+       of this can still be seen in the
+       <a href="http://jibbering.com/faq/">comp.lang.javascript FAQ</a>).
        This is rather unsurprising since JavaScript is, as
-       Douglas&nbsp;Crockford put it so aptly, <a
+       Douglas&nbsp;Crockford put it so aptly, <em><a
        href="http://javascript.crockford.com/javascript.html"
-       >the world's most misunderstood programming language</a>.</p>
+       >the world's most misunderstood programming language</a></em>.</p>
     
-    <p>However, this author is firmly convinced that either naming scheme is
+    <p>However, this author is firmly convinced that either terminology is
        misleading, that both should first be deprecated, and eventually abolished.
-       The former kind, because it simply misses the point. The latter,
-       because it oversimplifies the issue, shadows the problems
-       that are likely to occur if script code is not written so that it works
-       with all common implementations, and is potentially ambiguous or leads
-       to odd typesetting (like "javascript" at the beginning of a sentence.)
-       Such oversimplifying talk for seeming experts is potentially and evidentially
-       harmful, not only for the supposed experts themselves, but also for
-       the beginners which are mislead and confused by this.   It is important
-       to realize the differences, the advantages and the bugs.</p>
+       The former kind, because it simply misses the point: for example,
+       JavaScript is not JScript.  The latter, because it is oversimplifying
+       the issue, thereby shadowing the problems that are likely to occur if
+       script code is not written with the existence of different implementations
+       in mind.  It is also potentially ambiguous, and leads to odd notation
+       in English and other languages (like "javascript" at the beginning of
+       a sentence, where it should be capitalized by convention, or in the
+       midst of a sentence where it should be capitalized as well because
+       it is a proper noun, after all).  Such oversimplifying talk from
+       supposed experts is potentially and evidentially harmful, not only
+       for the experts themselves, but also for the beginners which are
+       mislead and confused by this.  <em>It is a Bad&nbsp;Idea™ to keep
+       people in the dark!</em></p>
+       
+    <p>In order to achieve greater understanding of this topic, it is important
+       to realize the similarities <em>and</em> the differences between
+       implementations, and the advantages and bugs of each implementation.
+       Differences are pointed out best using <em>different</em> words,
+       <em>not</em> similar ones.  For an analogy, you would never call a
+       cat a dog just because both are implementations of the concept “animal”
+       and both are equipped with a tail.  Yet this describes exactly what
+       often happens when people are discussing ECMAScript-based script
+       programming: for example, they say “JavaScript” (any capitalization)
+       and mean, often without providing that context information,
+       ECMAScript-based scripting in <acronym title="Microsoft Internet Explorer"
+       >IE</acronym> or <acronym
+       title="Microsoft Internet Information Services; formerly: Internet Information Server"
+       >IIS</acronym>, that is, <em>Microsoft JScript</em> instead!  Who is
+       to tell how the script must look like that they are talking about
+       without further inquiry, then?</p>
     
     <p>Therefore, for lack of a better alternative, the precise and equally
        concise term <strong>ECMAScript implementation(s)</strong> should be
        used when talking about features that several implementations (ought
        to) have in common (per the ECMAScript Language Specification).  And
-       whenever it was talked about the one, original implementation,
-       it should be indicated so, like <strong>Netscape/Mozilla.org
-       JavaScript</strong> or simply <strong>JavaScript™</strong>.</p>
+       whenever it was talked about one particular implementation, its proper
+       name should be used, like <strong>Netscape/Mozilla.org JavaScript</strong>
+       or simply <strong>JavaScript™</strong>.  <strong>In all other instances,
+       the term “JavaScript” (any capitalization) should <em>not</em>
+       be used.</strong></p>
         
     <p>This overview began as a comparison of different “JavaScript” features
-       and, as time passed and insight grew, evolved into a comparison between
-       the major ECMAScript implementations, detailing the differences,
+       and, as time passed and understanding grew, evolved into a comparison
+       between the major ECMAScript implementations, detailing the differences,
        the quirks and the bugs.  It has served its author (and its dedicated
        readers) for years in writing client-side scripts that work cross-browser,
        and helped to see the distinction between core language features, and
        APIs with language binding, like the DOM.  (The features of the latter
        API will be compared in another Matrix.)</p>
        
-    <p>Whenever you read that key line from arguably the most groundbreaking
-       hacker movie “<a href="http://en.wikipedia.org/wiki/The_Matrix"
-       >The Matrix</a>” &#8213;“The Matrix has you!”&#8213; your suggestion
+    <p>Whenever you read from this author that key line from arguably
+       <a href="http://en.wikipedia.org/wiki/The_Matrix"
+          title="The Matrix movie on Wikipedia"
+          >the most groundbreaking hacker movie</a>
+       &#8213;“The Matrix has you!”&#8213; a suggestion
        is being considered as a contribution to this overview.  See below.</p>
 
     <h2><a name="features" id="features">Language&nbsp;Features</a></h2>
