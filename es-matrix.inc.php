@@ -66,7 +66,7 @@ $scriptEngineTest = <<<HTML
 															
                               var s = "";
                               
-                              for (var i = 0, len = versionMap.length; i < len; ++i)
+                              for (var i = versionMap.length; i--;)
                               {
                                 var mapping = versionMap[i];
                                 if (gte(version, mapping[0]))
@@ -116,17 +116,19 @@ $scriptEngineTest = <<<HTML
                                     var
                                       s = inferVersion(m[1],
                                         [
-                                        	["11.0.672", "3.1.4.0"],
-                                        	["10.0.648", "3.0.12.18"],
-                                        	["9.0.597", "2.5.9.6"],
-                                        	["8.0.552", "2.4.9.19"],
-                                          ["7.0.517", "2.3.11.22"],
-                                        	["6.0.466", "2.2"],
-                                          ["5.0.342", "2.1"],
-                                          ["5.0.307", "2.0"],
-                                          ["4.0.249", "1.3"],
-                                          ["3.0",     "1.2"],
-                                          ["2.0",     "0.4"]
+                                          [ "2.0.172", "0.4"],
+                                          [ "3.0.195", "1.2"],
+                                          [ "4.0.249", "1.3"],
+                                          [ "5.0.375", "2.1"],
+                                          [ "6.0.472", "2.2"],
+                                          [ "7.0.517", "2.3.11.22"],
+                                          [ "8.0.552", "2.4.9.19"],
+                                          [ "9.0.597", "2.5.9.6"],
+                                          ["10.0.648", "3.0.12.30"],
+                                          ["11.0.696", "3.1.8.16"],
+                                          ["12.0.742", "3.2.10.21"],
+                                          ["13.0.782", "3.3.10.17"],
+                                          ["14.0.835", "3.4.14.2"]
                                         ],
                                         "0.3");
 
@@ -160,12 +162,12 @@ $scriptEngineTest = <<<HTML
                               {
                                 s = inferVersion(m[1],
                                   [
-                                    ["1.9.2", "1.8.2"],
-                                    ["1.9.1", "1.8.1"],
-                                    ["1.9",   "1.8"],
-                                    ["1.8.1", "1.7"],
+																		["0.6",   "1.5"],
                                     ["1.8",   "1.6"],
-                                    ["0.6",   "1.5"]
+                                    ["1.8.1", "1.7"],
+                                    ["1.9",   "1.8"],
+                                    ["1.9.1", "1.8.1"],
+                                    ["1.9.2", "1.8.2"],
                                   ]);
   
                                 if (s) out += " " + s;
@@ -182,12 +184,15 @@ $scriptEngineTest = <<<HTML
                   </ul>
 HTML;
 
+$testcase = isset($_REQUEST['test']) && $_REQUEST['test'] === '1';
+
 $features = new FeatureList(array(
   'versions' => array(
     'ecmascript' => '<a href="#ecmascript">ECMAScript</a>',
     /* FIXME: Need late evaluation here because of repetition */
     ''           => <<<HTML
-This <abbr title="implementation">impl.</abbr>{$footnotes->add('this-impl', '', $scriptEngineTest, '')}
+This <abbr title="implementation">impl.</abbr>{$footnotes->add('this-impl', '', $scriptEngineTest, '')}<br>
+<input type="submit" name="submitResults" value="Submit results">
 HTML
     ,
     'javascript' => '<a href="#javascript" title="Netscape/Mozilla.org JavaScript">JavaScript</a>',
@@ -214,6 +219,8 @@ HTML
     'msdn'    => 'http://msdn.microsoft.com/en-us/library/',
     'es3'     => 'http://www.mozilla.org/js/language/E262-3.pdf'),
 
+  'testcase' => $testcase,
+    
   'items' => array(
     new ScriptFeature(array(
       'anchors'    => array('!', 'opNotEqual'),
@@ -293,7 +300,7 @@ HTML
       'title'      => 'RegExp literal with unescaped forward slash in character class',
       'content'    => '<code>/[/]/ :&nbsp;RegExp</code>',
       'versions'   => array(
-        'ecmascript' => 3,
+        'ecmascript' => array(5, 'section' => '7.8.5'),
         ''           => '"\'/\'.match(/[/]/).length == 1"',
   			'javascript' => array('tested' => '1.5'),
         'jscript'    => array('tested' => '5.1.5010'),
@@ -980,7 +987,10 @@ HTML
         ''           => 'isMethod(_global, "Array", "prototype", "map")
                          && !/jsx/.test(Array.prototype.map)',
         'javascript' => '1.6',
-        'jscript'    => '',
+        'jscript'    => array('9.0',
+          'footnote' => $footnotes->add('std-doc-only', '',
+            'Only in standards document mode')
+        ),
         'v8'         => array('tested' => '2.1'),
         'opera'      => '',
         'kjs'        => '',
@@ -1009,7 +1019,7 @@ HTML
       'versions' => array(
         'ecmascript' => '3',
         'javascript' => array('1.2',
-          'footnotes' => array(
+          'footnote' => $footnotes->add('push-return', '',
             'Since 1.3: returns the new length of the array rather than the last element added to the array.'
           )),
         'jscript'    => '5.5',
@@ -2673,7 +2683,7 @@ HTML
       'content' => '<code>Object.prototype.__proto__</code>',
       'versions' => array(
         'ecmascript' => '-',
-        ''           => '_hasOwnProperty(getFeature(_global, "Object", "prototype"), "__proto__")',
+        ''           => 'jsx.object._hasOwnProperty(getFeature(_global, "Object", "prototype"), "__proto__")',
         'javascript' => '1.3',
         'jscript'    => '-',
         'v8'         => array('tested' => '2.0'),

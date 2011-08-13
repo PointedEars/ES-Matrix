@@ -279,7 +279,7 @@ function printScrollButton()
     ]
   });
           
-  tryThis(
+  jsx.tryThis(
     /**
      * Writes the button in the document (HTML only)
      */
@@ -312,7 +312,7 @@ function alternateRows(restrictToRows)
 {
   var
     allRows = isNaN(restrictToRows),
-    tbodies = dhtml.gEBTN("tbody");
+    tbodies = jsx.dom.gEBTN("tbody");
   
   for (var i = tbodies && tbodies.length; i--;)
   {

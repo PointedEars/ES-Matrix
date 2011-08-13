@@ -12,8 +12,17 @@ li p {
   text-align: left;
 }
 
-div, p, ul, ol, th, td {
+div, ul, ol, th, td {
   max-width: 60ex;
+}
+
+div, ul, ol  {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+td ul {
+  max-width: none;
 }
 
 ul, ol {
@@ -79,6 +88,43 @@ a[href^="https://PointedEars.de/"]
   background: none;
 }
 
+#header {
+  margin-top: 5em;
+}
+
+#toc {
+  position: fixed;
+  right: 0;
+  top: 0;
+  height: 3em;
+  /* margin-top: 1em; */
+  padding: 0 1em 1em 1em;
+  border: 1px solid #666;
+  background-color: rgb(255, 255, 255);
+  background-color: rgba(255, 255, 255, 0.9);
+  overflow: hidden;
+}
+
+#toc:hover,
+#toc:focus,
+#toc:target
+{
+  max-width: 100%;
+  height: auto;
+  max-height: 100%;
+  overflow: auto;
+}
+
+#toc h2:after {
+  display: block;
+  float: right;
+  content: "\25BC "
+}
+
+#toc:hover h2:after {
+  content: "\25B2 "
+}
+
 .closed {
   text-decoration: line-through;
 }
@@ -98,6 +144,10 @@ tr[title], th[title], td[title] {
 
 .footnote-ref .tooltip {
   border-bottom: none;
+}
+
+.footnotes {
+  width: 100%;
 }
 
 .footnotes th {
@@ -395,7 +445,24 @@ span {
   height: auto;
 }
 
+input[readonly] {
+  border: none;
+  width: 1em;
+  background-color: inherit;
+  color: inherit;
+}
+
 .timeline .blue {
   background-color: #006;
   color: white;
 }
+
+#footer {
+  margin-top: 1em;
+  border-top: 1px solid black;
+  padding-top: 1em;
+}
+
+#footer, #footer p {
+  text-align: center;
+}   

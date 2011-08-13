@@ -1,25 +1,25 @@
 <?php
-  /* DEBUG */
+/* DEBUG */
 // phpinfo();
-  
-  require_once 'es-matrix.inc.php';
-  
-  $encoding = mb_detect_encoding(file_get_contents(__FILE__));
-  header("Content-Type: text/html" . ($encoding ? "; charset=$encoding" : ""));
-  
-  $modi = max(array(
-    @filemtime(__FILE__),
-    @filemtime('es-matrix.inc.php'),
-    @filemtime('style.css'),
-    @filemtime('table.js')));
 
-  header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $modi) . ' GMT');
-  
-  /* Cached resource expires in HTTP/1.1 caches 24h after last retrieval */
-  header('Cache-Control: max-age=86400, s-maxage=86400, must-revalidate, proxy-revalidate');
-  
-  /* Cached resource expires in HTTP/1.0 caches 24h after last retrieval */
-  header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
+require_once 'es-matrix.inc.php';
+
+$encoding = mb_detect_encoding(file_get_contents(__FILE__));
+header("Content-Type: text/html" . ($encoding ? "; charset=$encoding" : ""));
+
+$modi = max(array(
+@filemtime(__FILE__),
+@filemtime('es-matrix.inc.php'),
+@filemtime('style.css'),
+@filemtime('table.js')));
+
+header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $modi) . ' GMT');
+
+/* Cached resource expires in HTTP/1.1 caches 24h after last retrieval */
+header('Cache-Control: max-age=86400, s-maxage=86400, must-revalidate, proxy-revalidate');
+
+/* Cached resource expires in HTTP/1.0 caches 24h after last retrieval */
+header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
   "http://www.w3.org/TR/html4/strict.dtd">
@@ -35,7 +35,7 @@
     <meta http-equiv="Content-Style-Type" content="text/css">
     
     <title>ECMAScript Support Matrix</title>
-
+    
     <meta name="DCTERMS.alternative" content="ES Matrix">
     <meta name="DCTERMS.audience" content="Web developers">
     <meta name="DCTERMS.available" content="2009-12-15T04:06:35+00:00">
@@ -55,64 +55,97 @@
     <meta name="DCTERMS.date" content="<?php
       echo gmdate('Y-m-d\TH:i:s+00:00', $modi);
       ?>">
-
+    
     <link rel="stylesheet" href="/styles/tooltip.css" type="text/css">
     <link rel="stylesheet" href="../../style.css" type="text/css">
     <link rel="stylesheet" href="style.css" type="text/css">
     <link rel="stylesheet" href="not-ns4.css" type="text/css" media="all">
-    <link rel="alternate stylesheet" href="ct.css" type="text/css" title="c't">
+    <link rel="alternate stylesheet" href="ct.css" type="text/css"
+      title="c't"
+    >
     <!--[if IE 7]>
-      <style type="text/css">
-        /* IE 7: Support for scrollable tbody is buggy;
-          disabled because height: auto for the row appears to fix it */
-        /*
-        table>tbody.scroll {
-          height: auto;
-          overflow: visible;
-          border-top: 1px;
-          border-left-color: black;
-        }
-        */
-      </style>
-    <![endif]-->
+          <style type="text/css">
+            /* IE 7: Support for scrollable tbody is buggy;
+              disabled because height: auto for the row appears to fix it */
+            /*
+            table>tbody.scroll {
+              height: auto;
+              overflow: visible;
+              border-top: 1px;
+              border-left-color: black;
+            }
+            */
+          </style>
+        <![endif]-->
+    <!--[if lt IE 7]>
+          <style type="text/css">
+            /* IE 6 does not support position:fixed */
+            #header {
+              margin-top: 0;
+            }
+            
+            #toc {
+              margin-top: 1em;
+              padding: 0;
+              height: auto;
+              border-style: solid none none none;
+            }
+          </style>
+        <![endif]-->
     
     <script type="text/javascript" src="../../object.js"></script>
+    <script type="text/javascript">
+      /* Import methods into global namespace */
+      var isMethod = jsx.object.isMethod;
+      var getFeature = jsx.object.getFeature;
+    </script>
     <script type="text/javascript" src="../../types.js"></script>
     <script type="text/javascript" src="../../xpath.js"></script>
     <script type="text/javascript" src="../debug.js"></script>
-    <script type="text/javascript" src="../../dhtml.js"></script>
+    <script type="text/javascript" src="../../dom.js"></script>
     <script type="text/javascript" src="table.js"></script>
   </head>
   
   <body onload="alternateRows(); synhl(); scroller.init();">
-    <h1><a name="top" id="top">ECMAScript Support Matrix</a></h1>
-    <p class="subtitle">or <span>Why There Is No Javascript</span></p>
+    <div id="header">
+      <h1><a name="top" id="top">ECMAScript Support Matrix</a></h1>
+      <p class="subtitle">or <span>Why There Is No Javascript</span></p>
     
-    <p style="text-align: left">Copyright &copy;
-      2005&#8211;<?php echo gmdate('Y', $modi); ?>
-      Thomas Lahn
-      &lt;<a href="<?php echo randomEsc('mailto:js@PointedEars.de'); ?>"
-      ><?php echo randomEsc('js@PointedEars.de'); ?></a>&gt;
-      (<a href="#contributors">contributors</a>)</p>
+      <p style="text-align: left">
+        Copyright &copy; 2005&#8211;<?php echo gmdate('Y', $modi); ?>
+          Thomas Lahn
+          &lt;<a href="<?php echo randomEsc('mailto:js@PointedEars.de'); ?>"
+          ><?php echo randomEsc('js@PointedEars.de'); ?></a>&gt;
+          (<a href="#contributors">contributors</a>)</p>
     
-    <div>
-      <p style="margin-bottom: 0; text-align: left">Last&nbsp;modified:
-        <?php echo gmdate('Y-m-d\TH:i:s+00:00', $modi); ?></p>
-      
-      <ul class="horizontal">
-        <li><a href="http://PointedEars.de/websvn/log.php?repname=es-matrix&amp;path=%2Ftrunk%2F&amp;isdir=1&amp;showchanges=1"
-               >Change&nbsp;log</a></li>
-        <li><a href="http://PointedEars.de/websvn/listing.php?repname=es-matrix&amp;path=%2Ftrunk%2F"
-               title="Subversion repository browser">SVN</a></li>
-      </ul>
+      <div>
+        <p style="margin-bottom: 0; text-align: left">
+          Last&nbsp;modified:
+          <?php echo gmdate('Y-m-d\TH:i:s+00:00', $modi); ?>
+        </p>
+    
+        <ul class="horizontal">
+          <li><a
+            href="http://PointedEars.de/websvn/log.php?repname=es-matrix&amp;path=%2Ftrunk%2F&amp;isdir=1&amp;showchanges=1"
+          >Change&nbsp;log</a></li>
+          <li><a
+            href="http://PointedEars.de/websvn/listing.php?repname=es-matrix&amp;path=%2Ftrunk%2F"
+            title="Subversion repository browser"
+          >SVN</a></li>
+        </ul>
+      </div>
+    
+      <p style="clear: left; text-align: left">
+        Available online at <a
+          href="<?php
+                   $s = 'http://PointedEars.de/scripts/test/es-matrix/';
+                   echo $s;
+                 ?>"
+        ><?php echo $s; ?></a>
+      </p>
+  
+      <div><a href="#toc">Table of contents</a></div>
     </div>
-    
-    <p style="clear: left; text-align: left">Available online at <a
-       href="<?php
-               $s = 'http://PointedEars.de/scripts/test/es-matrix/';
-               echo $s;
-             ?>"
-       ><?php echo $s; ?></a></p>
     
 <?php
   if ($_SERVER['QUERY_STRING'] == 'redir')
@@ -126,162 +159,168 @@
 <?php
   }
 ?>
+    <div id="toc">
+      <h2>Table of contents</h2>
+      
+      <div><a href="#top">&#8593; Top of document</a></div>
+      
+      <ul>
+        <li><a href="#foreword">Foreword and rationale</a></li>
+        <li><a href="#features">Language features</a></li>
+        <li><a href="#version-info">Version information</a>
+          <ul>
+            <li><a href="#javascript">Netscape/Mozilla.org JavaScript</a></li>
+            <li><a href="#jscript">Microsoft JScript</a></li>
+            <li><a href="#v8">Google V8</a></li>
+            <li><a href="#jsc">Apple JavaScriptCore</a></li>
+            <li><a href="#opera">Opera ECMAScript</a></li>
+            <li><a href="#actionscript">Adobe ActionScript</a></li>
+            <li><a href="#ecmascript">ECMAScript compatibility</a></li>
+          </ul></li>
+        <li><a href="#contributors">List of contributors</a></li>
+      </ul>
+    </div>
     
-    <h2 style="margin-top: 1em; padding-top: 1em; border-top: 1px solid black"
-        ><a name="toc" id="toc">Table of contents</a></h2>
+    <div>
+      <h2 style="margin-top: 1em; padding-top: 1em; border-top: 1px solid black"
+          ><a name="foreword" id="foreword">Foreword and Rationale</a></h2>
+      
+      <p>Many people talk about <strong>JavaScript</strong> as if it was a fully
+         specified and universally implemented programming language.  But that is
+         in fact only the name of one implementation (at the time of writing,
+         not even the widest distributed one) of a standard for an extensible
+         programming language, <strong>ECMAScript</strong>, which is enjoying
+         <em>several implementations</em> that are widely distributed
+         (primarily, but not solely, through web browsers).  This common
+         misconception reaches so far as some rather knowledgable people
+         &ndash;&nbsp;out of lazyness or ignorance &ndash;&nbsp;choose
+         to refer to this pseudo-language using an alternate capitalization,
+         like “Javascript” or “javascript” in an attempt to distinguish it
+         from the original, <a href="#javascript">JavaScript™</a> (an example
+         of this can still be seen in the
+         <a href="http://jibbering.com/faq/">comp.lang.javascript FAQ</a>).
+         This is rather unsurprising since JavaScript is, as
+         Douglas&nbsp;Crockford put it so aptly, <em><a
+         href="http://javascript.crockford.com/javascript.html"
+         >the world's most misunderstood programming language</a></em>.</p>
+      
+      <p>However, this author is firmly convinced that either terminology is
+         misleading, that both should first be deprecated, and eventually abolished.
+         The former kind, because it simply misses the point: for example,
+         JavaScript is not JScript.  The latter kind, because it is oversimplifying
+         the issue, thereby shadowing the problems that are likely to occur if
+         script code is not written with the existence of different implementations
+         in mind.  It is also potentially ambiguous, and leads to odd notation
+         in English and other languages (like "javascript" at the beginning of
+         a sentence, where it should be capitalized by convention, or in the
+         midst of a sentence where it should be capitalized as well because
+         it is a proper noun, after all).  Such oversimplifying talk from
+         supposed experts is potentially and evidentially harmful, not only
+         for the experts themselves, but also for the beginners which are
+         mislead and confused by this.  <em>It is a Bad&nbsp;Idea™ to keep
+         people in the dark!</em></p>
+         
+      <p>In order to achieve greater understanding of this topic, it is important
+         to realize the similarities <em>and</em> the differences between
+         implementations, the advantages and the bugs of each implementation.
+         Differences are pointed out best using <em>different</em> words,
+         <em>not</em> similar ones.  For an analogy, you would never call a
+         cat a dog just because both are implementations of the concept “animal”
+         and both are equipped with a tail.  Yet this describes exactly what
+         often happens when people are discussing ECMAScript-based script
+         programming: for example, they say “JavaScript” (any capitalization)
+         and mean, often without providing that context information,
+         ECMAScript-based scripting in <acronym title="Microsoft Internet Explorer"
+         >IE</acronym> or <acronym
+         title="Microsoft Internet Information Services; formerly: Internet Information Server"
+         >IIS</acronym>, that is, <em>Microsoft JScript</em> instead!  Who is
+         to tell how the script must look like that they are talking about
+         without further inquiry, then?</p>
+      
+      <p>Therefore, for lack of a better alternative, the precise and equally
+         concise term <strong>ECMAScript implementation(s)</strong> should be
+         used when talking about features that several implementations (ought
+         to) have in common (per the ECMAScript Language Specification).  And
+         whenever it was talked about one particular implementation, its proper
+         name should be used, like <strong>Netscape/Mozilla.org JavaScript</strong>
+         or simply <strong>JavaScript™</strong>.  <strong>In all other instances,
+         the term “JavaScript” (any capitalization) should <em>not</em>
+         be used.</strong></p>
+          
+      <p>This overview began as a comparison of different “JavaScript” features
+         and, as time passed and understanding grew, evolved into a comparison
+         between the major ECMAScript implementations, detailing the differences,
+         the quirks and the bugs.  It has served its author (and its dedicated
+         readers) for years in writing client-side scripts that work cross-browser,
+         and helped to see the distinction between core language features, and
+         APIs with language binding, like the DOM.  (The features of the latter
+         API will be compared in another Matrix.)</p>
+         
+      <p>Whenever you read from this author that key line from arguably
+         <a href="http://en.wikipedia.org/wiki/The_Matrix"
+            title="The Matrix movie on Wikipedia"
+            >the most groundbreaking hacker movie</a>
+         &#8213;“The Matrix has you!”&#8213; a suggestion
+         is being considered as a contribution to this overview.  See below.</p>
+    </div>
     
-    <div><a href="#top">&#8593; Top of document</a></div>
-    
-    <ul>
-      <li><a href="#foreword">Foreword and rationale</a></li>
-      <li><a href="#features">Language features</a></li>
-      <li><a href="#version-info">Version information</a>
-        <ul>
-          <li><a href="#javascript">Netscape/Mozilla.org JavaScript</a></li>
-          <li><a href="#jscript">Microsoft JScript</a></li>
-          <li><a href="#v8">Google V8</a></li>
-          <li><a href="#jsc">Apple JavaScriptCore</a></li>
-          <li><a href="#opera">Opera ECMAScript</a></li>
-          <li><a href="#actionscript">Adobe ActionScript</a></li>
-          <li><a href="#ecmascript">ECMAScript compatibility</a></li>
-        </ul></li>
-      <li><a href="#contributors">List of contributors</a></li>
-    </ul>
-    
-    <h2><a name="foreword" id="foreword">Foreword and Rationale</a></h2>
-    
-    <p>Many people talk about <strong>JavaScript</strong> as if it was a fully
-       specified and universally implemented programming language.  But that is
-       in fact only the name of one implementation (at the time of writing,
-       not even the widest distributed one) of a standard for an extensible
-       programming language, <strong>ECMAScript</strong>, which is enjoying
-       <em>several implementations</em> that are widely distributed
-       (primarily, but not solely, through web browsers).  This common
-       misconception reaches so far as some rather knowledgable people
-       &ndash;&nbsp;out of lazyness or ignorance &ndash;&nbsp;choose
-       to refer to this pseudo-language using an alternate capitalization,
-       like “Javascript” or “javascript” in an attempt to distinguish it
-       from the original, <a href="#javascript">JavaScript™</a> (an example
-       of this can still be seen in the
-       <a href="http://jibbering.com/faq/">comp.lang.javascript FAQ</a>).
-       This is rather unsurprising since JavaScript is, as
-       Douglas&nbsp;Crockford put it so aptly, <em><a
-       href="http://javascript.crockford.com/javascript.html"
-       >the world's most misunderstood programming language</a></em>.</p>
-    
-    <p>However, this author is firmly convinced that either terminology is
-       misleading, that both should first be deprecated, and eventually abolished.
-       The former kind, because it simply misses the point: for example,
-       JavaScript is not JScript.  The latter, because it is oversimplifying
-       the issue, thereby shadowing the problems that are likely to occur if
-       script code is not written with the existence of different implementations
-       in mind.  It is also potentially ambiguous, and leads to odd notation
-       in English and other languages (like "javascript" at the beginning of
-       a sentence, where it should be capitalized by convention, or in the
-       midst of a sentence where it should be capitalized as well because
-       it is a proper noun, after all).  Such oversimplifying talk from
-       supposed experts is potentially and evidentially harmful, not only
-       for the experts themselves, but also for the beginners which are
-       mislead and confused by this.  <em>It is a Bad&nbsp;Idea™ to keep
-       people in the dark!</em></p>
-       
-    <p>In order to achieve greater understanding of this topic, it is important
-       to realize the similarities <em>and</em> the differences between
-       implementations, and the advantages and bugs of each implementation.
-       Differences are pointed out best using <em>different</em> words,
-       <em>not</em> similar ones.  For an analogy, you would never call a
-       cat a dog just because both are implementations of the concept “animal”
-       and both are equipped with a tail.  Yet this describes exactly what
-       often happens when people are discussing ECMAScript-based script
-       programming: for example, they say “JavaScript” (any capitalization)
-       and mean, often without providing that context information,
-       ECMAScript-based scripting in <acronym title="Microsoft Internet Explorer"
-       >IE</acronym> or <acronym
-       title="Microsoft Internet Information Services; formerly: Internet Information Server"
-       >IIS</acronym>, that is, <em>Microsoft JScript</em> instead!  Who is
-       to tell how the script must look like that they are talking about
-       without further inquiry, then?</p>
-    
-    <p>Therefore, for lack of a better alternative, the precise and equally
-       concise term <strong>ECMAScript implementation(s)</strong> should be
-       used when talking about features that several implementations (ought
-       to) have in common (per the ECMAScript Language Specification).  And
-       whenever it was talked about one particular implementation, its proper
-       name should be used, like <strong>Netscape/Mozilla.org JavaScript</strong>
-       or simply <strong>JavaScript™</strong>.  <strong>In all other instances,
-       the term “JavaScript” (any capitalization) should <em>not</em>
-       be used.</strong></p>
+    <div>
+      <h2><a name="features" id="features">Language&nbsp;Features</a></h2>
+      
+      <div><a href="#toc">&#8593; Table of contents</a></div>
+      
+      <p>The following table lists all features of ECMAScript implementations
+        that are not part of the first versions/editions of all of these
+        languages, with the version/edition that introduced it; furthermore,
+        information about features that have been deprecated is included.
+        That means if a <em>language</em> feature is not listed here, you can
+        consider it to be universally supported.</p>
+      
+      <p>In addition, features have been
+        <span class="safe"><span class="visual">highlighted with a greenish
+        background color</span></span> if this author considers them
+        <em>safe</em> to use without prior feature test even when they do not
+        appear to be formally specified or to be supported among all versions
+        of all implementations considered here.  This is based on the fact
+        that all minimum versions of the implementations that a&nbsp;feature
+        requires can be considered obsolete because the user&nbsp;agents known
+        to implement them can be considered obsolete (see the respective
+        <a href="#version-info">version information</a> for details).  Note
+        that this assessment is likely to be subject to change as more
+        implementations are evaluated.  If taken as a&nbsp;recommendation
+        for design decisions, it should be taken as a light&nbsp;one.</p>
+      
+      <!-- <p>In contrast, features have been
+        <span class="unsafe"><span class="visual">highlighted with a yellowish
+        background color</span></span> if this author considers them
+        <em>unsafe</em>; that is, it is strongly recommended not to use them
+        without feature test and fallback, or only in a limited
+        environment.</p> -->
+      
+      <p><strong>The content of this table is based on what could be found in
+        vendor's online documentations to date and on occasions where the
+        respective features could be tested; <em>it does not claim to be
+        accurate or complete</em> (please note how each feature is marked).
+        Any correction/addition as to how things really are is welcome and
+        will be <a href="#contributors">credited</a> where it is due.</strong></p>
+          
+      <p><em>If you are using Firefox&nbsp;3.0.x and the scrollable table body
+        flows out of the table, you are observing <a
+        href="https://bugzilla.mozilla.org/show_bug.cgi?id=423823"
+        title="Bug 135236 (VERIFIED FIXED): Overflowing tbody rows render background color for overflowing rows"
+        class="closed">Bug&nbsp;423823</a>, fixed since <a
+        href="http://www.mozilla-europe.org/en/firefox/3.0.2/releasenotes/"
+        >Firefox&nbsp;3.0.2</a>.  Since this was a regression, this author
+        deems it necessary not to cover it with a workaround.
+        <strong>The Firefox&nbsp;3.0 branch has met its
+        <a href="#javascript">end-of-life on 2010-03-30&nbsp;CE</a></strong>.
+        If you are still using Firefox&nbsp;3.0.x as your primary browser, you
+        are strongly recommended to <a href="http://www.mozilla.com/firefox/"
+        >update&nbsp;Firefox</a>.  As an alternative, you can toggle table body
+        scrollability.</em></p>
+    </div>
         
-    <p>This overview began as a comparison of different “JavaScript” features
-       and, as time passed and understanding grew, evolved into a comparison
-       between the major ECMAScript implementations, detailing the differences,
-       the quirks and the bugs.  It has served its author (and its dedicated
-       readers) for years in writing client-side scripts that work cross-browser,
-       and helped to see the distinction between core language features, and
-       APIs with language binding, like the DOM.  (The features of the latter
-       API will be compared in another Matrix.)</p>
-       
-    <p>Whenever you read from this author that key line from arguably
-       <a href="http://en.wikipedia.org/wiki/The_Matrix"
-          title="The Matrix movie on Wikipedia"
-          >the most groundbreaking hacker movie</a>
-       &#8213;“The Matrix has you!”&#8213; a suggestion
-       is being considered as a contribution to this overview.  See below.</p>
-
-    <h2><a name="features" id="features">Language&nbsp;Features</a></h2>
-    
-    <div><a href="#toc">&#8593; Table of contents</a></div>
-    
-    <p>The following table lists all features of ECMAScript implementations
-      that are not part of the first versions/editions of all of these
-      languages, with the version/edition that introduced it; furthermore,
-      information about features that have been deprecated is included.
-      That means if a <em>language</em> feature is not listed here, you can
-      consider it to be universally supported.</p>
-    
-    <p>In addition, features have been
-      <span class="safe"><span class="visual">highlighted with a greenish
-      background color</span></span> if this author considers them
-      <em>safe</em> to use without prior feature test even when they do not
-      appear to be formally specified or to be supported among all versions
-      of all implementations considered here.  This is based on the fact
-      that all minimum versions of the implementations that a&nbsp;feature
-      requires can be considered obsolete because the user&nbsp;agents known
-      to implement them can be considered obsolete (see the respective
-      <a href="#version-info">version information</a> for details).  Note
-      that this assessment is likely to be subject to change as more
-      implementations are evaluated.  If taken as a&nbsp;recommendation
-      for design decisions, it should be taken as a light&nbsp;one.</p>
-    
-    <!-- <p>In contrast, features have been
-      <span class="unsafe"><span class="visual">highlighted with a yellowish
-      background color</span></span> if this author considers them
-      <em>unsafe</em>; that is, it is strongly recommended not to use them
-      without feature test and fallback, or only in a limited
-      environment.</p> -->
-    
-    <p><strong>The content of this table is based on what could be found in
-      vendor's online documentations to date and on occasions where the
-      respective features could be tested; <em>it does not claim to be
-      accurate or complete</em> (please note how each feature is marked).
-      Any correction/addition as to how things really are is welcome and
-      will be <a href="#contributors">credited</a> where it is due.</strong></p>
-        
-    <p><em>If you are using Firefox&nbsp;3.0.x and the scrollable table body
-      flows out of the table, you are observing <a
-      href="https://bugzilla.mozilla.org/show_bug.cgi?id=423823"
-      title="Bug 135236 (VERIFIED FIXED): Overflowing tbody rows render background color for overflowing rows"
-      class="closed">Bug&nbsp;423823</a>, fixed since <a
-      href="http://www.mozilla-europe.org/en/firefox/3.0.2/releasenotes/"
-      >Firefox&nbsp;3.0.2</a>.  Since this was a regression, this author
-      deems it necessary not to cover it with a workaround.
-      <strong>The Firefox&nbsp;3.0 branch has met its
-      <a href="#javascript">end-of-life on 2010-03-30&nbsp;CE</a></strong>.
-      If you are still using Firefox&nbsp;3.0.x as your primary browser, you
-      are strongly recommended to <a href="http://www.mozilla.com/firefox/"
-      >update&nbsp;Firefox</a>.  As an alternative, you can toggle table body
-      scrollability.</em></p>
-    
+    <form action="<?php echo $_SERVER['SCRIPT_NAME']; ?>" method="POST">
     <table
         id="features-table"
         summary="Language features and the first editions of ECMAScript or first versions of the implementations that introduced or supported them"
@@ -372,6 +411,11 @@
                       CLR 1.1.4322; .NET CLR 2.0.50727)</li>
                   <li>Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1;
                       Trident/4.0; .NET CLR 1.1.4322; .NET CLR 2.0.50727)</li>
+                  <li>Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1;
+                      Trident/5.0; SLCC2; .NET CLR 2.0.50727;
+                      .NET CLR 3.5.30729; .NET CLR 3.0.30729;
+                      Media Center PC 6.0; InfoPath.3; .NET CLR 1.1.4322;
+                      .NET4.0C)</li>
                 </ul>
               </li>
               <li><abbr title="Google V8">V8</abbr>
@@ -449,31 +493,34 @@
         </tr>
       </tfoot>
       <tbody id="scroller" class="scroll">
-        <?php $features->printItems(); ?>
+       <?php $features->printItems(); ?>
       </tbody>
     </table>
+    </form>
     
     <?php $footnotes->flush(); ?>
-    
-    <h2><a name="version-info" id="version-info">Version Information</a></h2>
 
-    <div><a href="#toc">&#8593; Table of contents</a></div>
-
-    <ul>
-      <li><a href="#javascript">Netscape/Mozilla.org JavaScript</a></li>
-      <li><a href="#jscript">Microsoft JScript</a></li>
-      <li><a href="#v8">Google V8</a></li>
-      <li><a href="#jsc">Apple JavaScriptCore</a></li>
-      <li><a href="#opera">Opera ECMAScript</a></li>
-      <li><a href="#actionscript">Adobe ActionScript</a></li>
-      <li><a href="#ecmascript">ECMAScript compatibility</a></li>
-      <li><a href="#timeline">Timeline</a></li>
-    </ul>
-    
-    <h3><a name="javascript" id="javascript">Netscape/Mozilla.org&nbsp;JavaScript
-    Version Information</a><a href="#fn-javascript"><sup>1)</sup></a></h3>
-
-    <div><a href="#version-info">&#8593; Version information</a></div>
+    <div>
+      <h2><a name="version-info" id="version-info">Version Information</a></h2>
+  
+      <div><a href="#toc">&#8593; Table of contents</a></div>
+  
+      <ul>
+        <li><a href="#javascript">Netscape/Mozilla.org JavaScript</a></li>
+        <li><a href="#jscript">Microsoft JScript</a></li>
+        <li><a href="#v8">Google V8</a></li>
+        <li><a href="#jsc">Apple JavaScriptCore</a></li>
+        <li><a href="#opera">Opera ECMAScript</a></li>
+        <li><a href="#actionscript">Adobe ActionScript</a></li>
+        <li><a href="#ecmascript">ECMAScript compatibility</a></li>
+        <li><a href="#timeline">Timeline</a></li>
+      </ul>
+      
+      <h3><a name="javascript" id="javascript">Netscape/Mozilla.org&nbsp;JavaScript
+      Version Information</a><a href="#fn-javascript"><sup>1)</sup></a></h3>
+  
+      <div><a href="#version-info">&#8593; Version information</a></div>
+    </div>
     
     <table class="versions"
          summary="JavaScript versions and the user agents that support them"
@@ -529,6 +576,10 @@
             href="https://developer.mozilla.org/en/JavaScript/New_in_JavaScript/1.8.5"
             title="New in JavaScript 1.8.5"
             >1.8.5</a></th>
+          <th><a
+            href="https://developer.mozilla.org/en/Firefox_for_developers#JavaScript"
+            title="Firefox 5 for developers: JavaScript"
+            >1.8.6</a></th>
           <th><a href="http://replay.waybackmachine.org/20061205033609/http://www.mozilla.org/js/language/js20/"
                  >2.0</a> (historic)</th>
         </tr>
@@ -546,7 +597,7 @@
       </tfoot>
       <tbody>
         <tr class="header">
-          <th colspan="14">Implementations</th>
+          <th colspan="15">Implementations</th>
         </tr>
         <tr>
           <th><a href="http://www.mozilla.org/js/spidermonkey/"
@@ -566,11 +617,12 @@
           <td>1.8.2</td>
           <td>1.8.5 (<a
             href="https://wiki.mozilla.org/JaegerMonkey">JägerMonkey</a>)</td>
+          <td>1.8.6</td>
         </tr>
         <tr>
           <th><a href="http://www.mozilla.org/js/language/Epimetheus.html"
                  >Mozilla.org Epimetheus</a> (in C++)</th>
-          <td colspan="12"></td>
+          <td colspan="13"></td>
           <td>+</td>
         </tr>
         <tr>
@@ -587,16 +639,19 @@
                  >1.6R1</a>&#8211;<a
                  href="https://developer.mozilla.org/en/New_in_Rhino_1.6R7"
                  >1.6R7</a>
-            (<span title="2004-11-29 &#8211;nbsp;2007-08-20">2004&#8211;2007</span>)</td>
+            (<span title="2004-11-29 &#8211;&nbsp;2007-08-20">2004&#8211;2007</span>)</td>
           <td><a href="https://developer.mozilla.org/en/New_in_Rhino_1.7R1"
                  >1.7R1</a>&#8211;<a
                  href="https://developer.mozilla.org/en/New_in_Rhino_1.7R2"
                  >1.7R2</a>
             (<span title="2008-03-06 &#8211;&nbsp;2009-03-22">2008&#8211;2009</span>)</td>
+          <td><a href="https://developer.mozilla.org/en/New_in_Rhino_1.7R3"
+                 >1.7R3</a>
+            (2011&#8209;06&#8209;03)</td>
         </tr>
     
         <tr class="header">
-          <th colspan="14">Layout Engines</th>
+          <th colspan="15">Layout Engines</th>
         </tr>
         <tr>
           <th><a href="https://developer.mozilla.org/en/docs/Gecko">Netscape/Mozilla.org
@@ -609,10 +664,11 @@
           <td>1.9.1</td>
           <td>1.9.2</td>
           <td>1.9.3, 2.0</td>
+          <td>5.0</td>
         </tr>
     
         <tr class="header">
-          <th colspan="14">Web Browsers</th>
+          <th colspan="15">Web Browsers</th>
         </tr>
         <tr>
           <th><a href="http://browser.netscape.com/">Netscape
@@ -650,16 +706,22 @@
           <td>3.0a2&#8211;3.0.19&nbsp;<span title="End-of-life"
             >&#8224;</span><br>
             (<span title="2007-02-07 &#8211;&nbsp;2010-03-30">2007&#8211;2010</span>)</td>
-          <td>3.1a1&#8211;3.5.17<br>
-            (2008&#8209;07&#8209;28 &#8211;&nbsp;2011&#8209;03&#8209;01)</td>
-          <td>3.6a1&#8211;3.6.15<br>
-            (2010&#8209;01&#8209;21 &#8211;&nbsp;2011&#8209;03&#8209;04)</td>
-          <td>3.7a1&#8211;4.0RC1<br>
-            (2010&#8209;02&#8209;10 &#8211;&nbsp;2011&#8209;03&#8209;09)</td>
+          <td>3.1a1&#8211;3.5.19&nbsp;<span title="End-of-life"
+            >&#8224;</span><br>
+            (<span title="2008&#8209;07&#8209;28 &#8211;&nbsp;2011&#8209;04&#8209;28"
+                   >2008&#8211;2011</span>)</td>
+          <td>3.6a1&#8211;3.6.19<br>
+            (2010&#8209;01&#8209;21 &#8211;&nbsp;2011&#8209;07&#8209;11)</td>
+          <td>3.7a1&#8211;4.0.1&nbsp;<span title="End-of-life"
+            >&#8224;</span><br>
+            (<span title="2010&#8209;02&#8209;10 &#8211;&nbsp;2011&#8209;04&#8209;28"
+                   >2010&#8211;2011</span>)</td>
+          <td>5.0&#8211;5.0.1<br>
+            (2011&#8209;06&#8209;21 &#8211;&nbsp;2011&#8209;07&#8209;11)</td>
         </tr>
     
         <tr class="header">
-          <th colspan="14">Other Clients</th>
+          <th colspan="15">Other Clients</th>
         </tr>
         <tr>
           <th><a href="http://www.mozilla.org/products/mozilla1.x/">Mozilla
@@ -683,8 +745,10 @@
           <td>2.0a1&#8211;2.0.12<br>
             (2008&#8209;10&#8209;05 &#8211;&nbsp;2011&#8209;03&#8209;02)</td>
           <td>&nbsp;</td>
-          <td>2.1a1&#8211;2.1b2<br>
-            (2010&#8209;05&#8209;18 &#8211;&nbsp;2011&#8209;02&#8209;14)</td>
+          <td>2.1a1&#8211;2.1<br>
+            (2010&#8209;05&#8209;18 &#8211;&nbsp;2011&#8209;06&#8209;10)</td>
+          <td>2.2b1&#8211;2.2<br>
+            (2011&#8209;06&#8209;22 &#8211;&nbsp;2011&#8209;07&#8209;07)</td>
         </tr>
         <tr>
           <th><a href="http://www.mozilla.com/thunderbird/">Mozilla
@@ -700,14 +764,16 @@
             (<span title="2008-05-13, 2008-08-12">2008</span>)</td>
           <td>3.0a3&#8211;3.0.11&nbsp;<span title="End-of-life">&#8224;</span><br>
             (<span title="2008-10-14 &#8211;&nbsp;2010-12-09">2008&#8211;2010</span>)</td>
-          <td>3.1a1&#8211;3.1.9<br>
-            (2010&#8209;02&#8209;03 &#8211;&nbsp;2011&#8209;03&#8209;04)</td>
-          <td>3.3a1, 3.3a2<br>
-            (2010&#8209;11&#8209;23, 2011&#8209;01&#8209;20)</td>
+          <td>3.1a1&#8211;3.1.12<br>
+            (2010&#8209;02&#8209;03 &#8211;&nbsp;2011&#8209;08&#8209;16)</td>
+          <td>3.3a1&#8211;3.3a3<br>
+            (2010&#8209;11&#8209;23 &#8211;&nbsp; 2011&#8209;01&#8209;20)</td>
+          <td>5.0b1&#8211;5.0<br>
+            (2011&#8209;06&#8209;02 &#8211;&nbsp;2011&#8209;06&#8209;28)</td>
         </tr>
     
         <tr class="header">
-          <th colspan="14">Web Servers</th>
+          <th colspan="15">Web Servers</th>
         </tr>
         <tr>
           <th><a href="http://wp.netscape.com/enterprise/">Netscape
@@ -741,10 +807,12 @@
       </tbody>
     </table>
     
-    <h3><a name="jscript" id="jscript">Microsoft&nbsp;JScript Version
-    Information</a><a href="#fn-jscript"><sup>2)</sup></a></h3>
- 
-    <div><a href="#version-info">&#8593; Version information</a></div>
+    <div>
+      <h3><a name="jscript" id="jscript">Microsoft&nbsp;JScript Version
+      Information</a><a href="#fn-jscript"><sup>2)</sup></a></h3>
+   
+      <div><a href="#version-info">&#8593; Version information</a></div>
+    </div>
     
     <table class="versions"
          summary="JScript versions and the user agents that support them"
@@ -776,6 +844,9 @@
             href="http://msdn.microsoft.com/en-us/library/72bd815a%28VS.80%29.aspx"
             title="JScript 8.0 documentation"
           >8.0</a></th>
+          <th>9.0.16421
+           (<a href="http://en.wikipedia.org/wiki/Chakra_(JavaScript_engine)"
+               >Chakra</a>)</th>
           <th><a
             href="http://msdn.microsoft.com/en-us/library/72bd815a.aspx"
             title="JScript 10.0 documentation"
@@ -784,7 +855,7 @@
       </thead>
       <tfoot>
         <tr>
-          <td colspan="15"><a name="fn-jscript" id="fn-jscript"
+          <td colspan="16"><a name="fn-jscript" id="fn-jscript"
             >2)</a><a href="#jscript" class="backref">&#8593;</a>
             Version information from <a
               href="http://msdn.microsoft.com/library/en-us/jscript7/html/jsoriVersionInformation.asp"
@@ -805,7 +876,7 @@
       </tfoot>
       <tbody>
         <tr class="header">
-          <th colspan="17">Implementations</th>
+          <th colspan="18">Implementations</th>
         </tr>
         <tr>
           <th><a href="http://microsoft.com/net/">Microsoft .NET Framework</a></th>
@@ -813,11 +884,12 @@
           <td>1.0 (2002-01)</td>
           <td>1.1 (2003)</td>
           <td>2.0&#8211;3.5&nbsp;SP1 (2005&#8211;2008)</td>
+          <td></td>
           <td>4.0&#8212; (2010-04-12&#8212;)</td>
         </tr>
     
         <tr class="header">
-          <th colspan="17">Web Browsers</th>
+          <th colspan="18">Web Browsers</th>
         </tr>
         <tr>
           <th><a href="http://microsoft.com/ie/">Microsoft Internet Explorer</a></th>
@@ -838,7 +910,7 @@
           <td>5.5&nbsp;<span title="End-of-life">&#8224;</span><br>
             <span class="nowrap">(2000-07</span>
             <span class="nowrap">&#8211;&nbsp;2005-12)</span></td>
-          <td>6.0 for <abbr title="Windows 95 and 98">Win9x</abbr>/NT/XP<br>
+          <td>6.0 for <abbr title="Windows 95 and 98">Win9x</abbr>/NT/XP&nbsp;<span title="End-of-life">&#8224;</span><br>
             <span class="nowrap">(2001-10)</span></td>
           <td>7.0 for <abbr title="Windows">Win</abbr>XP+<br>
             <span class="nowrap">(2006-10)</span></td>
@@ -846,10 +918,13 @@
             <span class="nowrap">(2008-03)</span></td>
           <td>8.0 beta&nbsp;2 for <abbr title="Windows">Win</abbr>XP SP2+<br>
             <span class="nowrap">(2008-08)</span></td>
+          <td colspan="3"></td>
+          <td><span title="9.0.8112.16421">9.0</span> for Vista SP2+ / Server&nbsp;2008<br>
+            (2011&#8209;03&#8209;14)</td>
         </tr>
     
         <tr class="header">
-          <th colspan="17">Web Servers</th>
+          <th colspan="18">Web Servers</th>
         </tr>
         <tr>
           <th><a href="http://microsoft.com/iis/">Microsoft Internet
@@ -860,10 +935,14 @@
           <td colspan="5"></td>
           <td>5.1&#8211;6.0&nbsp;<span title="End-of-life">&#8224;</span><br>
             <span class="nowrap">(2000&#8211;2005)</span></td>
+          <td colspan="2">7.0<br>
+            <span class="nowrap">(2008)</span></td>
+          <td>7.5<br>
+            <span class="nowrap">(2009)</span></td>
         </tr>
     
         <tr class="header">
-          <th colspan="17">Operating Systems</th>
+          <th colspan="18">Operating Systems</th>
         </tr>
         <tr>
           <th><a href="http://microsoft.com/windows/">Microsoft Windows</a></th>
@@ -891,10 +970,18 @@
           <td colspan="8"></td>
           <td>2003<br>
             <span class="nowrap">(2003-04)</span></td>
+          <td colspan="2">2008<br>
+            <span class="nowrap">(2008-02)</span></td>
+          <td>2008&nbsp;R2<br>
+            <span class="nowrap">(2009-09)</span></td>
+          <td colspan="2">&nbsp;</td>
+          <td>2008</td>
+          <td>&nbsp;</td>
+          <td>2008&nbsp;R2</td>
         </tr>
     
         <tr class="header">
-          <th colspan="17"><acronym
+          <th colspan="18"><acronym
             title="Integrated Development Environment"
           >IDE</acronym>s</th>
         </tr>
@@ -908,15 +995,18 @@
           <td>.NET&nbsp;7.0<br>(2002)</td>
           <td>.NET&nbsp;7.1<br>(2003)</td>
           <td>8.0&#8211;9.0<br>(2005&#8211;2008)</td>
+          <td></td>
           <td>10.0&#8212;<br>(2010-04-12&#8212;)</td>
         </tr>
       </tbody>
     </table>
     
-    <h3><a name="v8" id="v8">Google&nbsp;V8 Version
-    Information</a></h3>
- 
-    <div><a href="#version-info">&#8593; Version information</a></div>
+    <div>
+      <h3><a name="v8" id="v8">Google&nbsp;V8 Version
+      Information</a></h3>
+   
+      <div><a href="#version-info">&#8593; Version information</a></div>
+    </div>
     
     <table class="versions"
       summary="V8 versions and the user agents that support them"
@@ -970,12 +1060,14 @@
         </tr>
       </tbody>
     </table>
+  
+    <div>
+      <h3><a name="jsc" id="jsc">Apple&nbsp;JavaScriptCore Version
+        Information</a></h3>
+        
+      <div><a href="#version-info">&#8593; Version information</a></div>
+    </div>
 
-    <h3><a name="jsc" id="jsc">Apple&nbsp;JavaScriptCore Version
-    Information</a></h3>
- 
-    <div><a href="#version-info">&#8593; Version information</a></div>
-    
     <table class="versions"
       summary="Apple JavaScriptCore versions and the user agents that support them"
     >
@@ -1025,12 +1117,14 @@
         </tr>
       </tbody>
     </table>
-    
-    <h3><a name="opera" id="opera">Opera&nbsp;ECMAScript Version
-    Information</a></h3>
- 
-    <div><a href="#version-info">&#8593; Version information</a></div>
-    
+
+    <div>
+      <h3><a name="opera" id="opera">Opera&nbsp;ECMAScript Version
+        Information</a></h3>
+        
+      <div><a href="#version-info">&#8593; Version information</a></div>
+    </div>
+
     <table class="versions"
       summary="Opera ECMAScript versions and the user agents that support them"
     >
@@ -1047,31 +1141,41 @@
           <th>9.62</th>
           <th>9.64</th>
           <th>10.10</th>
+          <th>10.50</th>
           <th>10.51</th>
+          <th>10.54</th>
+          <th>10.63</th>
+          <th>11.50</th>
         </tr>
       </thead>
       <tbody>
         <tr class="header">
-          <th colspan="12">Layout Engines</th>
+          <th colspan="16">Implementations</th>
         </tr>
         <tr>
-          <th>Opera Elektra</th>
-          <td colspan="2"></td>
-          <td>+</td>
+          <td></td>
+          <td colspan="3">Linear A</td>
+          <td colspan="3">Linear B</td>
+          <td colspan="4">Futhark</td>
+          <td colspan="5">Carakan</td>
+        </tr>
+        <tr class="header">
+          <th colspan="16">Layout Engines</th>
         </tr>
         <tr>
-          <th>Opera Presto</th>
-          <td colspan="3"></td>
-          <td>1.0</td>
-          <td>&nbsp;</td>
+          <td></td>
+          <td colspan="3">Elektra</td>
+          <td colspan="2">Presto 1.0</td>
           <td>2.0</td>
           <td>2.1</td>
           <td colspan="2">2.1.1</td>
           <td>2.4</td>
-          <td>2.5</td>
+          <td colspan="3">2.5</td>
+          <td>2.6</td>
+          <td>2.7</td>
         </tr>
         <tr class="header">
-          <th colspan="12">Web Browsers</th>
+          <th colspan="16">Web Browsers</th>
         </tr>
         <tr>
           <th><a href="http://opera.com/">Opera Browser</a></th>
@@ -1095,16 +1199,27 @@
             (2009)</td>
           <td>10.10<br>
             (2009&#8211;2010)</td>
+          <td>10.50<br>
+            (2010-03-02)</td>
           <td>10.51<br>
-            (2010)</td>
+            (2010-03-22)</td>
+          <td>10.54<br>
+            (2010-06-21)</td>
+          <td>10.63<br>
+            (2010-10-12)</td>
+          <td>11.50<br>
+            (2011-06-28)</td>
         </tr>
       </tbody>
     </table>
 
-    <h3><a name="actionscript" id="actionscript">Macromedia/Adobe&nbsp;ActionScript
-    Versions</a><a href="#fn-actionscript"><sup>3)</sup></a></h3>
+    <div>
+      <h3><a name="actionscript" id="actionscript"
+        >Macromedia/Adobe&nbsp;ActionScript Versions</a><a
+        href="#fn-actionscript"><sup>3)</sup></a></h3>
     
-    <div><a href="#version-info">&#8593; Version information</a></div>
+      <div><a href="#version-info">&#8593; Version information</a></div>
+    </div>
     
     <table class="versions"
       summary="ActionScript versions and the user agents that support them"
@@ -1135,18 +1250,20 @@
       </tbody>
     </table>
     
-    <h3><a name="ecmascript" id="ecmascript">ECMAScript Compatibility</a></h3>
-    
-    <div><a href="#version-info">&#8593; Version information</a></div>
-    
-    <p>The following table provides a rough overview of ECMAScript Editions
-    and relations between them and versions of their implementations. Note
-    that conforming implementations are allowed to <em>extend</em>
-    ECMAScript, so these are <em>by no means</em> 1:n relations; instead,
-    this is the result of a comparison of most common language features.</p>
-    
-    <p style="text-align: left">See <a href="#features">Language&nbsp;Features</a>
-    above for details.</p>
+    <div>
+      <h3><a name="ecmascript" id="ecmascript">ECMAScript Compatibility</a></h3>
+      
+      <div><a href="#version-info">&#8593; Version information</a></div>
+      
+      <p>The following table provides a rough overview of ECMAScript Editions
+      and relations between them and versions of their implementations. Note
+      that conforming implementations are allowed to <em>extend</em>
+      ECMAScript, so these are <em>by no means</em> 1:n relations; instead,
+      this is the result of a comparison of most common language features.</p>
+      
+      <p style="text-align: left">See <a href="#features">Language&nbsp;Features</a>
+      above for details.</p>
+    </div>
     
     <table class="versions"
       summary="ECMAScript editions and versions of implementations that implement them best"
@@ -1276,143 +1393,105 @@
     <table class="timeline">
       <thead>
         <tr>
-          <th rowspan="3">Date</th>
+          <th rowspan="2">Date</th>
           <th colspan="2">1996</th>
-          <th colspan="3">1997</th>
+          <th>1997</th>
           <th>1998</th>
-          <th colspan="3">1999</th>
-          <th colspan="5">2000</th>
+          <th>1999</th>
+          <th>2000</th>
           <th>2001</th>
-          <th colspan="2">2002</th>
+          <th>2002</th>
           <th>2003</th>
           <th>2004</th>
-          <th colspan="3">2005</th>
-          <th colspan="4">2006</th>
-          <th colspan="3">2007</th>
-          <th colspan="8">2008</th>
-          <th colspan="7">2009</th>
-          <th colspan="12">2010</th>
+          <th>2005</th>
+          <th>2006</th>
+          <th colspan="4">2007</th>
+          <th colspan="2">2008</th>
+          <th>2009</th>
+          <th colspan="2">2010</th>
+          <th>2011</th>
         </tr>
         <tr>
           <th>1996-03</th>
           <th>1996-08</th>
           <th>1997-06</th>
-          <th>1997-09</th>
-          <th>1997-11</th>
           <th>1998-08</th>
-          <th>1999-03</th>
           <th>1999-05</th>
-          <th>1999-12</th>
-          <th>2000-02</th>
-          <th>2000-03</th>
-          <th>2000-07</th>
-          <th>2000-08</th>
-          <th>2000-09</th>
-          <th>2001-10</th>
-          <th>2002-01</th>
-          <th>2002-02</th>
-          <th>2003-04</th>
-          <th>2004</th>
-          <th>2005-04</th>
-          <th>2005-06</th>
-          <th>2005-12</th>
-          <th>2006-01</th>
+          <th>2000-11</th>
+          <th></th>
+          <th>2002-08</th>
+          <th></th>
+          <th>2004-11</th>
+          <th></th>
           <th>2006-07</th>
-          <th>2006-08</th>
-          <th>2006-10</th>
           <th>2007-02</th>
+          <th>2007-04</th>
           <th>2007-06</th>
-          <th>2007-10</th>
-          <th>2008-03</th>
-          <th>2008-06</th>
+          <th>2007-08</th>
+          <th>2008-02</th>
           <th>2008-07</th>
-          <th>2008-08</th>
-          <th>2008-09</th>
-          <th>2008-10</th>
-          <th>2008-11</th>
-          <th>2008-12</th>
-          <th>2009-03</th>
-          <th>2009-04</th>
-          <th>2009-05</th>
-          <th>2009-06</th>
-          <th>2009-08</th>
-          <th>2009-10</th>
-          <th>2009-11</th>
-          <th colspan="3">2010-01</th>
-          <th colspan="4">2010-03</th>
-          <th colspan="3">2010-04</th>
-          <th>2010-06</th>
-          <th>2010-07</th>
-        </tr>
-        <tr>
-          <th colspan="5"></th>
-          <th>1997-11-18</th>
-          <th colspan="18"></th>
-          <th>2006-07-28</th>
-          <th>2006-08-30</th>
           <th></th>
-          <th>2007-02-07</th>
-          <th colspan="2"></th>
-          <th>2008-03-13</th>
-          <th></th>
-          <th>2008-07-28</th>
-          <th colspan="2"></th>
-          <th>2008-10-05</th>
-          <th></th>
-          <th>2008-12-10</th>
-          <th colspan="7"></th>
-          <th>2010-01-21</th>
-          <th>2010-01-25</th>
-          <th>2010-01-30</th>
-          <th>2010-03-10</th>
-          <th>2010-03-11</th>
-          <th>2010-03-15</th>
-          <th>2010-03-30</th>
-          <th>2010-04-01</th>
-          <th>2010-04-07</th>
-          <th>2010-04-12</th>
-          <th>2010-06-07</th>
-          <th>2010-07-15</th>
+          <th>2010-01</th>
+          <th>2010-03</th>
+          <th>2011-03</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <th>Netscape</th>
-          <td></td>
-          <td class="blue">Navigator 2.0</td>
-          <td class="blue">3.0</td>
-          <td colspan="3" class="blue" nowrap>4.0 &#8211; 4.05</td>
-          <td colspan="2" class="blue">4.06 &#8211; 4.8</td>
-          <td colspan="2"></td>
-          <td colspan="9" class="blue">Navigator 6.x &#8211;&nbsp;Browser 8.1.3</td>
-          <td colspan="4"></td>
-          <td class="blue">Navigator 9.0b1 &#8211;&nbsp;9.0.0.6</td>
-        </tr>
-        <tr>
-          <th>JavaScript</th>
-          <td></td>
+          <th rowspan="8">JavaScript</th>
           <td class="blue">1.0</td>
           <td class="blue">1.1</td>
-          <td colspan="3" class="blue">1.2</td>
-          <td colspan="2" class="blue">1.3</td>
-          <td colspan="2" class="blue">1.4</td>
-          <td colspan="9" class="blue">1.5</td>
-          <td colspan="4" class="blue">1.6</td>
-          <td class="blue">1.7</td>
-          <td colspan="6" class="blue">1.8</td>
-          <td colspan="15" class="blue">1.8.1</td>
-          <td colspan="12" class="blue">1.8.2</td>
+          <td class="blue">1.2</td>
+          <td colspan="5" class="blue">1.3</td>
         </tr>
         <tr>
-          <th>Internet Explorer</th>
-          <td colspan="2"></td>
+          <td colspan="4"></td>
+          <td colspan="2" class="blue">1.4</td>
+        </tr>
+        <tr>
+          <td colspan="5"></td>
+          <td colspan="9" class="blue">1.5</td>
+        </tr>
+        <tr>
+          <td colspan="9"></td>
+          <td colspan="7" class="blue">1.6</td>
+        </tr>
+        <tr>
+          <td colspan="11"></td>
+          <td colspan="10" class="blue">1.7</td>
+        </tr>
+        <tr>
+          <td colspan="13"></td>
+          <td colspan="8" class="blue">1.8</td>
+        </tr>
+        <tr>
+          <td colspan="17"></td>
+          <td colspan="5" class="blue">1.8.1</td>
+        </tr>
+        <tr>
+          <td colspan="19"></td>
+          <td colspan="3" class="blue">1.8.2</td>
+        </tr>
+        <tr>
+          <th>Rhino</th>
+          <td colspan="4"></td>
+          <td colspan="2" class="blue">1.4R3</td>
+        </tr>
+        <tr>
+          <th rowspan="2">Netscape</th>
+          <td class="blue">Navigator 2.0</td>
           <td class="blue">3.0</td>
-          <td colspan="2" class="blue">4.0</td>
-          <td class="blue">4.01</td>
+          <td class="blue" nowrap>4.0 &#8211; 4.05</td>
+          <td colspan="5" class="blue">4.06 &#8211; 4.8</td>
+        </tr>
+        <tr>
+          <td colspan="5"></td>
+          <td colspan="9" class="blue">Navigator 6.x &#8211;&nbsp;Browser 8.1.3</td>
+          <td colspan="3" class="blue">Navigator 9.0b1 &#8211;&nbsp;9.0.0.6</td>
         </tr>
         <tr>
           <th>JScript</th>
-          <td colspan="2"></td>
+          <td></td>
           <td class="blue">1.0</td>
           <td colspan="2" class="blue">3.0</td>
           <td class="blue">3.1</td>
@@ -1423,6 +1502,13 @@
           <td colspan="11" class="blue">5.6</td>
           <td colspan="7" class="blue">5.7</td>
           <td colspan="24" class="blue">5.8</td>
+        </tr>
+        <tr>
+          <th>Internet Explorer</th>
+          <td></td>
+          <td class="blue">3.0</td>
+          <td colspan="2" class="blue">4.0</td>
+          <td class="blue">4.01</td>
         </tr>
         <tr>
           <th>ECMAScript</th>
@@ -1442,41 +1528,50 @@
       </tbody>
     </table>
     
-    <h2><a name="contributors" id="contributors">List of Contributors</a></h2>
-
-    <div><a href="#toc">&#8593; Table of contents</a></div>
-    
-    <p><em>Thanks to:</em></p>
+    <div>
+      <h2><a name="contributors" id="contributors">List of Contributors</a></h2>
+  
+      <div><a href="#toc">&#8593; Table of contents</a></div>
+      
+      <p><em>Thanks to (in alphabetical order):</em></p>
+    </div>
     
     <ul>
+      <li><a href="http://asenbozhilov.com/">Asen Bozhilov
+        (<span lang="bg">Асен Божилов</span>)</a>
+        &lt;<a href="<?php echo randomEsc('mailto:asen.bozhilov@gmail.com'); ?>"
+        ><?php echo randomEsc('asen.bozhilov@gmail.com'); ?></a>&gt;
+        for corrections on ECMAScript Editions and feature suggestions</li>
+      <li>BootNic &lt;<a href="<?php echo randomEsc('mailto:bootnic.bounce@gmail.com'); ?>"
+        ><?php echo randomEsc('bootnic.bounce@gmail.com'); ?></a>&gt;
+        for helping with the scrollable tbody workaround for IE: Message-ID&nbsp;<a
+        href="http://groups.google.com/groups/search?as_umsgid=20100305112229.454328ac@bootnic.eternal-september.org"
+        >&lt;20100305112229.454328ac@bootnic.eternal-september.org&gt;</a></li>
+      <li><a href="http://perfectionkills.com/">Juriy&nbsp;'kangax'&nbsp;Zaytsev
+        (<span lang="ru">Юрий Зайцев</span>)</a>
+        &lt;<a href="<?php echo randomEsc('mailto:kangax@gmail.com'); ?>"
+        ><?php echo randomEsc('kangax@gmail.com'); ?></a>&gt;
+        for tests with Safari&nbsp;2.0.2: Message-ID&nbsp;<a
+        href="http://groups.google.com/groups/search?as_umsgid=MpOdnVEQCfgNMN_WnZ2dnUVZ_rNi4p2d@giganews.com"
+        >&lt;MpOdnVEQCfgNMN_WnZ2dnUVZ_rNi4p2d@giganews.com&gt;</a></li>
       <li>Michael&nbsp;Winter
         &lt;<a href="<?php echo randomEsc('mailto:m.winter@blueyonder.co.uk'); ?>"
         ><?php echo randomEsc('m.winter@blueyonder.co.uk'); ?></a>&gt;
         for tests with IE&nbsp;4.01 and NN&nbsp;4.08: Message-ID&nbsp;<a
         href="http://groups.google.com/groups/search?as_umsgid=urctf.17012$iz3.5930@text.news.blueyonder.co.uk"
         >&lt;urctf.17012$iz3.5930@text.news.blueyonder.co.uk&gt;</a></li>
-      <li><a href="http://perfectionkills.com/">Juriy&nbsp;'kangax'&nbsp;Zaytsev</a>
-        &lt;<a href="<?php echo randomEsc('mailto:kangax@gmail.com'); ?>"
-        ><?php echo randomEsc('kangax@gmail.com'); ?></a>&gt;
-        for tests with Safari&nbsp;2.0.2: Message-ID&nbsp;<a
-        href="http://groups.google.com/groups/search?as_umsgid=MpOdnVEQCfgNMN_WnZ2dnUVZ_rNi4p2d@giganews.com"
-        >&lt;MpOdnVEQCfgNMN_WnZ2dnUVZ_rNi4p2d@giganews.com&gt;</a></li>
-      <li>BootNic &lt;<a href="<?php echo randomEsc('mailto:bootnic.bounce@gmail.com'); ?>"
-        ><?php echo randomEsc('bootnic.bounce@gmail.com'); ?></a>&gt;
-        for helping with the scrollable tbody workaround for IE: Message-ID&nbsp;<a
-        href="http://groups.google.com/groups/search?as_umsgid=20100305112229.454328ac@bootnic.eternal-september.org"
-        >&lt;20100305112229.454328ac@bootnic.eternal-september.org&gt;</a></li>
+      
     </ul>
     
-    <div style="margin-top: 1em; border-top: 1px solid black; padding-top: 1em">
-    <div><a href="http://validator.w3.org/check/referer"
-            ><img src="/media/valid-html401.png" style="border: 0"
-                  alt="Valid HTML 4.01"></a></div>
-    <p>built with<br>
-    <a href="http://www.eclipse.org/"
-       ><img src="/media/eclipse.jpg" alt="eclipse"
-             style="border: 0; width: 131px; height: 68px"
-             ></a></p>
+    <div id="footer">
+      <div><a href="http://validator.w3.org/check/referer"
+              ><img src="/media/valid-html401.png" style="border: 0"
+                    alt="Valid HTML 4.01"></a></div>
+      <p>built with<br>
+      <a href="http://www.eclipse.org/"
+         ><img src="/media/eclipse.jpg" alt="eclipse"
+               style="border: 0; width: 131px; height: 68px"
+               ></a></p>
     </div>
   </body>
 </html>
