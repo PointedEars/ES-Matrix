@@ -184,15 +184,16 @@ $scriptEngineTest = <<<HTML
                   </ul>
 HTML;
 
-$testcase = isset($_REQUEST['test']) && $_REQUEST['test'] === '1';
+// $testcase = isset($_REQUEST['test']) && $_REQUEST['test'] === '1';
+$testcase = true;
 
 $features = new FeatureList(array(
   'versions' => array(
     'ecmascript' => '<a href="#ecmascript">ECMAScript</a>',
     /* FIXME: Need late evaluation here because of repetition */
     ''           => <<<HTML
-This <abbr title="implementation">impl.</abbr>{$footnotes->add('this-impl', '', $scriptEngineTest, '')}<br>
-<input type="submit" name="submitResults" value="Submit results">
+This <abbr title="implementation">impl.</abbr>{$footnotes->add('this-impl', '', $scriptEngineTest, '')}<!--<br>
+<input type="submit" name="submitResults" value="Submit results">-->
 HTML
     ,
     'javascript' => '<a href="#javascript" title="Netscape/Mozilla.org JavaScript">JavaScript</a>',
@@ -3228,7 +3229,7 @@ HTML
         'javascript' => array(1.4,
           'urn' => 'js15ref:Statements:try...catch'),
         'jscript' => array('tested' => '5.1.5010',
-          'urn' => 'msdn:jscript7/html/jsstmtrycatch.asp'),
+          'urn' => 'msdn:4yahc5d8(VS.85).aspx'),
         'ecmascript' => 3
       )
     )),

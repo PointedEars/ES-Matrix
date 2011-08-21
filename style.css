@@ -8,6 +8,12 @@ p {
   text-align: justify;        
 }
 
+p.subtitle {
+  margin-top: 0;
+  margin-bottom: 1em;
+  font-style: italic;
+}
+
 li p {
   text-align: left;
 }
@@ -402,7 +408,7 @@ tfoot tbody tr:nth-child(even)
 
 /*
  * Not for IE 6 and below.
- * Bugfix for IE 7 follows in Conditional Comments below.
+ * Bugfix for IE 7 follows below.
  */  
 table>tbody.scroll {
   border-top: 0;
@@ -410,12 +416,13 @@ table>tbody.scroll {
   height: 23em;
   overflow: auto;
   /*
-   * In current implementations, the scrollbar is displayed within
+   * In supporting Gecko versions, the scrollbar is displayed within
    * the tbody area, so we disable horizontal scrolling for that ...
    */
   overflow-x: hidden !important;
 }
 
+/* Bugfix for IE 7+ */
 table>tbody.scroll tr {
   height: auto;
 }

@@ -63,35 +63,21 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
     <link rel="alternate stylesheet" href="ct.css" type="text/css"
       title="c't"
     >
-    <!--[if IE 7]>
-          <style type="text/css">
-            /* IE 7: Support for scrollable tbody is buggy;
-              disabled because height: auto for the row appears to fix it */
-            /*
-            table>tbody.scroll {
-              height: auto;
-              overflow: visible;
-              border-top: 1px;
-              border-left-color: black;
-            }
-            */
-          </style>
-        <![endif]-->
     <!--[if lt IE 7]>
-          <style type="text/css">
-            /* IE 6 does not support position:fixed */
-            #header {
-              margin-top: 0;
-            }
-            
-            #toc {
-              margin-top: 1em;
-              padding: 0;
-              height: auto;
-              border-style: solid none none none;
-            }
-          </style>
-        <![endif]-->
+      <style type="text/css">
+        /* IE 6 does not support position:fixed */
+        #header {
+          margin-top: 0;
+        }
+        
+        #toc {
+          margin-top: 1em;
+          padding: 0;
+          height: auto;
+          border-style: solid none none none;
+        }
+      </style>
+    <![endif]-->
     
     <script type="text/javascript" src="../../object.js"></script>
     <script type="text/javascript">
@@ -109,7 +95,7 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
   <body onload="alternateRows(); synhl(); scroller.init();">
     <div id="header">
       <h1><a name="top" id="top">ECMAScript Support Matrix</a></h1>
-      <p class="subtitle">or <span>Why There Is No Javascript</span></p>
+      <p class="subtitle">There Is No Javascript</p>
     
       <p style="text-align: left">
         Copyright &copy; 2005&#8211;<?php echo gmdate('Y', $modi); ?>
@@ -204,21 +190,20 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
          href="http://javascript.crockford.com/javascript.html"
          >the world's most misunderstood programming language</a></em>.</p>
       
-      <p>However, this author is firmly convinced that either terminology is
-         misleading, that both should first be deprecated, and eventually abolished.
-         The former kind, because it simply misses the point: for example,
-         JavaScript is not JScript.  The latter kind, because it is oversimplifying
-         the issue, thereby shadowing the problems that are likely to occur if
-         script code is not written with the existence of different implementations
-         in mind.  It is also potentially ambiguous, and leads to odd notation
-         in English and other languages (like "javascript" at the beginning of
-         a sentence, where it should be capitalized by convention, or in the
-         midst of a sentence where it should be capitalized as well because
-         it is a proper noun, after all).  Such oversimplifying talk from
-         supposed experts is potentially and evidentially harmful, not only
-         for the experts themselves, but also for the beginners which are
-         mislead and confused by this.  <em>It is a Bad&nbsp;Idea™ to keep
-         people in the dark!</em></p>
+      <p>However, either terminology is misleading; both should first be deprecated,
+         and eventually abolished.  The former kind, because it simply misses
+         the point: for example, JavaScript is not JScript.  The latter kind,
+         because it is oversimplifying the issue, thereby shadowing the problems
+         that are likely to occur if script code is not written with the existence
+         of different implementations in mind.  It is also potentially ambiguous,
+         and leads to odd notation in English and other languages (like
+         "javascript" at the beginning of a sentence, where it should be
+         capitalized by convention, or in the midst of a sentence where
+         it should be capitalized as well because it is a proper noun, after all).
+         Such oversimplifying talk from supposed experts is potentially and
+         evidentially harmful, not only for the experts themselves, but also
+         for the beginners which are mislead and confused by this.
+         <em>It is a Bad&nbsp;Idea™ to keep people in the dark!</em></p>
          
       <p>In order to achieve greater understanding of this topic, it is important
          to realize the similarities <em>and</em> the differences between
@@ -243,9 +228,10 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
          to) have in common (per the ECMAScript Language Specification).  And
          whenever it was talked about one particular implementation, its proper
          name should be used, like <strong>Netscape/Mozilla.org JavaScript</strong>
-         or simply <strong>JavaScript™</strong>.  <strong>In all other instances,
-         the term “JavaScript” (any capitalization) should <em>not</em>
-         be used.</strong></p>
+         or simply <strong>JavaScript</strong> (if there is doubt, "™" might
+         be added to emphasize that the implementation is meant).  <strong>In all
+         other instances, the term “JavaScript” (any capitalization) should
+         <em>not</em> be used.</strong></p>
           
       <p>This overview began as a comparison of different “JavaScript” features
          and, as time passed and understanding grew, evolved into a comparison
@@ -303,21 +289,40 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
         accurate or complete</em> (please note how each feature is marked).
         Any correction/addition as to how things really are is welcome and
         will be <a href="#contributors">credited</a> where it is due.</strong></p>
-          
-      <p><em>If you are using Firefox&nbsp;3.0.x and the scrollable table body
-        flows out of the table, you are observing <a
-        href="https://bugzilla.mozilla.org/show_bug.cgi?id=423823"
-        title="Bug 135236 (VERIFIED FIXED): Overflowing tbody rows render background color for overflowing rows"
-        class="closed">Bug&nbsp;423823</a>, fixed since <a
-        href="http://www.mozilla-europe.org/en/firefox/3.0.2/releasenotes/"
-        >Firefox&nbsp;3.0.2</a>.  Since this was a regression, this author
-        deems it necessary not to cover it with a workaround.
-        <strong>The Firefox&nbsp;3.0 branch has met its
-        <a href="#javascript">end-of-life on 2010-03-30&nbsp;CE</a></strong>.
-        If you are still using Firefox&nbsp;3.0.x as your primary browser, you
-        are strongly recommended to <a href="http://www.mozilla.com/firefox/"
-        >update&nbsp;Firefox</a>.  As an alternative, you can toggle table body
-        scrollability.</em></p>
+      
+      <h3>Known Display Problems</h3>
+      <ul>
+        <li><b>Firefox&nbsp;3.0.x:</b> If the scrollable table body
+          flows out of the table, you are observing
+          <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=423823"
+             title="Bug 135236 (VERIFIED FIXED): Overflowing tbody rows render background color for overflowing rows" class="closed"
+             >Bug&nbsp;423823</a>, fixed since
+          <a href="http://www.mozilla-europe.org/en/firefox/3.0.2/releasenotes/"
+             >Firefox&nbsp;3.0.2</a>.
+          <em>The Firefox&nbsp;3.0 branch has met its
+          <a href="#javascript">end-of-life on 2010-03-30&nbsp;CE</a></em>.
+          If you are still using Firefox&nbsp;3.0.x as your primary browser, you
+          are strongly recommended to <a href="http://www.mozilla.com/firefox/"
+          >update&nbsp;Firefox</a> (but see below).  As an alternative, you can
+          toggle table body scrollability.</li>
+        <li><b>Firefox&nbsp;4.0+:</b> The support for scrollable table body
+          has been removed per
+          <a
+            href="https://bugzilla.mozilla.org/show_bug.cgi?id=28800"
+            title="Bug 28800 (RESOLVED FIXED): Remove the ability for rowgroups to scroll (e.g. &quot;tbody style=&quot;overflow:auto&quot;&gt;)"
+          >Bug&nbsp;28800</a>.  This violates the
+          <a  href="http://www.w3.org/TR/css3-box/#overflow"
+              title="CSS3 Basic Box Model">CSS3 Basic Box Model</a>
+          specification, which is only a Working Draft at the time of writing
+          but is intended to replace the corresponding parts of CSS 2.1.
+          If you want this useful feature (back), please comment on and vote for
+          <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=674214#c6"
+             title="Bug 674214 (RESOLVED INVALID): Add the ability for rowgroups to scroll (e.g. &lt;tbody style=&quot;overflow:auto&quot;&gt;)"
+             >Bug&nbsp;67421</a>.</li>
+      </ul>
+      
+      <p>Since both of these were regressions, this author deems it necessary
+        not to cover any of them with a workaround.</p>
     </div>
         
     <form action="<?php echo $_SERVER['SCRIPT_NAME']; ?>" method="POST">
