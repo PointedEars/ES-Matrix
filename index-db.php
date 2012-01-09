@@ -21,5 +21,5 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
 // require_once 'lib/Application.php';
 // $application = Application::getInstance();
 // $application->setDefaultDatabase('es-matrix')
-require_once 'controllers/IndexController.php';
+require_once 'application/controllers/IndexController.php';
 new IndexController();

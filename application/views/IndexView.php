@@ -12,7 +12,7 @@ class IndexView extends View
    *
    * @var string
    */
-  protected $_template = 'layouts/layout.phtml';
+  protected $_template = 'application/layouts/layout.phtml';
 
   /**
    * Creates a new view

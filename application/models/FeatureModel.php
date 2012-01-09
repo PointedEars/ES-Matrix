@@ -1,11 +1,13 @@
 <?php
 
+require_once 'includes/global.inc';
+
 require_once 'lib/Model.php';
 
 class FeatureModel extends Model
 {
   protected $_id;
-  protected $_name;
+  protected $_code;
   protected $_title;
 //   protected $_created;
     
@@ -43,20 +45,20 @@ class FeatureModel extends Model
     return $this->_id;
   }
     
-  public function setName($name)
+  public function setCode($code)
   {
-    $this->_name = (string) $name;
+    $this->_code = htmlEntityDecode(trim((string) $code), ENT_QUOTES);
     return $this;
   }
     
-  public function getName()
+  public function getCode()
   {
-    return $this->_name;
+    return $this->_code;
   }
   
   public function setTitle($title)
   {
-    $this->_title = (string) $title;
+    $this->_title = htmlEntityDecode(trim((string) $title), ENT_QUOTES);
     return $this;
   }
   

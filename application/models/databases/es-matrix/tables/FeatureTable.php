@@ -2,7 +2,7 @@
 
 require_once 'lib/Db/Table.php';
 
-require_once 'models/databases/es-matrix/MatrixDb.php';
+require_once 'application/models/databases/es-matrix/MatrixDb.php';
 
 class FeatureTable extends Table
 {

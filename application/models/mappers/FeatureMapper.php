@@ -1,8 +1,8 @@
 <?php
 require_once 'lib/Db/Mapper.php';
 
-require_once 'models/databases/es-matrix/tables/FeatureTable.php';
-require_once 'models/FeatureModel.php';
+require_once 'application/models/databases/es-matrix/tables/FeatureTable.php';
+require_once 'application/models/FeatureModel.php';
 
 require_once 'includes/features.class.php';
 
@@ -30,7 +30,7 @@ class FeatureMapper extends Mapper
     $id = $feature->id;
     $data = array(
       'id'  => $id,
-      'name'  => $feature->name,
+      'code'  => $feature->code,
       'title' => $feature->title,
 //      'created' => date('Y-m-d H:i:s'),
     );
@@ -55,7 +55,7 @@ class FeatureMapper extends Mapper
     {
       $feature = new FeatureModel(array(
         'id' => $key + 1,
-        'name' => $featureData->content,
+        'code' => $featureData->content,
         'title' => $featureData->title
       ));
       
@@ -64,7 +64,7 @@ class FeatureMapper extends Mapper
       $features[] = $feature;
     }
     
-    var_dump($features);
+//     var_dump($features);
   }
   
   /**
@@ -82,7 +82,7 @@ class FeatureMapper extends Mapper
     }
     $row = $result->current();
     $feature->setId($row->id)
-    ->setName($row->name)
+    ->setCode($row->code)
     ->setTitle($row->title)
 //     ->setCreated($row->created)
     ;
@@ -102,7 +102,7 @@ class FeatureMapper extends Mapper
     {
       $feature = new FeatureModel(array(
         'id'    => $row['id'],
-        'name'  => $row['name'],
+        'code'  => $row['code'],
         'title' => $row['title']
       ));
 //         ->setCreated($row->created)

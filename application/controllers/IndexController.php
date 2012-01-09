@@ -2,10 +2,8 @@
 
 require_once 'lib/Controller.php';
 
-require_once 'views/IndexView.php';
-require_once 'models/mappers/FeatureMapper.php';
-
-require_once 'es-matrix.inc.php';
+require_once 'application/views/IndexView.php';
+require_once 'application/models/mappers/FeatureMapper.php';
 
 /**
  * A controller for handling the default view of the ECMAScript Support Matrix
@@ -26,12 +24,17 @@ class IndexController extends Controller
   {
     $features = FeatureMapper::fetchAll();
     $this->assign('features', $features);
-    $this->render(null, 'layouts/index/index.phtml');
+    $this->render(null, 'application/layouts/index/index.phtml');
   }
   
   protected function importAction()
   {
-    global $features;
+    require_once 'es-matrix.inc.php';
+//     function mapper($a)
+//     {
+//       return strlen(trim($a->content));
+//     }
+//     var_dump(max(array_map('mapper', $features->items)));
     $features = FeatureMapper::saveAll($features);
     $this->indexAction();
   }
