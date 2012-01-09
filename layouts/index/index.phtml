@@ -1,0 +1,8 @@
+    <table>
+     <?php foreach ($this->features as $feature): ?>
+      <tr>
+        <th<?php if ($feature->title) { ?> title="<?php echo $this->escape($feature->title); ?>"<?php } ?>
+           ><?php echo $feature->name; ?></th>
+      </tr>
+     <?php endforeach ?>
+    </table>

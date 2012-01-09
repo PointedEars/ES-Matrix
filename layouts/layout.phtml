@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+  "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html<?php
+      if ($this->encoding)
+      {
+        echo "; charset= {$this->encoding}";
+      }
+      ?>">
+    <meta http-equiv="Content-Style-Type" content="text/css">
+    
+    <title>ECMAScript Support Matrix - Database Version</title>
+  </head>
+  
+  <body>
+    <div id="header">
+      <h1><a name="top" id="top">ECMAScript Support Matrix</a></h1>
+    </div>
+    
+    <?php echo $this->getContent(); ?>
+  </body>
+</html>
