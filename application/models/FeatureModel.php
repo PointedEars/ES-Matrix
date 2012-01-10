@@ -11,29 +11,6 @@ class FeatureModel extends Model
   protected $_title;
 //   protected $_created;
     
-  public function __construct(array $options = null)
-  {
-    if (is_array($options))
-    {
-      $this->setOptions($options);
-    }
-  }
-  
-  public function setOptions(array $options)
-  {
-    $methods = get_class_methods($this);
-    foreach ($options as $key => $value)
-    {
-      $method = 'set' . ucfirst($key);
-      if (in_array($method, $methods))
-      {
-        $this->$method($value);
-      }
-    }
-    
-    return $this;
-  }
-  
   public function setId($id)
   {
     $this->_id = (int) $id;
@@ -47,7 +24,7 @@ class FeatureModel extends Model
     
   public function setCode($code)
   {
-    $this->_code = htmlEntityDecode(trim((string) $code), ENT_QUOTES);
+    $this->_code = htmlEntityDecode(trim((string) $code), ENT_QUOTES, 'UTF-8');
     return $this;
   }
     
@@ -58,7 +35,7 @@ class FeatureModel extends Model
   
   public function setTitle($title)
   {
-    $this->_title = htmlEntityDecode(trim((string) $title), ENT_QUOTES);
+    $this->_title = htmlEntityDecode(trim((string) $title), ENT_QUOTES, 'UTF-8');
     return $this;
   }
   

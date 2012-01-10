@@ -1,5 +1,6 @@
 <?php
 
+require_once 'lib/Application.php';
 require_once 'lib/View.php';
 
 /**
@@ -27,7 +28,7 @@ abstract class Controller
   protected function __construct($viewClass = 'View', $template = null) {
     $this->_view = new $viewClass($template);
 
-    $action = $this->getParam('action');
+    $action = Application::getParam('action');
     if ($action)
     {
       $this->{lcfirst($action) . 'Action'}();
@@ -37,17 +38,7 @@ abstract class Controller
       $this->indexAction();
     }
   }
-  
-  /**
-   * Gets a GET request parameter
-   *
-   * @param string $param
-   */
-  protected function getParam($param)
-  {
-    return isset($_GET[$param]) ? $_GET[$param] : null;
-  }
-  
+    
   /**
    * Assigns a value to a template variable (after this, <var>$value</var> is
    * available through <code>$this-><var>$name</var></code> in the view's template).

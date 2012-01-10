@@ -23,6 +23,12 @@ class Database extends Model
   protected $_password;
   
   /**
+   * PDO driver-specific options
+   * @var array
+   */
+  protected $_options = array();
+  
+  /**
    * Database connection
    * @var PDO
    */
@@ -30,16 +36,17 @@ class Database extends Model
   
   public function __construct()
   {
-    $this->_connection = new PDO($this->_dsn, $this->_username, $this->_password);
+    $this->_connection =
+      new PDO($this->_dsn, $this->_username, $this->_password, $this->_options);
   }
   
   /**
    * Prepares a statement for execution with the database
    * @param string $query
    */
-  public function prepare($query)
+  public function prepare($query, array $driver_options = array())
   {
-    return $this->_connection->prepare($query);
+    return $this->_connection->prepare($query, $driver_options);
   }
   
   /**
@@ -286,7 +293,7 @@ class Database extends Model
       {
         if (is_string($value))
         {
-          $value = "'" . mysql_real_escape_string($value) . "'";
+          $value = "'" . $value . "'";
         }
       }
        
@@ -297,15 +304,15 @@ class Database extends Model
   
     /* DEBUG */
     //    echo "Insert:<br>";
-    var_dump($insert);
-    var_dump($params);
+//     var_dump($insert);
+//     var_dump($params);
     
     $stmt = $this->prepare($insert);
 //     $this->_lastId = mysql_insert_id();
   
     $stmt->execute($params);
     $result = $stmt->fetchAll();
-    var_dump($result);
+//     var_dump($result);
     return ($stmt->errorCode() === 'HY000');
 //     return false;
   }

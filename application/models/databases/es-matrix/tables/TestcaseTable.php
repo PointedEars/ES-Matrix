@@ -4,9 +4,9 @@ require_once 'lib/Db/Table.php';
 
 require_once 'application/models/databases/es-matrix/MatrixDb.php';
 
-class FeatureTable extends Table
+class TestcaseTable extends Table
 {
-  protected $_name = 'feature';
+  protected $_name = 'testcase';
 
   public function __construct()
   {

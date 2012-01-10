@@ -28,9 +28,22 @@ class MySQLDB extends Database
    */
   protected $_password;
   
+  /*
+   * Optional charset parameter value
+   */
+  protected $_charset = null;
+  
   public function __construct()
   {
-    $this->_dsn = "mysql:host={$this->_host};dbname={$this->_dbname}";
+    $this->_dsn = "mysql:host={$this->_host}"
+      . (!is_null($this->_dbname) ? ";dbname={$this->_dbname}" : '')
+      . (!is_null($this->_charset) ? ";charset={$this->_charset}" : '');
+    
+    if (!is_null($this->_charset))
+    {
+      $this->_options[PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES " . $this->_charset;
+    }
+    
     parent::__construct();
   }
   

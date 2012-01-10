@@ -4,14 +4,14 @@ require_once 'lib/Db/Table.php';
 
 abstract class Mapper
 {
-  protected static $_dbTable;
+  protected $_dbTable;
   
   /**
    * Sets the <code>Table</code> for this mapper
    * @param string|Table $dbTable
    * @throws Exception
    */
-  public static function setDbTable($dbTable)
+  public function setDbTable($dbTable)
   {
     if (is_string($dbTable))
     {
@@ -22,6 +22,19 @@ abstract class Mapper
       throw new Exception('Invalid table data gateway provided');
     }
   
-    self::$_dbTable = $dbTable;
+    $this->_dbTable = $dbTable;
+  }
+
+  /**
+   * Gets the <code>Table</code> for this mapper
+   */
+  public function getDbTable($table)
+  {
+    if (null === $this->_dbTable)
+    {
+      $this->setDbTable($table);
+    }
+    
+    return $this->_dbTable;
   }
 }

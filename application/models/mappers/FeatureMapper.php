@@ -8,24 +8,42 @@ require_once 'includes/features.class.php';
 
 class FeatureMapper extends Mapper
 {
-  /**
-   * Gets the <code>Table</code> for this mapper
-   */
-  public static function getDbTable()
+  private static $_instance = null;
+  
+  private function __construct()
   {
-    if (null === self::$_dbTable)
+    /* Singleton */
+  }
+  
+  /**
+   * Returns the instance of this mapper
+   *
+   * @return FeatureMapper
+   */
+  public static function getInstance()
+  {
+    if (is_null(self::$_instance))
     {
-      self::setDbTable('FeatureTable');
+      self::$_instance = new self();
     }
     
-    return self::$_dbTable;
+    return self::$_instance;
+  }
+
+	/**
+   * Gets the <code>Table</code> for this mapper
+   */
+  public function getDbTable($table = 'FeatureTable')
+  {
+    return parent::getDbTable($table);
   }
   
   /**
    * Saves a feature in the features table
-   * @param Feature $feature
+   *
+   * @param FeatureModel $feature
    */
-  public static function save(FeatureModel $feature)
+  public function save(FeatureModel $feature)
   {
     $id = $feature->id;
     $data = array(
@@ -39,15 +57,20 @@ class FeatureMapper extends Mapper
     if (is_null($id))
     {
       unset($data['id']);
-      self::getDbTable()->insert($data);
+      $this->getDbTable()->insert($data);
     }
     else
     {
-      self::getDbTable()->updateOrInsert($data, array('id' => $id));
+      $this->getDbTable()->updateOrInsert($data, array('id' => $id));
     }
   }
   
-  public static function saveAll(FeatureList $featureList)
+  /**
+   * Import features from a <code>FeatureList</code> into the features table
+   *
+   * @param FeatureList $featureList
+   */
+  public function importAll(FeatureList $featureList)
   {
     $features = array();
     
@@ -59,7 +82,7 @@ class FeatureMapper extends Mapper
         'title' => $featureData->title
       ));
       
-      self::save($feature);
+      $this->save($feature);
       
       $features[] = $feature;
     }
@@ -73,9 +96,9 @@ class FeatureMapper extends Mapper
    * @param FeatureModel $feature
    * @return Feature
    */
-  public static function find($id, FeatureModel $feature)
+  public function find($id, FeatureModel $feature)
   {
-    $result = self::getDbTable()->find($id);
+    $result = $this->getDbTable()->find($id);
     if (0 == count($result))
     {
       return null;
@@ -94,9 +117,9 @@ class FeatureMapper extends Mapper
    *
    * @return array
    */
-  public static function fetchAll()
+  public function fetchAll()
   {
-    $resultSet = self::getDbTable()->fetchAll();
+    $resultSet = $this->getDbTable()->fetchAll();
     $features = array();
     foreach ($resultSet as $row)
     {
