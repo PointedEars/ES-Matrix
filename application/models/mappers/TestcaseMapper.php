@@ -103,20 +103,42 @@ class TestcaseMapper extends Mapper
    * @param TestcaseModel $feature
    * @return Testcase
    */
-  public static function find($id, TestcaseModel $testcase)
+  public function find($id, TestcaseModel $testcase)
   {
     $result = $this->getDbTable()->find($id);
     if (0 == count($result))
     {
       return null;
     }
-    $row = $result->current();
-    $testcase->setId($row->id)
-    ->setFeature_id($row->feature_id)
-    ->setCode($row->code)
+    $row = $result[0];
+    $testcase->setId($row['id'])
+    ->setFeature_id($row['feature_id'])
+    ->setTitle($row['title'])
+    ->setCode($row['code'])
 //     ->setCreated($row->created)
     ;
     return $testcase;
+  }
+  
+  /**
+   * Returns the testcases for a feature specified by its ID
+   *
+   * @param int $id
+   * @return array
+   */
+  public function findByFeatureId($id)
+  {
+    $resultSet = $this->getDbTable()->select(null, array('feature_id' => $id));
+    $testcases = array();
+    foreach ($resultSet as $row)
+    {
+      $testcase = new TestcaseModel($row);
+//         ->setCreated($row->created)
+      ;
+      $testcases[] = $testcase;
+    }
+
+    return $testcases;
   }
   
   /**
@@ -124,16 +146,17 @@ class TestcaseMapper extends Mapper
    *
    * @return array
    */
-  public static function fetchAll()
+  public function fetchAll()
   {
     $resultSet = $this->getDbTable()->fetchAll();
     $testcases = array();
     foreach ($resultSet as $row)
     {
       $testcase = new TestcaseModel(array(
-        'id'    => $row['id'],
+        'id'         => $row['id'],
         'feature_id' => $row['feature_id'],
-        'code'  => $row['code']
+        'title'      => $row['title'],
+        'code'       => $row['code']
       ));
 //         ->setCreated($row->created)
       ;

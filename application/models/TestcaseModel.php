@@ -8,6 +8,7 @@ class TestcaseModel extends Model
 {
   protected $_id;
   protected $_feature_id;
+  protected $_title;
   protected $_code;
     
   public function setId($id)
@@ -32,6 +33,17 @@ class TestcaseModel extends Model
     return $this->_feature_id;
   }
   
+  public function setTitle($title)
+  {
+    $this->_title = htmlEntityDecode(trim((string) $title), ENT_QUOTES, 'UTF-8');
+    return $this;
+  }
+  
+  public function getTitle()
+  {
+    return $this->_title;
+  }
+    
   public function setCode($code)
   {
     $this->_code = trim(

@@ -6,7 +6,7 @@ require_once 'lib/Registry.php';
 class Application
 {
   protected $_controllerPath = 'application/controllers';
-  protected $_defaultController = 'IndexController';
+  protected $_defaultController = 'Index';
   protected $_defaultDatabase;
   
   /**
@@ -27,6 +27,10 @@ class Application
     /* Singleton pattern */
   }
   
+  /**
+   * Gets a reference to the <code>Application</code> instance
+   * @return Application
+   */
   public static function getInstance()
   {
     if (is_null(self::$_instance))
@@ -37,8 +41,13 @@ class Application
     return self::$_instance;
   }
   
+  /**
+   * Runs the application
+   */
   public function run()
   {
+    session_start();
+    
     $controller = self::getParam('controller');
     if (!$controller)
     {
@@ -47,6 +56,7 @@ class Application
 
     $controller = ucfirst($controller);
     
+    $controller = $controller . 'Controller';
     require_once "{$this->_controllerPath}/{$controller}.php";
     $this->_currentController = new $controller();
     
@@ -54,27 +64,88 @@ class Application
   }
 
   /**
-   * Gets a GET request parameter
+   * Gets a request parameter
    *
-   * @param string $param
+   * @param string $key
+   *   Key to look up in the array
+   * @param array $array
+   *   Array where to look up <var>$key</var>.
+   *   The default is <code>$_GET</code>.
+   * @return mixed
    */
-  public static function getParam($param)
+  public static function getParam($key, array $array = null)
   {
-    return isset($_GET[$param]) ? $_GET[$param] : null;
+    if (is_null($array))
+    {
+      $array = $_GET;
+    }
+    
+    return isset($array[$key]) ? $array[$key] : null;
   }
   
+  /**
+   * Registers a database
+   *
+   * @param string $key
+   * @param Database $database
+   */
   public function registerDatabase($key, Database $database)
   {
     Registry::set($key, $database);
   }
 
+  /**
+   * Sets the default database
+   * @param key Registry key to refer to the {@link Database}
+   */
   public function setDefaultDatabase($key)
   {
     $this->_defaultDatabase = $key;
   }
 
+  /**
+  * Returns the current controller for this application
+  * @return Controller
+  */
+  public function setCurrentController(Controller $controller)
+  {
+    $this->_currentController = $controller;
+    return $this->_currentController;
+  }
+  
+  /**
+   * Returns the current controller for this application
+   * @return Controller
+   */
+  public function getCurrentController()
+  {
+    return $this->_currentController;
+  }
+
+  /**
+   * Returns the default database for this application
+   * @return Database
+   */
   public function getDefaultDatabase()
   {
     return Registry::get($this->_defaultDatabase);
+  }
+
+  /**
+   * Returns a relative URI reference for an action of the application
+   */
+  public function getURL($controller = null, $action = 'index')
+  {
+    return $_SERVER['SCRIPT_URL']
+      . '?' . (!is_null($controller) ? 'controller=' . $controller : '')
+      . ($action !== 'index' ? '&action=' . $action : '');
+  }
+    
+  /**
+   * Performs a server-side redirect within the application
+   */
+  public static function redirect($query = '')
+  {
+    header('Location: ' . $_SERVER['SCRIPT_URI'] . $query);
   }
 }

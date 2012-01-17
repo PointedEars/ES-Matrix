@@ -19,11 +19,9 @@ class Table extends Model
   
   /**
    * Retrieves all rows from the table
-   * @param int[optional] $fetch_style
-   * @param int[optional] $column_index
-   * @param array[optional] $ctor_args
+   *
    * @return array
-   * @see PDOStatement::fetchAll()
+   * @see Database::fetchAll()
    */
   public function fetchAll($fetch_style = null, $column_index = null, array $ctor_args = null)
   {
@@ -32,20 +30,47 @@ class Table extends Model
   
   /**
    * Selects data from one or more tables
+   *
+   * @return array
+   * @see Database::select()
    */
   public function select($columns = null, $where = null, $order = null, $limit = null)
   {
     return $this->_database->select($this->_name, $columns, $where, $order, $limit);
   }
   
+  /**
+   * Updates records in one or more tables
+   *
+   * @return bool
+   * @see Database::update()
+   */
   public function update($data, $condition)
   {
     return $this->_database->update($this->_name, $data, $condition);
   }
   
+  /*
+   * Inserts a record into the table
+   *
+   * @return bool
+   * @see Database::insert()
+   */
   public function insert($data)
   {
     return $this->_database->insert($this->_name, $data);
+  }
+  
+  /*
+   * Delete a record from the table
+   *
+   * @param int $id  ID of the record to delete
+   * @return bool
+   * @see Database::delete()
+   */
+  public function delete($id)
+  {
+    return $this->_database->delete($this->name, array($this->_id => $id));
   }
   
  /**
@@ -61,12 +86,27 @@ class Table extends Model
   {
     if ($this->select($this->_id, $condition))
     {
-      $this->update($data, $condition);
+      return $this->update($data, $condition);
     }
     else
     {
-      $this->insert($data);
+      return $this->insert($data);
     }
   }
-}
 
+  /**
+   * Finds a record by ID
+   *
+   * @param mixed $id
+   */
+  public function find($id)
+  {
+    /* DEBUG */
+    if (defined('DEBUG') && DEBUG > 0)
+    {
+      var_dump($id);
+    }
+    
+    return $this->select(null, array($this->_id => $id));
+  }
+}

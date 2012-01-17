@@ -19,6 +19,7 @@
     
     <meta name="DCTERMS.created" content="2005-11-29T00:42:12+01:00">
 
+    <link rel="stylesheet" href="/styles/tooltip.css" type="text/css">
     <link rel="stylesheet" href="../../style.css" type="text/css">
     <link rel="stylesheet" href="style.css" type="text/css">
     <link rel="stylesheet" href="not-ns4.css" type="text/css" media="all">
@@ -39,9 +40,16 @@
       </style>
     <![endif]-->
     
+    <script type="text/javascript"
+            src="../../builder?<?php
+              if ($_SERVER['HTTP_HOST'] === 'localhost')
+              {
+                ?>debug=1&verbose=1&<?php
+              }
+              ?>src=object,types,xpath,http,regexp,test/debug,dom,dom/css,dom/events,test/es-matrix/table"></script>
   </head>
   
-  <body>
+  <body onload="synhl()">
     <div id="header">
       <h1><a name="top" id="top">ECMAScript Support Matrix</a></h1>
     </div>

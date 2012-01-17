@@ -128,7 +128,9 @@ $scriptEngineTest = <<<HTML
                                           ["11.0.696", "3.1.8.16"],
                                           ["12.0.742", "3.2.10.21"],
                                           ["13.0.782", "3.3.10.17"],
-                                          ["14.0.835", "3.4.14.2"]
+                                          ["14.0.835", "3.4.14.2"],
+                                          ["15.0.874", "3.5.10.9"],
+                                          ["16.0.891", "3.6.4"]
                                         ],
                                         "0.3");
 
@@ -451,6 +453,23 @@ HTML
       )
     )),
     
+    new ScriptFeature(array(
+      'title'      => 'Regular Expression with backreferences',
+      'content'    => '<code>/(<var>&hellip;</var>)\1/ : RegExp</code>',
+      'versions'   => array(
+        'ecmascript' => 3,
+        ''           => '"(\"aaa\".match(/^(a)\\\\1/) || new Array(\"\"))[0] == \"aa\""',
+//         'javascript' => array(1.5, 'tested' => true,
+//           'urn' => 'js15ref:Global_Objects:RegExp'),
+//         'jscript'    => array('5.5.6330', 'tested' => true,
+//           'urn' => 'msdn:jscript7/html/jsobjregexpression.asp'),
+        'v8'         => array('tested' => '3.3.10.17'),
+//         'jsc'        => array('tested' => '525.13'),
+//         'opera'      => array('tested' => '7.02'),
+//         'kjs'        => array('3.5.9', 'tested' => true),
+      )
+    )),
+
     new ScriptFeature(array(
       'content' => '<code>/\u<var>hhhh</var>/ : RegExp</code>',
       'title' => 'Unicode escape sequence in RegExp literal',
@@ -1265,9 +1284,11 @@ HTML
     new ScriptFeature(array(
       'content' => '<code>const</code>',
       'versions' => array(
+        ''           => '"const answer = 42; answer"',
         'ecmascript' => '4',
         'javascript' => '1.5',
-        'jscript' => '7.0'
+        'jscript'    => '7.0',
+        'v8'				 => array('tested' => '3.3.10.17'),
       )
     )),
           
@@ -3385,7 +3406,7 @@ HTML
       'versions' => array(
         'ecmascript' => '-',
         'javascript' => array(1.2,
-          'tooltip' => $footnotes->add('setTimeout-JS1.4')
+          'footnote' => $footnotes->add('setTimeout-JS1.4')
         ),
         'jscript' => '-'
       )

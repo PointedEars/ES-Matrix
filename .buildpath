@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <buildpath>
-	<buildpathentry excluding=".cache/|.settings/" kind="src" path=""/>
+	<buildpathentry excluding=".cache/|.settings/|lib/Db/database.class.php" kind="src" path=""/>
 	<buildpathentry kind="con" path="org.eclipse.php.core.LANGUAGE"/>
 </buildpath>

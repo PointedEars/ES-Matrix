@@ -34,6 +34,25 @@ class Database extends Model
    */
   protected $_connection;
   
+  /**
+   * Last success value of the database operation
+   * @var boolean
+   */
+  protected $_lastSuccess;
+
+  /**
+   * Last result of the database operation
+   * @var array
+   */
+  protected $_lastResult;
+
+  /**
+  * ID of the last inserted row, or the last value from a sequence object,
+  * depending on the underlying driver. May not be supported by all databases.
+  * @var string
+  */
+  protected $_lastInsertId;
+  
   public function __construct()
   {
     $this->_connection =
@@ -89,7 +108,7 @@ class Database extends Model
   * @param string|array $where Condition
   * @return string
   */
-  private function _where($where)
+  protected function _where($where)
   {
     if (!is_null($where))
     {
@@ -123,8 +142,7 @@ class Database extends Model
   * @param string|array $where Condition (optional)
   * @param string $order Sort order (optional)
   * @param string $limit Limit (optional)
-  * @return bool
-  * @throws <code>Exception</code> if the query fails
+  * @return array
   */
   public function select($tables, $columns = null, $where = null, $order = null, $limit = null)
   {
@@ -159,6 +177,12 @@ class Database extends Model
       $query .= " LIMIT $limit";
     }
     
+    /* DEBUG */
+    if (defined('DEBUG') && DEBUG > 0)
+    {
+      var_dump($query);
+    }
+    
     $stmt = $this->prepare($query);
 
     $params = array();
@@ -171,6 +195,12 @@ class Database extends Model
       }
     }
 
+    /* DEBUG */
+    if (defined('DEBUG') && DEBUG > 0)
+    {
+      var_dump($params);
+    }
+    
     $stmt->execute($params);
     $result = $stmt->fetchAll();
     return $result;
@@ -185,7 +215,7 @@ class Database extends Model
    *   Associative array of column-value pairs
    * @param array|string $where
    *   Only the records matching this condition are updated
-   * @return string|bool
+   * @return bool
    */
   public function update($tables, $updates, $where = null)
   {
@@ -231,11 +261,28 @@ class Database extends Model
       }
     }
     
-    $stmt->execute($params);
-    $result = $stmt->fetchAll();
-    return ($stmt->errorCode() === 'HY000');
-  }
+    $success =& $this->_lastSuccess;
+    $success = $stmt->execute($params);
     
+    $this->_lastResult = $stmt->fetchAll();
+    
+//     var_dump($success );
+    return $success;
+  }
+  
+  /**
+   * Sets and returns the ID of the last inserted row, or the last value from
+   * a sequence object, depending on the underlying driver.
+   *
+   * @param string $name
+   *   Name of the sequence object from which the ID should be returned.
+   * @return string
+   */
+  protected function _setLastInsertId($name = null)
+  {
+    return ($this->_lastInsertId = $this->_connection->lastInsertId($name));
+  }
+
   /**
   * Inserts a record into a table.<p>The AUTO_INCREMENT value of the inserted
   * row, if any (> 0), is stored in the {@link $lastId} property of
@@ -255,6 +302,7 @@ class Database extends Model
   *   is ignored otherwise.  <strong>You SHOULD NOT rely on column order.</strong>
   * @return bool
   *   <code>true</code> if successful, <code>false</code> otherwise
+  * @see PDOStatement::execute()
   */
   public function insert($table, $values, $cols = null)
   {
@@ -303,18 +351,28 @@ class Database extends Model
     $insert = "INSERT INTO `{$table}` {$cols} {$values}";
   
     /* DEBUG */
-    //    echo "Insert:<br>";
-//     var_dump($insert);
-//     var_dump($params);
+    if (defined('DEBUG') && DEBUG > 0)
+    {
+       var_dump($insert);
+       var_dump($params);
+    }
     
     $stmt = $this->prepare($insert);
-//     $this->_lastId = mysql_insert_id();
   
-    $stmt->execute($params);
-    $result = $stmt->fetchAll();
-//     var_dump($result);
-    return ($stmt->errorCode() === 'HY000');
-//     return false;
+    $success =& $this->_lastSuccess;
+    $success = $stmt->execute($params);
+    
+    $this->_setLastInsertId();
+    $this->_lastResult = $stmt->fetchAll();
+
+    if (defined('DEBUG') && DEBUG > 0)
+    {
+      var_dump($success);
+      var_dump($this->_lastInsertId);
+      var_dump($this->_lastResult);
+    }
+    
+    return $success;
   }
     
   /**
@@ -330,8 +388,10 @@ class Database extends Model
   {
     /* NOTE: Cannot use table name as statement parameter */
     $stmt = $this->prepare("SELECT * FROM $table");
-    $stmt->execute();
+    $this->_lastSuccess = $stmt->execute();
   
+    $result =& $this->_lastResult;
+    
     if (!is_null($ctor_args))
     {
       $result = $stmt->fetchAll($fetch_style, $column_index, $ctor_args);
@@ -350,5 +410,57 @@ class Database extends Model
     }
   
     return $result;
+  }
+
+  /**
+   * Deletes one or more records
+   *
+   * @param string|array $tables
+   *   Table name(s)
+   * @param array|string $where
+   *   Only the records matching this condition are deleted
+   * @return bool
+   * @see PDOStatement::execute()
+   */
+  public function delete($tables, $where = null)
+  {
+    if (!$tables)
+    {
+      throw new InvalidArgumentException('No table specified');
+    }
+         
+    if (is_array($tables))
+    {
+      $tables = join(',', $tables);
+    }
+     
+    $params = array();
+    
+    $query = "DELETE FROM {$tables}" . $this->_where($where);
+    
+    $stmt = $this->prepare($query);
+    
+    if ($this->_isAssociativeArray($where))
+    {
+      foreach ($where as $key => $condition)
+      {
+        $params[":{$key}"] = $condition;
+      }
+    }
+
+    /* DEBUG */
+    if (defined('DEBUG') && DEBUG > 0)
+    {
+      var_dump($query);
+      var_dump($params);
+    }
+    
+    $success =& $this->_lastSuccess;
+    $success = $stmt->execute($params);
+    
+    $this->_lastResult = $stmt->fetchAll();
+    
+//     var_dump($success );
+    return $success;
   }
 }

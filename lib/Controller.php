@@ -28,6 +28,7 @@ abstract class Controller
   protected function __construct($viewClass = 'View', $template = null) {
     $this->_view = new $viewClass($template);
 
+    Application::getInstance()->setCurrentController($this);
     $action = Application::getParam('action');
     if ($action)
     {

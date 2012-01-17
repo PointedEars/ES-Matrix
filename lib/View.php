@@ -1,5 +1,7 @@
 <?php
 
+require_once 'Application.php';
+
 /**
  * A general view handled by a controller according to the MVC pattern
  *
@@ -95,7 +97,13 @@ class View
     {
       if (is_string($value))
       {
-        return htmlspecialchars(strval($value), ENT_QUOTES);
+        $value = strval($value);
+        $encoding = mb_detect_encoding($value);
+        if ($encoding === 'ASCII')
+        {
+          $encoding = 'ISO-8859-1';
+        }
+        return htmlspecialchars($value, ENT_QUOTES, $encoding);
       }
       
       return $value;
@@ -165,6 +173,11 @@ class View
   public function getContent()
   {
     return $this->_content;
+  }
+  
+  public function getURL($controller = null, $action = 'index')
+  {
+    return Application::getInstance()->getURL($controller, $action);
   }
 }
 

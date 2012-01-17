@@ -1,0 +1,39 @@
+    <form action="<?php echo $this->escape($this->getURL('feature', 'save')); ?>" method="POST" style="width: 100%">
+      <input type="hidden" name="id" value="<?php echo $this->feature->id; ?>">
+      <table style="width: 100%">
+        <tr>
+          <th style="vertical-align: top">Code</th>
+          <td><textarea name="code" cols="80" rows="4" style="width: 99%"
+                        ><?php echo $this->escape($this->feature->code); ?></textarea></td>
+        </tr>
+        <tr>
+          <th>Title</th>
+          <td><input name="title" type="text" style="width: 99%"
+                     value="<?php echo $this->escape($this->feature->title); ?>"></td>
+        </tr>
+        <?php if ($this->feature->id): ?>
+        <tr>
+          <th style="vertical-align: top">Testcases</th>
+          <td><?php
+            $testcases = $this->feature->testcases;
+            if (is_array($testcases))
+            {
+              foreach ($testcases as $testcase)
+              {
+            ?>
+                <input name="testcase_title[]" type="text"
+                       value="<?php echo $this->escape($testcase->title); ?>"
+                       style="width: 99%"><br>
+                <textarea name="testcase_code[]" name="code" cols="80" rows="4"
+                          style="width: 99%"><?php echo $this->escape($testcase->code); ?></textarea>
+          <?php
+              }
+            }
+            ?></td>
+        </tr>
+        <?php endif; ?>
+      </table>
+      <button type="submit">Save</button>
+      <button type="submit" name="cancel" value="1" class="negative"
+              onclick="history.back(); return false">Back</button>
+    </form>

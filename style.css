@@ -2,10 +2,12 @@ body {
   background-color: white;
   color: black;
   font-family: sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
 p {
-  text-align: justify;        
+  text-align: justify;
+  line-height: 1.5em;       
 }
 
 p.subtitle {
@@ -16,6 +18,7 @@ p.subtitle {
 
 li p {
   text-align: left;
+  line-height: 1em;
 }
 
 div, ul, ol, th, td {
@@ -39,6 +42,7 @@ ul li,
 ol li
 {
   margin-left: 40px;
+  line-height: 1.5em;
 }
 
 ul.horizontal {
@@ -109,6 +113,15 @@ a[href^="https://PointedEars.de/"]
   background-color: rgb(255, 255, 255);
   background-color: rgba(255, 255, 255, 0.9);
   overflow: hidden;
+  z-index: 1; 
+  
+  /* See http://www.useit.com/alertbox/mega-dropdown-menus.html */
+  -moz-transition: 0.1s height;
+  -moz-transition-delay: 0.5s;
+  -webkit-transition: 0.5s height;
+  -webkit-transition-delay: 0.5s;
+  transition: 0.1s height;
+  transition-delay: 0.5s;
 }
 
 #toc:hover,
@@ -116,9 +129,17 @@ a[href^="https://PointedEars.de/"]
 #toc:target
 {
   max-width: 100%;
-  height: auto;
+  height: 23em;
   max-height: 100%;
-  overflow: auto;
+  -moz-transition: 0.1s height;
+  -webkit-transition: 0.5s height;
+  transition: 0.1s height;
+}
+
+#toc:hover {
+  -moz-transition-delay: 0.5s;
+  -webkit-transition-delay: 0.5s;
+  transition-delay: 0.5s;
 }
 
 #toc h2:after {
@@ -217,6 +238,11 @@ th *,
 td *
 {
   font-size: small;
+}
+
+sup {
+  line-height: 1em;
+  font-weight: 500;
 }
 
 th sup,
@@ -457,6 +483,27 @@ input[readonly] {
   width: 1em;
   background-color: inherit;
   color: inherit;
+}
+
+a.modify {
+  background-color: inherit;
+  color: #660;
+}
+
+button.negative {
+  background-color: #900;
+  color: #fff;
+}
+
+button.delete {
+  border: none;
+  background-color: transparent;
+  color: #900;
+  text-decoration: underline;
+}
+
+button.delete:hover {
+  color: #f00;
 }
 
 .timeline .blue {

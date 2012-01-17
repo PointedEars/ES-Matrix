@@ -1,8 +1,87 @@
-    <table>
-     <?php foreach ($this->features as $feature): ?>
-      <tr>
-        <th<?php if ($feature->title) { ?> title="<?php echo $this->escape($feature->title); ?>"<?php } ?>
-           ><?php echo $feature->code; ?></th>
-      </tr>
-     <?php endforeach ?>
+    <script type="text/javascript">
+      /* Import methods into global namespace */
+      var isMethod = jsx.object.isMethod;
+      var getFeature = jsx.object.getFeature;
+    </script>
+    <?php if (!$this->edit): ?>
+      <a href="<?php echo $this->escape($this->getURL(null, 'edit')); ?>">Edit</a>
+    <?php else: ?>
+      <a href="<?php echo $this->escape($this->getURL(null, 'endedit')); ?>">End Edit</a>
+    <?php endif; ?>
+    <table id="features-table"
+           summary="Language features and the first editions of ECMAScript or first versions of the implementations that introduced or supported them">
+      <thead>
+        <tr>
+         <?php if ($this->edit): ?>
+            <td style="width: 7em"
+                ><a href="<?php echo $this->escape($this->getURL('feature', 'new')); ?>">New</a></td>
+         <?php endif; ?>
+          <th id="atoz">Feature</th>
+          <th><a href="#ecmascript">ECMAScript</a></th>
+          <th>This <abbr title="implementation">impl.</abbr><?php
+              // $footnotes->add('this-impl', '', $scriptEngineTest, '');
+              ?><!--<br>
+            <input type="submit" name="submitResults" value="Submit results">--></th>
+          <?php // $features->printHeaders(); ?>
+        </tr>
+      </thead>
+      <tbody id="scroller" class="scroll">
+       <?php foreach ($this->features as $key => $feature): ?>
+        <tr>
+          <?php if ($this->edit): ?>
+            <td><a href="<?php echo $this->escape($this->getURL('feature', 'edit')); ?>&amp;id=<?php echo $feature->id; ?>"
+                   class="modify">Edit</a>
+                <form action="<?php echo $this->escape($this->getURL('feature', 'delete')); ?>" method="POST"
+                      onsubmit="return window.confirm('Delete feature &quot;<?php echo addslashes($this->escape(strip_tags($feature->code))); ?>&quot;?')"
+                      style="display: inline">
+                  <input type="hidden" name="id" value="<?php echo $feature->id; ?>">
+                  <button type="submit" class="negative delete">Delete</button>
+                </form></td>
+          <?php endif; ?>
+          <th<?php if ($feature->title) { ?> title="<?php echo $this->escape($feature->title); ?>"<?php } ?>
+             ><?php echo $feature->code; ?></th>
+          <td></td>
+          <td<?php
+            $id = 'td' . ($key + 1);
+            $testcases = $feature->testcases;
+            if (count($testcases) > 0)
+            {
+              echo " id='$id'";
+//               echo ' title="Test code: '
+//                 . $this->escape(
+//                     preg_replace('/\\\(["\'])/', '\1', reduceWhitespace(join($testcases[0]->code)))
+//                 . '"';
+            }
+            else
+          {
+              echo ' title="Not applicable: No automated test case'
+                . ' is available for this feature.  If possible, please'
+                . ' click the feature code in the first column to run'
+                . ' a manual test."';
+            }
+            ?>><?php
+            if (count($testcases) > 0)
+            {
+              foreach ($testcases as $testcase)
+              {
+                ?><script type="text/javascript">
+  // <![CDATA[
+  var s = test(<?php echo $testcase->code; ?>,
+    '<input title="Supported" name="" value="+" readonly>',
+    '<input title="Not supported" name="" value="&#8722;" readonly>');
+  jsx.tryThis("document.write(s);",
+    "document.getElementById('<?php echo $id; ?>').appendChild("
+    + "document.createTextNode(s));");
+  // ]]>
+</script><?php
+              }
+            }
+            else
+          {
+              echo '<abbr>N/A</abbr>';
+            }
+            ?></td>
+        </tr>
+       <?php endforeach ?>
+      </tbody>
     </table>

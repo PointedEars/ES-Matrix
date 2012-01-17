@@ -3,6 +3,7 @@ require_once 'lib/Db/Mapper.php';
 
 require_once 'application/models/databases/es-matrix/tables/FeatureTable.php';
 require_once 'application/models/FeatureModel.php';
+require_once 'application/models/mappers/TestcaseMapper.php';
 
 require_once 'includes/features.class.php';
 
@@ -31,7 +32,7 @@ class FeatureMapper extends Mapper
   }
 
 	/**
-   * Gets the <code>Table</code> for this mapper
+   * Gets the {@link Table} for this mapper
    */
   public function getDbTable($table = 'FeatureTable')
   {
@@ -41,10 +42,19 @@ class FeatureMapper extends Mapper
   /**
    * Saves a feature in the features table
    *
-   * @param FeatureModel $feature
+   * @param FeatureModel|array $feature
    */
-  public function save(FeatureModel $feature)
+  public function save($feature)
   {
+//       var_dump($feature);
+    if (is_array($feature))
+    {
+      // FIXME
+      unset($feature['testcases']);
+      
+      $feature = new FeatureModel($feature);
+    }
+    
     $id = $feature->id;
     $data = array(
       'id'  => $id,
@@ -52,16 +62,18 @@ class FeatureMapper extends Mapper
       'title' => $feature->title,
 //      'created' => date('Y-m-d H:i:s'),
     );
-  
 
-    if (is_null($id))
+    if (is_null($id) || $id === 0)
     {
       unset($data['id']);
-      $this->getDbTable()->insert($data);
+//        var_dump($data);
+      return $this->getDbTable()->insert($data);
+
+      /* TODO: Assign testcases to feature here */
     }
     else
     {
-      $this->getDbTable()->updateOrInsert($data, array('id' => $id));
+      return $this->getDbTable()->updateOrInsert($data, array('id' => $id));
     }
   }
   
@@ -92,23 +104,35 @@ class FeatureMapper extends Mapper
   
   /**
    * Finds a feature in the features table by ID
+   *
    * @param int $id
-   * @param FeatureModel $feature
+   * @param FeatureModel[optional] $feature
+   *   TODO: Why?
    * @return Feature
    */
-  public function find($id, FeatureModel $feature)
+  public function find($id, FeatureModel $feature = null)
   {
     $result = $this->getDbTable()->find($id);
     if (0 == count($result))
     {
       return null;
     }
-    $row = $result->current();
-    $feature->setId($row->id)
-    ->setCode($row->code)
-    ->setTitle($row->title)
-//     ->setCreated($row->created)
+    
+    $row = $result[0];
+    
+    if (is_null($feature))
+    {
+      $feature = new FeatureModel();
+    }
+    
+    $id = $row['id'];
+    $feature->setId($id)
+            ->setCode($row['code'])
+            ->setTitle($row['title'])
+            ->setTestcases(TestcaseMapper::getInstance()->findByFeatureId($id))
+//             ->setCreated($row['created'])
     ;
+    
     return $feature;
   }
   
@@ -121,19 +145,35 @@ class FeatureMapper extends Mapper
   {
     $resultSet = $this->getDbTable()->fetchAll();
     $features = array();
+    $testcaseMapper = TestcaseMapper::getInstance();
     foreach ($resultSet as $row)
     {
+      $id = $row['id'];
       $feature = new FeatureModel(array(
-        'id'    => $row['id'],
-        'code'  => $row['code'],
-        'title' => $row['title']
+        'id'        => $id,
+        'code'      => $row['code'],
+        'title'     => $row['title'],
+        'testcases' => $testcaseMapper->findByFeatureId($id)
       ));
 //         ->setCreated($row->created)
       ;
       $features[] = $feature;
     }
+
+//     var_dump($features);
     
     return $features;
   }
+  
+  /**
+   * Deletes a record from the features table
+   *
+   * @return boolean
+   */
+  public function delete($id)
+  {
+    $success = $this->getDbTable()->delete($id);
+//     var_dump($success);
+    return $success;
+  }
 }
-

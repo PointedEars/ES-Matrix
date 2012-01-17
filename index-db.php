@@ -1,5 +1,7 @@
 <?php
 
+// define('DEBUG', 1);
+
 $encoding = 'UTF-8'; // mb_detect_encoding(file_get_contents(__FILE__));
 header("Content-Type: text/html" . ($encoding ? "; charset=$encoding" : ""));
 
