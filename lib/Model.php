@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Abstract model class
+ *
+ * Provides basic setters and getters for protected/private properties
+ * and a constructor to initialize properties using setters and getters.
+ *
+ * @author Thomas Lahn
+ */
 abstract class Model
 {
   public function __construct(array $options = null)

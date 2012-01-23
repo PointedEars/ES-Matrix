@@ -2,36 +2,61 @@
 
 require_once 'lib/Db/Table.php';
 
+/**
+ * Generic abstract database mapper class
+ *
+ * @author Thomas Lahn
+ */
 abstract class Mapper
 {
+  /**
+   * Class name of the associated table model
+   *
+   * @var string
+   */
+  protected $_table = 'Table';
+  
   protected $_dbTable;
   
   /**
-   * Sets the <code>Table</code> for this mapper
+   * Sets the {@link Table} for this mapper
    * @param string|Table $dbTable
-   * @throws Exception
+   *   Class name of the new instance, or an existing instance
+   * @throws Exception if <var>$dbTable</var> is not a <code>Table</code>
    */
-  public function setDbTable($dbTable)
+  public function setDbTable($table)
   {
-    if (is_string($dbTable))
+    if (is_string($table))
     {
-      $dbTable = new $dbTable();
+      $table = new $table();
     }
   
-    if (!($dbTable instanceof Table)) {
+    if (!($table instanceof Table)) {
       throw new Exception('Invalid table data gateway provided');
     }
   
-    $this->_dbTable = $dbTable;
+    $this->_dbTable = $table;
   }
 
   /**
-   * Gets the <code>Table</code> for this mapper
+   * Gets the {@link Table} for this mapper
+   *
+   * @param string|Table $table
+   *   Class name of the new instance or an existing instance.
+   *   The default is the value of the <code>$_table</code> property.
+   * @return Table
+   * @throws Exception if <var>$dbTable</var> is not a <code>Table</code>
+   * @see Mapper::setDbTable()
    */
-  public function getDbTable($table)
+  public function getDbTable($table = null)
   {
-    if (null === $this->_dbTable)
+    if (is_null($this->_dbTable))
     {
+      if (is_null($table))
+      {
+        $table = $this->_table;
+      }
+      
       $this->setDbTable($table);
     }
     

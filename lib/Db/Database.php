@@ -2,6 +2,11 @@
 
 require_once 'lib/Model.php';
 
+/**
+ * Generic database model class using PDO (PHP Data Objects)
+ *
+ * @author Thomas Lahn
+ */
 class Database extends Model
 {
   /**
@@ -60,12 +65,69 @@ class Database extends Model
   }
   
   /**
+  * Initiates a transaction
+  *
+  * @return bool
+  * @see PDO::beginTransaction()
+  */
+  public function beginTransaction()
+  {
+    return $this->_connection->beginTransaction();
+  }
+  
+  /**
+   * Rolls back a transaction
+   *
+   * @return bool
+   * @see PDO::rollBack()
+   */
+  public function rollBack()
+  {
+    return $this->_connection->rollBack();
+  }
+  
+  /**
+   * Commits a transaction
+   *
+   * @return bool
+   * @see PDO::commit()
+   */
+  public function commit()
+  {
+    return $this->_connection->commit();
+  }
+  
+  /**
    * Prepares a statement for execution with the database
    * @param string $query
    */
   public function prepare($query, array $driver_options = array())
   {
     return $this->_connection->prepare($query, $driver_options);
+  }
+  
+  /**
+   * Returns the ID of the last inserted row, or the last value from
+   * a sequence object, depending on the underlying driver.
+   *
+   * @return int
+   */
+  public function getLastInsertId()
+  {
+    return $this->_lastInsertId;
+  }
+  
+  /**
+  * Escapes a database name so that it can be used in a query.
+  *
+  * @param string $name
+  *   The name to be escaped
+  * @return string
+  *   The escaped name
+  */
+  public static function escapeName($name)
+  {
+    return $name;
   }
   
   /**
@@ -163,9 +225,10 @@ class Database extends Model
       $tables = array($tables);
     }
 
+    /* TODO: Should escape table names with escapeName(), but what about aliases? */
     $tables = join(',', $tables);
 
-    $query = "SELECT $columns FROM $tables" . $this->_where($where);
+    $query = "SELECT {$columns} FROM {$tables}" . $this->_where($where);
 
     if (!is_null($order))
     {
@@ -187,7 +250,7 @@ class Database extends Model
 
     $params = array();
     
-    if ($this->_isAssociativeArray($where))
+    if (is_array($where) && $this->_isAssociativeArray($where))
     {
       foreach ($where as $key => $condition)
       {
@@ -246,10 +309,8 @@ class Database extends Model
     
     $updates = implode(',', $this->_escapeArray($updates));
           
+    /* TODO: Should escape table names with escapeName(), but what about aliases? */
     $query = "UPDATE {$tables} SET {$updates}" . $this->_where($where);
-    
-    /* DEBUG */
-//    echo "Update:<br>";
     
     $stmt = $this->prepare($query);
     
@@ -259,6 +320,15 @@ class Database extends Model
       {
         $params[":{$key}"] = $condition;
       }
+    }
+
+    /* DEBUG */
+    if (defined('DEBUG') && DEBUG > 0)
+    {
+      var_dump(array(
+             'query' => $query,
+             'params' => $params
+      ));
     }
     
     $success =& $this->_lastSuccess;
@@ -348,16 +418,19 @@ class Database extends Model
       $values = ' VALUES (' . join(', ', $values) . ')';
     }
   
-    $insert = "INSERT INTO `{$table}` {$cols} {$values}";
+    /* TODO: Should escape table names with escapeName(), but what about aliases? */
+    $query = "INSERT INTO {$table} {$cols} {$values}";
   
     /* DEBUG */
     if (defined('DEBUG') && DEBUG > 0)
     {
-       var_dump($insert);
-       var_dump($params);
+       var_dump(array(
+         'query' => $query,
+         'params' => $params
+       ));
     }
     
-    $stmt = $this->prepare($insert);
+    $stmt = $this->prepare($query);
   
     $success =& $this->_lastSuccess;
     $success = $stmt->execute($params);
@@ -367,9 +440,11 @@ class Database extends Model
 
     if (defined('DEBUG') && DEBUG > 0)
     {
-      var_dump($success);
-      var_dump($this->_lastInsertId);
-      var_dump($this->_lastResult);
+      var_dump(array(
+        '_lastSuccess' => $success,
+        '_lastInsertId' => $this->_lastInsertId,
+        '_lastResult' => $this->_lastResult
+      ));
     }
     
     return $success;

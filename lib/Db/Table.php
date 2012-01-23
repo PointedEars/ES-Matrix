@@ -2,7 +2,15 @@
 
 require_once 'lib/Model.php';
 
-class Table extends Model
+/**
+ * Generic database table model class
+ *
+ * @author Thomas Lahn
+ * @property-read int $lastInsertId
+ *   ID of the last inserted row, or the last value from
+     a sequence object, depending on the underlying driver.
+ */
+abstract class Table extends Model
 {
   /**
    * Name of the table
@@ -16,6 +24,53 @@ class Table extends Model
   protected $_database;
   
   protected $_id = 'id';
+  
+  public function __construct()
+  {
+    $this->_database = Application::getInstance()->getDefaultDatabase();
+  }
+  
+  /**
+   * Returns the database for the table
+   * @return Database
+   */
+  public function getDatabase()
+  {
+    return $this->_database;
+  }
+  
+  /**
+   * Initiates a transaction
+   *
+   * @return bool
+   * @see Database::beginTransaction()
+   */
+  public function beginTransaction()
+  {
+    return $this->_database->beginTransaction();
+  }
+  
+  /**
+   * Rolls back a transaction
+   *
+   * @return bool
+   * @see Database::rollBack()
+   */
+  public function rollBack()
+  {
+    return $this->_database->rollBack();
+  }
+  
+  /**
+   * Commits a transaction
+   *
+   * @return bool
+   * @see Database::commit()
+   */
+  public function commit()
+  {
+    return $this->_database->commit();
+  }
   
   /**
    * Retrieves all rows from the table
@@ -50,7 +105,7 @@ class Table extends Model
     return $this->_database->update($this->_name, $data, $condition);
   }
   
-  /*
+  /**
    * Inserts a record into the table
    *
    * @return bool
@@ -61,16 +116,41 @@ class Table extends Model
     return $this->_database->insert($this->_name, $data);
   }
   
-  /*
+  /**
+   * Returns the ID of the last inserted row, or the last value from
+   * a sequence object, depending on the underlying driver.
+   *
+   * @return int
+   * @see Database::getLastInsertId()
+   */
+  public function getLastInsertId()
+  {
+    return $this->_database->lastInsertId;
+  }
+  
+  /**
    * Delete a record from the table
    *
-   * @param int $id  ID of the record to delete
+   * @param int $id
+   *   ID of the record to delete.  May be <code>null</code>,
+   *   in which case <var>$condition</var> must specify
+   *   the records to be deleted.
+   * @oaram array $condition
+   *   Conditions that must be met for a record to be deleted.
    * @return bool
    * @see Database::delete()
    */
-  public function delete($id)
+  public function delete($id, array $condition = null)
   {
-    return $this->_database->delete($this->name, array($this->_id => $id));
+    if (is_null($condition))
+    {
+      if (!is_null($id))
+      {
+        $condition = array($this->_id => $id);
+      }
+    }
+    
+    return $this->_database->delete($this->name, $condition);
   }
   
  /**

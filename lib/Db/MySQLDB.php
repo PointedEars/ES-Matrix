@@ -48,16 +48,29 @@ class MySQLDB extends Database
   }
   
   /**
-  * Escapes an associative array so that its string representation can be used
-  * in a query.
-  *
-  * NOTE: Intentionally does not check whether the array actually is associative!
-  *
-  * @param array &$array
-  *   The array to be escaped
-  * @return array
-  *   The escaped array
-  */
+   * Escapes a database name so that it can be used in a query.
+   *
+   * @param string $name
+   *   The name to be escaped
+   * @return string
+   *   The escaped name
+   */
+  public static function escapeName($name)
+  {
+    return '`' . $name . '`';
+  }
+
+  /**
+   * Escapes an associative array so that its string representation can be used
+   * in a query.
+   *
+   * NOTE: Intentionally does not check whether the array actually is associative!
+   *
+   * @param array &$array
+   *   The array to be escaped
+   * @return array
+   *   The escaped array
+   */
   protected function _escapeArray(array &$array)
   {
     foreach ($array as $column => &$value)

@@ -3,32 +3,94 @@
       var isMethod = jsx.object.isMethod;
       var getFeature = jsx.object.getFeature;
     </script>
-    <?php if (!$this->edit): ?>
-      <a href="<?php echo $this->escape($this->getURL(null, 'edit')); ?>">Edit</a>
-    <?php else: ?>
-      <a href="<?php echo $this->escape($this->getURL(null, 'endedit')); ?>">End Edit</a>
-    <?php endif; ?>
-    <table id="features-table"
-           summary="Language features and the first editions of ECMAScript or first versions of the implementations that introduced or supported them">
-      <thead>
-        <tr>
-         <?php if ($this->edit): ?>
+<?php
+  if (!$this->edit)
+  {
+?>
+     <a href="<?php echo $this->escape($this->getURL(null, 'edit')); ?>">Edit</a>
+<?php
+  }
+  else
+  {
+?>
+     <a href="<?php echo $this->escape($this->getURL(null, 'endEdit')); ?>">End Edit</a>
+<?php
+  }
+?>
+    <form action="<?php echo $this->escape($this->getURL(null, 'saveResult')); ?>" method="POST">
+      <table id="features-table"
+             summary="Language features and the first editions of ECMAScript or first versions of the implementations that introduced or supported them">
+        <thead>
+          <tr>
+<?php
+  if ($this->edit)
+  {
+?>
             <td style="width: 7em"
                 ><a href="<?php echo $this->escape($this->getURL('feature', 'new')); ?>">New</a></td>
-         <?php endif; ?>
-          <th id="atoz">Feature</th>
-          <th><a href="#ecmascript">ECMAScript</a></th>
-          <th>This <abbr title="implementation">impl.</abbr><?php
-              // $footnotes->add('this-impl', '', $scriptEngineTest, '');
-              ?><!--<br>
-            <input type="submit" name="submitResults" value="Submit results">--></th>
-          <?php // $features->printHeaders(); ?>
-        </tr>
-      </thead>
-      <tbody id="scroller" class="scroll">
-       <?php foreach ($this->features as $key => $feature): ?>
-        <tr>
-          <?php if ($this->edit): ?>
+<?php
+  }
+?>
+            <th id="atoz">Feature</th>
+            <th><a href="#ecmascript">ECMAScript</a></th>
+            <th>This <abbr title="implementation">impl.</abbr><?php
+                // $footnotes->add('this-impl', '', $scriptEngineTest, '');
+                ?><br>
+              <script type="text/javascript">
+                var implementation = isMethod(this, "ScriptEngine") ? ScriptEngine() : '';
+                if (implementation)
+                {
+                  implementation = implementation.replace(/"/g, "&quot;").replace(/</g, "&gt;");
+                  var version = '';
+                  if (isMethod(this, "ScriptEngineMajorVersion"))
+                  {
+                    version = ScriptEngineMajorVersion();
+
+                    if (isMethod(this, "ScriptEngineMinorVersion"))
+                    {
+                      version += "." + ScriptEngineMinorVersion();
+
+                      if (isMethod(this, "ScriptEngineBuildVersion"))
+                      {
+                        version += "." + ScriptEngineBuildVersion();
+                      }
+                    }
+
+                    if (version)
+                    {
+                      version = version.replace(/"/g, "&quot;").replace(/</g, "&gt;");
+                    }
+                  }
+                      
+                  document.write(
+                    '<input type="hidden" name="implementation" value="' + implementation + '">'
+                    + '<input type="hidden" name="version" value="' + version + '">');
+                }
+              </script>
+              <input type="submit" name="submitResults" value="Submit results"></th>
+<?php
+  foreach ($this->implementations as $key => $impl)
+  {
+    if ($key !== 0)
+    {
+?>
+            <td><?php echo $impl->name; ?></td>
+<?php
+    }
+  }
+?>
+          </tr>
+        </thead>
+        <tbody id="scroller" class="scroll">
+<?php
+  foreach ($this->features as $key => $feature)
+  {
+?>
+          <tr>
+<?php
+    if ($this->edit)
+    {
+?>
             <td><a href="<?php echo $this->escape($this->getURL('feature', 'edit')); ?>&amp;id=<?php echo $feature->id; ?>"
                    class="modify">Edit</a>
                 <form action="<?php echo $this->escape($this->getURL('feature', 'delete')); ?>" method="POST"
@@ -37,51 +99,73 @@
                   <input type="hidden" name="id" value="<?php echo $feature->id; ?>">
                   <button type="submit" class="negative delete">Delete</button>
                 </form></td>
-          <?php endif; ?>
-          <th<?php if ($feature->title) { ?> title="<?php echo $this->escape($feature->title); ?>"<?php } ?>
-             ><?php echo $feature->code; ?></th>
-          <td></td>
-          <td<?php
-            $id = 'td' . ($key + 1);
-            $testcases = $feature->testcases;
-            if (count($testcases) > 0)
+<?php
+    }
+?>
+            <th<?php if ($feature->title) { ?> title="<?php echo $this->escape($feature->title); ?>"<?php } ?>
+               ><?php echo $feature->code; ?></th>
+            <td></td>
+            <td<?php
+              $id = 'td' . ($key + 1);
+              $testcases = $feature->testcases;
+              if (count($testcases) > 0)
+              {
+                echo " id='$id'";
+  //               echo ' title="Test code: '
+  //                 . $this->escape(
+  //                     preg_replace('/\\\(["\'])/', '\1', reduceWhitespace(join($testcases[0]->code)))
+  //                 . '"';
+              }
+              else
             {
-              echo " id='$id'";
-//               echo ' title="Test code: '
-//                 . $this->escape(
-//                     preg_replace('/\\\(["\'])/', '\1', reduceWhitespace(join($testcases[0]->code)))
-//                 . '"';
-            }
-            else
-          {
-              echo ' title="Not applicable: No automated test case'
-                . ' is available for this feature.  If possible, please'
-                . ' click the feature code in the first column to run'
-                . ' a manual test."';
-            }
-            ?>><?php
-            if (count($testcases) > 0)
-            {
-              foreach ($testcases as $testcase)
+                echo ' title="Not applicable: No automated test case'
+                  . ' is available for this feature.  If possible, please'
+                  . ' click the feature code in the first column to run'
+                  . ' a manual test."';
+              }
+              ?>><?php
+              if (count($testcases) > 0)
               {
                 ?><script type="text/javascript">
-  // <![CDATA[
-  var s = test(<?php echo $testcase->code; ?>,
-    '<input title="Supported" name="" value="+" readonly>',
-    '<input title="Not supported" name="" value="&#8722;" readonly>');
-  jsx.tryThis("document.write(s);",
-    "document.getElementById('<?php echo $id; ?>').appendChild("
-    + "document.createTextNode(s));");
-  // ]]>
-</script><?php
+                    var results = [];
+                  </script><?php
+                foreach ($testcases as $testcase_key => $testcase)
+                {
+                  ?><script type="text/javascript">
+                    // <![CDATA[
+                    var result = test(<?php echo $testcase->code; ?>, true, false);
+                    results[<?php echo $testcase_key; ?>] = result;
+                    document.write('<input type="hidden" name="results[<?php echo $testcase->id; ?>]" value="' + (result ? '1' : '0') + '">');
+                    // ]]>
+                  </script><?php
+                }
+                ?><script type="text/javascript">
+                  var count = 0;
+                  for (var i = 0, len = results.length; i < len; ++i)
+                  {
+                    if (results[i])
+                    {
+                      ++count;
+                    }
+                  }
+  
+                  var text = (count == len) ? "+" : (count == 0 ? "&#8722;" : "*");
+                  
+                  jsx.tryThis(
+                    "document.write(text);",
+                    + " document.getElementById('<?php echo $id; ?>').appendChild("
+                    + "document.createTextNode(text));");
+                </script><?php
               }
-            }
-            else
-          {
-              echo '<abbr>N/A</abbr>';
-            }
-            ?></td>
-        </tr>
-       <?php endforeach ?>
-      </tbody>
-    </table>
+              else
+            {
+                echo '<abbr>N/A</abbr>';
+              }
+              ?></td>
+            </tr>
+<?php
+  }
+?>
+          </tbody>
+      </table>
+    </form>

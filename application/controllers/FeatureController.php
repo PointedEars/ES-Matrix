@@ -47,11 +47,6 @@ class FeatureController extends Controller
       $feature = FeatureMapper::getInstance()->find($id);
     }
     
-    if (!is_array($feature->testcases) || count($feature->testcases) === 0)
-    {
-      $feature->testcases = array(new TestcaseModel());
-    }
-    
     $this->assign('feature', $feature);
     $this->render(null, 'application/layouts/feature/edit.phtml');
   }
@@ -71,7 +66,10 @@ class FeatureController extends Controller
          	'id'    => Application::getParam('id', $_POST),
          	'code'  => Application::getParam('code', $_POST),
     			'title' => Application::getParam('title', $_POST),
-//            	'testcases' => Application::getParam('testcase[]', $_POST)
+         	'testcases' => array(
+         	  'titles' => Application::getParam('testcase_title', $_POST),
+         	  'codes' =>  Application::getParam('testcase_code', $_POST),
+       	  )
        )))
     {
        $this->indexAction();

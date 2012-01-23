@@ -7,9 +7,16 @@ require_once 'application/models/mappers/TestcaseMapper.php';
 
 require_once 'includes/features.class.php';
 
+/**
+ * Mapper class for features
+ *
+ * @author Thomas Lahn
+ */
 class FeatureMapper extends Mapper
 {
   private static $_instance = null;
+
+  protected $_table = 'FeatureTable';
   
   private function __construct()
   {
@@ -31,14 +38,6 @@ class FeatureMapper extends Mapper
     return self::$_instance;
   }
 
-	/**
-   * Gets the {@link Table} for this mapper
-   */
-  public function getDbTable($table = 'FeatureTable')
-  {
-    return parent::getDbTable($table);
-  }
-  
   /**
    * Saves a feature in the features table
    *
@@ -49,17 +48,14 @@ class FeatureMapper extends Mapper
 //       var_dump($feature);
     if (is_array($feature))
     {
-      // FIXME
-      unset($feature['testcases']);
-      
-      $feature = new FeatureModel($feature);
+      $featureObj = new FeatureModel($feature);
     }
     
-    $id = $feature->id;
+    $id = $featureObj->id;
     $data = array(
       'id'  => $id,
-      'code'  => $feature->code,
-      'title' => $feature->title,
+      'code'  => $featureObj->code,
+      'title' => $featureObj->title,
 //      'created' => date('Y-m-d H:i:s'),
     );
 
@@ -67,14 +63,62 @@ class FeatureMapper extends Mapper
     {
       unset($data['id']);
 //        var_dump($data);
-      return $this->getDbTable()->insert($data);
-
-      /* TODO: Assign testcases to feature here */
+      
+      $success = $this->getDbTable()->insert($data);
+      if ($success)
+      {
+        $id = $this->getDbTable()->getDatabase()->getLastInsertId();
+      }
     }
     else
     {
-      return $this->getDbTable()->updateOrInsert($data, array('id' => $id));
+      $success = $this->getDbTable()->updateOrInsert($data, array('id' => $id));
     }
+    
+    if ($success)
+    {
+      /* DEBUG */
+//       var_dump($feature);
+      
+      $mapper = TestcaseMapper::getInstance();
+      $table = $mapper->getDbTable();
+      $table->beginTransaction();
+      
+    	/* Delete saved testcases for that feature */
+      $table->delete(null, array('feature_id' => $id));
+      
+      /* Assign new testcases to feature */
+      $codes = $feature['testcases']['codes'];
+      
+      if ($codes)
+      {
+        $gluedCodes = implode('', $codes);
+        if (!empty($gluedCodes))
+        {
+          foreach ($feature['testcases']['titles'] as $key => $title)
+          {
+            $testcase = new TestcaseModel(array(
+              'feature_id' => $id,
+              'title'      => $title,
+              'code'       => $codes[$key]
+            ));
+  
+            /* DEBUG */
+//             var_dump($testcase);
+        
+            TestcaseMapper::getInstance()->save($testcase);
+          }
+        }
+      }
+      
+      $success = $table->commit();
+      if (!$success)
+      {
+        $table->rollBack();
+      }
+    }
+    
+    return $success;
   }
   
   /**

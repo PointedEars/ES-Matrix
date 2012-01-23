@@ -6,9 +6,19 @@ require_once 'application/models/TestcaseModel.php';
 
 require_once 'includes/features.class.php';
 
+/**
+ * Mapper class for testcases
+ *
+ * @author Thomas Lahn
+ */
 class TestcaseMapper extends Mapper
 {
   private static $_instance = null;
+  
+  /*
+   * (non-PHPDoc) see Mapper::$_table
+   */
+  protected $_table = 'TestcaseTable';
   
   private function __construct()
   {
@@ -30,14 +40,6 @@ class TestcaseMapper extends Mapper
     return self::$_instance;
   }
 
-  /**
-   * Gets the <code>Table</code> for this mapper
-   */
-  public function getDbTable($table = 'TestcaseTable')
-  {
-    return parent::getDbTable($table);
-  }
-
 	/**
    * Saves a testcase in the testcase table
    *
@@ -49,6 +51,7 @@ class TestcaseMapper extends Mapper
     $data = array(
       'id'  => $id,
       'feature_id'  => $testcase->feature_id,
+      'title' => $testcase->title,
       'code' => $testcase->code
     );
 
