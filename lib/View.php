@@ -1,6 +1,7 @@
 <?php
 
 require_once 'Application.php';
+require_once 'Model.php';
 
 /**
  * A general view handled by a controller according to the MVC pattern
@@ -83,7 +84,7 @@ class View
     }
     else if (is_object($value))
     {
-      if ($value instanceof AbstractModel)
+      if ($value instanceof Model)
       {
         foreach ($value->getPropertyVars() as $varName)
         {

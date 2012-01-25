@@ -100,30 +100,6 @@ class TestcaseMapper extends Mapper
   }
   
   /**
-   * Finds a testcase in the features table by ID
-   *
-   * @param int $id
-   * @param TestcaseModel $feature
-   * @return Testcase
-   */
-  public function find($id, TestcaseModel $testcase)
-  {
-    $result = $this->getDbTable()->find($id);
-    if (0 == count($result))
-    {
-      return null;
-    }
-    $row = $result[0];
-    $testcase->setId($row['id'])
-    ->setFeature_id($row['feature_id'])
-    ->setTitle($row['title'])
-    ->setCode($row['code'])
-//     ->setCreated($row->created)
-    ;
-    return $testcase;
-  }
-  
-  /**
    * Returns the testcases for a feature specified by its ID
    *
    * @param int $id

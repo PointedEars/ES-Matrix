@@ -39,7 +39,7 @@ class EnvironmentMapper extends Mapper
   }
 
 	/**
-   * Saves an environment in the testcase table
+   * Saves an environment in the database
    *
    * @param string $user_agent
    *   User-Agent string
@@ -66,27 +66,6 @@ class EnvironmentMapper extends Mapper
     return $table->lastInsertId;
   }
   
-  /**
-   * Finds an environment in the environment table by ID
-   *
-   * @param int $id
-   * @param EnvironmentModel $env
-   * @return EnvironmentModel
-   */
-  public function find($id, EnvironmentModel $env)
-  {
-    $result = $this->getDbTable()->find($id);
-    if (0 == count($result))
-    {
-      return null;
-    }
-    $row = $result[0];
-    $env->setId($row['id'])
-    ->setName($row['name'])
-    ->setUser_agent($row['user_agent']);
-    return $env;
-  }
-
   /**
    * Finds an environment in the environment table by User-Agent string
    *

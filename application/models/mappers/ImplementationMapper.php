@@ -49,7 +49,7 @@ class ImplementationMapper extends Mapper
   }
   
 	/**
-   * Saves an implementation in the implementation table
+   * Saves an implementation in the database
    *
    * @param string $implementation
    *   Implementation string
@@ -66,27 +66,6 @@ class ImplementationMapper extends Mapper
     }
     
     return $table->lastInsertId;
-  }
-  
-  /**
-   * Finds an implementation in the implementation table by ID
-   *
-   * @param int $id
-   * @param ImplementationModel $env
-   * @return ImplementationModel
-   */
-  public function find($id, ImplementationModel $impl)
-  {
-    $result = $this->getDbTable()->find($id);
-    if (0 == count($result))
-    {
-      return null;
-    }
-    $row = $result[0];
-    $impl->setId($row['id'])
-    ->setName($row['name'])
-    ->setUser_agent($row['user_agent']);
-    return $impl;
   }
   
   /**
@@ -120,10 +99,7 @@ class ImplementationMapper extends Mapper
     $impls = array();
     foreach ($resultSet as $row)
     {
-      $impl = new ImplementationModel(array(
-        'id'         => $row['id'],
-        'name'       => $row['name']
-      ));
+      $impl = new ImplementationModel($row);
       
       $impls[] = $impl;
     }

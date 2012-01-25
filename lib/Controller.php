@@ -3,6 +3,22 @@
 require_once 'lib/Application.php';
 require_once 'lib/View.php';
 
+/* lcfirst() is unavailable before PHP 5.3 */
+if (false === function_exists('lcfirst'))
+{
+  /**
+   * Make a string's first character lowercase
+   *
+   * @param string $str The input string.
+   * @return string The resulting string.
+   * @link http://www.php.net/manual/en/function.lcfirst.php
+   */
+  function lcfirst($str)
+  {
+    return strtolower(substr($str, 0, 1)) . substr($str, 1);
+  }
+}
+
 /**
  * A general controller that can handle views according to the MVC pattern
  *
@@ -18,7 +34,8 @@ abstract class Controller
   protected $_view = null;
   
   /**
-   * Constructs a controller and initializes the related view
+   * Constructs a controller, initializes the related view, and calls
+   * the controller's URI-indicated action method.
    *
    * @param string $viewClass
    *   View class.  The default is <code>'View'</code>.

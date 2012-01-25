@@ -43,7 +43,7 @@ class ResultMapper extends Mapper
   }
 
 	/**
-   * Saves an result in the result table, and updates related tables
+   * Saves a result in the result table, and updates related tables
    *
    * @param array $data
    *   Result data
@@ -100,48 +100,4 @@ class ResultMapper extends Mapper
       $table->commit();
     }
   }
-    
-  /**
-   * Finds a version in the version table by ID
-   *
-   * @param int $id
-   * @param VersionModel $env
-   * @return VersionModel
-   */
-  public function find($id, VersionModel $ver)
-  {
-    $result = $this->getDbTable()->find($id);
-    if (0 == count($result))
-    {
-      return null;
-    }
-    $row = $result[0];
-    $ver->setId($row['id'])
-    ->setName($row['name'])
-    ->setUser_agent($row['user_agent']);
-    return $ver;
-  }
-  
-  /**
-   * Fetches all records from the implementation table
-   *
-   * @return array
-   */
-  public function fetchAll()
-  {
-    $resultSet = $this->getDbTable()->fetchAll();
-    $vers = array();
-    foreach ($resultSet as $row)
-    {
-      $ver = new VersionModel(array(
-        'id'         => $row['id'],
-        'name'       => $row['name']
-      ));
-      ;
-      $vers[] = $ver;
-    }
-    
-    return $vers;
-  }
 }
-

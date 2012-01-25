@@ -74,7 +74,22 @@
     if ($key !== 0)
     {
 ?>
-            <td><?php echo $impl->name; ?></td>
+            <td><?php
+              if ($impl->acronym !== '')
+              {
+                ?><abbr title="<?php echo $this->escape($impl->name); ?>"><?php
+                echo $this->escape($impl->acronym);
+              }
+              else
+            {
+                echo $this->escape($impl->name);
+              }
+        
+              if ($impl->acronym !== '')
+              {
+                ?></abbr><?php
+              }
+            ?></td>
 <?php
     }
   }

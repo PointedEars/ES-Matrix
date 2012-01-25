@@ -39,7 +39,7 @@ class VersionMapper extends Mapper
   }
 
 	/**
-   * Saves a version in the version table
+   * Saves a version of an implementation in the database
    *
    * @param int $implementation_id
    *   Implementation ID
@@ -65,28 +65,7 @@ class VersionMapper extends Mapper
     
     return $table->lastInsertId;
   }
-  
-  /**
-   * Finds a version in the version table by ID
-   *
-   * @param int $id
-   * @param VersionModel $env
-   * @return VersionModel
-   */
-  public function find($id, VersionModel $ver)
-  {
-    $result = $this->getDbTable()->find($id);
-    if (0 == count($result))
-    {
-      return null;
-    }
-    $row = $result[0];
-    $ver->setId($row['id'])
-    ->setName($row['name'])
-    ->setUser_agent($row['user_agent']);
-    return $ver;
-  }
-  
+    
   /**
    * Finds a version ID by name
    *

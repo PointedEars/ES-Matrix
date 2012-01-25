@@ -26,10 +26,13 @@ class IndexController extends Controller
   protected function indexAction()
   {
     $implementations = ImplementationMapper::getInstance()->fetchAll();
+
+    /* DEBUG */
+//     var_dump($implementations);
         
     $features = FeatureMapper::getInstance()->fetchAll();
     usort($features, array('FeatureModel', 'compareTo'));
-//
+
     $this->assign('edit', isset($_SESSION['edit']));
     $this->assign('implementations', $implementations);
     $this->assign('features', $features);
@@ -63,7 +66,7 @@ class IndexController extends Controller
           'version'        => Application::getParam('version', $_POST),
           'user_agent'     => Application::getParam('HTTP_USER_AGENT', $_SERVER),
           'results'        => Application::getParam('results', $_POST)
-          )))
+        )))
     {
       Application::redirect();
     }

@@ -3,10 +3,29 @@
 require_once 'lib/Model.php';
 require_once 'lib/Registry.php';
 
+/**
+ * Basic application class
+ *
+ * @author Thomas Lahn
+ */
 class Application
 {
+  /**
+   * Relative path to the controllers directory
+   * @var string
+   */
   protected $_controllerPath = 'application/controllers';
+  
+  /**
+   * Default controller of the application
+   * @var string
+   */
   protected $_defaultController = 'Index';
+  
+  /**
+   * Registry key for the default database of the application
+   * @var string
+   */
   protected $_defaultDatabase;
   
   /**
@@ -42,7 +61,8 @@ class Application
   }
   
   /**
-   * Runs the application
+   * Runs the application, setting up session management and constructing
+   * the controller indicated by the URI
    */
   public function run()
   {
@@ -72,6 +92,8 @@ class Application
    *   Array where to look up <var>$key</var>.
    *   The default is <code>$_GET</code>.
    * @return mixed
+   *   <code>null</code> if there is no such <var>$key</var>
+   *   in <var>$array</var>
    */
   public static function getParam($key, array $array = null)
   {
@@ -104,17 +126,20 @@ class Application
   }
 
   /**
-  * Returns the current controller for this application
-  * @return Controller
+  * Sets the current controller for this application
+  *
+  * @param Controller $controller
+  * @return Application
   */
   public function setCurrentController(Controller $controller)
   {
     $this->_currentController = $controller;
-    return $this->_currentController;
+    return $this;
   }
   
   /**
    * Returns the current controller for this application
+   *
    * @return Controller
    */
   public function getCurrentController()
@@ -124,6 +149,7 @@ class Application
 
   /**
    * Returns the default database for this application
+   *
    * @return Database
    */
   public function getDefaultDatabase()
