@@ -263,8 +263,20 @@ class Database extends Model
       ));
     }
     
-    $stmt->execute($params);
-    $result = $stmt->fetchAll();
+    $success =& $this->_lastSuccess;
+    $success =  $stmt->execute($params);
+    
+    $result =& $this->_lastResult;
+    $result =  $stmt->fetchAll();
+    
+    if (defined('DEBUG') && DEBUG > 0)
+    {
+      debug(array(
+        '_lastSuccess' => $success,
+        '_lastResult'  => $result
+      ));
+    }
+    
     return $result;
   }
 
@@ -331,11 +343,19 @@ class Database extends Model
     }
     
     $success =& $this->_lastSuccess;
-    $success = $stmt->execute($params);
+    $success =  $stmt->execute($params);
     
-    $this->_lastResult = $stmt->fetchAll();
+    $result =& $this->_lastResult;
+    $result =  $stmt->fetchAll();
     
-//     debug($success );
+    if (defined('DEBUG') && DEBUG > 0)
+    {
+      debug(array(
+        '_lastSuccess' => $success,
+        '_lastResult'  => $result
+      ));
+    }
+    
     return $success;
   }
   
@@ -420,7 +440,9 @@ class Database extends Model
     /* TODO: Should escape table names with escapeName(), but what about aliases? */
     $query = "INSERT INTO {$table} {$cols} {$values}";
   
-    /* DEBUG */
+    $stmt = $this->prepare($query);
+  
+      /* DEBUG */
     if (defined('DEBUG') && DEBUG > 0)
     {
        debug(array(
@@ -429,20 +451,20 @@ class Database extends Model
        ));
     }
     
-    $stmt = $this->prepare($query);
-  
     $success =& $this->_lastSuccess;
     $success = $stmt->execute($params);
     
     $this->_setLastInsertId();
-    $this->_lastResult = $stmt->fetchAll();
+    
+    $result =& $this->_lastResult;
+    $result =  $stmt->fetchAll();
 
     if (defined('DEBUG') && DEBUG > 0)
     {
       debug(array(
-        '_lastSuccess' => $success,
+        '_lastSuccess'  => $success,
         '_lastInsertId' => $this->_lastInsertId,
-        '_lastResult' => $this->_lastResult
+        '_lastResult'   => $result
       ));
     }
     
@@ -532,11 +554,19 @@ class Database extends Model
     }
     
     $success =& $this->_lastSuccess;
-    $success = $stmt->execute($params);
+    $success =  $stmt->execute($params);
     
-    $this->_lastResult = $stmt->fetchAll();
+    $result =& $this->_lastResult;
+    $result =  $stmt->fetchAll();
     
-//     debug($success );
+    if (defined('DEBUG') && DEBUG > 0)
+    {
+      debug(array(
+        '_lastSuccess'  => $success,
+        '_lastResult'   => $result
+      ));
+    }
+    
     return $success;
   }
 }
