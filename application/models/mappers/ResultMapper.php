@@ -47,6 +47,9 @@ class ResultMapper extends Mapper
    *
    * @param array $data
    *   Result data
+   * @return bool
+   *   <code>true</code> on success, <code>false</code> on failure
+   * @see PDO::commit()
    */
   public function save($data)
   {
@@ -70,7 +73,11 @@ class ResultMapper extends Mapper
       $ver_id = 0;
     }
     
-    var_dump($data);
+    /* DEBUG */
+    if (defined('DEBUG') && DEBUG > 0)
+    {
+      var_dump($data);
+    }
     
     $env_id = EnvironmentMapper::getInstance()->save($data['user_agent'], $ver_id);
     if (!is_null($env_id) && $env_id > 0)
@@ -97,7 +104,9 @@ class ResultMapper extends Mapper
         }
       }
       
-      $table->commit();
+      return $table->commit();
     }
+    
+    return false;
   }
 }
