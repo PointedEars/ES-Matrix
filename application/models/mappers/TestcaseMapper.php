@@ -55,7 +55,7 @@ class TestcaseMapper extends Mapper
       'code' => $testcase->code
     );
 
-//     var_dump($data);
+//     debug($data);
     
     if (is_null($id))
     {
@@ -94,9 +94,9 @@ class TestcaseMapper extends Mapper
 //     {
 //       return strlen(trim($el->code));
 //     }
-//     var_dump(max(array_map('mapper', $testcases)));
+//     debug(max(array_map('mapper', $testcases)));
     
-//     var_dump($testcases);
+//     debug($testcases);
   }
   
   /**

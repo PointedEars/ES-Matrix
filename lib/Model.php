@@ -185,7 +185,8 @@ abstract class Model
     else
     {
       throw new InvalidArgumentException(
-        'Expected null or array for $mapping, saw ' . var_dump($mapping));
+        'Expected null or array for $mapping, saw <pre>'
+        . print_r($mapping, true) . '</pre>');
     }
   }
 }

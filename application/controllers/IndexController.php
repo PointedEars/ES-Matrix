@@ -28,7 +28,7 @@ class IndexController extends Controller
     $implementations = ImplementationMapper::getInstance()->fetchAll();
 
     /* DEBUG */
-//     var_dump($implementations);
+//     debug($implementations);
         
     $features = FeatureMapper::getInstance()->fetchAll();
     usort($features, array('FeatureModel', 'compareTo'));

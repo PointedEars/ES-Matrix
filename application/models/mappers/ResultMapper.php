@@ -76,7 +76,7 @@ class ResultMapper extends Mapper
     /* DEBUG */
     if (defined('DEBUG') && DEBUG > 0)
     {
-      var_dump($data);
+      debug($data);
     }
     
     $env_id = EnvironmentMapper::getInstance()->save($data['user_agent'], $ver_id);

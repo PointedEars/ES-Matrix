@@ -184,7 +184,7 @@ abstract class Table extends Model
     /* DEBUG */
     if (defined('DEBUG') && DEBUG > 0)
     {
-      var_dump($id);
+      debug($id);
     }
     
     return $this->select(null, array($this->_id => $id));

@@ -45,7 +45,7 @@ class FeatureMapper extends Mapper
    */
   public function save($feature)
   {
-//       var_dump($feature);
+//       debug($feature);
     if (is_array($feature))
     {
       $featureObj = new FeatureModel($feature);
@@ -62,7 +62,7 @@ class FeatureMapper extends Mapper
     if (is_null($id) || $id === 0)
     {
       unset($data['id']);
-//        var_dump($data);
+//        debug($data);
       
       $success = $this->getDbTable()->insert($data);
       if ($success)
@@ -78,7 +78,7 @@ class FeatureMapper extends Mapper
     if ($success)
     {
       /* DEBUG */
-//       var_dump($feature);
+//       debug($feature);
       
       $mapper = TestcaseMapper::getInstance();
       $table = $mapper->getDbTable();
@@ -104,7 +104,7 @@ class FeatureMapper extends Mapper
             ));
   
             /* DEBUG */
-//             var_dump($testcase);
+//             debug($testcase);
         
             TestcaseMapper::getInstance()->save($testcase);
           }
@@ -143,7 +143,7 @@ class FeatureMapper extends Mapper
       $features[] = $feature;
     }
     
-//     var_dump($features);
+//     debug($features);
   }
   
   /**
@@ -204,7 +204,7 @@ class FeatureMapper extends Mapper
       $features[] = $feature;
     }
 
-//     var_dump($features);
+//     debug($features);
     
     return $features;
   }
@@ -217,7 +217,7 @@ class FeatureMapper extends Mapper
   public function delete($id)
   {
     $success = $this->getDbTable()->delete($id);
-//     var_dump($success);
+//     debug($success);
     return $success;
   }
 }

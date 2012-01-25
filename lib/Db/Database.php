@@ -1,5 +1,7 @@
 <?php
 
+require_once 'includes/global.inc';
+
 require_once 'lib/Model.php';
 
 /**
@@ -240,12 +242,6 @@ class Database extends Model
       $query .= " LIMIT $limit";
     }
     
-    /* DEBUG */
-    if (defined('DEBUG') && DEBUG > 0)
-    {
-      var_dump($query);
-    }
-    
     $stmt = $this->prepare($query);
 
     $params = array();
@@ -261,7 +257,10 @@ class Database extends Model
     /* DEBUG */
     if (defined('DEBUG') && DEBUG > 0)
     {
-      var_dump($params);
+      debug(array(
+      	'query'  => $query,
+      	'params' => $params
+      ));
     }
     
     $stmt->execute($params);
@@ -325,9 +324,9 @@ class Database extends Model
     /* DEBUG */
     if (defined('DEBUG') && DEBUG > 0)
     {
-      var_dump(array(
-             'query' => $query,
-             'params' => $params
+      debug(array(
+        'query'  => $query,
+        'params' => $params
       ));
     }
     
@@ -336,7 +335,7 @@ class Database extends Model
     
     $this->_lastResult = $stmt->fetchAll();
     
-//     var_dump($success );
+//     debug($success );
     return $success;
   }
   
@@ -389,7 +388,7 @@ class Database extends Model
     }
   
     /* DEBUG */
-//     var_dump($values);
+//     debug($values);
   
     $params = array();
     
@@ -424,8 +423,8 @@ class Database extends Model
     /* DEBUG */
     if (defined('DEBUG') && DEBUG > 0)
     {
-       var_dump(array(
-         'query' => $query,
+       debug(array(
+         'query'  => $query,
          'params' => $params
        ));
     }
@@ -440,7 +439,7 @@ class Database extends Model
 
     if (defined('DEBUG') && DEBUG > 0)
     {
-      var_dump(array(
+      debug(array(
         '_lastSuccess' => $success,
         '_lastInsertId' => $this->_lastInsertId,
         '_lastResult' => $this->_lastResult
@@ -526,8 +525,10 @@ class Database extends Model
     /* DEBUG */
     if (defined('DEBUG') && DEBUG > 0)
     {
-      var_dump($query);
-      var_dump($params);
+      debug(array(
+        'query'  => $query,
+        'params' => $params
+      ));
     }
     
     $success =& $this->_lastSuccess;
@@ -535,7 +536,7 @@ class Database extends Model
     
     $this->_lastResult = $stmt->fetchAll();
     
-//     var_dump($success );
+//     debug($success );
     return $success;
   }
 }
