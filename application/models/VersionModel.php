@@ -8,6 +8,7 @@ require_once 'lib/Model.php';
 class VersionModel extends Model
 {
   protected $_id;
+  protected $_implementation_id;
   protected $_name;
     
   public function setId($id)

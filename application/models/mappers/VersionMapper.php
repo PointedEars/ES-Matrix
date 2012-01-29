@@ -54,7 +54,7 @@ class VersionMapper extends Mapper
     $table = $this->getDbTable();
     
     $data = array(
-      'implementation_id' => $implementation_id,
+      'impl_id' => $implementation_id,
     	'name' => $name
   	);
     
@@ -82,7 +82,11 @@ class VersionMapper extends Mapper
     }
   
     $row = $result[0];
-    $impl = new VersionModel($row);
+    $impl = new VersionModel($row,
+      array(
+    		'impl_id' => 'implementation_id'
+      )
+    );
     return $impl->id;
   }
   
@@ -97,11 +101,15 @@ class VersionMapper extends Mapper
     $vers = array();
     foreach ($resultSet as $row)
     {
-      $ver = new VersionModel(array(
-        'id'         => $row['id'],
-        'name'       => $row['name']
-      ));
-      ;
+      $ver = new VersionModel(
+        array(
+          'id'         => $row['id'],
+          'name'       => $row['name']
+        ),
+        array(
+      		'impl_id' => 'implementation_id'
+        )
+      );
       $vers[] = $ver;
     }
     
