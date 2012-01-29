@@ -55,7 +55,10 @@ class TestcaseMapper extends Mapper
       'code' => $testcase->code
     );
 
-//     debug($data);
+    if (defined('DEBUG') && DEBUG > 0)
+    {
+      debug($data);
+    }
     
     if (is_null($id))
     {
@@ -66,6 +69,59 @@ class TestcaseMapper extends Mapper
     {
       $this->getDbTable()->updateOrInsert($data, array('id' => $id));
     }
+  }
+  
+  /**
+   * Saves the testcases for a feature
+   *
+   * @param int $featureId
+   * @param array $testcases
+   */
+  public function saveForFeature($featureId, array $testcases)
+  {
+    $table = $this->getDbTable();
+    $table->beginTransaction();
+    
+    /*
+     * NOTE: Must _delete_ saved testcases for that feature to avoid
+     * invalid results (ON DELETE CASCADE)
+     */
+    $table->delete(null, array('feature_id' => $featureId));
+    
+    /* Assign new testcases to feature */
+    $codes = $testcases['codes'];
+    
+    if ($codes)
+    {
+      $gluedCodes = implode('', $codes);
+      if (!empty($gluedCodes))
+      {
+        foreach ($testcases['titles'] as $key => $title)
+        {
+          $testcase = new TestcaseModel(array(
+            'feature_id' => $featureId,
+            'title'      => $title,
+            'code'       => $codes[$key]
+          ));
+    
+          /* DEBUG */
+          if (defined('DEBUG') && DEBUG > 0)
+          {
+            debug($testcase);
+          }
+    
+          $this->save($testcase);
+        }
+      }
+    }
+    
+    $success = $table->commit();
+    if (!$success)
+    {
+      $table->rollBack();
+    }
+    
+    return $success;
   }
   
   public function importAll(FeatureList $featureList)

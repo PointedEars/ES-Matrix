@@ -172,6 +172,29 @@ class Application
    */
   public static function redirect($query = '')
   {
-    header('Location: ' . $_SERVER['SCRIPT_URI'] . $query);
+    $script_uri = self::getParam('SCRIPT_URI', $_SERVER);
+    if (is_null($script_uri))
+    {
+      /* Server/PHP too old, compute URI */
+      if (preg_match('/^[^?]+/', self::getParam('REQUEST_URI', $_SERVER),
+            $matches) > 0)
+      {
+        $query_prefix = $matches[0];
+      }
+      else
+      {
+        /* Has .php in it, but at least it works */
+        $query_prefix = self::getParam('SCRIPT_NAME', $_SERVER);
+      }
+
+      /* TODO: Let user decide which ports map to which URI scheme */
+      $script_uri = (self::getParam('SERVER_PORT', $_SERVER) == 443
+                      ? 'https://'
+                      : 'http://')
+                  . self::getParam('HTTP_HOST', $_SERVER)
+                  . $query_prefix;
+    }
+
+    header('Location: ' . $script_uri . $query);
   }
 }

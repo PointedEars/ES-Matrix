@@ -59,63 +59,37 @@ class FeatureMapper extends Mapper
 //      'created' => date('Y-m-d H:i:s'),
     );
 
+    $table = $this->getDbTable();
     if (is_null($id) || $id === 0)
     {
       unset($data['id']);
-//        debug($data);
+
+      if (defined('DEBUG') && DEBUG > 0)
+      {
+        debug($data);
+      }
       
       $success = $this->getDbTable()->insert($data);
       if ($success)
       {
-        $id = $this->getDbTable()->getDatabase()->getLastInsertId();
+        $id = $table->getLastInsertId();
       }
     }
     else
     {
-      $success = $this->getDbTable()->updateOrInsert($data, array('id' => $id));
+      /* TODO: Why updateOrInsert() here?  What about potential new ID? */
+      $success = $table->updateOrInsert($data, array('id' => $id));
     }
     
     if ($success)
     {
       /* DEBUG */
-//       debug($feature);
-      
-      $mapper = TestcaseMapper::getInstance();
-      $table = $mapper->getDbTable();
-      $table->beginTransaction();
-      
-    	/* Delete saved testcases for that feature */
-      $table->delete(null, array('feature_id' => $id));
-      
-      /* Assign new testcases to feature */
-      $codes = $feature['testcases']['codes'];
-      
-      if ($codes)
+      if (defined('DEBUG') && DEBUG > 0)
       {
-        $gluedCodes = implode('', $codes);
-        if (!empty($gluedCodes))
-        {
-          foreach ($feature['testcases']['titles'] as $key => $title)
-          {
-            $testcase = new TestcaseModel(array(
-              'feature_id' => $id,
-              'title'      => $title,
-              'code'       => $codes[$key]
-            ));
-  
-            /* DEBUG */
-//             debug($testcase);
-        
-            TestcaseMapper::getInstance()->save($testcase);
-          }
-        }
+        debug($feature['testcases']);
       }
       
-      $success = $table->commit();
-      if (!$success)
-      {
-        $table->rollBack();
-      }
+      $success = TestcaseMapper::getInstance()->saveForFeature($id, $feature['testcases']);
     }
     
     return $success;

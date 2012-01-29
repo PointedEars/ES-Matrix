@@ -135,19 +135,24 @@ abstract class Table extends Model
    *   ID of the record to delete.  May be <code>null</code>,
    *   in which case <var>$condition</var> must specify
    *   the records to be deleted.
-   * @oaram array $condition
+   * @param array[optional] $condition
    *   Conditions that must be met for a record to be deleted.
+   *   Ignored if <var>$id</var> is not <code>null</code>.
    * @return bool
+   * @throws InvalidArgumentException if both <var>$id</var> and
+   * 	 <var>$condition</var> are <code>null</code>.
    * @see Database::delete()
    */
   public function delete($id, array $condition = null)
   {
-    if (is_null($condition))
+    if (!is_null($id))
     {
-      if (!is_null($id))
-      {
-        $condition = array($this->_id => $id);
-      }
+      $condition = array($this->_id => $id);
+    }
+    else if (is_null($condition))
+    {
+      throw new InvalidArgumentException(
+        '$id and $condition cannot both be null');
     }
     
     return $this->_database->delete($this->name, $condition);
