@@ -2,6 +2,8 @@
 
 require_once 'lib/Model.php';
 
+require_once 'application/models/adapters/MatrixAdapter.php';
+
 /**
  * Model class for tested implementations
  *
@@ -12,6 +14,9 @@ require_once 'lib/Model.php';
  */
 class ImplementationModel extends Model
 {
+  /* ORM */
+  const persistentTable = 'implementation';
+  
   /**
    * Implementation ID
    * @var int
@@ -46,6 +51,14 @@ class ImplementationModel extends Model
     return $this;
   }
  
+  /**
+  * Sets the database adapter for this model
+  */
+  protected function setAdapter()
+  {
+    $this->_persistentAdapter = MatrixAdapter::getInstance();
+  }
+  
   /**
    * @return int
    */

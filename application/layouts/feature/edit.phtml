@@ -1,19 +1,35 @@
+<?php $feature = $this->feature; ?>
     <form action="<?php echo $this->escape($this->getURL('feature', 'save')); ?>" method="POST"
           style="width: 100%">
-      <input type="hidden" name="id" value="<?php echo $this->feature->id; ?>">
+      <input type="hidden" name="id" value="<?php echo $feature->id; ?>">
       <table style="width: 100%">
         <tr>
           <th>Title</th>
-          <td><input name="title" type="text" style="width: 99%"
-                     value="<?php echo $this->escape($this->feature->title); ?>"></td>
+          <td><input name="title" style="width: 99%"
+                     value="<?php echo $this->escape($feature->title); ?>"></td>
         </tr>
         <tr>
           <th style="vertical-align: top">Code</th>
           <td><textarea name="code" cols="80" rows="4" style="width: 99%"
-                        ><?php echo $this->escape($this->feature->code); ?></textarea></td>
+                        ><?php echo $this->escape($feature->code); ?></textarea></td>
+        </tr>
+        <tr>
+          <th>Edition</th>
+          <td><input name="edition" size="1"
+                     value="<?php echo $this->escape($feature->edition); ?>"></td>
+        </tr>
+        <tr>
+          <th>Section</th>
+          <td><input name="section" size="15"
+                     value="<?php echo $this->escape($feature->section); ?>"></td>
+        </tr>
+        <tr>
+          <th>Section URN</th>
+          <td><input name="section_urn" size="15"
+                     value="<?php echo $this->escape($feature->section_urn); ?>"></td>
         </tr>
 <?php
-  if ($this->feature->id)
+  if ($feature->id)
   {
 ?>
         <tr>
@@ -33,7 +49,7 @@
               }
             </script>
 <?php
-  $testcases = $this->feature->testcases;
+  $testcases = $feature->testcases;
   if (is_array($testcases))
   {
     foreach ($testcases as $key => $testcase)

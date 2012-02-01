@@ -10,7 +10,7 @@ require_once 'lib/Model.php';
  *   ID of the last inserted row, or the last value from
      a sequence object, depending on the underlying driver.
  */
-abstract class Table extends Model
+abstract class Table /* extends Model */
 {
   /**
    * Name of the table
@@ -155,7 +155,7 @@ abstract class Table extends Model
         '$id and $condition cannot both be null');
     }
     
-    return $this->_database->delete($this->name, $condition);
+    return $this->_database->delete($this->_name, $condition);
   }
   
  /**

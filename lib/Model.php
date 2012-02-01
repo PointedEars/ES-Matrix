@@ -22,6 +22,14 @@ interface ILocalizable
  */
 abstract class Model
 {
+  /* ORM */
+  const persistentPrimaryKey = 'id';
+  
+  /**
+   * @var Adapter
+   */
+  protected static $persistentAdapter;
+  
   /**
    * Creates a new model object
    *
@@ -30,6 +38,8 @@ abstract class Model
    */
   public function __construct(array $data = null, array $mapping = null)
   {
+    $this->setAdapter();
+    
     if (!is_null($data))
     {
       $this->map($data, $mapping);
@@ -49,7 +59,7 @@ abstract class Model
     if (strpos($name, 'persistent') === 0)
     {
       $class = get_class($this);
-      throw new Exception("Required $class::\$$name missing!");
+      return $class::${$name};
     }
     
     $method = 'get' . ucfirst($name);
@@ -188,5 +198,15 @@ abstract class Model
         'Expected null or array for $mapping, saw <pre>'
         . print_r($mapping, true) . '</pre>');
     }
+  }
+  
+  /**
+   * Finds the record for the model object in a database, and fills the object
+   * with missing data
+   * @see Adapter::find(Model)
+   */
+  public function find()
+  {
+    return $this->persistentAdapter->find($this);
   }
 }

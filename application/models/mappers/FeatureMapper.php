@@ -1,4 +1,5 @@
 <?php
+require_once 'lib/Application.php';
 require_once 'lib/Db/Mapper.php';
 
 require_once 'application/models/databases/es-matrix/tables/FeatureTable.php';
@@ -50,12 +51,19 @@ class FeatureMapper extends Mapper
     {
       $featureObj = new FeatureModel($feature);
     }
+    else
+    {
+      $featureObj = $feature;
+    }
     
     $id = $featureObj->id;
     $data = array(
-      'id'  => $id,
-      'code'  => $featureObj->code,
-      'title' => $featureObj->title,
+      'id'          => $id,
+      'code'        => $featureObj->code,
+      'title'       => $featureObj->title,
+      'edition'     => $featureObj->edition,
+      'section'     => $featureObj->section,
+      'section_urn' => $featureObj->section_urn,
 //      'created' => date('Y-m-d H:i:s'),
     );
 
@@ -69,7 +77,7 @@ class FeatureMapper extends Mapper
         debug($data);
       }
       
-      $success = $this->getDbTable()->insert($data);
+      $success = $table->insert($data);
       if ($success)
       {
         $id = $table->getLastInsertId();
@@ -86,10 +94,20 @@ class FeatureMapper extends Mapper
       /* DEBUG */
       if (defined('DEBUG') && DEBUG > 0)
       {
-        debug($feature['testcases']);
+        if (is_array($feature))
+        {
+          debug($feature['testcases']);
+        }
+        else
+        {
+          debug($feature->testcases);
+        }
       }
       
-      $success = TestcaseMapper::getInstance()->saveForFeature($id, $feature['testcases']);
+      if (is_array($feature))
+      {
+        $success = TestcaseMapper::getInstance()->saveForFeature($id, $feature['testcases']);
+      }
     }
     
     return $success;
@@ -106,10 +124,27 @@ class FeatureMapper extends Mapper
     
     foreach ($featureList->items as $key => $featureData)
     {
+      $versions = $featureData->versions;
+      $app = Application::getInstance();
+      $edition = $app->getParam('ecmascript', $versions);
+      $section = null;
+      if (!is_null($edition))
+      {
+        if (is_array($edition))
+        {
+          $urn = $app->getParam('urn', $edition);
+          $section = $app->getParam('section', $edition);
+          $edition = $edition[0];
+        }
+      }
+      
       $feature = new FeatureModel(array(
-        'id' => $key + 1,
-        'code' => $featureData->content,
-        'title' => $featureData->title
+        'id'          => $key + 1,
+        'code'        => $featureData->content,
+        'title'       => $featureData->title,
+        'edition'     => $edition,
+        'section'     => $section,
+        'section_urn' => $urn
       ));
       
       $this->save($feature);
@@ -168,9 +203,12 @@ class FeatureMapper extends Mapper
     {
       $id = $row['id'];
       $feature = new FeatureModel(array(
-        'id'        => $id,
-        'code'      => $row['code'],
-        'title'     => $row['title'],
+        'id'          => $id,
+        'code'        => $row['code'],
+        'title'       => $row['title'],
+        'edition'     => $row['edition'],
+        'section'     => $row['section'],
+        'section_urn' => $row['section_urn'],
         'testcases' => $testcaseMapper->findByFeatureId($id)
       ));
 //         ->setCreated($row->created)

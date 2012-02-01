@@ -120,7 +120,18 @@
 ?>
             <th<?php if ($feature->title) { ?> title="<?php echo $this->escape($feature->title); ?>"<?php } ?>
                ><?php echo $feature->code; ?></th>
-            <td></td>
+            <td><?php
+              if ($feature->edition)
+              {
+                echo $feature->edition;
+                if ($feature->section)
+                {
+                  ?> <span class="section" title="Specification section">[<?php
+                    echo $feature->section;
+                  ?>]</span><?php
+                }
+              }
+            ?></td>
             <td<?php
               $id = 'td' . ($key + 1);
               $testcases = $feature->testcases;

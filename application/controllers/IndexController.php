@@ -43,7 +43,7 @@ class IndexController extends Controller
   {
     require_once 'es-matrix.inc.php';
     FeatureMapper::getInstance()->importAll($features);
-    TestcaseMapper::getInstance()->importAll($features);
+//     TestcaseMapper::getInstance()->importAll($features);
     $this->indexAction();
   }
   

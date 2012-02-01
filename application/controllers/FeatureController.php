@@ -43,8 +43,11 @@ class FeatureController extends Controller
   {
     if (is_null($feature))
     {
-      $id = Application::getParam('id');
-      $feature = FeatureMapper::getInstance()->find($id);
+//       $id = Application::getParam('id');
+//       $feature = FeatureMapper::getInstance()->find($id);
+      /* ORM */
+      $feature = new FeatureModel(array('id' => Application::getParam('id')));
+      $feature->find();
     }
     
     $this->assign('feature', $feature);
@@ -63,12 +66,15 @@ class FeatureController extends Controller
     }
 
     if (FeatureMapper::getInstance()->save(array(
-         	'id'    => Application::getParam('id', $_POST),
-         	'code'  => Application::getParam('code', $_POST),
-    			'title' => Application::getParam('title', $_POST),
-         	'testcases' => array(
+         	'id'          => Application::getParam('id', $_POST),
+         	'code'        => Application::getParam('code', $_POST),
+    			'title'       => Application::getParam('title', $_POST),
+    			'edition'     => Application::getParam('edition', $_POST),
+    			'section'     => Application::getParam('section', $_POST),
+    			'section_urn' => Application::getParam('section_urn', $_POST),
+         	'testcases'   => array(
          	  'titles' => Application::getParam('testcase_title', $_POST),
-         	  'codes' =>  Application::getParam('testcase_code', $_POST),
+         	  'codes'  =>  Application::getParam('testcase_code', $_POST),
        	  )
        )))
     {
