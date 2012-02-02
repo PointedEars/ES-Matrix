@@ -1,3 +1,55 @@
+#antiSOPA {
+  overflow: auto;
+  color: white;
+}
+
+.antiSOPA p {
+  clear: left;
+  text-align: left;
+}
+
+.antiSOPA a:link {
+  color: #ccc;
+}
+
+.antiSOPA a:link:hover {
+  color: #fff;
+}
+
+.antiSOPA a:visited {
+  color: #fff;
+}
+
+.antiSOPA a:visited:hover {
+  color: #ccc;
+}
+
+.antiSOPA .pill {
+  padding-left: 35px;
+}
+
+.antiSOPA ul {
+  float: left;
+  margin-left: 0;
+  margin-top: 0;
+  list-style: none;
+}
+
+.antiSOPA li {
+  margin-left: 0;
+  float: left;
+  width: 42%;
+}
+
+.antiSOPA .red {
+  background: url(/media/video/img/pill-red-small.png) no-repeat;
+}
+
+.antiSOPA .blue {
+  margin-left: 1em;
+  background: url(/media/video/img/pill-blue-small.png) no-repeat;
+}
+
 body {
   background-color: white;
   color: black;

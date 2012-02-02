@@ -1,11 +1,11 @@
 <?php
 
-require_once 'lib/Model.php';
+require_once 'lib/AbstractModel.php';
 
 /**
  * Model class for implementation versions
  */
-class VersionModel extends Model
+class VersionModel extends AbstractModel
 {
   protected $_id;
   protected $_implementation_id;

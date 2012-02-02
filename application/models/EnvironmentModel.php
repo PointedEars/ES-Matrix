@@ -1,11 +1,11 @@
 <?php
 
-require_once 'lib/Model.php';
+require_once 'lib/AbstractModel.php';
 
 /**
  * Model class for test environments
  */
-class EnvironmentModel extends Model
+class EnvironmentModel extends AbstractModel
 {
   protected $_id;
   protected $_name;

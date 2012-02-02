@@ -1,6 +1,6 @@
 <?php
 
-require_once 'lib/Model.php';
+require_once 'lib/AbstractModel.php';
 
 require_once 'application/models/adapters/MatrixAdapter.php';
 
@@ -12,7 +12,7 @@ require_once 'application/models/adapters/MatrixAdapter.php';
  * @property string $name
  * @property string $acronym
  */
-class ImplementationModel extends Model
+class ImplementationModel extends AbstractModel
 {
   /* ORM */
   const persistentTable = 'implementation';

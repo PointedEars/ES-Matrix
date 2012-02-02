@@ -43,11 +43,11 @@ class FeatureController extends Controller
   {
     if (is_null($feature))
     {
-//       $id = Application::getParam('id');
-//       $feature = FeatureMapper::getInstance()->find($id);
+      $id = Application::getParam('id');
+      $feature = FeatureMapper::getInstance()->find($id);
       /* ORM */
-      $feature = new FeatureModel(array('id' => Application::getParam('id')));
-      $feature->find();
+//       $feature = new FeatureModel(array('id' => Application::getParam('id')));
+//       $feature->find();
     }
     
     $this->assign('feature', $feature);

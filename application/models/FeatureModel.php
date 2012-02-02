@@ -2,7 +2,7 @@
 
 require_once 'includes/global.inc';
 
-require_once 'lib/Model.php';
+require_once 'lib/AbstractModel.php';
 
 require_once 'application/models/adapters/MatrixAdapter.php';
 require_once 'application/models/TestcaseModel.php';
@@ -12,10 +12,10 @@ require_once 'application/models/TestcaseModel.php';
  *
  * @author Thomas Lahn
  */
-class FeatureModel extends Model
+class FeatureModel extends AbstractModel
 {
   /* ORM */
-  const persistentTable = 'feature';
+//   const persistentTable = 'feature';
   
   /**
    * ID of the feature
@@ -217,10 +217,10 @@ class FeatureModel extends Model
   /**
    * Finds a feature by ID
    */
-  public function find()
-  {
-    parent::find();
-    $this->setTestcases(TestcaseModel::findByFeatureId($this->id));
-  }
+//   public function find()
+//   {
+//     parent::find();
+//     $this->setTestcases(TestcaseModel::findByFeatureId($this->id));
+//   }
 }
 

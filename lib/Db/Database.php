@@ -2,14 +2,14 @@
 
 require_once 'includes/global.inc';
 
-require_once 'lib/Model.php';
+require_once 'lib/AbstractModel.php';
 
 /**
  * Generic database model class using PDO (PHP Data Objects)
  *
  * @author Thomas Lahn
  */
-class Database extends Model
+class Database extends AbstractModel
 {
   /**
    * DSN of the database

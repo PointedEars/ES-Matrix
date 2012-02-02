@@ -49,7 +49,7 @@ class EnvironmentMapper extends Mapper
    *   ID of the inserted or existing record,
    *   <code>null</code> otherwise.
    */
-  public function save($user_agent, $version_id = 0)
+  public function save($user_agent, $version_id)
   {
     $table = $this->getDbTable();
     

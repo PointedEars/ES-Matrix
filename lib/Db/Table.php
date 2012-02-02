@@ -1,6 +1,6 @@
 <?php
 
-require_once 'lib/Model.php';
+require_once 'lib/AbstractModel.php';
 
 /**
  * Generic database table model class
@@ -10,7 +10,7 @@ require_once 'lib/Model.php';
  *   ID of the last inserted row, or the last value from
      a sequence object, depending on the underlying driver.
  */
-abstract class Table /* extends Model */
+abstract class Table extends AbstractModel
 {
   /**
    * Name of the table

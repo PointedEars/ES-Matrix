@@ -182,6 +182,9 @@ class FeatureMapper extends Mapper
     $feature->setId($id)
             ->setCode($row['code'])
             ->setTitle($row['title'])
+            ->setEdition($row['edition'])
+            ->setSection($row['section'])
+            ->setSection_URN($row['section_urn'])
             ->setTestcases(TestcaseMapper::getInstance()->findByFeatureId($id))
 //             ->setCreated($row['created'])
     ;

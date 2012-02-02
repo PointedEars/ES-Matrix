@@ -1,6 +1,6 @@
 <?php
 
-require_once 'lib/Model.php';
+require_once 'lib/AbstractModel.php';
 
 /**
  * Model class for test results
@@ -10,7 +10,7 @@ require_once 'lib/Model.php';
  * @property int $environment_id
  * @property bool $value
  */
-class ResultModel extends Model
+class ResultModel extends AbstractModel
 {
   /**
    * Result ID

@@ -64,18 +64,14 @@ class ResultMapper extends Mapper
       }
     }
     
-    if (!is_null($ver_id) && $ver_id > 0)
-    {
-      $data['version_id'] = $ver_id;
-    }
-    else
-    {
-      $ver_id = 0;
-    }
-    
     /* DEBUG */
     if (defined('DEBUG') && DEBUG > 0)
     {
+      if (!is_null($ver_id) && $ver_id > 0)
+      {
+        $data['version_id'] = $ver_id;
+      }
+    
       debug($data);
     }
     

@@ -1,5 +1,7 @@
 <?php
 
+require_once 'lib/Model.php';
+
 abstract class Adapter
 {
   /**
