@@ -26,7 +26,7 @@ class FeatureController extends Controller
     Application::redirect();
   }
   
-  protected function newAction()
+  protected function addAction()
   {
     $feature = new FeatureModel();
     $this->editAction($feature);

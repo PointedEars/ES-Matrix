@@ -1,4 +1,5 @@
 <?php $feature = $this->feature; ?>
+    <h2><?php if ($feature->id) { ?>Edit<?php } else { ?>Add<?php } ?> Feature</h2>
     <form action="<?php echo $this->escape($this->getURL('feature', 'save')); ?>" method="POST"
           style="width: 100%">
       <input type="hidden" name="id" value="<?php echo $feature->id; ?>">
@@ -28,10 +29,7 @@
           <td><input name="section_urn" size="15"
                      value="<?php echo $this->escape($feature->section_urn); ?>"></td>
         </tr>
-<?php
-  if ($feature->id)
-  {
-?>
+
         <tr>
           <th style="vertical-align: top">Testcases</th>
           <td><script type="text/javascript">
@@ -119,9 +117,6 @@
                     onclick="addTestcase(this)">Add</button>
           </td>
         </tr>
-<?php
-  }
-?>
       </table>
       <button type="submit">Save</button>
       <button type="submit" name="cancel" value="1" class="negative"

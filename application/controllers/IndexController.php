@@ -28,10 +28,13 @@ class IndexController extends Controller
     $implementations = ImplementationMapper::getInstance()->fetchAll();
 
     /* DEBUG */
-//     debug($implementations);
+    if (defined('DEBUG') && DEBUG > 0)
+    {
+      debug($implementations);
+    }
         
     $features = FeatureMapper::getInstance()->fetchAll();
-    usort($features, array('FeatureModel', 'compareTo'));
+    usort($features, array('FeatureModel', 'compare'));
 
     $this->assign('edit', isset($_SESSION['edit']));
     $this->assign('implementations', $implementations);

@@ -21,7 +21,7 @@ class FeatureModel extends AbstractModel
    * ID of the feature
    * @var int
    */
-  protected $_id;
+  protected $_id = null;
 
   /**
    * Code that identifies the feature in the frontend
@@ -33,34 +33,34 @@ class FeatureModel extends AbstractModel
    * <code>title</code> attribute of the feature, if any
    * @var string
    */
-  protected $_title;
+  protected $_title = null;
   
   /**
    * ECMAScript Edition that describes the feature, if any
    * @var int
    */
-  protected $_edition;
+  protected $_edition = null;
   
   /**
    * Section of the ECMAScript Language Specification that describes
    * the feature, if any
    * @var string
    */
-  protected $_section;
+  protected $_section = null;
   
   /**
    * URN to refer to the section of the ECMAScript Language Specification
    * that describes the feature, if any
    * @var string
    */
-  protected $_section_urn;
+  protected $_section_urn = null;
 //   protected $_created;
 
   /**
    * Testcases for the feature
    * @var array[TestcaseModel]
    */
-  protected $_testcases;
+  protected $_testcases = null;
 
   /**
    * Database adapter
@@ -82,7 +82,7 @@ class FeatureModel extends AbstractModel
    */
   public function setId($id)
   {
-    $this->_id = (int) $id;
+    $this->_id = is_null($id) ? $id : (int) $id;
     return $this;
   }
  
@@ -118,7 +118,9 @@ class FeatureModel extends AbstractModel
    */
   public function setTitle($title)
   {
-    $this->_title = htmlEntityDecode(trim((string) $title), ENT_QUOTES, 'UTF-8');
+    $this->_title = is_null($title)
+                  ? $title
+                  : htmlEntityDecode(trim((string) $title), ENT_QUOTES, 'UTF-8');
     return $this;
   }
   
@@ -136,7 +138,7 @@ class FeatureModel extends AbstractModel
    */
   public function setEdition($edition)
   {
-    $this->_edition = (int) $edition;
+    $this->_edition = is_null($edition) ? $edition : (int) $edition;
     return $this;
   }
   
@@ -154,7 +156,7 @@ class FeatureModel extends AbstractModel
    */
   public function setSection($section)
   {
-    $this->_section = (string) $section;
+    $this->_section = is_null($section) ? $section : (string) $section;
     return $this;
   }
   
@@ -172,7 +174,7 @@ class FeatureModel extends AbstractModel
   */
   public function setSection_URN($urn)
   {
-    $this->_section_urn = (string) $urn;
+    $this->_section_urn = is_null($urn) ? $urn : (string) $urn;
     return $this;
   }
   
@@ -190,7 +192,7 @@ class FeatureModel extends AbstractModel
    */
   public function setTestcases($testcases)
   {
-    $this->_testcases = $testcases;
+    $this->_testcases = is_array($testcases) ? $testcases : null;
     return $this;
   }
   
@@ -205,7 +207,7 @@ class FeatureModel extends AbstractModel
 //   public function setCreated($timestamp);
 //   public function getCreated();
 
-  static function compareTo(FeatureModel $a, FeatureModel $b)
+  static function compare(FeatureModel $a, FeatureModel $b)
   {
     $al = strip_tags($a->code);
     $bl = strip_tags($b->code);

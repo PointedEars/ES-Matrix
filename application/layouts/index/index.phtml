@@ -23,16 +23,20 @@
              summary="Language features and the first editions of ECMAScript or first versions of the implementations that introduced or supported them">
         <thead>
           <tr>
+            <td style="width: 7em">&nbsp;</td>
+            <th id="atoz">
 <?php
   if ($this->edit)
   {
 ?>
-            <td style="width: 7em"
-                ><a href="<?php echo $this->escape($this->getURL('feature', 'new')); ?>">New</a></td>
+              <a href="<?php echo $this->escape($this->getURL('feature', 'add')); ?>"
+                 title="Add feature"
+                 class="add">Add</a>
 <?php
   }
 ?>
-            <th id="atoz">Feature</th>
+              Feature
+            </th>
             <th><a href="#ecmascript">ECMAScript</a></th>
             <th>This <abbr title="implementation">impl.</abbr><?php
                 // $footnotes->add('this-impl', '', $scriptEngineTest, '');
@@ -90,9 +94,25 @@
               {
                 ?></abbr><?php
               }
+              
+              if ($this->edit)
+              {
+                ?><br>
+                <a href="<?php echo $this->escape($this->getURL('implementation', 'edit', $impl->id)); ?>"
+                   class="edit">Edit</a><?php
+              }
             ?></td>
 <?php
     }
+  }
+  
+  if ($this->edit)
+  {
+?>
+            <td><a href="<?php echo $this->escape($this->getURL('implementation', 'add')); ?>"
+                   title="Add implementation"
+                   class="add">Add</a></td>
+<?php
   }
 ?>
           </tr>
@@ -107,8 +127,8 @@
     if ($this->edit)
     {
 ?>
-            <td><a href="<?php echo $this->escape($this->getURL('feature', 'edit')); ?>&amp;id=<?php echo $feature->id; ?>"
-                   class="modify">Edit</a>
+            <td><a href="<?php echo $this->escape($this->getURL('feature', 'edit', $feature->id)); ?>"
+                   class="edit">Edit</a>
                 <form action="<?php echo $this->escape($this->getURL('feature', 'delete')); ?>" method="POST"
                       onsubmit="return window.confirm('Delete feature &quot;<?php echo addslashes($this->escape(strip_tags($feature->code))); ?>&quot;?')"
                       style="display: inline">
@@ -159,11 +179,16 @@
                 foreach ($testcases as $testcase_key => $testcase)
                 {
                   ?><script type="text/javascript">
+                    var result = false;
+                  </script>
+                  <script type="text/javascript">
                     // <![CDATA[
-                    var result = test(<?php echo $testcase->code; ?>, true, false);
+                    result = test(<?php echo $testcase->code; ?>, true, false);
+                    // ]]>
+                  </script>
+                  <script type="text/javascript">
                     results[<?php echo $testcase_key; ?>] = result;
                     document.write('<input type="hidden" name="results[<?php echo $testcase->id; ?>]" value="' + (result ? '1' : '0') + '">');
-                    // ]]>
                   </script><?php
                 }
                 ?><script type="text/javascript">

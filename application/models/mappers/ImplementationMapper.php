@@ -60,9 +60,33 @@ class ImplementationMapper extends Mapper
   public function save($implementation)
   {
     $table = $this->getDbTable();
-    if (!$table->insert(array('name' => $implementation)))
+    if (is_array($implementation))
     {
-      return $this->getIdByName($implementation);
+      $implObj = new ImplementationModel($implementation);
+      
+      $id = $implObj->id;
+      $data = array(
+        'sortorder' => $implObj->sortorder,
+        'name'      => $implObj->name,
+        'acronym'   => $implObj->acronym,
+//        'created' => date('Y-m-d H:i:s'),
+      );
+      
+      if (defined('DEBUG') && DEBUG > 0)
+      {
+        debug($data);
+      }
+
+      $success = $table->updateOrInsert($data, array('id' => $id));
+      
+      return $success;
+    }
+    else
+    {
+      if (!$table->insert(array('name' => $implementation)))
+      {
+        return $this->getIdByName($implementation);
+      }
     }
     
     return $table->lastInsertId;
@@ -106,5 +130,38 @@ class ImplementationMapper extends Mapper
     
     return $impls;
   }
-}
 
+  /**
+   * Finds a feature in the features table by ID
+   *
+   * @param int $id
+   * @param ImplementationModel[optional] $feature
+   *   TODO: Why?
+   * @return ImplementationModel
+   */
+  public function find($id, ImplementationModel $impl = null)
+  {
+    $result = $this->getDbTable()->find($id);
+    if (0 == count($result))
+    {
+      return null;
+    }
+    
+    $row = $result[0];
+    
+    if (is_null($impl))
+    {
+      $impl = new ImplementationModel();
+    }
+    
+    $id = $row['id'];
+    $impl->setId($id)
+         ->setSortOrder($row['sortorder'])
+         ->setName($row['name'])
+         ->setAcronym($row['acronym'])
+    //             ->setCreated($row['created'])
+    ;
+    
+    return $impl;
+  }
+}

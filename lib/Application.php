@@ -159,12 +159,17 @@ class Application
 
   /**
    * Returns a relative URI reference for an action of the application
+   *
+   * @param string[optional] $controller
+   * @param string[optional] $action
+   * @param int[optional] $id
    */
-  public function getURL($controller = null, $action = 'index')
+  public function getURL($controller = null, $action = 'index', $id = null)
   {
     return $_SERVER['SCRIPT_URL']
       . '?' . (!is_null($controller) ? 'controller=' . $controller : '')
-      . ($action !== 'index' ? '&action=' . $action : '');
+      . ($action !== 'index' ? '&action=' . $action : '')
+      . (!is_null($id) ? '&id=' . $id : '');
   }
     
   /**

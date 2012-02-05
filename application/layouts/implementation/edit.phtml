@@ -1,0 +1,26 @@
+<?php $impl = $this->implementation; ?>
+    <h2><?php if ($impl->id) { ?>Edit<?php } else { ?>Add<?php } ?> Implementation</h2>
+    <form action="<?php echo $this->escape($this->getURL('implementation', 'save')); ?>" method="POST"
+          style="width: 100%">
+      <input type="hidden" name="id" value="<?php echo $impl->id; ?>">
+      <table style="width: 100%">
+        <tr>
+          <th>Name</th>
+          <td><input name="impl_name" style="width: 99%"
+                     value="<?php echo $this->escape($impl->name); ?>"></td>
+        </tr>
+        <tr>
+          <th>Acronym</th>
+          <td><input name="acronym" style="width: 99%"
+                     value="<?php echo $this->escape($impl->acronym); ?>"></td>
+        </tr>
+        <tr>
+          <th>Sort Order</th>
+          <td><input name="sortorder" size="15"
+                     value="<?php echo $this->escape($impl->sortorder); ?>"></td>
+        </tr>
+      </table>
+      <button type="submit">Save</button>
+      <button type="submit" name="cancel" value="1" class="negative"
+              onclick="history.back(); return false">Cancel</button>
+    </form>

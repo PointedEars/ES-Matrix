@@ -176,9 +176,15 @@ class View
     return $this->_content;
   }
   
-  public function getURL($controller = null, $action = 'index')
+  /**
+   * @param string[optional] $controller
+   * @param string[optional] $action
+   * @param int[optional] $id
+   * @see Application::getURL()
+   */
+  public function getURL($controller = null, $action = 'index', $id = null)
   {
-    return Application::getInstance()->getURL($controller, $action);
+    return Application::getInstance()->getURL($controller, $action, $id);
   }
 }
 

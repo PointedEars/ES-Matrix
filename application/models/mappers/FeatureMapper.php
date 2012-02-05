@@ -58,7 +58,6 @@ class FeatureMapper extends Mapper
     
     $id = $featureObj->id;
     $data = array(
-      'id'          => $id,
       'code'        => $featureObj->code,
       'title'       => $featureObj->title,
       'edition'     => $featureObj->edition,
@@ -68,29 +67,20 @@ class FeatureMapper extends Mapper
     );
 
     $table = $this->getDbTable();
-    if (is_null($id) || $id === 0)
+    if (defined('DEBUG') && DEBUG > 0)
     {
-      unset($data['id']);
-
-      if (defined('DEBUG') && DEBUG > 0)
-      {
-        debug($data);
-      }
+      debug($data);
+    }
       
-      $success = $table->insert($data);
-      if ($success)
-      {
-        $id = $table->getLastInsertId();
-      }
-    }
-    else
-    {
-      /* TODO: Why updateOrInsert() here?  What about potential new ID? */
-      $success = $table->updateOrInsert($data, array('id' => $id));
-    }
+    $success = $table->updateOrInsert($data, array('id' => $id));
     
     if ($success)
     {
+      if ($table->lastInsertId)
+      {
+        $id = $table->lastInsertId;
+      }
+      
       /* DEBUG */
       if (defined('DEBUG') && DEBUG > 0)
       {
@@ -156,43 +146,6 @@ class FeatureMapper extends Mapper
   }
   
   /**
-   * Finds a feature in the features table by ID
-   *
-   * @param int $id
-   * @param FeatureModel[optional] $feature
-   *   TODO: Why?
-   * @return Feature
-   */
-  public function find($id, FeatureModel $feature = null)
-  {
-    $result = $this->getDbTable()->find($id);
-    if (0 == count($result))
-    {
-      return null;
-    }
-    
-    $row = $result[0];
-    
-    if (is_null($feature))
-    {
-      $feature = new FeatureModel();
-    }
-    
-    $id = $row['id'];
-    $feature->setId($id)
-            ->setCode($row['code'])
-            ->setTitle($row['title'])
-            ->setEdition($row['edition'])
-            ->setSection($row['section'])
-            ->setSection_URN($row['section_urn'])
-            ->setTestcases(TestcaseMapper::getInstance()->findByFeatureId($id))
-//             ->setCreated($row['created'])
-    ;
-    
-    return $feature;
-  }
-  
-  /**
    * Fetches all records from the features table
    *
    * @return array
@@ -222,6 +175,43 @@ class FeatureMapper extends Mapper
 //     debug($features);
     
     return $features;
+  }
+  
+  /**
+  * Finds a feature in the features table by ID
+  *
+  * @param int $id
+  * @param FeatureModel[optional] $feature
+  *   TODO: Why?
+  * @return FeatureModel
+  */
+  public function find($id, FeatureModel $feature = null)
+  {
+    $result = $this->getDbTable()->find($id);
+    if (0 == count($result))
+    {
+      return null;
+    }
+  
+    $row = $result[0];
+  
+    if (is_null($feature))
+    {
+      $feature = new FeatureModel();
+    }
+  
+    $id = $row['id'];
+    $feature->setId($id)
+            ->setCode($row['code'])
+            ->setTitle($row['title'])
+            ->setEdition($row['edition'])
+            ->setSection($row['section'])
+            ->setSection_URN($row['section_urn'])
+            ->setTestcases(TestcaseMapper::getInstance()->findByFeatureId($id))
+    //             ->setCreated($row['created'])
+    ;
+  
+    return $feature;
   }
   
   /**

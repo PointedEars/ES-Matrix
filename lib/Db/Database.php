@@ -58,7 +58,7 @@ class Database extends AbstractModel
   * depending on the underlying driver. May not be supported by all databases.
   * @var string
   */
-  protected $_lastInsertId;
+  protected $_lastInsertId = '';
   
   public function __construct()
   {
@@ -67,11 +67,11 @@ class Database extends AbstractModel
   }
   
   /**
-  * Initiates a transaction
-  *
-  * @return bool
-  * @see PDO::beginTransaction()
-  */
+   * Initiates a transaction
+   *
+   * @return bool
+   * @see PDO::beginTransaction()
+   */
   public function beginTransaction()
   {
     return $this->_connection->beginTransaction();
@@ -120,26 +120,26 @@ class Database extends AbstractModel
   }
   
   /**
-  * Escapes a database name so that it can be used in a query.
-  *
-  * @param string $name
-  *   The name to be escaped
-  * @return string
-  *   The escaped name
-  */
+   * Escapes a database name so that it can be used in a query.
+   *
+   * @param string $name
+   *   The name to be escaped
+   * @return string
+   *   The escaped name
+   */
   public static function escapeName($name)
   {
     return $name;
   }
   
   /**
-  * Determines if an array is associative (does not have a '0' key)
-  *
-  * @param array $a
-  * @return boolean
-  *   <code>true</code> if <var>$a</var> is associative,
-  *   <code>false</code> otherwise
-  */
+   * Determines if an array is associative (does not have a '0' key)
+   *
+   * @param array $a
+   * @return boolean
+   *   <code>true</code> if <var>$a</var> is associative,
+   *   <code>false</code> otherwise
+   */
   private function _isAssociativeArray(array $a)
   {
     return !array_key_exists(0, $a);
@@ -167,11 +167,11 @@ class Database extends AbstractModel
   }
     
   /**
-  * Constructs the WHERE part of a query
-  *
-  * @param string|array $where Condition
-  * @return string
-  */
+   * Constructs the WHERE part of a query
+   *
+   * @param string|array $where Condition
+   * @return string
+   */
   protected function _where($where)
   {
     if (!is_null($where))
@@ -198,16 +198,16 @@ class Database extends AbstractModel
   }
 
   /**
-  * Selects data from one or more tables; the resulting records are stored
-  * in the <code>result</code> property.
-  *
-  * @param string|array[string] $tables Table(s) to select from
-  * @param string|array[string] $columns Column(s) to select from (optional)
-  * @param string|array $where Condition (optional)
-  * @param string $order Sort order (optional)
-  * @param string $limit Limit (optional)
-  * @return array
-  */
+   * Selects data from one or more tables; the resulting records are stored
+   * in the <code>result</code> property.
+   *
+   * @param string|array[string] $tables Table(s) to select from
+   * @param string|array[string] $columns Column(s) to select from (optional)
+   * @param string|array $where Condition (optional)
+   * @param string $order Sort order (optional)
+   * @param string $limit Limit (optional)
+   * @return array
+   */
   public function select($tables, $columns = null, $where = null, $order = null, $limit = null)
   {
     if (is_null($columns))
@@ -281,6 +281,31 @@ class Database extends AbstractModel
   }
 
   /**
+   * Sets and returns the ID of the last inserted row, or the last value from
+   * a sequence object, depending on the underlying driver.
+   *
+   * @param string $name
+   *   Name of the sequence object from which the ID should be returned.
+   * @return string
+   */
+  protected function _setLastInsertId($name = null)
+  {
+    return ($this->_lastInsertId = $this->_connection->lastInsertId($name));
+  }
+
+  /**
+   * Resets the the ID of the last inserted row, or the last value from
+   * a sequence object, depending on the underlying driver.
+   *
+   * @return string
+   *   The default value
+   */
+  protected function _resetLastInsertId()
+  {
+    return ($this->_lastInsertId = '');
+  }
+  
+  /**
    * Updates one or more records
    *
    * @param string|array $tables
@@ -345,6 +370,8 @@ class Database extends AbstractModel
     $success =& $this->_lastSuccess;
     $success =  $stmt->execute($params);
     
+    $this->_resetLastInsertId();
+    
     $result =& $this->_lastResult;
     $result =  $stmt->fetchAll();
     
@@ -360,39 +387,26 @@ class Database extends AbstractModel
   }
   
   /**
-   * Sets and returns the ID of the last inserted row, or the last value from
-   * a sequence object, depending on the underlying driver.
+   * Inserts a record into a table.<p>The AUTO_INCREMENT value of the inserted
+   * row, if any (> 0), is stored in the {@link $lastId} property of
+   * the <code>Database</code> instance.</p>
    *
-   * @param string $name
-   *   Name of the sequence object from which the ID should be returned.
-   * @return string
+   * @param string $table
+   *   Table name
+   * @param array|string $values
+   *   Associative array of column-value pairs, indexed array,
+   *   or comma-separated list of values.  If <var>$values</var> is not
+   *   an associative array, <var>$cols</var> must be passed if the
+   *   values are not in column order (see below).
+   * @param array|string $cols
+   *   Indexed array, or comma-separated list of column names.
+   *   Needs only be passed if <var>$values</var> is not an associative array
+   *   and the values are not in column order (default: <code>null</code>);
+   *   is ignored otherwise.  <strong>You SHOULD NOT rely on column order.</strong>
+   * @return bool
+   *   <code>true</code> if successful, <code>false</code> otherwise
+   * @see PDOStatement::execute()
    */
-  protected function _setLastInsertId($name = null)
-  {
-    return ($this->_lastInsertId = $this->_connection->lastInsertId($name));
-  }
-
-  /**
-  * Inserts a record into a table.<p>The AUTO_INCREMENT value of the inserted
-  * row, if any (> 0), is stored in the {@link $lastId} property of
-  * the <code>Database</code> instance.</p>
-  *
-  * @param string $table
-  *   Table name
-  * @param array|string $values
-  *   Associative array of column-value pairs, indexed array,
-  *   or comma-separated list of values.  If <var>$values</var> is not
-  *   an associative array, <var>$cols</var> must be passed if the
-  *   values are not in column order (see below).
-  * @param array|string $cols
-  *   Indexed array, or comma-separated list of column names.
-  *   Needs only be passed if <var>$values</var> is not an associative array
-  *   and the values are not in column order (default: <code>null</code>);
-  *   is ignored otherwise.  <strong>You SHOULD NOT rely on column order.</strong>
-  * @return bool
-  *   <code>true</code> if successful, <code>false</code> otherwise
-  * @see PDOStatement::execute()
-  */
   public function insert($table, $values, $cols = null)
   {
     if ($cols != null)
@@ -472,14 +486,14 @@ class Database extends AbstractModel
   }
     
   /**
-  * Retrieves all rows from a table
-  *
-  * @param int[optional] $fetch_style
-  * @param int[optional] $column_index
-  * @param array[optional] $ctor_args
-  * @return array
-  * @see PDOStatement::fetchAll()
-  */
+   * Retrieves all rows from a table
+   *
+   * @param int[optional] $fetch_style
+   * @param int[optional] $column_index
+   * @param array[optional] $ctor_args
+   * @return array
+   * @see PDOStatement::fetchAll()
+   */
   public function fetchAll($table, $fetch_style = null, $column_index = null, array $ctor_args = null)
   {
     /* NOTE: Cannot use table name as statement parameter */
