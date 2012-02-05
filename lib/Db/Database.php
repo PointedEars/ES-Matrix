@@ -255,7 +255,7 @@ class Database extends AbstractModel
     }
 
     /* DEBUG */
-    if (defined('DEBUG') && DEBUG > 0)
+    if (defined('DEBUG') && DEBUG > 1)
     {
       debug(array(
       	'query'  => $query,
@@ -269,7 +269,7 @@ class Database extends AbstractModel
     $result =& $this->_lastResult;
     $result =  $stmt->fetchAll();
     
-    if (defined('DEBUG') && DEBUG > 0)
+    if (defined('DEBUG') && DEBUG > 1)
     {
       debug(array(
         '_lastSuccess' => $success,
@@ -359,7 +359,7 @@ class Database extends AbstractModel
     }
 
     /* DEBUG */
-    if (defined('DEBUG') && DEBUG > 0)
+    if (defined('DEBUG') && DEBUG > 1)
     {
       debug(array(
         'query'  => $query,
@@ -375,7 +375,7 @@ class Database extends AbstractModel
     $result =& $this->_lastResult;
     $result =  $stmt->fetchAll();
     
-    if (defined('DEBUG') && DEBUG > 0)
+    if (defined('DEBUG') && DEBUG > 1)
     {
       debug(array(
         '_lastSuccess' => $success,
@@ -422,7 +422,10 @@ class Database extends AbstractModel
     }
   
     /* DEBUG */
-//     debug($values);
+    if (defined('DEBUG') && DEBUG > 2)
+    {
+      debug(array('values' => $values));
+    }
   
     $params = array();
     
@@ -457,7 +460,7 @@ class Database extends AbstractModel
     $stmt = $this->prepare($query);
   
       /* DEBUG */
-    if (defined('DEBUG') && DEBUG > 0)
+    if (defined('DEBUG') && DEBUG > 1)
     {
        debug(array(
          'query'  => $query,
@@ -473,7 +476,7 @@ class Database extends AbstractModel
     $result =& $this->_lastResult;
     $result =  $stmt->fetchAll();
 
-    if (defined('DEBUG') && DEBUG > 0)
+    if (defined('DEBUG') && DEBUG > 1)
     {
       debug(array(
         '_lastSuccess'  => $success,
@@ -559,7 +562,7 @@ class Database extends AbstractModel
     }
 
     /* DEBUG */
-    if (defined('DEBUG') && DEBUG > 0)
+    if (defined('DEBUG') && DEBUG > 1)
     {
       debug(array(
         'query'  => $query,
@@ -573,7 +576,7 @@ class Database extends AbstractModel
     $result =& $this->_lastResult;
     $result =  $stmt->fetchAll();
     
-    if (defined('DEBUG') && DEBUG > 0)
+    if (defined('DEBUG') && DEBUG > 1)
     {
       debug(array(
         '_lastSuccess'  => $success,

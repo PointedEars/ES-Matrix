@@ -182,9 +182,14 @@
                     var result = false;
                   </script>
                   <script type="text/javascript">
-                    // <![CDATA[
-                    result = test(<?php echo $testcase->code; ?>, true, false);
-                    // ]]>
+                    <?php
+                      $code = $testcase->code;
+                      if ($testcase->quoted)
+                      {
+                        $code = '"' . preg_replace('/(\\r?\\n|\\r)/', '\\n', addslashes($code)) . '"';
+                      }
+                    ?>
+                    result = test(<?php echo str_replace('</', '<\\/', $code); ?>, true, false);
                   </script>
                   <script type="text/javascript">
                     results[<?php echo $testcase_key; ?>] = result;

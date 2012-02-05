@@ -537,9 +537,14 @@ input[readonly] {
   color: inherit;
 }
 
-a.add {
+a.add, button.add {
   background-color: inherit !important;
   color: #060 !important;
+}
+
+button.add {
+  border: none;
+  text-decoration: underline;
 }
 
 a.edit {
@@ -549,6 +554,11 @@ a.edit {
 
 button.negative {
   background-color: #900;
+  color: #fff;
+}
+
+button.positive {
+  background-color: #090;
   color: #fff;
 }
 

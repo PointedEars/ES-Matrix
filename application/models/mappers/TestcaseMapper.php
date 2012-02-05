@@ -51,8 +51,9 @@ class TestcaseMapper extends Mapper
     $data = array(
       'id'  => $id,
       'feature_id'  => $testcase->feature_id,
-      'title' => $testcase->title,
-      'code' => $testcase->code
+      'title'       => $testcase->title,
+      'code'        => $testcase->code,
+      'quoted'      => $testcase->quoted
     );
 
     if (defined('DEBUG') && DEBUG > 0)
@@ -96,12 +97,15 @@ class TestcaseMapper extends Mapper
       $gluedCodes = implode('', $codes);
       if (!empty($gluedCodes))
       {
+        $quoteds = $testcases['quoteds'];
         foreach ($testcases['titles'] as $key => $title)
         {
+          $quoted = array_key_exists($key, $quoteds) ? $quoteds[$key] : null;
           $testcase = new TestcaseModel(array(
             'feature_id' => $featureId,
             'title'      => $title,
-            'code'       => $codes[$key]
+            'code'       => $codes[$key],
+            'quoted'     => $quoted
           ));
     
           /* DEBUG */
@@ -173,6 +177,11 @@ class TestcaseMapper extends Mapper
       $testcases[] = $testcase;
     }
 
+    if (defined('DEBUG') && DEBUG > 0)
+    {
+      debug(array('testcases' => $testcases));
+    }
+    
     return $testcases;
   }
   

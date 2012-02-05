@@ -41,7 +41,11 @@
                   var prefix = prefixes[i];
                   var control = deleteButton.form.elements["testcase_" + prefix + id];
                   control.parentNode.removeChild(control);
+
                 }
+
+                var label = document.getElementById("testcase_quoted" + id);
+                label.parentNode.removeChild(label);
                 
                 deleteButton.parentNode.removeChild(deleteButton);
               }
@@ -58,67 +62,116 @@
                    style="width: 99%">
             <textarea name="testcase_code[]" id="testcase_code<?php echo $key; ?>"  cols="80" rows="4"
                       style="width: 99%"><?php echo $this->escape($testcase->code); ?></textarea>
-            <button type="button" style="float: right"
+            <label style="float: left" id="testcase_quoted<?php echo $key; ?>">
+              <input type="checkbox" name="testcase_quoted[]"
+                     value="1" <?php if ($testcase->quoted) { ?>checked<?php }; ?>>
+              Surround with double-quotes</label>
+            <button type="button" class="delete" style="float: right; margin-bottom: 1em"
                     onclick="deleteTestcase(this, <?php echo $key; ?>)">Delete</button>
 <?php
     }
   }
 ?>
             <script type="text/javascript">
+              var _createElement = jsx.dom.createElementFromObj;
               function addTestcase(addButton)
               {
-                var input = document.createElement("input");
-                input.type = "text";
-                input.name = "testcase_title[]";
-                var numTestcases = [].concat(addButton.form.elements["testcase_title[]"] || []).length;
-                input.id = "testcase_title" + numTestcases;
-                input.value = "";
-                input.style.width = "99%";
+                var numTestcases = (addButton.form.elements["testcase_title[]"] || []).length;
+                var input = _createElement({
+                  type: "input",
+                  properties: {
+                    type: "text",
+                    name: "testcase_title[]",
+                    id: "testcase_title" + numTestcases,
+                    value: "",
+                    style: {
+                      width: "99%"
+                    }
+                  }
+                });
 
-                var textarea = document.createElement("textarea");
-                textarea.name = "testcase_code[]";
-                textarea.id = "testcase_code" + numTestcases;
-                textarea.cols = 80;
-                textarea.rows = 4;
-                textarea.style.width = "99%";
+                var textarea = _createElement({
+                  type: "textarea",
+                  properties: {
+                    name: "testcase_code[]",
+                    id: "testcase_code" + numTestcases,
+                    cols: 80,
+                    rows: 4,
+                    style: {
+                      width: "99%"
+                    }
+                  }
+                });
 
-                var button = document.createElement("button");
-                button.type = "button";
+                var label = _createElement({
+                  type: "label",
+                  properties: {
+                    id: "testcase_quoted" + numTestcases,
+                    style: {
+                      "float": "left",
+                    }
+                  },
+                  childNodes: [
+                    {
+                      type: "input",
+                      properties: {
+                        type: "checkbox",
+                        name: "testcase_quoted[]",
+                        value: "1",
+                      }
+                    },
+                    "Surround with double-quotes"
+                  ]
+                });
+                
+                var button = _createElement({
+                  type: "button",
+                  properties: {
+                    type: "button",
+                    className: "delete",
+                    onclick: (function (id) {
+                      return function () {
+                        deleteTestcase(this, id);
+                      };
+                    }(numTestcases)),
+                    style: {
+                      "float": "right",
+                      marginBottom: "1em"
+                    }
+                  },
+                  childNodes: [
+                    "Delete"
+                  ]
+                });
 
                 if (button.type != "button")
                 {
                   button.setAttribute("type", "button");
                 }
 
-                button.onclick = (function (id) {
-                  return function () {
-                    deleteTestcase(this, id);
-                  };
-                }(numTestcases));
-                                
-                if (typeof button.style.cssFloat != "undefined")
-                {
-                  button.style.cssFloat = "right";
-                }
-                else if (typeof button.style.styleFloat != "undefined")
-                {
-                  button.style.styleFloat = "right";
-                }
-
-                button.appendChild(document.createTextNode("Delete"));
-
                 var parentNode = addButton.parentNode;
                 parentNode.insertBefore(input, addButton);
                 parentNode.insertBefore(textarea, addButton);
+                parentNode.insertBefore(label, addButton);
                 parentNode.insertBefore(button, addButton);
               }
             </script>
-            <button type="button" name="testcase_action" value="add" style="float: left"
+            <button type="button" name="testcase_action" value="add"
+                    class="add" style="float: left; clear: both"
                     onclick="addTestcase(this)">Add</button>
           </td>
         </tr>
+        <tr>
+          <td>
+            <button type="submit" class="positive" style="float: left">Save</button>
+            <button type="submit" name="cancel" value="1" class="negative" style="float: right"
+                    onclick="history.back(); return false">Cancel</button>
+          </td>
+          <td>
+            <button type="button" value="1" class="negative" style="float: right"
+                    onclick="window.location.reload(true)">Reset</button>
+          </td>
+        </tr>
       </table>
-      <button type="submit">Save</button>
-      <button type="submit" name="cancel" value="1" class="negative"
-              onclick="history.back(); return false">Cancel</button>
     </form>
+    <div style="clear: both"><!--  --></div>
