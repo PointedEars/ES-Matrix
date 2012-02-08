@@ -37,7 +37,7 @@ class FeatureModel extends AbstractModel
   
   /**
    * ECMAScript Edition that describes the feature, if any
-   * @var int
+   * @var string
    */
   protected $_edition = null;
   
@@ -54,7 +54,18 @@ class FeatureModel extends AbstractModel
    * @var string
    */
   protected $_section_urn = null;
-//   protected $_created;
+
+  /**
+   * UTC date of creation as timestamp
+   * @var int
+   */
+  protected $_created;
+  
+  /**
+   * UTC date of last modification as timestamp
+   * @var int
+   */
+  protected $_modified;
 
   /**
    * Testcases for the feature
@@ -133,17 +144,17 @@ class FeatureModel extends AbstractModel
   }
   
   /**
-   * @param int $edition
+   * @param string $edition
    * @return FeatureModel
    */
   public function setEdition($edition)
   {
-    $this->_edition = is_null($edition) ? $edition : (int) $edition;
+    $this->_edition = is_null($edition) ? $edition : (string) $edition;
     return $this;
   }
   
   /**
-   * @return int
+   * @return string
    */
   public function getEdition()
   {
@@ -169,9 +180,9 @@ class FeatureModel extends AbstractModel
   }
 
   /**
-  * @param string $urn
-  * @return FeatureModel
-  */
+   * @param string $urn
+   * @return FeatureModel
+   */
   public function setSection_URN($urn)
   {
     $this->_section_urn = is_null($urn) ? $urn : (string) $urn;
@@ -184,6 +195,42 @@ class FeatureModel extends AbstractModel
   public function getSection_URN()
   {
     return $this->_section_urn;
+  }
+
+  /**
+   * @param string $date
+   * @return FeatureModel
+   */
+  public function setCreated($date)
+  {
+    $this->_created = is_null($date) ? $date : strtotime($date . ' GMT');
+    return $this;
+  }
+  
+  /**
+   * @return int
+   */
+  public function getCreated()
+  {
+    return $this->_created;
+  }
+  
+  /**
+   * @param string $date
+   * @return FeatureModel
+   */
+  public function setModified($date)
+  {
+    $this->_modified = is_null($date) ? $date : strtotime($date . ' GMT');
+    return $this;
+  }
+  
+  /**
+   * @return int
+   */
+  public function getModified()
+  {
+    return $this->_modified;
   }
   
   /**

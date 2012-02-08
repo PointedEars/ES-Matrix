@@ -23,7 +23,14 @@
              summary="Language features and the first editions of ECMAScript or first versions of the implementations that introduced or supported them">
         <thead>
           <tr>
+<?php
+  if ($this->edit)
+  {
+?>
             <td style="width: 7em">&nbsp;</td>
+<?php
+  }
+?>
             <th id="atoz">
 <?php
   if ($this->edit)
@@ -138,8 +145,12 @@
 <?php
     }
 ?>
-            <th<?php if ($feature->title) { ?> title="<?php echo $this->escape($feature->title); ?>"<?php } ?>
-               ><?php echo $feature->code; ?></th>
+            <th id="feature<?php echo $feature->id; ?>"<?php
+                if ($feature->title)
+                {
+                  ?> title="<?php echo $this->escape($feature->title); ?>"<?php
+                }
+                ?>><?php echo $feature->code; ?></th>
             <td><?php
               if ($feature->edition)
               {
@@ -158,10 +169,9 @@
               if (count($testcases) > 0)
               {
                 echo " id='$id'";
-  //               echo ' title="Test code: '
-  //                 . $this->escape(
-  //                     preg_replace('/\\\(["\'])/', '\1', reduceWhitespace(join($testcases[0]->code)))
-  //                 . '"';
+                echo ' title="Test code: '
+                  . $this->escape(implode("\n", array_map(create_function('$e', 'return $e->code;'), $testcases)))
+                  . '"';
               }
               else
             {

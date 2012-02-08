@@ -63,9 +63,13 @@ class FeatureMapper extends Mapper
       'edition'     => $featureObj->edition,
       'section'     => $featureObj->section,
       'section_urn' => $featureObj->section_urn,
-//      'created' => date('Y-m-d H:i:s'),
     );
 
+    if (is_null($id))
+    {
+      $data['created'] = gmdate('Y-m-d H:i:s');
+    }
+    
     $table = $this->getDbTable();
     if (defined('DEBUG') && DEBUG > 0)
     {
@@ -157,22 +161,15 @@ class FeatureMapper extends Mapper
     $testcaseMapper = TestcaseMapper::getInstance();
     foreach ($resultSet as $row)
     {
-      $id = $row['id'];
-      $feature = new FeatureModel(array(
-        'id'          => $id,
-        'code'        => $row['code'],
-        'title'       => $row['title'],
-        'edition'     => $row['edition'],
-        'section'     => $row['section'],
-        'section_urn' => $row['section_urn'],
-        'testcases' => $testcaseMapper->findByFeatureId($id)
-      ));
-//         ->setCreated($row->created)
-      ;
+      $row['testcases'] = $testcaseMapper->findByFeatureId($row['id']);
+      $feature = new FeatureModel($row);
       $features[] = $feature;
     }
 
-//     debug($features);
+    if (defined('DEBUG') && DEBUG > 1)
+    {
+      debug($features);
+    }
     
     return $features;
   }

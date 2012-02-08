@@ -40,13 +40,20 @@
       </style>
     <![endif]-->
     
+    <script type="text/javascript">
+      var jsx = {
+        options: {
+          emulate: false
+        }
+      };
+    </script>
     <script type="text/javascript"
             src="../../builder?<?php
               if ($_SERVER['HTTP_HOST'] === 'localhost')
               {
                 ?>debug=1&verbose=1&<?php
               }
-              ?>src=object,types,xpath,http,regexp,test/debug,dom,dom/css,dom/events,test/es-matrix/table"></script>
+              ?>src=object,test/debug,dom"></script>
   </head>
   
   <body onload="synhl()">

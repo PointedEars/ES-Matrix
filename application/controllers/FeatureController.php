@@ -65,8 +65,9 @@ class FeatureController extends Controller
       return;
     }
 
+    $id = Application::getParam('id', $_POST);
     if (FeatureMapper::getInstance()->save(array(
-         	'id'          => Application::getParam('id', $_POST),
+         	'id'          => $id,
          	'code'        => Application::getParam('code', $_POST),
     			'title'       => Application::getParam('title', $_POST),
     			'edition'     => Application::getParam('edition', $_POST),
@@ -79,7 +80,7 @@ class FeatureController extends Controller
        	  )
        )))
     {
-       $this->indexAction();
+      Application::redirect('#feature' . $id);
     }
   }
   

@@ -100,7 +100,12 @@ class TestcaseMapper extends Mapper
         $quoteds = $testcases['quoteds'];
         foreach ($testcases['titles'] as $key => $title)
         {
-          $quoted = array_key_exists($key, $quoteds) ? $quoteds[$key] : null;
+          $quoted = null;
+          if (is_array($quoteds) && array_key_exists($key, $quoteds))
+          {
+            $quoted = $quoteds[$key];
+          }
+          
           $testcase = new TestcaseModel(array(
             'feature_id' => $featureId,
             'title'      => $title,
