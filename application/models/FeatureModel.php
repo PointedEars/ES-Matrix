@@ -149,7 +149,7 @@ class FeatureModel extends AbstractModel
    */
   public function setEdition($edition)
   {
-    $this->_edition = is_null($edition) ? $edition : (string) $edition;
+    $this->_edition = is_null($edition) ? $edition : trim((string) $edition);
     return $this;
   }
   
@@ -167,7 +167,7 @@ class FeatureModel extends AbstractModel
    */
   public function setSection($section)
   {
-    $this->_section = is_null($section) ? $section : (string) $section;
+    $this->_section = is_null($section) ? $section : trim((string) $section);
     return $this;
   }
   
@@ -185,7 +185,7 @@ class FeatureModel extends AbstractModel
    */
   public function setSection_URN($urn)
   {
-    $this->_section_urn = is_null($urn) ? $urn : (string) $urn;
+    $this->_section_urn = is_null($urn) ? $urn : trim((string) $urn);
     return $this;
   }
   

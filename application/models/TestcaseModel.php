@@ -40,7 +40,19 @@ class TestcaseModel extends AbstractModel
    * @var boolean
    */
   protected $_quoted = null;
-    
+  
+  /**
+   * Alternative type attribute value
+   * @var string
+   */
+  protected $_alt_type = null;
+
+  /**
+  * UTC date of creation as timestamp
+  * @var int
+  */
+  protected $_created;
+  
   /**
    * Sets the database adapter for this model
    */
@@ -142,6 +154,43 @@ class TestcaseModel extends AbstractModel
   {
     return $this->_quoted;
   }
+  
+  /**
+   * @param null|string $type
+   * @return TestcaseModel
+   */
+  public function setAlt_type($type)
+  {
+    $this->_alt_type = is_null($type) ? $type : trim((string) $type);
+    return $this;
+  }
+  
+  /**
+   * @return null|string
+   */
+  public function getAlt_type()
+  {
+    return $this->_alt_type;
+  }
+  
+  /**
+   * @param string $date
+   * @return TestcaseModel
+   */
+  public function setCreated($date)
+  {
+    $this->_created = is_null($date) ? $date : strtotime($date . ' GMT');
+    return $this;
+  }
+  
+  /**
+   * @return int
+   */
+  public function getCreated()
+  {
+    return $this->_created;
+  }
+  
   
   /**
    * Returns the testcases for a feature specified by its ID

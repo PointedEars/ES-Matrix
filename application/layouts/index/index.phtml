@@ -191,7 +191,16 @@
                   ?><script type="text/javascript">
                     var result = false;
                   </script>
-                  <script type="text/javascript">
+                  <script type="<?php
+                    if ($testcase->alt_type)
+                    {
+                      echo $this->escape($testcase->alt_type);
+                    }
+                    else
+                    {
+                      echo 'text/javascript';
+                    }
+                    ?>">
                     <?php
                       $code = $testcase->code;
                       if ($testcase->quoted)
@@ -220,7 +229,7 @@
                   
                   jsx.tryThis(
                     "document.write(text);",
-                    + " document.getElementById('<?php echo $id; ?>').appendChild("
+                    " document.getElementById('<?php echo $id; ?>').appendChild("
                     + "document.createTextNode(text));");
                 </script><?php
               }

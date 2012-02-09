@@ -49,11 +49,11 @@ class TestcaseMapper extends Mapper
   {
     $id = $testcase->id;
     $data = array(
-      'id'  => $id,
       'feature_id'  => $testcase->feature_id,
       'title'       => $testcase->title,
       'code'        => $testcase->code,
-      'quoted'      => $testcase->quoted
+      'quoted'      => $testcase->quoted,
+      'alt_type'    => $testcase->alt_type
     );
 
     if (defined('DEBUG') && DEBUG > 0)
@@ -61,15 +61,7 @@ class TestcaseMapper extends Mapper
       debug($data);
     }
     
-    if (is_null($id))
-    {
-      unset($data['id']);
-      $this->getDbTable()->insert($data);
-    }
-    else
-    {
-      $this->getDbTable()->updateOrInsert($data, array('id' => $id));
-    }
+    $this->getDbTable()->updateOrInsert($data, array('id' => $id));
   }
   
   /**
@@ -98,6 +90,7 @@ class TestcaseMapper extends Mapper
       if (!empty($gluedCodes))
       {
         $quoteds = $testcases['quoteds'];
+        $alt_types = $testcases['alt_types'];
         foreach ($testcases['titles'] as $key => $title)
         {
           $quoted = null;
@@ -110,7 +103,8 @@ class TestcaseMapper extends Mapper
             'feature_id' => $featureId,
             'title'      => $title,
             'code'       => $codes[$key],
-            'quoted'     => $quoted
+            'quoted'     => $quoted,
+            'alt_type'   => $alt_types[$key]
           ));
     
           /* DEBUG */
@@ -185,31 +179,6 @@ class TestcaseMapper extends Mapper
     if (defined('DEBUG') && DEBUG > 0)
     {
       debug(array('testcases' => $testcases));
-    }
-    
-    return $testcases;
-  }
-  
-  /**
-   * Fetches all records from the testcase table
-   *
-   * @return array
-   */
-  public function fetchAll()
-  {
-    $resultSet = $this->getDbTable()->fetchAll();
-    $testcases = array();
-    foreach ($resultSet as $row)
-    {
-      $testcase = new TestcaseModel(array(
-        'id'         => $row['id'],
-        'feature_id' => $row['feature_id'],
-        'title'      => $row['title'],
-        'code'       => $row['code']
-      ));
-//         ->setCreated($row->created)
-      ;
-      $testcases[] = $testcase;
     }
     
     return $testcases;

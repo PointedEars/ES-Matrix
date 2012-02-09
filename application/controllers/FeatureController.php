@@ -74,9 +74,10 @@ class FeatureController extends Controller
     			'section'     => Application::getParam('section', $_POST),
     			'section_urn' => Application::getParam('section_urn', $_POST),
          	'testcases'   => array(
-         	  'titles'  => Application::getParam('testcase_title', $_POST),
-         	  'codes'   => Application::getParam('testcase_code', $_POST),
-         	  'quoteds' => Application::getParam('testcase_quoted', $_POST),
+         	  'titles'    => Application::getParam('testcase_title', $_POST),
+         	  'codes'     => Application::getParam('testcase_code', $_POST),
+         	  'quoteds'   => Application::getParam('testcase_quoted', $_POST),
+         	  'alt_types' => Application::getParam('testcase_alt_type', $_POST),
        	  )
        )))
     {
