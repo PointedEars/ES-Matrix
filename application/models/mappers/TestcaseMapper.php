@@ -140,9 +140,10 @@ class TestcaseMapper extends Mapper
         $testcase = new TestcaseModel(array(
         	'id' => $key + 1,
           'feature_id' => $key + 1,
-          'code' => $code
         ));
 
+        $testcase->setCode($code, true);
+        
         $this->save($testcase);
       
         $testcases[] = $testcase;

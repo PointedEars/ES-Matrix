@@ -119,13 +119,25 @@ class TestcaseModel extends AbstractModel
     
   /**
    * @param null|string $code
+   * @param bool[optional] $importing
+   *   If <code>true</code>, consecutive whitespace is reduced to a
+   *   single space, and extra concatenations are joined.
+   *   If <code>false</code> only leading and trailing whitespace is removed.
+   *   The default is <code>false</code>.
    * @return TestcaseModel
    */
-  public function setCode($code)
+  public function setCode($code, $importing = false)
   {
-    $this->_code = trim(
-      preg_replace('/"\\s*\\+\\s*"/', '',
-        preg_replace('/\\s+/', ' ', (string) $code)));
+    $code = (string) $code;
+    
+    if ($importing)
+    {
+      $code = preg_replace('/"\\s*\\+\\s*"/', '',
+        preg_replace('/\\s+/', ' ', $code));
+    }
+    
+    $this->_code = trim($code);
+
     return $this;
   }
   

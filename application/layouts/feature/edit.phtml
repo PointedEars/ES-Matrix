@@ -63,10 +63,10 @@
             <input name="testcase_title[]" id="testcase_title<?php echo $key; ?>" type="text"
                    value="<?php echo $this->escape($testcase->title); ?>"
                    style="width: 99%">
-            <textarea name="testcase_code[]" id="testcase_code<?php echo $key; ?>"  cols="80" rows="4"
+            <textarea name="testcase_code[]" id="testcase_code<?php echo $key; ?>"  cols="80" rows="5"
                       style="width: 99%"><?php echo $this->escape($testcase->code); ?></textarea>
             <label style="float: left" id="testcase_quoted<?php echo $key; ?>">
-              <input type="checkbox" name="testcase_quoted[]"
+              <input type="checkbox" name="testcase_quoted[<?php echo $key; ?>]"
                      value="1" <?php if ($testcase->quoted) { ?>checked<?php }; ?>>
               Surround with double-quotes</label>
             <label style="float: left; margin-left: 1em" id="testcase_alt_type<?php echo $key; ?>">
@@ -122,7 +122,7 @@
                     name: "testcase_code[]",
                     id: "testcase_code" + numTestcases,
                     cols: 80,
-                    rows: 4,
+                    rows: 5,
                     style: {
                       width: "99%"
                     }
@@ -142,7 +142,7 @@
                       type: "input",
                       properties: {
                         type: "checkbox",
-                        name: "testcase_quoted[]",
+                        name: "testcase_quoted["+ numTestcases + "]",
                         value: "1",
                       }
                     },
