@@ -1,10 +1,3 @@
-    <script type="text/javascript">
-      /* Import methods into global namespace */
-      var test = jsx.debug.test;
-      var isMethod = jsx.object.isMethod;
-      var isNativeMethod = jsx.object.isNativeMethod;
-      var getFeature = jsx.object.getFeature;
-    </script>
 <?php
   if (!$this->edit)
   {
@@ -50,20 +43,20 @@
                 // $footnotes->add('this-impl', '', $scriptEngineTest, '');
                 ?><br>
               <script type="text/javascript">
-                var implementation = isMethod(this, "ScriptEngine") ? ScriptEngine() : '';
+                var implementation = jsx.object.isMethod(this, "ScriptEngine") ? ScriptEngine() : '';
                 if (implementation)
                 {
                   implementation = implementation.replace(/"/g, "&quot;").replace(/</g, "&gt;");
                   var version = '';
-                  if (isMethod(this, "ScriptEngineMajorVersion"))
+                  if (jsx.object.isMethod(this, "ScriptEngineMajorVersion"))
                   {
                     version = ScriptEngineMajorVersion();
 
-                    if (isMethod(this, "ScriptEngineMinorVersion"))
+                    if (jsx.object.isMethod(this, "ScriptEngineMinorVersion"))
                     {
                       version += "." + ScriptEngineMinorVersion();
 
-                      if (isMethod(this, "ScriptEngineBuildVersion"))
+                      if (jsx.object.isMethod(this, "ScriptEngineBuildVersion"))
                       {
                         version += "." + ScriptEngineBuildVersion();
                       }
@@ -84,8 +77,6 @@
 <?php
   foreach ($this->implementations as $key => $impl)
   {
-    if ($key !== 0)
-    {
 ?>
             <td><?php
               if ($impl->acronym !== '')
@@ -111,7 +102,6 @@
               }
             ?></td>
 <?php
-    }
   }
   
   if ($this->edit)
@@ -137,7 +127,7 @@
 ?>
             <td><a href="<?php echo $this->escape($this->getURL('feature', 'edit', $feature->id)); ?>"
                    class="edit">Edit</a>
-                <form action="<?php echo $this->escape($this->getURL('feature', 'delete')); ?>" method="POST"
+                <form action="<?php echo $this->escape($this->getURL('feature', 'delete', $feature->id)); ?>" method="POST"
                       onsubmit="return window.confirm('Delete feature &quot;<?php echo addslashes($this->escape(strip_tags($feature->code))); ?>&quot;?')"
                       style="display: inline">
                   <input type="hidden" name="id" value="<?php echo $feature->id; ?>">
@@ -153,14 +143,23 @@
                 }
                 ?>><?php echo $feature->code; ?></th>
             <td><?php
-              if ($feature->edition)
+              $edition = $feature->edition;
+              if ($edition)
               {
-                echo $feature->edition;
-                if ($feature->section)
+                if ($edition === '-')
                 {
-                  ?> <span class="section" title="Specification section">[<?php
-                    echo $feature->section;
-                  ?>]</span><?php
+                  ?><span title="Non-standard">&#8722;</span><?php
+                }
+                else
+                {
+                  echo $edition;
+
+                  if ($feature->section)
+                  {
+                    ?> <span class="section" title="Specification section">[<?php
+                      echo $feature->section;
+                    ?>]</span><?php
+                  }
                 }
               }
             ?></td>
@@ -170,8 +169,15 @@
               if (count($testcases) > 0)
               {
                 echo " id='$id'";
-                echo ' title="Test code: '
-                  . $this->escape(implode("\n", array_map(create_function('$e', 'return $e->code;'), $testcases)))
+                echo ' title="'
+                  . $this->escape(
+                      implode("\n",
+                        array_map(
+                          create_function('$e, $i', 'return "Test " . ($i + 1) . ": " . $e->code;'),
+                          $testcases, array_keys($testcases)
+                        )
+                      )
+                    )
                   . '"';
               }
               else
@@ -185,7 +191,7 @@
               if (count($testcases) > 0)
               {
                 ?><script type="text/javascript">
-                    var results = [];
+                    var results = new Array();
                   </script><?php
                 foreach ($testcases as $testcase_key => $testcase)
                 {
@@ -209,7 +215,7 @@
                         $code = '"' . preg_replace('/(\\r?\\n|\\r)/', '\\n', addslashes($code)) . '"';
                       }
                     ?>
-                    result = test(<?php echo str_replace('</', '<\\/', $code); ?>, true, false);
+                    result = jsx.debug.test(<?php echo str_replace('</', '<\\/', $code); ?>, true, false);
                   </script>
                   <script type="text/javascript">
                     results[<?php echo $testcase_key; ?>] = result;
@@ -218,20 +224,23 @@
                 }
                 ?><script type="text/javascript">
                   var count = 0;
+                  var resultsStr = "";
                   for (var i = 0, len = results.length; i < len; ++i)
                   {
-                    if (results[i])
+                    var result = results[i];
+                    if (result)
                     {
                       ++count;
                     }
+                    
+                    resultsStr += "Test " + (i + 1) + ": "
+                      + (result ? "passed" : "failed")
+                      + (i < results.length - 1 ? "\n" : "");
                   }
   
                   var text = (count == len) ? "+" : (count == 0 ? "&#8722;" : "*");
                   
-                  jsx.tryThis(
-                    "document.write(text);",
-                    " document.getElementById('<?php echo $id; ?>').appendChild("
-                    + "document.createTextNode(text));");
+                  document.write('<span title="' + resultsStr + '">' + text + '<\/span>');
                 </script><?php
               }
               else

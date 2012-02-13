@@ -93,27 +93,30 @@ class TestcaseMapper extends Mapper
         $alt_types = $testcases['alt_types'];
         foreach ($testcases['titles'] as $key => $title)
         {
-          $quoted = null;
-          if (is_array($quoteds) && array_key_exists($key, $quoteds))
+          if (trim($codes[$key]))
           {
-            $quoted = $quoteds[$key];
+            $quoted = null;
+            if (is_array($quoteds) && array_key_exists($key, $quoteds))
+            {
+              $quoted = $quoteds[$key];
+            }
+            
+            $testcase = new TestcaseModel(array(
+              'feature_id' => $featureId,
+              'title'      => $title,
+              'code'       => $codes[$key],
+              'quoted'     => $quoted,
+              'alt_type'   => $alt_types[$key]
+            ));
+      
+            /* DEBUG */
+            if (defined('DEBUG') && DEBUG > 0)
+            {
+              debug($testcase);
+            }
+      
+            $this->save($testcase);
           }
-          
-          $testcase = new TestcaseModel(array(
-            'feature_id' => $featureId,
-            'title'      => $title,
-            'code'       => $codes[$key],
-            'quoted'     => $quoted,
-            'alt_type'   => $alt_types[$key]
-          ));
-    
-          /* DEBUG */
-          if (defined('DEBUG') && DEBUG > 0)
-          {
-            debug($testcase);
-          }
-    
-          $this->save($testcase);
         }
       }
     }

@@ -35,17 +35,25 @@
           <td><script type="text/javascript">
               function deleteTestcase(deleteButton, id)
               {
+                var form = deleteButton.form;
                 var prefixes = ["title", "code"];
                 for (var i = prefixes.length; i--;)
                 {
                   var prefix = prefixes[i];
-                  var control = deleteButton.form.elements["testcase_" + prefix + id];
+                  var control = form.elements["testcase_" + prefix + id];
                   control.parentNode.removeChild(control);
 
                 }
 
                 var label = document.getElementById("testcase_quoted" + id);
                 label.parentNode.removeChild(label);
+                var idCount = id + 1;
+                var otherCheckbox;
+                while ((otherCheckbox = form.elements["testcase_quoted[" + idCount + "]"]))
+                {
+                  otherCheckbox.name = "testcase_quoted[" + (idCount - 1) + "]";
+                  ++idCount;
+                }
 
                 label = document.getElementById("testcase_alt_type" + id);
                 label.parentNode.removeChild(label);
@@ -68,7 +76,7 @@
             <label style="float: left" id="testcase_quoted<?php echo $key; ?>">
               <input type="checkbox" name="testcase_quoted[<?php echo $key; ?>]"
                      value="1" <?php if ($testcase->quoted) { ?>checked<?php }; ?>>
-              Surround with double-quotes</label>
+              Enclose in double-quotes</label>
             <label style="float: left; margin-left: 1em" id="testcase_alt_type<?php echo $key; ?>">
               Alternative <code>type</code> attribute value: <input name="testcase_alt_type[]"
                      value="<?php echo $this->escape($testcase->alt_type); ?>"
@@ -146,7 +154,7 @@
                         value: "1",
                       }
                     },
-                    "Surround with double-quotes"
+                    "Enclose in double-quotes"
                   ]
                 });
                 
@@ -209,6 +217,7 @@
                 parentNode.insertBefore(label, addButton);
                 parentNode.insertBefore(label2, addButton);
                 parentNode.insertBefore(button, addButton);
+                input.focus();
               }
             </script>
             <button type="button" name="testcase_action" value="add"

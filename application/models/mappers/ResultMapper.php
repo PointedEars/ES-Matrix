@@ -82,6 +82,10 @@ class ResultMapper extends Mapper
       $table->beginTransaction();
       
       $results = $data['results'];
+      
+      /* Delete old results for this environment */
+      $table->delete(null, array('environment_id' => $env_id));
+      
       if (is_array($results))
       {
         foreach ($results as $testcase_id => $value)

@@ -4,7 +4,7 @@ require_once 'lib/Controller.php';
 
 require_once 'application/views/IndexView.php';
 require_once 'application/models/mappers/FeatureMapper.php';
-require_once 'application/models/mappers/TestcaseMapper.php';
+// require_once 'application/models/mappers/TestcaseMapper.php';
 require_once 'application/models/mappers/ImplementationMapper.php';
 require_once 'application/models/mappers/ResultMapper.php';
 
@@ -45,7 +45,7 @@ class IndexController extends Controller
   protected function importAction()
   {
     require_once 'es-matrix.inc.php';
-    FeatureMapper::getInstance()->importAll($features);
+//     FeatureMapper::getInstance()->importAll($features);
 //     TestcaseMapper::getInstance()->importAll($features);
     $this->indexAction();
   }
