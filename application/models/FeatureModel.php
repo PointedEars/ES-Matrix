@@ -11,6 +11,7 @@ require_once 'application/models/TestcaseModel.php';
  * Data model for a language feature
  *
  * @author Thomas Lahn
+ * @property array[TestcaseModel] $testcases
  */
 class FeatureModel extends AbstractModel
 {

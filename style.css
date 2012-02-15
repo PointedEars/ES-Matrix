@@ -484,6 +484,10 @@ tfoot tbody tr:nth-child(even)
   font-weight: bold;
 }
 
+table.results td {
+  text-align: right;
+} 
+
 /*
  * Not for IE 6 and below.
  * Bugfix for IE 7 follows below.
@@ -516,6 +520,11 @@ table>tbody.scroll tr.header {
  */ 
 table>tbody.scroll td:last-child {
   padding-right: 20px;
+}
+
+/* No padding on cells of inner tables, override with !important */
+table>tbody.scroll td:last-child td:last-child {
+  padding-right: 0;
 }
 
 /* keeps background color in line with table design */

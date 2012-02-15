@@ -61,17 +61,24 @@ class MySQLDB extends Database
   }
 
   /**
-   * Escapes an associative array so that its string representation can be used
-   * in a query.
-   *
-   * NOTE: Intentionally does not check whether the array actually is associative!
-   *
-   * @param array &$array
-   *   The array to be escaped
-   * @return array
-   *   The escaped array
+   * (non-PHPdoc)
+   * @see Database::_escapeAliasArray()
    */
-  protected function _escapeArray(array &$array)
+  protected function _escapeAliasArray(array &$array)
+  {
+    foreach ($array as $column => &$value)
+    {
+      $value = $value . ' AS `' . $column . '`';
+    }
+  
+    return $array;
+  }
+
+  /**
+   * (non-PHPdoc)
+   * @see Database::_escapeValueArray()
+   */
+  protected function _escapeValueArray(array &$array)
   {
     foreach ($array as $column => &$value)
     {

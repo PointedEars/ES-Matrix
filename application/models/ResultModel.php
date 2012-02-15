@@ -7,7 +7,7 @@ require_once 'lib/AbstractModel.php';
  *
  * @property int $id
  * @property int $testcase_id
- * @property int $environment_id
+ * @property int $env_id
  * @property bool $value
  */
 class ResultModel extends AbstractModel
@@ -28,7 +28,7 @@ class ResultModel extends AbstractModel
    * ID of the environment in which has been tested
    * @var unknown_type
    */
-  protected $_environment_id;
+  protected $_env_id;
   
   /**
    * Testcase result; <code>true</code> for passed, <code>false</code> for fail
@@ -79,9 +79,9 @@ class ResultModel extends AbstractModel
    *   Environment ID
    * @return ResultModel
    */
-  public function setEnvironment_id($id)
+  public function setenv_id($id)
   {
-    $this->_environment_id = (int) $id;
+    $this->_env_id = (int) $id;
     return $this;
   }
  
@@ -89,9 +89,9 @@ class ResultModel extends AbstractModel
    * @return int
    *   Environment ID
    */
-  public function getEnvironment_id()
+  public function getenv_id()
   {
-    return $this->_environment_id;
+    return $this->_env_id;
   }
 
   /**
@@ -112,6 +112,18 @@ class ResultModel extends AbstractModel
   public function getValue()
   {
     return $this->_value;
+  }
+  
+  /**
+   * Maps data used to initialize this <code>ResultModel</code> instance
+   * to its data properties.
+   *
+   * @see AbstractModel::map()
+   */
+  public function map($data, $mapping = null, $exclusive = false)
+  {
+    $mapping = array('env_id' => 'environment_id');
+    parent::map($data, $mapping, $exclusive);
   }
 }
 

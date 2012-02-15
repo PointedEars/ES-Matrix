@@ -34,11 +34,15 @@ class IndexController extends Controller
     }
         
     $features = FeatureMapper::getInstance()->fetchAll();
-    usort($features, array('FeatureModel', 'compare'));
+    uasort($features, array('FeatureModel', 'compare'));
 
+    $results = ResultMapper::getInstance()->getResultArray($features);
+    
     $this->assign('edit', isset($_SESSION['edit']));
     $this->assign('implementations', $implementations);
     $this->assign('features', $features);
+    $this->assign('results', $results);
+        
     $this->render(null, 'application/layouts/index/index.phtml');
   }
   

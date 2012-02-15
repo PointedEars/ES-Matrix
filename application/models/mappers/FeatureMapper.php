@@ -163,7 +163,7 @@ class FeatureMapper extends Mapper
     {
       $row['testcases'] = $testcaseMapper->findByFeatureId($row['id']);
       $feature = new FeatureModel($row);
-      $features[] = $feature;
+      $features[$feature->id] = $feature;
     }
 
     if (defined('DEBUG') && DEBUG > 1)

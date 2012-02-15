@@ -15,6 +15,6 @@ class ImplementationTable extends Table
    */
   public function fetchAll($fetch_style = null, $column_index = null, array $ctor_args = null)
   {
-    return $this->_database->select($this->_name, null, null, 'sortorder');
+    return parent::select(null, null, 'ORDER BY sortorder');
   }
 }

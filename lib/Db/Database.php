@@ -147,7 +147,32 @@ class Database extends AbstractModel
   
   /**
    * Escapes an associative array so that its string representation can be used
-   * in a query.
+   * as list with table or column aliases in a query.
+   *
+   * This method does not actually escape anything; it only inserts the
+   * 'AS' keyword.  It should be overridden by inheriting methods.
+   *
+   * NOTE: This method intentionally does not check whether the array actually
+   * is associative.
+   *
+   * @param array &$array
+   *   The array to be escaped
+   * @return array
+   *   The escaped array
+   */
+  protected function _escapeAliasArray(array &$array)
+  {
+    foreach ($array as $column => &$value)
+    {
+      $value = $value . ' AS ' . $column;
+    }
+  
+    return $array;
+  }
+  
+  /**
+   * Escapes an associative array so that its string representation can be used
+   * as value list in a query.
    *
    * NOTE: Intentionally does not check whether the array actually is associative!
    *
@@ -156,7 +181,7 @@ class Database extends AbstractModel
    * @return array
    *   The escaped array
    */
-  protected function _escapeArray(array &$array)
+  protected function _escapeValueArray(array &$array)
   {
     foreach ($array as $column => &$value)
     {
@@ -185,7 +210,7 @@ class Database extends AbstractModel
   
         if ($this->_isAssociativeArray($where))
         {
-          $this->_escapeArray($where);
+          $this->_escapeValueArray($where);
         }
   
         $where = '(' . join(') AND (', $where) . ')';
@@ -199,42 +224,55 @@ class Database extends AbstractModel
 
   /**
    * Selects data from one or more tables; the resulting records are stored
-   * in the <code>result</code> property.
+   * in the <code>result</code> property and returned as an associative array,
+   * where the keys are the column (alias) names.
    *
    * @param string|array[string] $tables Table(s) to select from
    * @param string|array[string] $columns Column(s) to select from (optional)
    * @param string|array $where Condition (optional)
    * @param string $order Sort order (optional)
+   *   If provided, MUST start with ORDER BY or GROUP BY
    * @param string $limit Limit (optional)
+   * @param int $fetch_style
+   *   The mode that shoould be used for {@link PDOStatement::fetchAll()}.
+   *   The default is {@link PDO::FETCH_ASSOC}.
    * @return array
+   * @see Database::prepare()
+   * @see PDOStatement::fetchAll()
    */
-  public function select($tables, $columns = null, $where = null, $order = null, $limit = null)
+  public function select($tables, $columns = null, $where = null,
+    $order = null, $limit = null, $fetch_style = PDO::FETCH_ASSOC)
   {
     if (is_null($columns))
     {
       $columns = array('*');
     }
     
-    if (!is_array($columns))
+    if (is_array($columns))
     {
-      $columns = array($columns);
+      if ($this->_isAssociativeArray($columns))
+      {
+        $columns = $this->_escapeAliasArray($columns);
+      }
+
+      $columns = join(',', $columns);
     }
 
-    $columns = join(',', $columns);
-    
-    if (!is_array($tables))
+    if (is_array($tables))
     {
-      $tables = array($tables);
-    }
+      if ($this->_isAssociativeArray($columns))
+      {
+        $columns = $this->_escapeAliasArray($columns);
+      }
 
-    /* TODO: Should escape table names with escapeName(), but what about aliases? */
-    $tables = join(',', $tables);
+      $tables = join(',', $tables);
+    }
 
     $query = "SELECT {$columns} FROM {$tables}" . $this->_where($where);
 
     if (!is_null($order))
     {
-      $query .= " ORDER BY $order";
+      $query .= " $order";
     }
 
     if (!is_null($limit))
@@ -267,7 +305,7 @@ class Database extends AbstractModel
     $success =  $stmt->execute($params);
     
     $result =& $this->_lastResult;
-    $result =  $stmt->fetchAll();
+    $result =  $stmt->fetchAll($fetch_style);
     
     if (defined('DEBUG') && DEBUG > 1)
     {
@@ -343,7 +381,7 @@ class Database extends AbstractModel
       }
     }
     
-    $updates = implode(',', $this->_escapeArray($updates));
+    $updates = implode(',', $this->_escapeValueArray($updates));
           
     /* TODO: Should escape table names with escapeName(), but what about aliases? */
     $query = "UPDATE {$tables} SET {$updates}" . $this->_where($where);
@@ -436,7 +474,7 @@ class Database extends AbstractModel
         $params[":{$key}"] = $condition;
       }
       
-      $this->_escapeArray($values);
+      $this->_escapeValueArray($values);
       
       $cols = '';
       $values = 'SET ' . join(', ', $values);

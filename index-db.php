@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Defines the debug level for this application
+ * 0: none; 1: mapper operations; 2: mapper and database operations (verbose!);
+ * The default is 0
+ * @var int
+ */
 // define('DEBUG', 2);
 
 $encoding = 'UTF-8'; // mb_detect_encoding(file_get_contents(__FILE__));

@@ -27,6 +27,11 @@ class IndexView extends View
     global $encoding;
     $this->assign('encoding', $encoding);
   }
+  
+  public function isSafe($feature_id)
+  {
+    return isset($this->results['safeFeatures'][$feature_id]);
+  }
 }
 
 ?>

@@ -10,6 +10,7 @@ class VersionModel extends AbstractModel
   protected $_id = null;
   protected $_implementation_id = null;
   protected $_name = '';
+  protected $_safe = false;
     
   public function setId($id)
   {
@@ -42,6 +43,17 @@ class VersionModel extends AbstractModel
   public function getName()
   {
     return $this->_name;
+  }
+
+  public function setSafe($safe)
+  {
+    $this->_name = (bool) $safe;
+    return $this;
+  }
+  
+  public function getSafe()
+  {
+    return $this->_safe;
   }
 }
 

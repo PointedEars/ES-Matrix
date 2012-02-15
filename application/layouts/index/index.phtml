@@ -75,7 +75,8 @@
               </script>
               <input type="submit" name="submitResults" value="Submit results"></th>
 <?php
-  foreach ($this->implementations as $key => $impl)
+  $implementations = $this->implementations;
+  foreach ($implementations as $key => $impl)
   {
 ?>
             <td><?php
@@ -120,7 +121,7 @@
   foreach ($this->features as $key => $feature)
   {
 ?>
-          <tr>
+          <tr<?php if ($this->isSafe($feature->id)) { ?> class="safe"<?php } ?>>
 <?php
     if ($this->edit)
     {
@@ -248,6 +249,58 @@
                 echo '<abbr>N/A</abbr>';
               }
               ?></td>
+<?php
+    /* No results to show if there are no testcases */
+    $num_testcases = count($feature->testcases);
+    if ($num_testcases > 0)
+    {
+      $feature_results = Application::getParam('forFeatures', $this->results);
+      if (is_array($feature_results))
+      {
+        $impl_results = Application::getParam($feature->id, $feature_results);
+        if (is_array($implementations) && is_array($impl_results))
+        {
+          foreach ($implementations as $key => $implementation)
+          {
+?>
+        			<td><?php
+        			  $impl_result = Application::getParam($implementation->id, $impl_results);
+        			  if (is_array($impl_result))
+        			  {
+        			    ?><table class="results"><?php
+          			  foreach ($impl_result as $version_id => $result)
+          			  {
+          			    $success_string = '';
+          			    $successes = $result['successes'];
+          			    if ($successes === 0)
+          			    {
+          			      $success_string = '&#8722;';
+          			    }
+        			      else if ($successes < $num_testcases)
+          			    {
+          			      $success_string = '*';
+          			    }
+          			    else
+          			    {
+          			      $success_string = '+';
+          			    }
+        			      ?>
+                    <tr>
+                      <th><?php echo $result['version']; ?></th>
+                      <td><?php echo $successes. '/' . $num_testcases
+        			              . '&nbsp;(' . $success_string . ')'; ?></td>
+                    </tr><?php
+          			  }
+          			  ?>
+                  </table><?php
+        			  }
+        			  ?></td>
+<?php
+          }
+        }
+      }
+    }
+?>
             </tr>
 <?php
   }

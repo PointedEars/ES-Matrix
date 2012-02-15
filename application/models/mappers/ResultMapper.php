@@ -84,7 +84,7 @@ class ResultMapper extends Mapper
       $results = $data['results'];
       
       /* Delete old results for this environment */
-      $table->delete(null, array('environment_id' => $env_id));
+      $table->delete(null, array('env_id' => $env_id));
       
       if (is_array($results))
       {
@@ -93,12 +93,12 @@ class ResultMapper extends Mapper
           $table->updateOrInsert(
             array(
             	'testcase_id'    => $testcase_id,
-            	'environment_id' => $env_id,
+            	'env_id' => $env_id,
           		'value'          => $value
             ),
             array(
              'testcase_id'    => $testcase_id,
-             'environment_id' => $env_id,
+             'env_id' => $env_id,
             )
           );
         }
@@ -108,5 +108,136 @@ class ResultMapper extends Mapper
     }
     
     return false;
+  }
+     
+  /**
+   * Returns an array which keys are the IDs of all features that are
+   * considered safe.
+   *
+   * @param int $feature_id
+   * @return bool
+   */
+  private function _getSafeFeatures($features, $results)
+  {
+    $unsafeVersions = VersionMapper::getInstance()->getUnsafeVersions();
+    $safeFeatures = array();
+    
+    if (is_array($features) && is_array($results))
+    {
+      foreach ($features as $feature_id => $feature)
+      {
+        $safe_feature = false;
+        $num_testcases = count($feature->testcases);
+        if ($num_testcases > 0)
+        {
+          if (isset($results[$feature_id]) && is_array($results[$feature_id]))
+          {
+            $safe_feature = true;
+            $flat_results = array();
+            
+            foreach ($results[$feature_id] as $impl_id => $impl_results)
+            {
+              if (is_array($impl_results))
+              {
+                foreach ($impl_results as $version_id => $version_result)
+                {
+                  $flat_results[$version_id] = $version_result['successes'];
+                }
+              }
+            }
+
+            foreach ($unsafeVersions as $unsafe_version_id)
+            {
+              if (isset($flat_results[$unsafe_version_id]))
+              {
+                $unsafe_result = $flat_results[$unsafe_version_id];
+            
+                if ($unsafe_result < $num_testcases)
+                {
+                  $safe_feature = false;
+                  break;
+                }
+              }
+            }
+          }
+          else
+          {
+            $safe_feature = false;
+          }
+        }
+        
+        if ($safe_feature)
+        {
+          $safeFeatures[$feature_id] = true;
+        }
+      }
+    }
+    
+    return $safeFeatures;
+  }
+  
+  /**
+   * Returns the tensor array of test results.
+   *
+   * The first key of the array is the feature ID, the second key
+   * is the implementation ID, and the third key is the version name.
+   * The stored value is the number of successful testcases for that
+   * feature, implementation, and version.  Compared against the non-zero
+   * number of testcases <tt>n</tt> for a feature, the value <tt>v</tt>
+   * can be used to find out how well supported a feature is in an
+   * implementation and version (v === 0: no support; v < n: partial
+   * support; v === n: full support).
+   *
+   * @param array[Feature] $features
+   *   The features that should be checked if they are safe according
+   *   to the results
+   * @return array
+   */
+  public function getResultArray($features)
+  {
+    $db = $this->getDbTable()->getDatabase();
+    $rows = $db->select(
+      '`result` r
+       LEFT JOIN `testcase` t ON r.testcase_id = t.id
+       LEFT JOIN `feature` f ON t.feature_id = f.id
+       LEFT JOIN `environment` e ON r.env_id = e.id
+       LEFT JOIN `version` v ON e.version_id = v.id
+       LEFT JOIN `implementation` i ON v.impl_id = i.id',
+      array(
+      	'feature_id'   => 'f.id',
+      	'impl_id'      => 'i.id',
+      	'version_id'   => 'v.id',
+      	'version'      => 'v.name',
+        'successes'    => 'SUM(r.value)'
+      ),
+      null,
+      "GROUP BY feature_id, i.sortorder,
+       SUBSTRING_INDEX(`version`, '.', 1) + 0,
+       SUBSTRING_INDEX(SUBSTRING_INDEX(`version`, '.', -3), '.', 1) + 0,
+       SUBSTRING_INDEX(SUBSTRING_INDEX(`version`, '.', -2), '.', 1) + 0,
+       SUBSTRING_INDEX(`version`, '.', -1) + 0"
+    );
+    
+    $result = array();
+    if (is_array($rows))
+    {
+      foreach ($rows as $row)
+      {
+        $result['forFeatures'][(int) $row['feature_id']][(int) $row['impl_id']]
+          [(int) $row['version_id']] = array(
+          	'version'   => $row['version'],
+          	'successes' => (int) $row['successes']
+          );
+      }
+      
+      $result['safeFeatures'] = $this->_getSafeFeatures($features, Application::getParam('forFeatures', $result));
+    }
+      
+    if (defined('DEBUG') && DEBUG > 0)
+    {
+      debug($result);
+    }
+      
+    return $result;
   }
 }

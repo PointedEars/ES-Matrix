@@ -3,6 +3,12 @@
  * to be included with <link rel="stylesheet" ... media="...">
 */
 
+/* Padding in outer tables */
 th, td {
   padding: 2.5px 5px;
+}
+
+/* Reduced padding in inner tables */
+th th, td td {
+  padding: 0 2px !important;
 }

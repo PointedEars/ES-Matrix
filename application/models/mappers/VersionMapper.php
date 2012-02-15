@@ -91,7 +91,7 @@ class VersionMapper extends Mapper
   }
   
   /**
-   * Fetches all records from the implementation table
+   * Fetches all records from the version table
    *
    * @return array
    */
@@ -114,6 +114,28 @@ class VersionMapper extends Mapper
     }
     
     return $vers;
+  }
+  
+  /**
+   * Returns an array of the IDs of the versions that are considered safe
+   *
+   * @return array[int]
+   */
+  public function getSafeVersions()
+  {
+    $resultSet = $this->getDbTable()->select('id', array('safe' => 1));
+    return array_map(create_function('$e', 'return $e["id"];'), $resultSet);
+  }
+
+  /**
+   * Returns an array of the IDs of the versions that are considered safe
+   *
+   * @return array[int]
+   */
+  public function getUnsafeVersions()
+  {
+    $resultSet = $this->getDbTable()->select('id', array('safe' => 0));
+    return array_map(create_function('$e', 'return $e["id"];'), $resultSet);
   }
 }
 
