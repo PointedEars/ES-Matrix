@@ -1,22 +1,38 @@
 <?php $impl = $this->implementation; ?>
     <h2><?php if ($impl->id) { ?>Edit<?php } else { ?>Add<?php } ?> Implementation</h2>
+    <script type="text/javascript">
+      function markAll (form)
+      {
+        var controls = ["assigned", "available"];
+        for (var j = controls.length; j--;)
+        {
+          var opts = form.elements[controls[j]].options;
+          for (var i = opts.length; i--;)
+          {
+            opts[i].selected = true;
+          }
+        }
+
+        return true;
+      }
+    </script>
     <form action="<?php echo $this->escape($this->getURL('implementation', 'save')); ?>" method="POST"
-          style="width: 100%">
+          onsubmit="return markAll(this)" style="width: 100%">
       <input type="hidden" name="id" value="<?php echo $impl->id; ?>">
       <table style="width: 100%">
         <tr>
-          <th>Name</th>
-          <td><input name="impl_name" style="width: 99%"
+          <th><label for="impl_name" accesskey="n"><u>N</u>ame</label></th>
+          <td><input name="impl_name" id="impl_name" style="width: 99%"
                      value="<?php echo $this->escape($impl->name); ?>"></td>
         </tr>
         <tr>
-          <th>Acronym</th>
-          <td><input name="acronym" style="width: 99%"
+          <th><label for="acronym" accesskey="a"><u>A</u>cronym</label></th>
+          <td><input name="acronym" id="acronym" style="width: 99%"
                      value="<?php echo $this->escape($impl->acronym); ?>"></td>
         </tr>
         <tr>
-          <th>Sort Order</th>
-          <td><input name="sortorder" size="15"
+          <th><label for="sortorder" accesskey="s"><u>S</u>ort Order</label></th>
+          <td><input name="sortorder" id="sortorder" size="15"
                      value="<?php echo $this->escape($impl->sortorder); ?>"></td>
         </tr>
         <tr>
@@ -24,8 +40,9 @@
           <td style="vertical-align: middle">
             <table style="float: left">
               <tr>
-                <th style="vertical-align: top; font-weight: normal"><label for="assigned">Assigned:</label></th>
-                <td><select name="assigned" id="assigned" size="10" multiple>
+                <th style="vertical-align: top; font-weight: normal"><label
+                  for="assigned" accesskey="i">Ass<u>i</u>gned:</label></th>
+                <td><select name="assigned[]" id="assigned" size="10" multiple>
 <?php
   foreach ($impl->versions as $key => $version)
   {
@@ -40,15 +57,23 @@
                 <th style="vertical-align: middle"><script type="text/javascript">
                     function addVersion (o, ev)
                     {
-                      var es = o.form.elements;
                       if (ev.type == "click" || ev.keyCode == 13)
                       {
-                        jsx.dom.addOption(es["assigned"], o.value, "");
+                        if (o.value.indexOf(".") > 0)
+                        {
+                          jsx.dom.addOption(o.form.elements["assigned"], o.value, o.value);
+                        }
+                        else
+                        {
+                          window.alert("Version must include minor version.  If you used '3', try '3.0'.");
+                          o.focus();
+                        }
+                        
                         return false;
                       }
                     }
                   </script><input type="button" value="Add" onclick="addVersion(this.form.elements['new'], event)"></th>
-                <td><input name="new" size="7" style="width: 99%" onkeypress="return addVersion(this, event)"></td></td>
+                <td><input id="new" size="7" style="width: 99%" onkeypress="return addVersion(this, event)"></td>
               </tr>
             </table>
                   
@@ -89,8 +114,9 @@
             
             <table style="float: left">
               <tr>
-                <th style="vertical-align: top; font-weight: normal"><label for="available">Available:</label></th>
-                <td><select id="available" size="10" multiple>
+                <th style="vertical-align: top; font-weight: normal"><label
+                  for="available" accesskey="l">Avai<u>l</u>able:</label></th>
+                <td><select name="available[]" id="available" size="10" multiple>
 <?php
   foreach ($this->all_versions as $key => $version)
   {
@@ -112,6 +138,6 @@
         </tr>
       </table>
       <button type="submit" class="positive">Save</button>
-      <button type="submit" name="cancel" value="1" class="negative"
-              onclick="history.back(); return false">Cancel</button>
+      <button type="submit" name="cancel" accesskey="c" value="1" class="negative"
+              onclick="history.back(); return false"><u>C</u>ancel</button>
     </form>

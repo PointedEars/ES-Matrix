@@ -67,45 +67,60 @@ class VersionMapper extends Mapper
   }
   
 	/**
-   * Saves several version of an implementation in the database
+   * Updates the versions of an implementation in the database
    *
    * @param int $implementation_id
    *   Implementation ID
-   * @param array $versions
-   *   Version data
-   * @return int|null
-   *   ID of the inserted or existing record,
-   *   <code>null</code> otherwise.
+   * @param array $assigned
+   *   IDs of versions assigned to the implementation
+   * @param array $available
+   *   IDs of versions not assigned to the implementation.  Versions that are
+   *   neither listed in <var>$assigned</var> nor here, are _removed_ from
+   *   the database.
+   * @return bool
+   *   <code>true</code> if all database operations were successful,
+   *   <code>false</code> otherwise.
    */
-  public function saveAll($implementation_id, $versions)
+  public function saveAll($implementation_id, $assigned, $available)
   {
+    /* DEBUG */
+//     define('DEBUG', 2);
+    
     $table = $this->getDbTable();
-//     $table->beginTransaction();
+    $table->beginTransaction();
     
     /* Unassign all versions from the implementation */
-//     $table->update(
-//       array('impl_id' => null),
-//       array('impl_id' => $implementation_id)
-//     );
+    $table->update(
+      array('impl_id' => null),
+      array('impl_id' => $implementation_id)
+    );
 
-    debug($versions);
+//     debug($versions);
     
     /* Update or insert all assigned versions */
-    foreach ($versions as $key => $version)
+    foreach ($assigned as $version)
     {
-//     $table->updateOrInsert(
-//       array(
-//       	'impl_id' => null),
-//       array('impl_id' => $implementation_id)
-//     );
+      /*
+       * NOTE: New versions must have a minor version part, else they are
+       *       IDs of existing versions.
+       */
+      if (strpos($version, '.') === false && intval($version) == $version)
+      {
+        $table->update(
+          array('impl_id' => $implementation_id),
+          array('id'      => (int) $version)
+        );
+      }
+      else
+      {
+        $this->save($implementation_id, $version);
+      }
     }
     
-    /* Delete all unassigned versions */
-//     $table->delete(null, array('impl_id' => null));
+    /* Delete obsolete versions */
+    $table->delete(null, array('id' => array('NOT IN' => array_merge($assigned, $available))));
     
-//     $table->commit();
-
-    return true;
+    return $table->commit();
   }
   
   /**

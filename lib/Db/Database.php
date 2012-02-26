@@ -133,16 +133,19 @@ class Database extends AbstractModel
   }
   
   /**
-   * Determines if an array is associative (does not have a '0' key)
+   * Determines if an array is associative (has not all integer keys).
    *
+   * @author
+   *   Algorithm courtesy of squirrel, <http://stackoverflow.com/a/5969617/855543>.
    * @param array $a
    * @return boolean
    *   <code>true</code> if <var>$a</var> is associative,
    *   <code>false</code> otherwise
    */
-  private function _isAssociativeArray(array $a)
+  protected function _isAssociativeArray(array $a)
   {
-    return !array_key_exists(0, $a);
+    for (reset($a); is_int(key($a)); next($a));
+    return !is_null(key($a));
   }
   
   /**
@@ -169,35 +172,87 @@ class Database extends AbstractModel
   
     return $array;
   }
+
+  /**
+   * @param array $a
+   * @param string $prefix
+   */
+  private static function _expand(array $a, $prefix)
+  {
+    $a2 = array();
+    
+    foreach ($a as $key => $value)
+    {
+      $a2[] = ':' . $prefix . ($key + 1);
+    }
+    
+    return $a2;
+  }
   
   /**
    * Escapes an associative array so that its string representation can be used
    * as value list in a query.
    *
+   * This method should be overridden by inheriting classes to escape
+   * column names as fitting for the database schema they support.  It is
+   * strongly recommended that the overriding methods call this method with
+   * an appropriate <var>$escape</var> parameter, pass all other parameters
+   * on unchanged, and return its return value.
+   *
    * NOTE: Intentionally does not check whether the array actually is associative!
    *
    * @param array &$array
    *   The array to be escaped
+   * @param string $suffix
+   *   The string to be appended to the column name for the value placeholder.
+   *   The default is the empty string.
+   * @param array $escape
+   *   The strings to use left-hand side (index 0) and right-hand side (index 1)
+   *   of the column name.  The default is the empty string, respectively.
    * @return array
    *   The escaped array
    */
-  protected function _escapeValueArray(array &$array)
+  protected function _escapeValueArray(array &$array, $suffix = '', array &$escape = array('', ''))
   {
-    foreach ($array as $column => &$value)
+    $result = array();
+        
+    foreach ($array as $column => $value)
     {
-      $value = $column . "=:{$column}";
+      $op = '=';
+      $placeholder = ":{$column}";
+      
+      if (is_array($value) && $this->_isAssociativeArray($value))
+      {
+        reset($value);
+        $op = ' ' . key($value) . ' ';
+        
+        $value = $value[key($value)];
+      }
+      
+      if (is_array($value))
+      {
+        $placeholder = '(' . implode(',', self::_expand($value, $column)) . ')';
+      }
+      
+      $result[] = $escape[0] . $column . $escape[1] . "{$op}{$placeholder}{$suffix}";
     }
   
-    return $array;
+    return $result;
   }
     
   /**
    * Constructs the WHERE part of a query
    *
-   * @param string|array $where Condition
+   * @param string|array $where
+   *   Condition
+   * @param string $suffix
+   *   The string to be appended to the column name for the value placeholder,
+   *   passed on to {@link Database::_escapeValueArray()}.  The default is
+   *   the empty string.
    * @return string
+   * @see Database::_escapeValueArray()
    */
-  protected function _where($where)
+  protected function _where($where, $suffix = '')
   {
     if (!is_null($where))
     {
@@ -210,7 +265,7 @@ class Database extends AbstractModel
   
         if ($this->_isAssociativeArray($where))
         {
-          $this->_escapeValueArray($where);
+          $where = $this->_escapeValueArray($where, $suffix);
         }
   
         $where = '(' . implode(') AND (', $where) . ')';
@@ -291,9 +346,25 @@ class Database extends AbstractModel
     
     if (is_array($where) && $this->_isAssociativeArray($where))
     {
-      foreach ($where as $key => $condition)
+      foreach ($where as $column => $condition)
       {
-        $params[":{$key}"] = $condition;
+        if (is_array($condition) && $this->_isAssociativeArray($condition))
+        {
+          reset($condition);
+          $condition = $condition[key($condition)];
+          
+          if (is_array($condition))
+          {
+            foreach (self::_expand($condition, $column) as $param_index => $param_name)
+            {
+              $params[$param_name] = $condition[$param_index];
+            }
+          }
+        }
+        else
+        {
+          $params[":{$column}"] = $condition;
+        }
       }
     }
 
@@ -316,7 +387,8 @@ class Database extends AbstractModel
     {
       debug(array(
         '_lastSuccess' => $success,
-        '_lastResult'  => $result
+        '_lastResult'  => $result,
+        'errorInfo'    => $stmt->errorInfo()
       ));
     }
     
@@ -389,15 +461,31 @@ class Database extends AbstractModel
     $updates = implode(',', $this->_escapeValueArray($updates));
           
     /* TODO: Should escape table names with escapeName(), but what about aliases? */
-    $query = "UPDATE {$tables} SET {$updates}" . $this->_where($where);
+    $query = "UPDATE {$tables} SET {$updates}" . $this->_where($where, '2');
     
     $stmt = $this->prepare($query);
     
-    if ($this->_isAssociativeArray($where))
+    if (is_array($where) && $this->_isAssociativeArray($where))
     {
-      foreach ($where as $key => $condition)
+      foreach ($where as $column => $condition)
       {
-        $params[":{$key}"] = $condition;
+        if (is_array($condition) && $this->_isAssociativeArray($condition))
+        {
+          reset($condition);
+          $condition = $condition[key($condition)];
+          
+          if (is_array($condition))
+          {
+            foreach (self::_expand($condition, $column) as $param_index => $param_name)
+            {
+              $params[$param_name] = $condition[$param_index];
+            }
+          }
+        }
+        else
+        {
+          $params[":{$column}2"] = $condition;
+        }
       }
     }
 
@@ -479,7 +567,7 @@ class Database extends AbstractModel
         $params[":{$key}"] = $condition;
       }
       
-      $this->_escapeValueArray($values);
+      $values = $this->_escapeValueArray($values);
       
       $cols = '';
       $values = 'SET ' . implode(', ', $values);
@@ -603,9 +691,25 @@ class Database extends AbstractModel
     
     if ($this->_isAssociativeArray($where))
     {
-      foreach ($where as $key => $condition)
+      foreach ($where as $column => $condition)
       {
-        $params[":{$key}"] = $condition;
+        if (is_array($condition) && $this->_isAssociativeArray($condition))
+        {
+          reset($condition);
+          $condition = $condition[key($condition)];
+          
+          if (is_array($condition))
+          {
+            foreach (self::_expand($condition, $column) as $param_index => $param_name)
+            {
+              $params[$param_name] = $condition[$param_index];
+            }
+          }
+        }
+        else
+        {
+          $params[":{$column}"] = $condition;
+        }
       }
     }
 

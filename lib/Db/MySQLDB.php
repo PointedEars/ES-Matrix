@@ -78,13 +78,8 @@ class MySQLDB extends Database
    * (non-PHPdoc)
    * @see Database::_escapeValueArray()
    */
-  protected function _escapeValueArray(array &$array)
+  protected function _escapeValueArray(array &$array, $suffix = '', array &$escape = array('`', '`'))
   {
-    foreach ($array as $column => &$value)
-    {
-      $value = "`" . $column . "`=:{$column}";
-    }
-  
-    return $array;
+    return parent::_escapeValueArray($array, $suffix, $escape);
   }
 }

@@ -81,7 +81,8 @@ class ImplementationMapper extends Mapper
 
       $success = $table->updateOrInsert($data, array('id' => $id));
       
-      VersionMapper::getInstance()->saveAll($id, $implementation['versions']);
+      VersionMapper::getInstance()->saveAll($id,
+        $implementation['assigned'], $implementation['available']);
       
       return $success;
     }

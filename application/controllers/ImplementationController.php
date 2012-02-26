@@ -65,6 +65,9 @@ class ImplementationController extends Controller
    */
   protected function saveAction()
   {
+    /* DEBUG */
+//     var_dump($_POST);
+    
     if (Application::getParam('cancel', $_POST))
     {
       $this->indexAction();
@@ -76,7 +79,8 @@ class ImplementationController extends Controller
          	'sortorder'   => Application::getParam('sortorder', $_POST),
     			'name'        => Application::getParam('impl_name', $_POST),
     			'acronym'     => Application::getParam('acronym', $_POST),
-    			'versions'    => Application::getParam('assigned', $_POST),
+    			'assigned'    => Application::getParam('assigned', $_POST),
+    			'available'   => Application::getParam('available', $_POST),
        )))
     {
        $this->indexAction();
