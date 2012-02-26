@@ -108,5 +108,49 @@ class EnvironmentMapper extends Mapper
     
     return $envs;
   }
+
+  /**
+   * Fetches all records from the environment table
+   *
+   * @return array
+   */
+  public function fetchAllPerImplementation()
+  {
+    $resultSet = $this->getDbTable()->getDatabase()->select(
+      'environment AS e
+			 LEFT JOIN version AS v ON e.version_id = v.id
+			 LEFT JOIN implementation AS i ON v.impl_id = i.id',
+      array(
+        'impl_id'  => 'i.id',
+        'version'  => 'v.name',
+        'env_name' => 'e.name',
+        'user_agent' => 'e.user_agent'
+      ),
+      'v.id IS NOT NULL AND impl_id IS NOT NULL',
+      "ORDER BY i.sortorder,
+       SUBSTRING_INDEX(`version`, '.', 1) + 0,
+       SUBSTRING_INDEX(SUBSTRING_INDEX(`version`, '.', -3), '.', 1) + 0,
+       SUBSTRING_INDEX(SUBSTRING_INDEX(`version`, '.', -2), '.', 1) + 0,
+       SUBSTRING_INDEX(`version`, '.', -1) + 0,
+       e.sortorder, e.name"
+    );
+    
+    $envs = array();
+    foreach ($resultSet as $row)
+    {
+      $envs[(int) $row['impl_id']][] = array(
+        'version'   => $row['version'],
+        'name'      => $row['env_name'],
+        'userAgent' => $row['user_agent']
+      );
+    }
+    
+    if (defined('DEBUG') && DEBUG > 0)
+    {
+      debug($envs);
+    }
+    
+    return $envs;
+  }
 }
 

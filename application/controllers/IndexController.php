@@ -7,6 +7,7 @@ require_once 'application/models/mappers/FeatureMapper.php';
 // require_once 'application/models/mappers/TestcaseMapper.php';
 require_once 'application/models/mappers/ImplementationMapper.php';
 require_once 'application/models/mappers/ResultMapper.php';
+require_once 'application/models/mappers/EnvironmentMapper.php';
 
 /**
  * A controller for handling the default view of the ECMAScript Support Matrix
@@ -38,10 +39,13 @@ class IndexController extends Controller
 
     $results = ResultMapper::getInstance()->getResultArray($features);
     
+    $environments = EnvironmentMapper::getInstance()->fetchAllPerImplementation();
+    
     $this->assign('edit', isset($_SESSION['edit']));
     $this->assign('implementations', $implementations);
     $this->assign('features', $features);
     $this->assign('results', $results);
+    $this->assign('environments', $environments);
         
     $this->render(null, 'application/layouts/index/index.phtml');
   }

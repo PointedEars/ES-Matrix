@@ -19,8 +19,99 @@
           <td><input name="sortorder" size="15"
                      value="<?php echo $this->escape($impl->sortorder); ?>"></td>
         </tr>
+        <tr>
+          <th style="vertical-align: top">Versions</th>
+          <td style="vertical-align: middle">
+            <table style="float: left">
+              <tr>
+                <th style="vertical-align: top; font-weight: normal"><label for="assigned">Assigned:</label></th>
+                <td><select name="assigned" id="assigned" size="10" multiple>
+<?php
+  foreach ($impl->versions as $key => $version)
+  {
+?>
+                    <option value="<?php echo $key; ?>"><?php echo $this->escape($version->name); ?></option>
+<?php
+  }
+?>
+                  </select></td>
+              </tr>
+              <tr>
+                <th style="vertical-align: middle"><script type="text/javascript">
+                    function addVersion (o, ev)
+                    {
+                      var es = o.form.elements;
+                      if (ev.type == "click" || ev.keyCode == 13)
+                      {
+                        jsx.dom.addOption(es["assigned"], o.value, "");
+                        return false;
+                      }
+                    }
+                  </script><input type="button" value="Add" onclick="addVersion(this.form.elements['new'], event)"></th>
+                <td><input name="new" size="7" style="width: 99%" onkeypress="return addVersion(this, event)"></td></td>
+              </tr>
+            </table>
+                  
+            <div style="float: left; padding: 0 0.5em">
+              <script type="text/javascript" src="../../dom/forms.js"></script>
+              <script type="text/javascript">
+                function moveItems (o)
+                {
+                  var es = o.form.elements;
+                  switch (o.name)
+                  {
+                    case "assign":
+                      var src = es["available"];
+                      var target = es["assigned"];
+                      break;
+                        
+                    case "unassign":
+                      var src = es["assigned"];
+                      var target = es["available"];
+                  }
+
+                  var options = src.options;
+                  for (var i = 0, len = options.length; i < len; ++i)
+                  {
+                    var option = options[i];
+                    if (option && option.selected)
+                    {
+                      jsx.dom.addOption(target, option.text, option.value);
+                      options[i] = null;
+                      --i;
+                    }
+                  }
+                }
+              </script>
+              <input type="button" name="assign" value="&lt;" onclick="moveItems(this)"><br>
+              <input type="button" name="unassign" value=">" onclick="moveItems(this)">
+            </div>
+            
+            <table style="float: left">
+              <tr>
+                <th style="vertical-align: top; font-weight: normal"><label for="available">Available:</label></th>
+                <td><select id="available" size="10" multiple>
+<?php
+  foreach ($this->all_versions as $key => $version)
+  {
+    if (!array_key_exists($key, $impl->versions))
+    {
+?>
+                  <option value="<?php echo $key; ?>"><?php
+                    echo $this->escape($version->name);
+                    $impl_id = $version->implementation_id;
+                    ?> (<?php echo (!is_null($impl_id)) ? $this->implementations[$impl_id]->acronymOrName : 'N/A';
+                    ?>)</option>
+<?php
+    }
+  }
+?>
+                </select></td>
+            </tr>
+          </table></td>
+        </tr>
       </table>
-      <button type="submit">Save</button>
+      <button type="submit" class="positive">Save</button>
       <button type="submit" name="cancel" value="1" class="negative"
               onclick="history.back(); return false">Cancel</button>
     </form>

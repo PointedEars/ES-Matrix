@@ -42,6 +42,12 @@ class ImplementationModel extends AbstractModel
   protected $_acronym;
   
   /**
+   * Versions of this implementation
+   * @var array[VersionModel]
+   */
+  protected $_versions;
+  
+  /**
    * @param int $id
    * @return ImplementationModel
    */
@@ -119,5 +125,36 @@ class ImplementationModel extends AbstractModel
   public function getAcronym()
   {
     return $this->_acronym;
+  }
+
+  /**
+  * @return string
+  */
+  public function getAcronymOrName()
+  {
+    return !empty($this->_acronym) ? $this->_acronym : $this->_name;
+  }
+  
+  /**
+  * @param array[VersionModel]|null $versions
+  * @return ImplementationModel
+  */
+  public function setVersions($versions)
+  {
+    if (is_null($versions) || is_array($versions))
+    {
+      $this->_versions = $versions;
+      return $this;
+    }
+
+    throw new Exception('Expected null or array of VersionModel instances');
+  }
+  
+  /**
+   * @return array[VersionModel]
+   */
+  public function getVersions()
+  {
+    return $this->_versions;
   }
 }

@@ -88,8 +88,8 @@ abstract class AbstractModel
       $this->{"_$name"} = $value;
       return $this->{"_$name"};
     }
-
-    $this->$name = $value;
+    
+    /* NOTE: Attempts to set other properties are _silently_ _ignored_ */
   }
 
   /**

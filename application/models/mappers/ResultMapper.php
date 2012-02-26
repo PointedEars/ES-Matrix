@@ -141,7 +141,7 @@ class ResultMapper extends Mapper
               {
                 foreach ($impl_results as $version_id => $version_result)
                 {
-                  $flat_results[$version_id] = $version_result['successes'];
+                  $flat_results[$version_id] = $version_result['values'];
                 }
               }
             }
@@ -150,7 +150,7 @@ class ResultMapper extends Mapper
             {
               if (isset($flat_results[$unsafe_version_id]))
               {
-                $unsafe_result = $flat_results[$unsafe_version_id];
+                $unsafe_result = array_sum(str_split($flat_results[$unsafe_version_id]));
             
                 if ($unsafe_result < $num_testcases)
                 {
@@ -195,6 +195,9 @@ class ResultMapper extends Mapper
    */
   public function getResultArray($features)
   {
+    /* DEBUG */
+//     define('DEBUG', 2);
+    
     $db = $this->getDbTable()->getDatabase();
     $rows = $db->select(
       '`result` r
@@ -204,30 +207,61 @@ class ResultMapper extends Mapper
        LEFT JOIN `version` v ON e.version_id = v.id
        LEFT JOIN `implementation` i ON v.impl_id = i.id',
       array(
-      	'feature_id'   => 'f.id',
-      	'impl_id'      => 'i.id',
-      	'version_id'   => 'v.id',
-      	'version'      => 'v.name',
-        'successes'    => 'SUM(r.value)'
+      	'feature_id' => 'f.id',
+      	'impl_id'    => 'i.id',
+      	'version_id' => 'v.id',
+        'value'      => 'r.value'
       ),
       null,
-      "GROUP BY feature_id, i.sortorder,
-       SUBSTRING_INDEX(`version`, '.', 1) + 0,
-       SUBSTRING_INDEX(SUBSTRING_INDEX(`version`, '.', -3), '.', 1) + 0,
-       SUBSTRING_INDEX(SUBSTRING_INDEX(`version`, '.', -2), '.', 1) + 0,
-       SUBSTRING_INDEX(`version`, '.', -1) + 0"
+      "ORDER BY feature_id, i.sortorder,
+       SUBSTRING_INDEX(v.name, '.', 1) + 0,
+       SUBSTRING_INDEX(SUBSTRING_INDEX(v.name, '.', -3), '.', 1) + 0,
+       SUBSTRING_INDEX(SUBSTRING_INDEX(v.name, '.', -2), '.', 1) + 0,
+       SUBSTRING_INDEX(v.name, '.', -1) + 0,
+       t.id"
     );
     
     $result = array();
     if (is_array($rows))
     {
+      /* Get version names here to make query result smaller and query faster */
+      $versions = VersionMapper::getInstance()->fetchAll();
+      $ver_name_cache = array();
+      
       foreach ($rows as $row)
       {
-        $result['forFeatures'][(int) $row['feature_id']][(int) $row['impl_id']]
-          [(int) $row['version_id']] = array(
-          	'version'   => $row['version'],
-          	'successes' => (int) $row['successes']
-          );
+        $feature_id = (int) $row['feature_id'];
+        $impl_id    = (int) $row['impl_id'];
+        $version_id = (int) $row['version_id'];
+        
+//         if ($feature_id === 0 || $impl_id === 0 || $version_id === 0)
+//         {
+//           continue;
+//         }
+        
+        if ($version_id > 0)
+        {
+          if (!isset($result['forFeatures'][$feature_id][$impl_id][$version_id]))
+          {
+            if (array_key_exists($version_id, $ver_name_cache))
+            {
+              $version_name = $ver_name_cache[$version_id];
+            }
+            else
+            {
+              $version_name = $versions[$version_id]->name;
+              $ver_name_cache[$version_id] = $version_name;
+            }
+            
+            $result['forFeatures'][$feature_id][$impl_id][$version_id] = array(
+              'version' => $version_name,
+              'values'  => ''
+            );
+          }
+
+          $result['forFeatures'][$feature_id][$impl_id][$version_id]['values'] .=
+            $row['value'];
+        }
       }
       
       $result['safeFeatures'] = $this->_getSafeFeatures($features, Application::getParam('forFeatures', $result));

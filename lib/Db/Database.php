@@ -213,7 +213,7 @@ class Database extends AbstractModel
           $this->_escapeValueArray($where);
         }
   
-        $where = '(' . join(') AND (', $where) . ')';
+        $where = '(' . implode(') AND (', $where) . ')';
       }
   
       return ' WHERE ' . $where;
@@ -255,7 +255,7 @@ class Database extends AbstractModel
         $columns = $this->_escapeAliasArray($columns);
       }
 
-      $columns = join(',', $columns);
+      $columns = implode(',', $columns);
     }
 
     if (is_array($tables))
@@ -265,13 +265,18 @@ class Database extends AbstractModel
         $columns = $this->_escapeAliasArray($columns);
       }
 
-      $tables = join(',', $tables);
+      $tables = implode(',', $tables);
     }
 
     $query = "SELECT {$columns} FROM {$tables}" . $this->_where($where);
 
     if (!is_null($order))
     {
+      if (is_array($order))
+      {
+        $order = 'ORDER BY ' . implode(',', $order);
+      }
+      
       $query .= " $order";
     }
 
@@ -363,7 +368,7 @@ class Database extends AbstractModel
      
     if (is_array($tables))
     {
-      $tables = join(',', $tables);
+      $tables = implode(',', $tables);
     }
      
     if (!$updates)
@@ -451,7 +456,7 @@ class Database extends AbstractModel
     {
       $cols = ' ('
       . (is_array($cols)
-      ? join(',', array_map(create_function('$s', 'return "`$s`";'), $cols))
+      ? implode(',', array_map(create_function('$s', 'return "`$s`";'), $cols))
       : $cols) . ')';
     }
     else
@@ -477,7 +482,7 @@ class Database extends AbstractModel
       $this->_escapeValueArray($values);
       
       $cols = '';
-      $values = 'SET ' . join(', ', $values);
+      $values = 'SET ' . implode(', ', $values);
     }
     else
     {
@@ -489,7 +494,7 @@ class Database extends AbstractModel
         }
       }
        
-      $values = ' VALUES (' . join(', ', $values) . ')';
+      $values = ' VALUES (' . implode(', ', $values) . ')';
     }
   
     /* TODO: Should escape table names with escapeName(), but what about aliases? */
@@ -543,6 +548,11 @@ class Database extends AbstractModel
   
     $result =& $this->_lastResult;
     
+    if (is_null($fetch_style))
+    {
+      $fetch_style = PDO::FETCH_ASSOC;
+    }
+    
     if (!is_null($ctor_args))
     {
       $result = $stmt->fetchAll($fetch_style, $column_index, $ctor_args);
@@ -582,7 +592,7 @@ class Database extends AbstractModel
          
     if (is_array($tables))
     {
-      $tables = join(',', $tables);
+      $tables = implode(',', $tables);
     }
      
     $params = array();

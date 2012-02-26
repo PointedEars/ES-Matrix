@@ -5,6 +5,7 @@ require_once 'lib/Controller.php';
 require_once 'application/views/IndexView.php';
 require_once 'application/models/ImplementationModel.php';
 require_once 'application/models/mappers/ImplementationMapper.php';
+require_once 'application/models/mappers/VersionMapper.php';
 
 /**
  * A controller for handling the implementations listed in the
@@ -42,13 +43,20 @@ class ImplementationController extends Controller
    */
   protected function editAction(ImplementationModel $impl = null)
   {
+    $mapper = ImplementationMapper::getInstance();
+    
     if (is_null($impl))
     {
       $id = Application::getParam('id');
-      $impl = ImplementationMapper::getInstance()->find($id);
+      $impl = $mapper->find($id);
     }
     
+    $all_impls = $mapper->fetchAll();
+    $all_versions = VersionMapper::getInstance()->fetchAll();
+    
     $this->assign('implementation', $impl);
+    $this->assign('implementations', $all_impls);
+    $this->assign('all_versions', $all_versions);
     $this->render(null, 'application/layouts/implementation/edit.phtml');
   }
   
@@ -68,6 +76,7 @@ class ImplementationController extends Controller
          	'sortorder'   => Application::getParam('sortorder', $_POST),
     			'name'        => Application::getParam('impl_name', $_POST),
     			'acronym'     => Application::getParam('acronym', $_POST),
+    			'versions'    => Application::getParam('assigned', $_POST),
        )))
     {
        $this->indexAction();

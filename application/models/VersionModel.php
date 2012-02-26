@@ -47,13 +47,25 @@ class VersionModel extends AbstractModel
 
   public function setSafe($safe)
   {
-    $this->_name = (bool) $safe;
+    $this->_safe = (bool) $safe;
     return $this;
   }
   
   public function getSafe()
   {
     return $this->_safe;
+  }
+
+  /**
+   * Maps data used to initialize this <code>ResultModel</code> instance
+   * to its data properties.
+   *
+   * @see AbstractModel::map()
+   */
+  public function map($data, $mapping = null, $exclusive = false)
+  {
+    $mapping = array('impl_id' => 'implementation_id');
+    parent::map($data, $mapping, $exclusive);
   }
 }
 

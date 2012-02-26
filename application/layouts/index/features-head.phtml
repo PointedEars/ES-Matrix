@@ -1,0 +1,99 @@
+          <tr>
+<?php
+if ($this->edit)
+{
+  ?>
+            <td style="width: 7em">&nbsp;</td>
+<?php
+  }
+?>
+            <th id="atoz">
+<?php
+  if ($this->edit)
+  {
+?>
+              <a href="<?php echo $this->escape($this->getURL('feature', 'add')); ?>"
+                 title="Add feature"
+                 class="add">Add</a>
+<?php
+  }
+?>
+              Feature
+            </th>
+            <th><a href="#ecmascript">ECMAScript</a></th>
+            <th>This <abbr title="implementation">impl.</abbr><?php
+                // $footnotes->add('this-impl', '', $scriptEngineTest, '');
+                ?><br>
+              <script type="text/javascript">
+                var implementation = jsx.object.isMethod(this, "ScriptEngine") ? ScriptEngine() : '';
+                if (implementation)
+                {
+                  implementation = implementation.replace(/"/g, "&quot;").replace(/</g, "&gt;");
+                  var version = '';
+                  if (jsx.object.isMethod(this, "ScriptEngineMajorVersion"))
+                  {
+                    version = ScriptEngineMajorVersion();
+
+                    if (jsx.object.isMethod(this, "ScriptEngineMinorVersion"))
+                    {
+                      version += "." + ScriptEngineMinorVersion();
+
+                      if (jsx.object.isMethod(this, "ScriptEngineBuildVersion"))
+                      {
+                        version += "." + ScriptEngineBuildVersion();
+                      }
+                    }
+
+                    if (version)
+                    {
+                      version = version.replace(/"/g, "&quot;").replace(/</g, "&gt;");
+                    }
+                  }
+                      
+                  document.write(
+                    '<input type="hidden" name="implementation" value="' + implementation + '">'
+                    + '<input type="hidden" name="version" value="' + version + '">');
+                }
+              </script>
+              <input type="submit" name="submitResults" value="Submit results"></th>
+<?php
+  $implementations = $this->implementations;
+  foreach ($implementations as $impl)
+  {
+?>
+            <td><?php
+              if ($impl->acronym !== '')
+              {
+                ?><abbr title="<?php echo $this->escape($impl->name); ?>"><?php
+                echo $this->escape($impl->acronym);
+              }
+              else
+            {
+                echo $this->escape($impl->name);
+              }
+        
+              if ($impl->acronym !== '')
+              {
+                ?></abbr><?php
+              }
+              
+              if ($this->edit)
+              {
+                ?><br>
+                <a href="<?php echo $this->escape($this->getURL('implementation', 'edit', $impl->id)); ?>"
+                   class="edit">Edit</a><?php
+              }
+            ?></td>
+<?php
+  }
+  
+  if ($this->edit)
+  {
+?>
+            <td><a href="<?php echo $this->escape($this->getURL('implementation', 'add')); ?>"
+                   title="Add implementation"
+                   class="add">Add</a></td>
+<?php
+  }
+?>
+          </tr>

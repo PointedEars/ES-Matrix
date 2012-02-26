@@ -4,6 +4,8 @@ require_once 'lib/Db/Mapper.php';
 require_once 'application/models/databases/es-matrix/tables/ImplementationTable.php';
 require_once 'application/models/ImplementationModel.php';
 
+require_once 'application/models/mappers/VersionMapper.php';
+
 /**
  * Mapper class for tested implementations
  *
@@ -79,6 +81,8 @@ class ImplementationMapper extends Mapper
 
       $success = $table->updateOrInsert($data, array('id' => $id));
       
+      VersionMapper::getInstance()->saveAll($id, $implementation['versions']);
+      
       return $success;
     }
     else
@@ -125,7 +129,7 @@ class ImplementationMapper extends Mapper
     {
       $impl = new ImplementationModel($row);
       
-      $impls[] = $impl;
+      $impls[$impl->id] = $impl;
     }
     
     return $impls;
@@ -159,6 +163,7 @@ class ImplementationMapper extends Mapper
          ->setSortOrder($row['sortorder'])
          ->setName($row['name'])
          ->setAcronym($row['acronym'])
+         ->setVersions(VersionMapper::getInstance()->getByImplementationId($id))
     //             ->setCreated($row['created'])
     ;
     

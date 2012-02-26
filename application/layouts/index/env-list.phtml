@@ -1,0 +1,30 @@
+<?php
+  $implementations = $this->implementations;
+  $environments = $this->environments;
+?>
+          <tr>
+            <td colspan="<?php echo ($this->edit ? 1 : 0) + 3 + count($implementations); ?>"
+              >The following host environments have been used for the tests:
+              <ul>
+              <?php
+  foreach ($implementations as $impl_id => $impl)
+  {
+?>
+                <li><?php echo $this->escape($impl->name); ?>
+                  <ul>
+<?php
+    foreach ($environments[$impl_id] as $env)
+    {
+?>
+                    <li>Version&nbsp;<?php echo $this->escape($env['version']); ?>
+                      in <?php echo $this->escape($env['name']); ?><br>
+                      (<?php echo $this->escape($env['userAgent']); ?>)</li>
+<?php
+    }
+?>
+                  </ul></li>
+<?php
+  }
+?>
+              </ul></td>
+          </tr>
