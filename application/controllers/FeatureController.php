@@ -41,16 +41,22 @@ class FeatureController extends Controller
    */
   protected function editAction(FeatureModel $feature = null)
   {
+    $mapper = FeatureMapper::getInstance();
+    $features = $mapper->fetchAll();
+    uasort($features, array('FeatureModel', 'compare'));
+    
     if (is_null($feature))
     {
       $id = Application::getParam('id');
-      $feature = FeatureMapper::getInstance()->find($id);
+//       $feature = $mapper->find($id);
+      $feature = $features[$id];
       /* ORM */
 //       $feature = new FeatureModel(array('id' => Application::getParam('id')));
 //       $feature->find();
     }
     
     $this->assign('feature', $feature);
+    $this->assign('features', $features);
     $this->render(null, 'application/layouts/feature/edit.phtml');
   }
   
@@ -59,6 +65,10 @@ class FeatureController extends Controller
    */
   protected function saveAction()
   {
+    /* DEBUG */
+//     define('DEBUG', 2);
+//     debug($_POST);
+    
     if (Application::getParam('cancel', $_POST))
     {
       $this->indexAction();
@@ -66,7 +76,7 @@ class FeatureController extends Controller
     }
 
     $id = Application::getParam('id', $_POST);
-    if (FeatureMapper::getInstance()->save(array(
+    if (null !== ($feature = FeatureMapper::getInstance()->save(array(
          	'id'          => $id,
          	'code'        => Application::getParam('code', $_POST),
     			'title'       => Application::getParam('title', $_POST),
@@ -74,14 +84,25 @@ class FeatureController extends Controller
     			'section'     => Application::getParam('section', $_POST),
     			'section_urn' => Application::getParam('section_urn', $_POST),
          	'testcases'   => array(
-         	  'titles'    => Application::getParam('testcase_title', $_POST),
-         	  'codes'     => Application::getParam('testcase_code', $_POST),
-         	  'quoteds'   => Application::getParam('testcase_quoted', $_POST),
-         	  'alt_types' => Application::getParam('testcase_alt_type', $_POST),
+         	  'titles'      => Application::getParam('testcase_title', $_POST),
+         	  'codes'       => Application::getParam('testcase_code', $_POST),
+         	  'quoteds'     => Application::getParam('testcase_quoted', $_POST),
+         	  'alt_types'   => Application::getParam('testcase_alt_type', $_POST),
        	  )
-       )))
+       ))))
     {
-      Application::redirect('#feature' . $id);
+      $source_id = Application::getParam('source_id', $_POST);
+      if (Application::getParam('copy', $_POST) && !empty($source_id))
+      {
+        /* TODO: Redirect to edit form after copy */
+        TestcaseMapper::getInstance()->copy($source_id, $feature);
+//         debug($feature);
+        $this->editAction($feature);
+      }
+      else
+      {
+        Application::redirect('#feature' . $feature->id);
+      }
     }
   }
   

@@ -539,10 +539,6 @@ span {
   height: auto;
 }
 
-label {
-  vertical-align: top;
-}
-
 input[readonly] {
   border: none;
   width: 1em;

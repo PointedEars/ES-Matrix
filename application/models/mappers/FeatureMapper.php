@@ -43,6 +43,8 @@ class FeatureMapper extends Mapper
    * Saves a feature in the features table
    *
    * @param FeatureModel|array $feature
+   * @return int|null
+   *   The ID of the updated or added feature, or <code>null</code> on error
    */
   public function save($feature)
   {
@@ -82,29 +84,22 @@ class FeatureMapper extends Mapper
     {
       if ($table->lastInsertId)
       {
-        $id = $table->lastInsertId;
+        $featureObj->id = $table->lastInsertId;
       }
       
       /* DEBUG */
       if (defined('DEBUG') && DEBUG > 0)
       {
-        if (is_array($feature))
-        {
-          debug($feature['testcases']);
-        }
-        else
-        {
-          debug($feature->testcases);
-        }
+        debug($featureObj);
       }
       
       if (is_array($feature))
       {
-        $success = TestcaseMapper::getInstance()->saveForFeature($id, $feature['testcases']);
+        $success = (null !== TestcaseMapper::getInstance()->saveForFeature($featureObj));
       }
     }
     
-    return $success;
+    return $success ? $featureObj : null;
   }
   
   /**

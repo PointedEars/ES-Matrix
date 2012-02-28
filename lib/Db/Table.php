@@ -111,9 +111,9 @@ abstract class Table extends AbstractModel
    * @return bool
    * @see Database::insert()
    */
-  public function insert($data)
+  public function insert($data, $cols = null)
   {
-    return $this->_database->insert($this->_name, $data);
+    return $this->_database->insert($this->_name, $data, $cols);
   }
   
   /**

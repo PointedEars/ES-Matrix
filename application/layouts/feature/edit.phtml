@@ -5,28 +5,28 @@
       <input type="hidden" name="id" value="<?php echo $feature->id; ?>">
       <table style="width: 100%">
         <tr>
-          <th>Title</th>
-          <td><input name="title" style="width: 99%"
+          <th><label for="title" accesskey="t"><u>T</u>itle</label></th>
+          <td><input name="title" id="title" style="width: 99%"
                      value="<?php echo $this->escape($feature->title); ?>"></td>
         </tr>
         <tr>
-          <th style="vertical-align: top">Code</th>
-          <td><textarea name="code" cols="80" rows="4" style="width: 99%"
+          <th style="vertical-align: top"><label for="code" accesskey="c"><u>C</u>ode</label></th>
+          <td><textarea name="code" id="code" cols="80" rows="4" style="width: 99%"
                         ><?php echo $this->escape($feature->code); ?></textarea></td>
         </tr>
         <tr>
-          <th>Edition</th>
-          <td><input name="edition" size="1"
+          <th><label for="edition" accesskey="i">Ed<u>i</u>tion</label></th>
+          <td><input name="edition" id="edition" size="1"
                      value="<?php echo $this->escape($feature->edition); ?>"></td>
         </tr>
         <tr>
-          <th>Section</th>
-          <td><input name="section" size="15"
+          <th><label for="section" accesskey="s"><u>S</u>ection</label></th>
+          <td><input name="section" id="section" size="15"
                      value="<?php echo $this->escape($feature->section); ?>"></td>
         </tr>
         <tr>
-          <th>Section URN</th>
-          <td><input name="section_urn" size="15"
+          <th><label for="section_urn" accesskey="u">Section <u>U</u>RN</label></th>
+          <td><input name="section_urn" id="section_urn" size="15"
                      value="<?php echo $this->escape($feature->section_urn); ?>"></td>
         </tr>
 
@@ -227,7 +227,27 @@
             </script>
             <button type="button" name="testcase_action" value="add"
                     class="add" style="float: left; clear: both"
-                    onclick="addTestcase(this)">Add</button>
+                    accesskey="a"
+                    onclick="addTestcase(this)"><u>A</u>dd</button>
+
+            <div style="float: left; margin-left: 0.25em">
+              <label for="source_id" accesskey="r">F<u>r</u>om</label>
+              <select name="source_id" id="source_id" size="1">
+                <option value="">– Select source feature –</option>
+<?php
+  foreach ($this->features as $id => $source_feature)
+  {
+    if ($id != $feature->id)
+    {
+?>
+                <option value="<?php echo $id; ?>"><?php echo strip_tags(preg_replace('/\\s+/', ' ', $source_feature->code)); ?></option>
+<?php
+    }
+  }
+?>
+              </select>
+              <button type="submit" name="copy" value="1">Copy</button>
+            </div>
           </td>
         </tr>
         <tr>

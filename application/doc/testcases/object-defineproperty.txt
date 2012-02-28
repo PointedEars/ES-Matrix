@@ -1,0 +1,30 @@
+ES 5.1, 15.2.3.6 Object.defineProperty ( O, P, Attributes )
+
+                                            false|true
+typeof Object.defineProperty == "function" ------------> FAIL|PASS
+
+                    true                        no
+Type(O) not Object ------> throw TypeError ------------> FAIL
+                                         |      yes
+                                         '-------------> PASS
+                                   
+desc := ToPropertyDescriptor(Attributes)
+  
+8.10.5 ToPropertyDescriptor ( Obj )
+
+  1. If Type(Obj) is not Object throw a TypeError exception.
+ 
+                             true                        no
+Type(Attributes) not Object ------> throw TypeError ------------> FAIL
+                                                  |      yes
+                                                  '-------------> PASS
+
+7. If the result of calling the [[HasProperty]] internal method of Obj with argument "get" is true, then
+   ...
+   b. If IsCallable(getter) is false and getter is not undefined, then throw a TypeError exception
+   
+                             true                        no
+Type(Attributes.get) is not Function and not Undefined ------> throw TypeError ------------> FAIL
+                                                                             |      yes
+                                                                             '-------------> PASS
+

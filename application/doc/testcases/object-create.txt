@@ -1,0 +1,28 @@
+ES 5.1, 15.2.3.5 Object.create ( O [, Properties] )
+
+                                        false|true
+typeof Object.create == "function" --------------------> FAIL|PASS
+
+                            true                    no
+Type(O) not Object or Null ------> throw TypeError ----> FAIL
+                                                 |  yes
+                                                 '-----> PASS    
+                                   
+Type(O) is Null, Properties not passed:                     
+Create and return new Object with empty prototype chain
+ |            yes
+ '-----------------------------------------------------> PASS
+ |            no
+ '-----------------------------------------------------> FAIL
+
+Type(O) is Object, O is Array.prototype, Properties not passed: 
+                                                  yes                    
+Create and return new Object with Array method --------> PASS
+                                             |    no
+                                             '---------> FAIL
+                                             
+Type(O) is Null, Properties passed: 
+                                                  yes                    
+Create and return new Object with Properties ----------> PASS
+                                           |      no
+                                           '-----------> FAIL

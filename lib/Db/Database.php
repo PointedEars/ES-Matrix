@@ -387,8 +387,8 @@ class Database extends AbstractModel
     {
       debug(array(
         '_lastSuccess' => $success,
-        '_lastResult'  => $result,
-        'errorInfo'    => $stmt->errorInfo()
+        'errorInfo'    => $stmt->errorInfo(),
+        '_lastResult'  => $result
       ));
     }
     
@@ -510,6 +510,7 @@ class Database extends AbstractModel
     {
       debug(array(
         '_lastSuccess' => $success,
+        'errorInfo'    => $stmt->errorInfo(),
         '_lastResult'  => $result
       ));
     }
@@ -543,9 +544,9 @@ class Database extends AbstractModel
     if ($cols != null)
     {
       $cols = ' ('
-      . (is_array($cols)
-      ? implode(',', array_map(create_function('$s', 'return "`$s`";'), $cols))
-      : $cols) . ')';
+            . (is_array($cols)
+                ? implode(',', array_map(create_function('$s', 'return "`$s`";'), $cols))
+                : $cols) . ')';
     }
     else
     {
@@ -560,29 +561,32 @@ class Database extends AbstractModel
   
     $params = array();
     
-    if ($this->_isAssociativeArray($values))
+    if (is_array($values))
     {
-      foreach ($values as $key => $condition)
+      if ($this->_isAssociativeArray($values))
       {
-        $params[":{$key}"] = $condition;
-      }
-      
-      $values = $this->_escapeValueArray($values);
-      
-      $cols = '';
-      $values = 'SET ' . implode(', ', $values);
-    }
-    else
-    {
-      foreach ($values as &$value)
-      {
-        if (is_string($value))
+        foreach ($values as $key => $condition)
         {
-          $value = "'" . $value . "'";
+          $params[":{$key}"] = $condition;
         }
+        
+        $values = $this->_escapeValueArray($values);
+        
+        $cols = '';
+        $values = 'SET ' . implode(', ', $values);
       }
-       
-      $values = ' VALUES (' . implode(', ', $values) . ')';
+      else
+      {
+        foreach ($values as &$value)
+        {
+          if (is_string($value))
+          {
+            $value = "'" . $value . "'";
+          }
+        }
+         
+        $values = ' VALUES (' . implode(', ', $values) . ')';
+      }
     }
   
     /* TODO: Should escape table names with escapeName(), but what about aliases? */
@@ -611,6 +615,7 @@ class Database extends AbstractModel
     {
       debug(array(
         '_lastSuccess'  => $success,
+        'errorInfo'     => $stmt->errorInfo(),
         '_lastInsertId' => $this->_lastInsertId,
         '_lastResult'   => $result
       ));
@@ -731,8 +736,9 @@ class Database extends AbstractModel
     if (defined('DEBUG') && DEBUG > 1)
     {
       debug(array(
-        '_lastSuccess'  => $success,
-        '_lastResult'   => $result
+        '_lastSuccess' => $success,
+        'errorInfo'    => $stmt->errorInfo(),
+        '_lastResult'  => $result
       ));
     }
     

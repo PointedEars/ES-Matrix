@@ -98,7 +98,6 @@ class View
     {
       if (is_string($value))
       {
-        $value = strval($value);
         $encoding = mb_detect_encoding($value);
         if ($encoding === 'ASCII')
         {

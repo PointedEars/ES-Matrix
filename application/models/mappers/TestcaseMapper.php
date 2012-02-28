@@ -5,6 +5,7 @@ require_once 'application/models/databases/es-matrix/tables/TestcaseTable.php';
 require_once 'application/models/TestcaseModel.php';
 
 require_once 'includes/features.class.php';
+require_once 'application/models/FeatureModel.php';
 
 /**
  * Mapper class for testcases
@@ -67,10 +68,9 @@ class TestcaseMapper extends Mapper
   /**
    * Saves the testcases for a feature
    *
-   * @param int $featureId
-   * @param array $testcases
+   * @param FeatureModel $feature
    */
-  public function saveForFeature($featureId, array $testcases)
+  public function saveForFeature(FeatureModel $feature)
   {
     $table = $this->getDbTable();
     $table->beginTransaction();
@@ -79,9 +79,10 @@ class TestcaseMapper extends Mapper
      * NOTE: Must _delete_ saved testcases for that feature to avoid
      * invalid results (ON DELETE CASCADE)
      */
-    $table->delete(null, array('feature_id' => $featureId));
+    $table->delete(null, array('feature_id' => $feature->id));
     
     /* Assign new testcases to feature */
+    $testcases = $feature->testcases;
     $codes = $testcases['codes'];
     
     if ($codes)
@@ -95,14 +96,14 @@ class TestcaseMapper extends Mapper
         {
           if (trim($codes[$key]))
           {
-            $quoted = null;
+            $quoted = false;
             if (is_array($quoteds) && array_key_exists($key, $quoteds))
             {
               $quoted = $quoteds[$key];
             }
             
-            $testcase = new TestcaseModel(array(
-              'feature_id' => $featureId,
+            $new_testcases[] = $testcase = new TestcaseModel(array(
+              'feature_id' => $feature->id,
               'title'      => $title,
               'code'       => $codes[$key],
               'quoted'     => $quoted,
@@ -118,6 +119,8 @@ class TestcaseMapper extends Mapper
             $this->save($testcase);
           }
         }
+        
+        $feature->testcases = $new_testcases;
       }
     }
     
@@ -127,7 +130,7 @@ class TestcaseMapper extends Mapper
       $table->rollBack();
     }
     
-    return $success;
+    return $success ? $feature : null;
   }
   
   public function importAll(FeatureList $featureList)
@@ -160,6 +163,32 @@ class TestcaseMapper extends Mapper
 //     debug(max(array_map('mapper', $testcases)));
     
 //     debug($testcases);
+  }
+  
+  /**
+   * Copies the testcases for a feature from another
+   *
+   * @param int $sourceId
+   * @param FeatureModel $target
+   */
+  public function copy($sourceId, $target)
+  {
+    $testcases = $target->testcases;
+    if (!is_array($testcases))
+    {
+      $testcases = array();
+    }
+    
+    $testcases = array_merge($testcases, $this->findByFeatureId($sourceId));
+    foreach ($testcases as $key => $value)
+    {
+      if (!is_int($key))
+      {
+        unset($testcases[$key]);
+      }
+    }
+    
+    $target->testcases = $testcases;
   }
   
   /**

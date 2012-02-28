@@ -6,6 +6,11 @@ require_once 'lib/AbstractModel.php';
 
 require_once 'application/models/adapters/MatrixAdapter.php';
 
+/**
+ * Data model for a testcase
+ *
+ * @author Thomas Lahn
+ */
 class TestcaseModel extends AbstractModel
 {
   /* ORM */
@@ -37,7 +42,7 @@ class TestcaseModel extends AbstractModel
   
   /**
    * Should the code be escaped and quoted on output?
-   * @var boolean
+   * @var bool
    */
   protected $_quoted = null;
   
@@ -150,12 +155,12 @@ class TestcaseModel extends AbstractModel
   }
 
   /**
-   * @param null|bool $quoted
+   * @param bool $quoted
    * @return TestcaseModel
    */
   public function setQuoted($quoted)
   {
-    $this->_quoted = is_null($quoted) ? $quoted : (boolean) $quoted;
+    $this->_quoted = (bool) $quoted;
     return $this;
   }
   
@@ -191,7 +196,7 @@ class TestcaseModel extends AbstractModel
    */
   public function setCreated($date)
   {
-    $this->_created = is_null($date) ? $date : strtotime($date . ' GMT');
+    $this->_created = is_null($date) ? gmmktime() : strtotime($date . ' GMT');
     return $this;
   }
   
@@ -203,13 +208,14 @@ class TestcaseModel extends AbstractModel
     return $this->_created;
   }
   
+  /* ORM */
   
-  /**
-   * Returns the testcases for a feature specified by its ID
-   *
-   * @param int $id
-   * @return array
-   */
+//   /**
+//    * Returns the testcases for a feature specified by its ID
+//    *
+//    * @param int $id
+//    * @return array
+//    */
 //   public static function findByFeatureId($id)
 //   {
 //     $testcase = new self(array('feature_id' => $id));

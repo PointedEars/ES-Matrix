@@ -1,6 +1,6 @@
 /**
  * @fileOverview <title>Basic Object Library</title>
- * @file $Id: object.js 244 2012-02-10 18:27:07Z PointedEars $
+ * @file $Id$
  *
  * @author (C) 2004-2011 <a href="mailto:js@PointedEars.de">Thomas Lahn</a>
  *
@@ -25,7 +25,7 @@ if (typeof jsx == "undefined")
   /**
    * @namespace
    */
-  var jsx = {};
+  var jsx = new Object();
 }
 
 if (typeof jsx.options == "undefined")
@@ -33,24 +33,23 @@ if (typeof jsx.options == "undefined")
   /**
    * @namespace
    */
-  jsx.options = {
-    emulate: true
-  };
+  jsx.options = new Object();
+  jsx.options.emulate = true;
 }
 
 /**
  * @namespace
  */
-jsx.object = {
+jsx.object = new Object();
+
   /**
    * @version
    */
-  version:   "0.2.$Revision: 244 $ ($Date: 2012-02-10 19:27:07 +0100 (Fr, 10 Feb 2012) $)",
-  copyright: "Copyright \xA9 2004-2011",
-  author:    "Thomas Lahn",
-  email:     "js@PointedEars.de",
-  path:      "http://PointedEars.de/scripts/"
-};
+jsx.object.version = "0.2.$Revision: 244 $ ($Date: 2012-02-10 19:27:07 +0100 (Fr, 10 Feb 2012) $)";
+jsx.object.copyright = "Copyright \xA9 2004-2011";
+jsx.object.author = "Thomas Lahn";
+jsx.object.email = "js@PointedEars.de";
+jsx.object.path = "http://PointedEars.de/scripts/";
 
 // jsx.object.docURL = jsx.object.path + "object.htm";
 
@@ -60,7 +59,7 @@ if (typeof de == "undefined")
   /**
    * @namespace
    */
-  var de = {};
+  var de = new Object();
 }
 
 if (typeof de.pointedears == "undefined")
@@ -68,7 +67,7 @@ if (typeof de.pointedears == "undefined")
   /**
    * @namespace
    */
-  de.pointedears = {};
+  de.pointedears = new Object();
 }
 
 /**
@@ -157,15 +156,12 @@ jsx.MSG_DEBUG = "debug";
  *   <code>false</code> otherwise.
  * @see jsx.object#isMethodType()
  */
-jsx.object.isMethod = jsx.object.areMethods =
-jsx.object.isHostMethod = jsx.object.areHostMethods = (function() {
-  var
-    rxUnknown = /^\s*unknown\s*$/i,
-    rxNativeMethod = /^\s*function\s*$/i,
-    rxMethod = /^\s*(function|object)\s*$/i,
-    areNativeMethods = null;
+function jsx_isMethod_wrapper ()
+{
+  var areNativeMethods = null;
 
-  return function(obj, prop) {
+  function isMethod (obj, prop)
+  {
     var len = arguments.length;
     if (len < 1)
     {
@@ -189,14 +185,14 @@ jsx.object.isHostMethod = jsx.object.areHostMethods = (function() {
     {
       if (checkNative)
       {
-        return rxNativeMethod.test(t) && obj && true || false;
+        return t == "function" && obj && true || false;
       }
 
-      return rxUnknown.test(t) || rxMethod.test(t) && obj && true || false;
+      return t == "unknown" || (t == "function" || t == "object") && obj && true || false;
     }
 
     /* otherwise the first argument must refer to a suitable object */
-    if (rxUnknown.test(t) || !obj)
+    if (t == "unknown" || !obj)
     {
       return false;
     }
@@ -235,17 +231,17 @@ jsx.object.isHostMethod = jsx.object.areHostMethods = (function() {
          * NOTE: Test for "unknown" required in any case;
          * this order speeds up evaluation
          */
-        if (rxUnknown.test(t) || (rxMethod.test(t) && obj[prop]))
+        if (t == "unknown" || ((t == "function" || t == "object") && obj[prop]))
         {
           if (i < len - 1)
           {
             obj = obj[prop];
-            if (!(rxUnknown.test(typeof obj) || obj))
+            if (!(typeof obj == "unknown" || obj))
             {
               return false;
             }
           }
-          else if (checkNative && !rxNativeMethod.test(t))
+          else if (checkNative && t != "function")
           {
             return false;
           }
@@ -258,8 +254,12 @@ jsx.object.isHostMethod = jsx.object.areHostMethods = (function() {
     }
 
     return true;
-  };
-}());
+  }
+
+  return isMethod;
+}
+jsx.object.isMethod = jsx.object.areMethods =
+jsx.object.isHostMethod = jsx.object.areHostMethods = jsx_isMethod_wrapper();
 
 /**
  * Determines whether an object is, or several objects are,
