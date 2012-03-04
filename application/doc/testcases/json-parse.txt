@@ -1,0 +1,39 @@
+15.12.2 JSON.parse(text, [reviver])
+
+JSON.parse("[23]", function (name, value) { return void 0; })
+text := "[23]"
+reviver := function (name, value) { return void 0; }
+2. 15.12.1(text)
+2. No SyntaxError
+3. unfiltered := eval(text)
+   unfiltered := [23]
+4. isCallable(reviver) === true
+   a. root := new Object()
+   b. root[[DefineOwnProperty]]("", {[[Value]]: unfiltered, [[Writable]]: true, [[Enumerable]]: true, [[Configurable]]: true}, false=
+      root[[DefineOwnProperty]]("", {[[Value]]: [23], [[Writable]]: true, [[Enumerable]]: true, [[Configurable]]: true}, false)
+   c. return Walk(root, "")
+        holder := root
+        name := ""
+        reviver := function (name, value) { return void 0; }
+  val := holder[[Get]](name)
+    val := root[[Get]](name)
+    val := {}[[Get]](name)
+    val := {"": [23]}[[Get]]("")
+  val := [23]
+  val is an object
+    a. val[[Class]] == "Array"
+        i. I := 0
+       ii. len := val[[Get]]("length")
+           len := [23][[Get]]("length")
+           len := 1
+      iii. Repeat while I < len
+           Repeat while 0 < 1
+             1. newElement := Walk(val, ToString(I))
+                newElement := Walk([23], "0")
+                  holder := [23]
+                  name := "0"
+                  val := holder[[Get]](name)
+                  val := [23][[Get]]("0")
+                  val := 23
+                  val is not an object
+                   

@@ -61,8 +61,8 @@ class Application
   }
   
   /**
-   * Runs the application, setting up session management and constructing
-   * the controller indicated by the URI
+   * Runs the application, setting up session management and
+   * constructing the controller indicated by the URI
    */
   public function run()
   {
@@ -158,16 +158,19 @@ class Application
   }
 
   /**
-   * Returns a relative URI reference for an action of the application
+   * Returns a relative URI reference for an action of the
+   * application
    *
    * @param string[optional] $controller
    * @param string[optional] $action
    * @param int[optional] $id
    */
-  public function getURL($controller = null, $action = 'index', $id = null)
+  public function getURL($controller = null, $action = 'index',
+                            $id = null)
   {
     return $_SERVER['SCRIPT_URL']
-      . '?' . (!is_null($controller) ? 'controller=' . $controller : '')
+      . '?'
+      . (!is_null($controller) ? 'controller=' . $controller : '')
       . ($action !== 'index' ? '&action=' . $action : '')
       . (!is_null($id) ? '&id=' . $id : '');
   }
@@ -181,8 +184,8 @@ class Application
     if (is_null($script_uri))
     {
       /* Server/PHP too old, compute URI */
-      if (preg_match('/^[^?]+/', self::getParam('REQUEST_URI', $_SERVER),
-            $matches) > 0)
+      if (preg_match('/^[^?]+/',
+          self::getParam('REQUEST_URI', $_SERVER), $matches) > 0)
       {
         $query_prefix = $matches[0];
       }

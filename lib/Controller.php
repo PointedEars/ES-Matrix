@@ -20,7 +20,8 @@ if (false === function_exists('lcfirst'))
 }
 
 /**
- * A general controller that can handle views according to the MVC pattern
+ * A general controller that can handle views according to
+ * the MVC pattern
  *
  * @author tlahn
  */
@@ -34,15 +35,18 @@ abstract class Controller
   protected $_view = null;
   
   /**
-   * Constructs a controller, initializes the related view, and calls
-   * the controller's URI-indicated action method.
+   * Constructs a controller, initializes the related view,
+   * and calls the controller's URI-indicated action method.
    *
    * @param string $viewClass
    *   View class.  The default is <code>'View'</code>.
    * @param string $template
-   *   Resource path of the template for the view.  The default is the empty string.
+   *   Resource path of the template for the view.  The default
+   *   is the empty string.
    */
-  protected function __construct($viewClass = 'View', $template = null) {
+  protected function __construct($viewClass = 'View',
+                                     $template = null)
+  {
     $this->_view = new $viewClass($template);
 
     Application::getInstance()->setCurrentController($this);
@@ -58,8 +62,9 @@ abstract class Controller
   }
     
   /**
-   * Assigns a value to a template variable (after this, <var>$value</var> is
-   * available through <code>$this-><var>$name</var></code> in the view's template).
+   * Assigns a value to a template variable (after this,
+   * <var>$value</var> is available through
+   * <code>$this-><var>$name</var></code> in the view's template).
    * <code>Controller</code>s should call this method instead of
    * {@link View::assign()}.
    *
@@ -68,9 +73,9 @@ abstract class Controller
    * @param mixed $value
    *   Variable value
    * @param bool $encodeHTML
-   *   If <code>true</code>, replace all potentially conflicting characters
-   *   in <var>$value</var> with their HTML entity references.  The default is
-   *   <code>false</code>.
+   *   If <code>true</code>, replace all potentially conflicting
+   *   characters in <var>$value</var> with their HTML entity
+   *   references.  The default is <code>false</code>.
    * @return mixed The assigned value (after possible HTML encoding)
    * @see View::encodeHTML()
    */
@@ -80,14 +85,16 @@ abstract class Controller
   }
   
   /**
-   * Renders the {@link View} associated with this controller by including
-   * the <code>View</code>'s template.  <code>Controller</code>s
-   * should call this method instead of <code>View::render()</code>.
+   * Renders the {@link View} associated with this controller
+   * by including the <code>View</code>'s template.
+   * <code>Controller</code>s should call this method instead of
+   * <code>View::render()</code>.
    *
    * @param string $template
    *   Optional alternative template resource path.
-   *   If not provided, the default template (the <code>View</code>'s
-   *   <code>$template</code> property) will be used.
+   *   If not provided, the default template (the
+   *   <code>View</code>'s <code>$template</code> property)
+   *   will be used.
    */
   public function render($template = null, $content = null)
   {
