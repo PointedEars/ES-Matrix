@@ -1863,108 +1863,108 @@ if (jsx.options.emulate)
     Array);
 
   /* Defines Array.prototype.indexOf and .map() if not already defined */
-  jsx.object.addProperties(
-    {
-      /**
-       * Returns the first index at which a given element can be found in
-       * the array, or -1 if it is not present.
-       *
-       * @param searchElement
-       *   Element to locate in the array.
-       * @param fromIndex : number
-       *   The index at which to begin the search. Defaults to 0, i.e.
-       *   the whole array will be searched. If the index is greater than
-       *   or equal to the length of the array, -1 is returned, i.e.
-       *   the array will not be searched. If negative, it is taken as
-       *   the offset from the end of the array. Note that even when
-       *   the index is negative, the array is still searched from front
-       *   to back. If the calculated index is less than 0, the whole array
-       *   will be searched.
-       * @returns
-       *   The first index at which a given element can be found in
-       *   the array, or -1 if it is not present.
-       * @author Courtesy of developer.mozilla.org, unverified
-       * @memberOf Array.prototype
-       * @see ECMAScript Language Specification, Edition 5.1, section 15.4.4.14
-       */
-      indexOf: function(searchElement, fromIndex) {
-        "use strict";
-        if (this === void 0 || this === null)
-        {
-          throw new TypeError();
-        }
-
-        var t = Object(this);
-
-        var len = t.length >>> 0;
-        if (len === 0) {
-          return -1;
-        }
-
-        var n = 0;
-        if (arguments.length > 0)
-        {
-          n = Number(fromIndex);
-          if (n !== n) {
-            /* shortcut for verifying if it's NaN */
-            n = 0;
-          }
-          else if (n !== 0 && n !== Infinity && n !== -Infinity)
-          {
-            n = (n > 0 || -1) * Math.floor(Math.abs(n));
-          }
-        }
-
-        if (n >= len)
-        {
-          return -1;
-        }
-
-        var k = n >= 0 ? n : Math.max(len - Math.abs(n), 0);
-        for (; k < len; k++)
-        {
-          if (k in t && t[k] === searchElement)
-          {
-            return k;
-          }
-        }
-
-        return -1;
-      },
-
-      /**
-       * Maps one array to another
-       *
-       * @param callback : Callable
-       * @param oThis : optional Object
-       * @return {Array}
-       *   The original array with <var>callback</var> applied to each element.
-       * @see ECMAScript Language Specification, Edition 5.1, section 15.4.4.19
-       */
-      map: function(callback, oThis) {
-        var jsx_object = jsx.object;
-
-        if (!jsx_object.isMethod(callback))
-        {
-          jsx.throwThis("TypeError",
-            (jsx_object.isMethod(callback, "toSource") ? callback.toSource() : callback)
-              + " is not callable",
-            this + ".map");
-        }
-
-        var
-          len = this.length >>> 0,
-          res = [];
-
-        for (var i = 0; i < len; i++)
-        {
-          res[i] = callback.call(oThis, this[i], i, this);
-        }
-
-        return res;
-      }
-    },
-    Array.prototype);
+//  jsx.object.addProperties(
+//    {
+//      /**
+//       * Returns the first index at which a given element can be found in
+//       * the array, or -1 if it is not present.
+//       *
+//       * @param searchElement
+//       *   Element to locate in the array.
+//       * @param fromIndex : number
+//       *   The index at which to begin the search. Defaults to 0, i.e.
+//       *   the whole array will be searched. If the index is greater than
+//       *   or equal to the length of the array, -1 is returned, i.e.
+//       *   the array will not be searched. If negative, it is taken as
+//       *   the offset from the end of the array. Note that even when
+//       *   the index is negative, the array is still searched from front
+//       *   to back. If the calculated index is less than 0, the whole array
+//       *   will be searched.
+//       * @returns
+//       *   The first index at which a given element can be found in
+//       *   the array, or -1 if it is not present.
+//       * @author Courtesy of developer.mozilla.org, unverified
+//       * @memberOf Array.prototype
+//       * @see ECMAScript Language Specification, Edition 5.1, section 15.4.4.14
+//       */
+//      indexOf: function(searchElement, fromIndex) {
+//        "use strict";
+//        if (this === void 0 || this === null)
+//        {
+//          jsx.throwThis("TypeError");
+//        }
+//
+//        var t = Object(this);
+//
+//        var len = t.length >>> 0;
+//        if (len === 0) {
+//          return -1;
+//        }
+//
+//        var n = 0;
+//        if (arguments.length > 0)
+//        {
+//          n = Number(fromIndex);
+//          if (n !== n) {
+//            /* shortcut for verifying if it's NaN */
+//            n = 0;
+//          }
+//          else if (n !== 0 && n !== Infinity && n !== -Infinity)
+//          {
+//            n = (n > 0 || -1) * Math.floor(Math.abs(n));
+//          }
+//        }
+//
+//        if (n >= len)
+//        {
+//          return -1;
+//        }
+//
+//        var k = n >= 0 ? n : Math.max(len - Math.abs(n), 0);
+//        for (; k < len; k++)
+//        {
+//          if (k in t && t[k] === searchElement)
+//          {
+//            return k;
+//          }
+//        }
+//
+//        return -1;
+//      },
+//
+//      /**
+//       * Maps one array to another
+//       *
+//       * @param callback : Callable
+//       * @param oThis : optional Object
+//       * @return {Array}
+//       *   The original array with <var>callback</var> applied to each element.
+//       * @see ECMAScript Language Specification, Edition 5.1, section 15.4.4.19
+//       */
+//      map: function(callback, oThis) {
+//        var jsx_object = jsx.object;
+//
+//        if (!jsx_object.isMethod(callback))
+//        {
+//          jsx.throwThis("TypeError",
+//            (jsx_object.isMethod(callback, "toSource") ? callback.toSource() : callback)
+//              + " is not callable",
+//            this + ".map");
+//        }
+//
+//        var
+//          len = this.length >>> 0,
+//          res = [];
+//
+//        for (var i = 0; i < len; i++)
+//        {
+//          res[i] = callback.call(oThis, this[i], i, this);
+//        }
+//
+//        return res;
+//      }
+//    },
+//    Array.prototype);
 }
 
 /**

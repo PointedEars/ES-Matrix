@@ -199,7 +199,7 @@ var es = {
       }
 
       /* "5. Throw a TypeError exception." */
-      throw new TypeError();
+      eval("throw new TypeError();");
     }
     else if (hint == es.T_NUMBER)
     {
@@ -250,7 +250,7 @@ var es = {
       }
 
       /* "5. Throw a TypeError exception." */
-      throw new TypeError();
+      eval("throw new TypeError();");
     }
   },
 
@@ -779,7 +779,7 @@ var es = {
          */
         if (stack.indexOf(value) > -1)
         {
-          throw new TypeError();
+          eval("throw new TypeError();");
         }
 
         /* "2. Append value to stack." */
@@ -943,7 +943,7 @@ var es = {
          */
         if (stack.indexOf(value) > -1)
         {
-          throw new TypeError();
+          eval("throw new TypeError();");
         }
 
         /* "2. Append value to stack." */
