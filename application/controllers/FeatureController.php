@@ -61,7 +61,7 @@ class FeatureController extends Controller
   }
   
   /**
-   * Saves a feature
+   * Saves a feature (metadata and/or testcases)
    */
   protected function saveAction()
   {
@@ -74,22 +74,29 @@ class FeatureController extends Controller
       $this->indexAction();
       return;
     }
-
-    $id = Application::getParam('id', $_POST);
-    if (null !== ($feature = FeatureMapper::getInstance()->save(array(
-         	'id'          => $id,
-         	'code'        => Application::getParam('code', $_POST),
-    			'title'       => Application::getParam('title', $_POST),
-    			'edition'     => Application::getParam('edition', $_POST),
-    			'section'     => Application::getParam('section', $_POST),
-    			'section_urn' => Application::getParam('section_urn', $_POST),
-         	'testcases'   => array(
-         	  'titles'      => Application::getParam('testcase_title', $_POST),
-         	  'codes'       => Application::getParam('testcase_code', $_POST),
-         	  'quoteds'     => Application::getParam('testcase_quoted', $_POST),
-         	  'alt_types'   => Application::getParam('testcase_alt_type', $_POST),
-       	  )
-       ))))
+    
+    $data = array(
+      'id'          => Application::getParam('id', $_POST),
+      'code'        => Application::getParam('code', $_POST),
+      'title'       => Application::getParam('title', $_POST),
+      'edition'     => Application::getParam('edition', $_POST),
+      'section'     => Application::getParam('section', $_POST),
+      'section_urn' => Application::getParam('section_urn', $_POST),
+      'generic'     => Application::getParam('generic', $_POST),
+      'versioned'   => Application::getParam('versioned', $_POST),
+    );
+    
+    if (!Application::getParam('metadataOnly', $_POST))
+    {
+      $data['testcases'] = array(
+        'titles'      => Application::getParam('testcase_title', $_POST),
+        'codes'       => Application::getParam('testcase_code', $_POST),
+        'quoteds'     => Application::getParam('testcase_quoted', $_POST),
+        'alt_types'   => Application::getParam('testcase_alt_type', $_POST),
+      );
+    }
+    
+    if (null !== ($feature = FeatureMapper::getInstance()->save($data)))
     {
       $source_id = Application::getParam('source_id', $_POST);
       if (Application::getParam('copy', $_POST) && !empty($source_id))

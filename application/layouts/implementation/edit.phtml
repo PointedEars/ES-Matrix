@@ -19,7 +19,7 @@
     <form action="<?php echo $this->escape($this->getURL('implementation', 'save')); ?>" method="POST"
           onsubmit="return markAll(this)" style="width: 100%">
       <input type="hidden" name="id" value="<?php echo $impl->id; ?>">
-      <table style="width: 100%">
+      <table class="edit">
         <tr>
           <th><label for="impl_name" accesskey="n"><u>N</u>ame</label></th>
           <td><input name="impl_name" id="impl_name" style="width: 99%"

@@ -57,6 +57,21 @@ class FeatureModel extends AbstractModel
   protected $_section_urn = null;
 
   /**
+   * <code>true</code> if the feature is intentionally generic,
+   * <code>false</code> otherwise.
+   * @var bool
+   */
+  protected $_generic = false;
+
+  /**
+   * <code>true</code> if the implementation version needs to
+   * be declared in order to use this feature,
+   * <code>false</code> otherwise.
+   * @var bool
+   */
+  protected $_versioned = false;
+  
+  /**
    * UTC date of creation as timestamp
    * @var int
    */
@@ -196,6 +211,42 @@ class FeatureModel extends AbstractModel
   public function getSection_URN()
   {
     return $this->_section_urn;
+  }
+
+  /**
+   * @param bool $generic
+   * @return FeatureModel
+   */
+  public function setGeneric($generic)
+  {
+    $this->_generic = (bool) $generic;
+    return $this;
+  }
+  
+  /**
+   * @return bool
+   */
+  public function getGeneric()
+  {
+    return $this->_generic;
+  }
+
+  /**
+   * @param bool $versioned
+   * @return FeatureModel
+   */
+  public function setVersioned($versioned)
+  {
+    $this->_versioned = (bool) $versioned;
+    return $this;
+  }
+  
+  /**
+   * @return bool
+   */
+  public function getVersioned()
+  {
+    return $this->_versioned;
   }
 
   /**

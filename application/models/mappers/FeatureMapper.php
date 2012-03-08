@@ -43,8 +43,8 @@ class FeatureMapper extends Mapper
    * Saves a feature in the features table
    *
    * @param FeatureModel|array $feature
-   * @return int|null
-   *   The ID of the updated or added feature, or <code>null</code> on error
+   * @return FeatureModel|null
+   *   The updated or added feature, or <code>null</code> on error
    */
   public function save($feature)
   {
@@ -65,6 +65,8 @@ class FeatureMapper extends Mapper
       'edition'     => $featureObj->edition,
       'section'     => $featureObj->section,
       'section_urn' => $featureObj->section_urn,
+      'generic'     => $featureObj->generic,
+      'versioned'   => $featureObj->versioned,
     );
 
     if (is_null($id))
@@ -93,7 +95,8 @@ class FeatureMapper extends Mapper
         debug($featureObj);
       }
       
-      if (is_array($feature))
+      /* Do not replace testcases (and remove results) if only metadata is saved  */
+      if (is_array($feature) && isset($feature['testcases']))
       {
         $success = (null !== TestcaseMapper::getInstance()->saveForFeature($featureObj));
       }
@@ -199,6 +202,8 @@ class FeatureMapper extends Mapper
             ->setEdition($row['edition'])
             ->setSection($row['section'])
             ->setSection_URN($row['section_urn'])
+            ->setGeneric($row['generic'])
+            ->setVersioned($row['versioned'])
             ->setTestcases(TestcaseMapper::getInstance()->findByFeatureId($id))
     //             ->setCreated($row['created'])
     ;

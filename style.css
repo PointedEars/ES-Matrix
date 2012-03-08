@@ -534,6 +534,14 @@ table span
   background-color: transparent !important;
 }
 
+table.edit {
+  width: 100%;
+}
+
+table.edit th {
+  text-align: right;
+}
+
 span {
   width: auto;
   height: auto;
@@ -561,13 +569,30 @@ a.edit {
   color: #660 !important;
 }
 
+a.edit:hover, a.edit:focus {
+  background-color: inherit !important;
+  color: #990 !important;
+}
+
 button.negative {
   background-color: #900;
   color: #fff;
 }
 
+button.negative:hover,
+button.negative:focus {
+  background-color: #c00;
+  color: #fff;
+}
+
 button.positive {
   background-color: #090;
+  color: #fff;
+}
+
+button.positive:hover,
+button.positive:focus {
+  background-color: #0c0;
   color: #fff;
 }
 
@@ -578,7 +603,10 @@ button.delete {
   text-decoration: underline;
 }
 
-button.delete:hover {
+button.delete:hover,
+button.delete:focus
+{
+  background-color: transparent;
   color: #f00;
 }
 

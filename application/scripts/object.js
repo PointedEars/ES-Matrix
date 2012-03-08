@@ -34,8 +34,10 @@ if (typeof jsx.options == "undefined")
    * @namespace
    */
   jsx.options = new Object();
-  jsx.options.emulate = true;
+  jsx.options.enableTry = true;
 }
+
+jsx.options.emulate = true;
 
 /**
  * @namespace
@@ -768,8 +770,8 @@ jsx.object.hasPropertyValue = function(obj, needle, params) {
  *       setErrorHandler() as it is used in a closure there,
  *       see Message-ID <2152411.FhMhkbZ0Pk@PointedEars.de>
  */
-jsx.clearErrorHandler = function() {
-  if (typeof window != "undefined" && window.onerror)
+jsx.clearErrorHandler = function () {
+  if (typeof window != "undefined")
   {
     /*
      * debug.js 0.99.5.2006041101 BUGFIX:
@@ -800,7 +802,7 @@ jsx.setErrorHandler = (function() {
     jsx_object = jsx.object,
     jsx_clearErrorHandler = jsx.clearErrorHandler;
 
-  return function(fHandler) {
+  return function (fHandler) {
     /*
      * NOTE: There is no deadlock here because even if `fHandler' is a string,
      * `isMethod(fHandler)' will call `setErrorHandler()' without arguments;
@@ -819,7 +821,6 @@ jsx.setErrorHandler = (function() {
     }
 
     if (typeof window != "undefined"
-        && typeof window.onerror != "undefined"
         && typeof fHandler != "undefined")
     {
       /*
@@ -892,8 +893,11 @@ jsx.setErrorHandler = (function() {
  *   Distributed under the GNU GPL v3 and later.
  * @partof JSX:object.js
  */
-jsx.tryThis =
-  (function() {
+jsx.tryThis = (function() {
+  var enableTry = jsx.options.enableTry;
+  var jsx_setErrorHandler = jsx.setErrorHandler;
+  var jsx_clearErrorHandler = jsx.clearErrorHandler;
+
   /**
    * @param s Value to be stringified
    * @param sCall : String
@@ -914,7 +918,7 @@ jsx.tryThis =
     return s;
   }
 
-  return function(statements, errorHandlers) {
+  return function (statements, errorHandlers) {
 //    /*
 //     * Replaced because eval() performs magnitudes worse;
 //     * TODO: Backwards compatibility (branching for NN4 & friends?)
@@ -922,10 +926,25 @@ jsx.tryThis =
     var sStatements = stringify(statements, "statements();");
     var sErrorHandlers = stringify(errorHandlers, "errorHandlers(e);");
 
-    var code = 'try {\n  ' + sStatements + '\n}\n'
-             + 'catch (e) {\n  ' + sErrorHandlers + '\n}';
+    if (enableTry)
+    {
+      var code = 'try {\n  ' + sStatements + '\n}\n'
+        + 'catch (e) {\n  ' + sErrorHandlers + '\n}';
+    }
+    else
+    {
+      code = sStatements;
+      jsx_setErrorHandler();
+    }
 
-    return eval(code);
+    var result = eval(code);
+
+    if (!enableTry)
+    {
+      jsx_clearErrorHandler();
+    }
+
+    return result;
 //    var t = typeof statements;
 //    try
 //    {

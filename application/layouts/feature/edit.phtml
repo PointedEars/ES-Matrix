@@ -4,36 +4,63 @@
     <form action="<?php echo $this->escape($this->getURL('feature', 'save')); ?>" method="POST"
           style="width: 100%">
       <input type="hidden" name="id" value="<?php echo $feature->id; ?>">
-      <table style="width: 100%">
-        <tr>
-          <th><label for="title" accesskey="t"><u>T</u>itle</label></th>
-          <td><input name="title" id="title" style="width: 99%"
-                     value="<?php echo $this->escape($feature->title); ?>"></td>
-        </tr>
-        <tr>
-          <th style="vertical-align: top"><label for="code" accesskey="c"><u>C</u>ode</label></th>
-          <td><textarea name="code" id="code" cols="80" rows="4" style="width: 99%"
-                        ><?php echo $this->escape($feature->code); ?></textarea></td>
-        </tr>
-        <tr>
-          <th><label for="edition" accesskey="i">Ed<u>i</u>tion</label></th>
-          <td><input name="edition" id="edition" size="1"
-                     value="<?php echo $this->escape($feature->edition); ?>"></td>
-        </tr>
-        <tr>
-          <th><label for="section" accesskey="s"><u>S</u>ection</label></th>
-          <td><input name="section" id="section" size="15"
-                     value="<?php echo $this->escape($feature->section); ?>"></td>
-        </tr>
-        <tr>
-          <th><label for="section_urn" accesskey="u">Section <u>U</u>RN</label></th>
-          <td><input name="section_urn" id="section_urn" size="15"
-                     value="<?php echo $this->escape($feature->section_urn); ?>"></td>
-        </tr>
-
-        <tr>
-          <th style="vertical-align: top">Testcases</th>
-          <td>
+      <fieldset>
+        <legend>Metadata</legend>
+        <table class="edit">
+          <tr>
+            <th><label for="title" accesskey="t"><u>T</u>itle</label></th>
+            <td><input name="title" id="title" style="width: 99%"
+                       value="<?php echo $this->escape($feature->title); ?>"></td>
+          </tr>
+          <tr>
+            <th style="vertical-align: top"><label for="code" accesskey="c"><u>C</u>ode</label></th>
+            <td><textarea name="code" id="code" cols="80" rows="4" style="width: 99%"
+                          ><?php echo $this->escape($feature->code); ?></textarea></td>
+          </tr>
+          <tr>
+            <th><label for="edition" accesskey="i">Ed<u>i</u>tion</label></th>
+            <td><input name="edition" id="edition" size="1"
+                       value="<?php echo $this->escape($feature->edition); ?>"></td>
+          </tr>
+          <tr>
+            <th><label for="section" accesskey="s"><u>S</u>ection</label></th>
+            <td><input name="section" id="section" size="15"
+                       value="<?php echo $this->escape($feature->section); ?>"></td>
+          </tr>
+          <tr>
+            <th><label for="section_urn" accesskey="u">Section <u>U</u>RN</label></th>
+            <td><input name="section_urn" id="section_urn" size="15"
+                       value="<?php echo $this->escape($feature->section_urn); ?>"></td>
+          </tr>
+          <tr>
+            <th><label for="generic" accesskey="g">Intentionally <u>g</u>eneric</label></th>
+            <td><input type="checkbox" name="generic" id="generic"
+                       <?php if ($feature->generic) echo 'checked'; ?>></td>
+          </tr>
+          <tr>
+            <th><label for="versioned" accesskey="v"><u>V</u>ersioned</label></th>
+            <td><input type="checkbox" name="versioned" id="versioned"
+                       <?php if ($feature->versioned) echo 'checked'; ?>></td>
+          </tr>
+          <tr>
+            <td>
+              <button type="submit" name="metadataOnly" value="1" class="positive" style="float: left">Save</button>
+              <button type="submit" name="cancel" value="1" class="negative" style="float: right"
+                      onclick="history.back(); return false">Cancel</button>
+            </td>
+            <td>
+              <button type="button" value="1" class="negative" style="float: right"
+                      onclick="window.location.reload(true)">Reset</button>
+            </td>
+          </tr>
+        </table>
+      </fieldset>
+    
+      <fieldset style="margin-top: 1em">
+        <legend>Testcases</legend>
+        <table class="edit">
+          <tr>
+            <td colspan="2">
 <?php
   $testcases = $feature->testcases;
 
@@ -42,62 +69,63 @@
     foreach ($testcases as $key => $testcase)
     {
 ?>
-            <input name="testcase_title[]" id="testcase_title<?php echo $key; ?>" type="text"
-                   value="<?php echo $this->escape($testcase->title); ?>"
-                   style="width: 99%">
-            <textarea name="testcase_code[]" id="testcase_code<?php echo $key; ?>"  cols="80" rows="5"
-                      style="width: 99%"><?php echo $this->escape($testcase->code); ?></textarea>
-            <label style="float: left" id="testcase_quoted<?php echo $key; ?>">
-              <input type="checkbox" name="testcase_quoted[<?php echo $key; ?>]"
-                     value="1" <?php if ($testcase->quoted) { ?>checked<?php }; ?>>
-              Enclose in double-quotes</label>
-            <label style="float: left; margin-left: 1em" id="testcase_alt_type<?php echo $key; ?>">
-              Alternative <code>type</code> attribute value: <input name="testcase_alt_type[]"
-                     value="<?php echo $this->escape($testcase->alt_type); ?>"
-                     size="50">
-              </label>
-            <button type="button" class="delete" style="float: right; margin-bottom: 1em"
-                    onclick="deleteTestcase(this, <?php echo $key; ?>)">Delete</button>
+              <input name="testcase_title[]" id="testcase_title<?php echo $key; ?>" type="text"
+                     value="<?php echo $this->escape($testcase->title); ?>"
+                     style="width: 99%">
+              <textarea name="testcase_code[]" id="testcase_code<?php echo $key; ?>"  cols="80" rows="5"
+                        style="width: 99%"><?php echo $this->escape($testcase->code); ?></textarea>
+              <label style="float: left" id="testcase_quoted<?php echo $key; ?>">
+                <input type="checkbox" name="testcase_quoted[<?php echo $key; ?>]"
+                       value="1" <?php if ($testcase->quoted) echo ' checked'; ?>>
+                       Enclose in double-quotes</label>
+              <label style="float: left; margin-left: 1em" id="testcase_alt_type<?php echo $key; ?>">
+                Alternative <code>type</code> attribute value: <input name="testcase_alt_type[]"
+                       value="<?php echo $this->escape($testcase->alt_type); ?>"
+                       size="50">
+                </label>
+              <button type="button" class="delete" style="float: right; margin-bottom: 1em"
+                      onclick="deleteTestcase(this, <?php echo $key; ?>)">Delete</button>
 <?php
     }
   }
 ?>
-            <button type="button" name="testcase_action" value="add"
-                    class="add" style="float: left; clear: both"
-                    accesskey="a"
-                    onclick="addTestcase(this)"><u>A</u>dd</button>
-
-            <div style="float: left; margin-left: 0.25em">
-              <label for="source_id" accesskey="r">F<u>r</u>om</label>
-              <select name="source_id" id="source_id" size="1">
-                <option value="">– Select source feature –</option>
+              <button type="button" name="testcase_action" value="add"
+                      class="add" style="float: left; clear: both"
+                      accesskey="a"
+                      onclick="addTestcase(this)"><u>A</u>dd</button>
+  
+              <div style="float: left; margin-left: 0.25em">
+                <label for="source_id" accesskey="r">F<u>r</u>om</label>
+                <select name="source_id" id="source_id" size="1">
+                  <option value="">– Select source feature –</option>
 <?php
   foreach ($this->features as $id => $source_feature)
   {
     if ($id != $feature->id)
     {
 ?>
-                <option value="<?php echo $id; ?>"><?php echo strip_tags(preg_replace('/\\s+/', ' ', $source_feature->code)); ?></option>
+                  <option value="<?php echo $id; ?>"><?php echo strip_tags(preg_replace('/\\s+/', ' ', $source_feature->code)); ?></option>
 <?php
     }
   }
 ?>
-              </select>
-              <button type="submit" name="copy" value="1">Copy</button>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <button type="submit" class="positive" style="float: left">Save</button>
-            <button type="submit" name="cancel" value="1" class="negative" style="float: right"
-                    onclick="history.back(); return false">Cancel</button>
-          </td>
-          <td>
-            <button type="button" value="1" class="negative" style="float: right"
-                    onclick="window.location.reload(true)">Reset</button>
-          </td>
-        </tr>
-      </table>
+                </select>
+                <button type="submit" name="copy" value="1">Copy</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <button type="submit" class="positive" style="float: left">Save</button>
+              <button type="submit" name="cancel" value="1" class="negative" style="float: right"
+                      onclick="history.back(); return false">Cancel</button>
+            </td>
+            <td>
+              <button type="button" value="1" class="negative" style="float: right"
+                      onclick="window.location.reload(true)">Reset</button>
+            </td>
+          </tr>
+        </table>
+      </fieldset>
     </form>
     <div style="clear: both"><!--  --></div>

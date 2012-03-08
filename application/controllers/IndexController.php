@@ -9,6 +9,8 @@ require_once 'application/models/mappers/ImplementationMapper.php';
 require_once 'application/models/mappers/ResultMapper.php';
 require_once 'application/models/mappers/EnvironmentMapper.php';
 
+require_once 'includes/footnotes.class.php';
+
 /**
  * A controller for handling the default view of the ECMAScript Support Matrix
  *
@@ -46,7 +48,8 @@ class IndexController extends Controller
     $this->assign('features', $features);
     $this->assign('results', $results);
     $this->assign('environments', $environments);
-        
+    $this->assign('footnotes', new FootnoteList('[', ']', true));
+    
     $this->render(null, 'application/layouts/index/index.phtml');
   }
   
