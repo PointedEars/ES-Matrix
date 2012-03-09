@@ -433,6 +433,34 @@ var es = {
   },
 
   /**
+   * "9.10 CheckObjectCoercible
+   * The abstract operation CheckObjectCoercible throws an error
+   * if its argument is a value that cannot be converted to
+   * an Object using ToObject. It is defined by Table 15:
+   * <pre>
+   * Argument Type  Result
+   * --------------------------------------------
+   * Undefined      Throw a TypeError exception.
+   * Null           Throw a TypeError exception.
+   * Boolean        Return
+   * Number         Return
+   * String         Return
+   * Object         Return
+   * </pre>"
+   *
+   * @param arg
+   * @returns
+   */
+  CheckObjectCoercible: function (arg) {
+    var t = es.Type(arg);
+
+    if (t == es.T_UNDEFINED || t == es.T_NULL)
+    {
+      return jsx.throwThis("TypeError");
+    }
+  },
+
+  /**
    * "9.11 IsCallable
    * The abstract operation IsCallable determines if its argument,
    * which must be an ECMAScript language value, is a callable

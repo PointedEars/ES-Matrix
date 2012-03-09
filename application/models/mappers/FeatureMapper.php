@@ -95,7 +95,7 @@ class FeatureMapper extends Mapper
         debug($featureObj);
       }
       
-      /* Do not replace testcases (and remove results) if only metadata is saved  */
+      /* Do not replace testcases (and remove results) if only metadata should be saved  */
       if (is_array($feature) && isset($feature['testcases']))
       {
         $success = (null !== TestcaseMapper::getInstance()->saveForFeature($featureObj));
