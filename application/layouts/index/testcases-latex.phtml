@@ -1,0 +1,40 @@
+<?php
+  require_once 'latex.php';
+  
+  function codeMapper($e, $i)
+  {
+    return ($i + 1) . ' & \\code{'
+      . preg_replace('/\\r?\\n|\\r/', '\\linebreak' . "\n", latexCodeEscape($e->code))
+      . "}";
+  }
+  
+?>
+\begin{longtable}{>{\small}r>{\small}r>{\small}p{9.5cm}}%
+  \toprule
+  \multicolumn{1}{r}{ID} &
+  \multicolumn{1}{r}{Nr.} &
+  \multicolumn{1}{p{9cm}}{Code}
+<?php
+  foreach ($this->features as $key => $feature)
+  {
+    $testcases = $feature->testcases;
+    $num_testcases = count($feature->testcases);
+    if ($num_testcases > 0)
+    {
+?>
+  \\
+  \midrule
+<?php
+      echo $feature->id . " & " . implode(" \\\\\n& ",
+              array_map(
+                'codeMapper',
+                $testcases, array_keys($testcases)
+              )
+            );
+    }
+  }
+?>
+  \\\bottomrule \\
+  \caption{Testfälle\label{tab:testcases}}
+\end{longtable}
+\normalsize

@@ -1,0 +1,26 @@
+<?php
+  $implementations = $this->implementations;
+  $num_impl = count($implementations);
+?>
+\begin{longtable}{ll<?php
+  foreach ($implementations as $impl)
+  {
+    echo 'l';
+  }
+?>}%
+  \toprule
+  ID & ES<?php
+  foreach ($implementations as $impl)
+  {
+    echo ' & ';
+    if ($impl->acronym !== '')
+    {
+      echo $impl->acronym;
+    }
+    else
+    {
+      echo $impl->name;
+    }
+  }
+?> \\
+  \midrule

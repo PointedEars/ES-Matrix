@@ -1,0 +1,22 @@
+<?php
+  require_once 'latex.php';
+?>
+\begin{longtable}{>{\small}r>{\small}p{5cm}>{\small}p{5cm}}%
+  \toprule
+  \multicolumn{1}{r}{ID} &
+  \multicolumn{1}{p{4.5cm}}{Code} &
+  \multicolumn{1}{p{4.5cm}}{Beschreibung}
+  \\
+  \midrule
+<?php
+  foreach ($this->features as $key => $feature)
+  {
+?>
+  <?php echo $feature->id; ?> & \code{<?php echo latexCodeEscape($feature->code); ?>} & <?php echo latexSpecialChars(strip_tags($feature->title)); ?> \\
+<?php
+  }
+?>
+  \bottomrule \\
+  \caption{Getestete Features\label{tab:features}}
+\end{longtable}
+\normalsize

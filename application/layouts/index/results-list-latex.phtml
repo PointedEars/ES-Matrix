@@ -1,0 +1,64 @@
+<?php
+  $versions = array();
+  if (is_array($implementations))
+  {
+    print_r($this->results);
+//     foreach ($implementations as $key => $implementation)
+//     {
+      
+//     }
+  }
+
+  $feature_results = Application::getParam('forFeatures', $this->results);
+
+  foreach ($this->features as $key => $feature)
+  {
+    /* Fill row array */
+    foreach ($implementations as $impl_id => $impl_results)
+    {
+      
+    }
+    
+    
+?>
+  <?php echo $feature->id; ?> & <?php
+    $edition = $feature->edition;
+    if ($edition)
+    {
+      if ($edition === '-')
+      {
+        ?>-<?php
+      }
+      else
+    {
+        echo $edition;
+      }
+    }
+
+    /* No results to show if there are no implementations */
+    if (is_array($implementations))
+    {
+            
+     
+      
+      
+      
+      
+      $num_testcases = count($feature->testcases);
+      
+      
+      
+      $feature_results = Application::getParam('forFeatures', $this->results);
+      if (is_array($feature_results))
+      {
+        $impl_results = Application::getParam($feature->id, $feature_results);
+        foreach ($implementations as $key => $implementation)
+        {
+          ?> & 1<?php
+        }
+      }
+?> \\
+<?php
+    }
+  }
+?>

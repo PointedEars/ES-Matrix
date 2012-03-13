@@ -26,7 +26,7 @@ class IndexController extends Controller
     parent::__construct('IndexView');
   }
   
-  protected function indexAction()
+  protected function indexAction($template = null, $content = null)
   {
     $implementations = ImplementationMapper::getInstance()->fetchAll();
 
@@ -50,7 +50,40 @@ class IndexController extends Controller
     $this->assign('environments', $environments);
     $this->assign('footnotes', new FootnoteList('[', ']', true));
     
-    $this->render(null, 'application/layouts/index/index.phtml');
+    if (is_null($template))
+    {
+      $this->render(null, 'application/layouts/index/index.phtml');
+    }
+    else
+    {
+      $this->render($template, $content);
+    }
+  }
+  
+  protected function indexLatexAction()
+  {
+    $this->indexAction(
+      'application/layouts/text.phtml',
+      'application/layouts/index/index-latex.phtml');
+  }
+
+  protected function testcasesLatexAction()
+  {
+    $features = FeatureMapper::getInstance()->fetchAll();
+    uasort($features, array('FeatureModel', 'compare'));
+    
+    $this->assign('features', $features);
+    
+    $this->render(
+        'application/layouts/text.phtml',
+        'application/layouts/index/testcases-latex.phtml');
+  }
+  
+  protected function resultsLatexAction()
+  {
+    $this->indexAction(
+        'application/layouts/text.phtml',
+        'application/layouts/index/results-latex.phtml');
   }
   
   protected function importAction()
