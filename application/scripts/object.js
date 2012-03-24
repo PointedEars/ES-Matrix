@@ -2,7 +2,7 @@
  * @fileOverview <title>Basic Object Library</title>
  * @file $Id$
  *
- * @author (C) 2004-2011 <a href="mailto:js@PointedEars.de">Thomas Lahn</a>
+ * @author (C) 2004-2012 <a href="mailto:js@PointedEars.de">Thomas Lahn</a>
  *
  * @partof PointedEars' JavaScript Extensions (JSX)
  *
