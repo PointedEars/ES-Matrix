@@ -506,8 +506,8 @@ HTML
     new ScriptFeature(array(
       'title' => 'Type declaration',
       'content' => <<<HTML
-        <a href="javascript:tryThis('var foo: Object;', 'window.alert(e);')"
-          onclick="return tryThis('var foo: Object; false', 'window.alert(e); false')"
+        <a href="javascript:jsx.tryThis('var foo: Object;', 'window.alert(e);')"
+          onclick="return jsx.tryThis('var foo: Object; false', 'window.alert(e); false')"
           ><code><var>identifier</var> : <var>type</var></code></a>
 HTML
       ,
