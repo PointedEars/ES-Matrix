@@ -8,10 +8,11 @@ $encoding = mb_detect_encoding(file_get_contents(__FILE__));
 header("Content-Type: text/html" . ($encoding ? "; charset=$encoding" : ""));
 
 $modi = max(array(
-@filemtime(__FILE__),
-@filemtime('es-matrix.inc.php'),
-@filemtime('style.css'),
-@filemtime('table.js')));
+  @filemtime(__FILE__),
+  @filemtime('es-matrix.inc.php'),
+  @filemtime('style.css'),
+  @filemtime('table.js')
+));
 
 header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $modi) . ' GMT');
 
@@ -25,6 +26,7 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
   "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="en">
   <head>
+<!--     <script type="text/javascript" src="https://getfirebug.com/firebug-lite.js"></script> -->
     <meta http-equiv="Content-Type" content="text/html<?php
       if ($encoding)
       {
@@ -60,9 +62,7 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
     <link rel="stylesheet" href="../../style.css" type="text/css">
     <link rel="stylesheet" href="style.css" type="text/css">
     <link rel="stylesheet" href="not-ns4.css" type="text/css" media="all">
-    <link rel="alternate stylesheet" href="ct.css" type="text/css"
-      title="c't"
-    >
+    <link rel="alternate stylesheet" href="ct.css" type="text/css" title="c't">
     <!--[if lt IE 7]>
       <style type="text/css">
         /* IE 6 does not support position:fixed */
@@ -79,20 +79,82 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
       </style>
     <![endif]-->
     
-    <script type="text/javascript" src="../../object.js"></script>
+    <script type="text/javascript"
+            src="../../builder?<?php
+              if ($_SERVER['HTTP_HOST'] === 'localhost')
+              {
+                ?>debug=1&verbose=1&<?php
+              }
+              ?>src=object,types,xpath,http,regexp,test/debug,dom,dom/css,dom/events,test/es-matrix/table"></script>
     <script type="text/javascript">
       /* Import methods into global namespace */
+      var _global = jsx.global;
+      var test = jsx.debug.test;
       var isMethod = jsx.object.isMethod;
       var getFeature = jsx.object.getFeature;
+
+      function initTooltips()
+      {
+        /* Imports */
+        var createEventListener = jsx.dom.createEventListener;
+        var addEventListener = jsx.dom.addEventListener;
+        var addClassName = jsx.dom.css.addClassName;
+
+        function tooltipMover(tooltip, e)
+        {
+          if (typeof e.offsetX != "undefined" && typeof e.offsetY != "undefined")
+          {
+            if (tooltip)
+            {
+              tooltip.style.left = e.offsetX + "px";
+              tooltip.style.top = e.offsetY + "px";
+            }
+  
+            e.preventDefault();
+            e.stopPropagation();
+          }
+        }
+                
+        var elements = document.links;
+        
+        for (var i = 0, len = elements.length; i < len; ++i)
+        {
+          var element = elements[i];
+          if (element.title)
+          {
+            var tooltip = document.createElement("span");
+            if (!tooltip)
+            {
+              break;
+            }
+
+            addClassName(element, "tooltip");
+
+            tooltip.className = "tooltip";
+            tooltip.appendChild(document.createTextNode(element.title));
+            element.title = "";
+            element.appendChild(tooltip);
+
+            var f = (function(tooltip) {
+              return function(e) {
+                tooltipMover(tooltip, e);
+              };
+            })(tooltip);
+
+            var listener = createEventListener(f);
+            
+            addEventListener(element, "mouseover", listener);
+            addEventListener(element, "mousemove", listener);
+            addEventListener(element, "touchstart", listener);
+            addEventListener(element, "touchmove", listener);
+          }
+        }
+      }
     </script>
-    <script type="text/javascript" src="../../types.js"></script>
-    <script type="text/javascript" src="../../xpath.js"></script>
-    <script type="text/javascript" src="../debug.js"></script>
-    <script type="text/javascript" src="../../dom.js"></script>
-    <script type="text/javascript" src="table.js"></script>
+    <!-- <script type="text/javascript" src="/scripts/anti-SOPA.js"></script> -->
   </head>
   
-  <body onload="alternateRows(); synhl(); scroller.init();">
+  <body onload="/* antiSOPA('the ECMAScript\xA0Support\xA0Matrix'); */ alternateRows(); synhl(); scroller.init(); initTooltips();">
     <div id="header">
       <h1><a name="top" id="top">ECMAScript Support Matrix</a></h1>
       <p class="subtitle">There Is No Javascript</p>
@@ -171,57 +233,42 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
       <h2 style="margin-top: 1em; padding-top: 1em; border-top: 1px solid black"
           ><a name="foreword" id="foreword">Foreword and Rationale</a></h2>
       
-      <p>Many people talk about <strong>JavaScript</strong> as if it was a fully
-         specified and universally implemented programming language.  But that is
-         in fact only the name of one implementation (at the time of writing,
-         not even the widest distributed one) of a standard for an extensible
-         programming language, <strong>ECMAScript</strong>, which is enjoying
-         <em>several implementations</em> that are widely distributed
-         (primarily, but not solely, through web browsers).  This common
-         misconception reaches so far as some rather knowledgable people
-         &ndash;&nbsp;out of lazyness or ignorance &ndash;&nbsp;choose
-         to refer to this pseudo-language using an alternate capitalization,
-         like “Javascript” or “javascript” in an attempt to distinguish it
-         from the original, <a href="#javascript">JavaScript™</a> (an example
-         of this can still be seen in the
-         <a href="http://jibbering.com/faq/">comp.lang.javascript FAQ</a>).
-         This is rather unsurprising since JavaScript is, as
-         Douglas&nbsp;Crockford put it so aptly, <em><a
-         href="http://javascript.crockford.com/javascript.html"
-         >the world's most misunderstood programming language</a></em>.</p>
-      
-      <p>However, either terminology is misleading; both should first be deprecated,
-         and eventually abolished.  The former kind, because it simply misses
-         the point: for example, JavaScript is not JScript.  The latter kind,
-         because it is oversimplifying the issue, thereby shadowing the problems
-         that are likely to occur if script code is not written with the existence
-         of different implementations in mind.  It is also potentially ambiguous,
-         and leads to odd notation in English and other languages (like
-         "javascript" at the beginning of a sentence, where it should be
-         capitalized by convention, or in the midst of a sentence where
-         it should be capitalized as well because it is a proper noun, after all).
-         Such oversimplifying talk from supposed experts is potentially and
-         evidentially harmful, not only for the experts themselves, but also
-         for the beginners which are mislead and confused by this.
-         <em>It is a Bad&nbsp;Idea™ to keep people in the dark!</em></p>
+      <p>Many people talk about <strong>JavaScript</strong> as if
+         it was one fully specified and universally implemented
+         programming language.  But it is in fact only the name of
+         one implementation of a standard for an extensible
+         programming language, <strong>ECMAScript</strong>, which
+         is enjoying <em>several implementations</em> that are
+         widely distributed.</p>
          
-      <p>In order to achieve greater understanding of this topic, it is important
-         to realize the similarities <em>and</em> the differences between
-         implementations, the advantages and the bugs of each implementation.
-         Differences are pointed out best using <em>different</em> words,
-         <em>not</em> similar ones.  For an analogy, you would never call a
-         cat a dog just because both are implementations of the concept “animal”
-         and both are equipped with a tail.  Yet this describes exactly what
-         often happens when people are discussing ECMAScript-based script
-         programming: for example, they say “JavaScript” (any capitalization)
-         and mean, often without providing that context information,
-         ECMAScript-based scripting in <acronym title="Microsoft Internet Explorer"
-         >IE</acronym> or <acronym
-         title="Microsoft Internet Information Services; formerly: Internet Information Server"
-         >IIS</acronym>, that is, <em>Microsoft JScript</em> instead!  Who is
-         to tell how the script must look like that they are talking about
-         without further inquiry, then?</p>
-      
+      <p>This standard – the ECMAScript Language Specification –
+         is published in Editions.  While several current versions
+         of programming languages implementations of ECMAScript.
+         the first Edition of ECMAScript was based on two programming
+         languages that were already implemented for use in Web browsers:
+         Netscape JavaScript 1.1 and Microsoft JScript 1.0.</p>
+         
+      <p>Superficially, ECMAScript implementations are very similar.
+         It is therefore tempting to discuss them in a simplified way
+         using an umbrella term.  Often that term is “JavaScript” or,
+         supposedly in order to avoid misunderstandings, variations
+         in letter case thereof, such as “Javascript” and “javascript”
+         (the latter term is currently used in the
+         <a href="http://jibbering.com/faq/">comp.lang.javascript FAQ</a>).</p>
+         
+      <p>Although this approach is common, it is not without problems.
+         ECMAScript gives its conforming implementations a wide latitude.
+         The Editions of ECMAScript and their implementations
+         have been developed in parallel, and are partially
+         informing each other.  Also, some implementations are not
+         conforming in some features.  As a result, ECMAScript
+         implementations are in fact very different from one another.</p>
+         
+      <p>Hence, it does matter which implementation is being discussed.
+         Using ambiguous umbrella terms such as the ones mentioned,
+         without providing a clear definition for them, cannot be
+         considered appropriate style in a technical discussion.</p>
+          
       <p>Therefore, for lack of a better alternative, the precise and equally
          concise term <strong>ECMAScript implementation(s)</strong> should be
          used when talking about features that several implementations (ought
