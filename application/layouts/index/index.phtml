@@ -2,8 +2,101 @@
   if (!$this->edit)
   {
 ?>
-     <a href="<?php echo $this->escape($this->getURL(null, 'edit')); ?>">Edit</a>
+    <div id="abstract">
+      <h2>Abstract</h2>
+    
+      <blockquote class="shy">
+        <p>“ECMAScript is a standard for object-oriented programming languages.
+           Superficially, its implementations, like JavaScript and JScript,
+           are very similar. They are therefore often discussed in a
+           simplified way. But does this approach hold water against
+           methodical testing?</p>
+           
+        <p>In this work, features of ECMAScript and its common
+           implementations are compared with regard to their standards
+           compliance and compatibility. A web application is created
+           for the registration of features and associated test cases.
+           Using this application, the test cases are run in web browsers
+           and the test results are stored in a database. The results
+           are correlated with the market share of the used web browsers
+           and their degree of vendor support. Thus, features can be
+           defined as safe for use in web browsers, which makes
+           efficiency-reducing compatibility measures unnecessary.”<?php
+         echo $this->footnotes->add('abstract', '1',
+             'from: Lahn,&nbsp;Thomas (2012-03-12). <i>Features of ECMAScript-based
+             programming languages – A&nbsp;comparative analysis</i>'
+             . $this->footnotes->add('working-title', '2', 'Working title', '')
+             . '<em>(revised)</em>. <abbr title="Bachelor of Science"
+             >BSc</abbr>&nbsp;<a href="http://www.supsi.ch/"><abbr
+             title="Scuola universitaria professionale della Svizzera italiana"
+             >SUPSI</abbr></a> in Computer Science. <a href="http://www.ffhs.ch/"
+             >Fernfachhochschule Schweiz</a> (Swiss Distance-Learning
+             University of Applied&nbsp;Sciences).', ''); ?></p>
+      </blockquote>
+    </div>
+    
+    <div id="foreword">
+      <h2>Foreword and Rationale</h2>
+
+      <blockquote>
+        <p style="margin-bottom: 0; font-style: italic"
+           ><span lang="x-vulcan">&gt;Oren'uh pa'shi-nahpau.
+            Oren'uh fai-tukh t'natyan — nam-tor vellar heh ri nam-tor.&lt;</span><br>
+            (“Learn to think clearly.
+            Learn to distinguish: what is, and what seems to be.”)</p>
+        <div style="text-align: right"> —&nbsp;Surak<?php
+              echo $this->footnotes->add('vli', '3', 'see also:
+                <a href="http://stogeek.com/wiki/Category:Vulcan_Language_Institute"
+                   >Vulcan Language Institute</a>', ''); ?></div>
+      </blockquote>
+      
+      <p>Many people talk about <strong>JavaScript</strong> as if
+         it was one fully specified and universally implemented
+         programming language.  But it is in fact only the name of
+         one implementation of a standard for an extensible
+         programming language, <strong>ECMAScript</strong>, which
+         is enjoying <em>several implementations</em> that are
+         widely distributed.</p>
+         
+      <p>This standard – the ECMAScript Language Specification –
+         is published in Editions.  While several current versions
+         of programming languages are implementations of ECMAScript,
+         the first Edition of ECMAScript was based on two programming
+         languages that were already implemented for use in Web browsers:
+         Netscape JavaScript 1.1 and Microsoft JScript 1.0.</p>
+                  
+      <p>Superficially, ECMAScript implementations are very similar.
+         It is therefore tempting to discuss them in a simplified way
+         using an umbrella term.  Often that term is “JavaScript” or,
+         supposedly in order to avoid misunderstandings, variations
+         in letter case thereof, such as “Javascript” and “javascript”
+         (the latter term is currently used in the
+         <a href="http://jibbering.com/faq/">comp.lang.javascript FAQ</a>).</p>
+         
+      <p>Although this approach is common, it is not without problems.
+         ECMAScript gives its conforming implementations a wide latitude.
+         The Editions of ECMAScript and their implementations
+         have been developed in parallel, and are partially
+         informing each other.  Also, some implementations are not
+         conforming in some features.  As a result, ECMAScript
+         implementations are in fact very different from one another.</p>
+         
+      <p>Hence, it does matter which implementation is being discussed.
+         Using ambiguous umbrella terms such as the ones mentioned,
+         without providing a clear definition for them, cannot be
+         considered appropriate style in a technical discussion.</p>
+    </div>
+
+    <div>
+      <h2><a name="features" id="features">Language&nbsp;Features</a></h2>
+      
+      <div><a href="#toc">&#8593; Table of contents</a></div>
+    </div>
 <?php
+    if ($_SERVER['HTTP_HOST'] === 'localhost')
+    {
+      ?><a href="<?php echo $this->escape($this->getURL(null, 'edit')); ?>">Edit</a><?php
+    }
   }
   else
   {

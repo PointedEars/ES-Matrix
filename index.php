@@ -243,7 +243,7 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
          
       <p>This standard – the ECMAScript Language Specification –
          is published in Editions.  While several current versions
-         of programming languages implementations of ECMAScript.
+         of programming languages are implementations of ECMAScript,
          the first Edition of ECMAScript was based on two programming
          languages that were already implemented for use in Web browsers:
          Netscape JavaScript 1.1 and Microsoft JScript 1.0.</p>
