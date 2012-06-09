@@ -402,24 +402,6 @@ jsx.warn = function(sMsg) {
 };
 
 /**
- * Lets one object inherit from another
- *
- * @function
- * @param obj : optional Object
- *   Object from which to inherit.  The default is <code>Object.prototype</code>.
- * @return Object
- *   Inheriting (child) object
- */
-jsx.object.inheritFrom = (function() {
-  function Dummy() {}
-
-  return function(obj) {
-    Dummy.prototype = obj || Object.prototype;
-    return new Dummy();
-  };
-}());
-
-/**
  * Creates a duplicate (clone) of an object
  *
  * @function
@@ -1068,6 +1050,88 @@ jsx.throwThis = (function() {
 jsx.rethrowThis = function (exception) {
   eval("throw exception");
 };
+
+/**
+ * Lets one object inherit from another
+ *
+ * @function
+ * @param obj : optional Object
+ *   Object from which to inherit.  The default is <code>Object.prototype</code>.
+ * @return Object
+ *   Inheriting (child) object
+ */
+jsx.object.inheritFrom = (function() {
+  function Dummy() {}
+
+  return function(obj) {
+    Dummy.prototype = (typeof obj == "undefined")
+                    ? Object.prototype
+                    : (obj || null);
+    return new Dummy();
+  };
+}());
+
+if (jsx.options.emulate && !jsx.object.isNativeMethod(jsx.tryThis("Object"), "create"))
+{
+  if (!jsx.object.isNativeMethod(jsx.tryThis("Object"), "defineProperties"))
+  {
+    if (!jsx.object.isNativeMethod(jsx.tryThis("Object"), "getOwnPropertyNames"))
+    {
+      Object.getOwnPropertyNames = (function () {
+        var _hasOwnProperty = jsx.object._hasOwnProperty;
+
+        return function (o) {
+          var names = [];
+
+          for (var p in o)
+          {
+            if (_hasOwnProperty(o, p))
+            {
+              names.push(p);
+            }
+          }
+
+          return names;
+        };
+      }());
+    }
+
+    Object.defineProperties = function (o, descriptor) {
+      var properties = Object.getOwnPropertyNames(descriptor);
+      for (var i = 0, len = properties.length; i < len; ++i)
+      {
+        var property = properties[i];
+
+        o[property] = descriptor[property].value;
+      }
+
+      return o;
+    };
+  }
+
+  /**
+   * Creates a new object and initializes its properties.
+   *
+   * Emulation of the Object.create() method from ES 5.1,
+   * section 15.2.3.5.
+   *
+   * @param prototype : Object|Null
+   * @param descriptor : optional Object
+   *   Properties descriptor, where each own property name
+   *   is a property name of the new object, and each corresponding
+   *   property value is a reference to an object that defines the
+   *   attributes of that property.  Supported properties of
+   *   that defining object include <code>value</code> only
+   *   at this time.
+   * @return Reference to the new object
+   * @type Object
+   */
+  Object.create = function (prototype, descriptor) {
+    var o = jsx.object.inheritFrom(prototype);
+    Object.defineProperties(o, descriptor);
+    return o;
+  };
+}
 
 /**
  * Returns a feature of an object
@@ -1854,32 +1918,31 @@ Function.prototype.extend = (function() {
   };
 }());
 
+
+/**
+ * Determines if a value refers to an {@link Array}.
+ * <p>
+ * Returns <code>true</code> if the value is a reference to an object
+ * whose <code>class</code> internal property is <code>"Array"</code>;
+ * <code>false</code> otherwise.
+ * </p>
+ * @memberOf Array
+ * @function
+ * @return boolean
+ * @see ECMAScript Language Specification, Edition 5.1, section 15.4.3.2
+ */
+jsx.object.isArray = (function () {
+  var _getClass = jsx.object.getClass;
+
+  return function (a) {
+    return (_getClass(a) === "Array");
+  };
+}());
+
 if (jsx.options.emulate)
 {
   /* Defines Array.isArray() if not already defined */
-  jsx.object.addProperties(
-    {
-      /**
-       * Determines if a value refers to an {@link Array}.
-       * <p>
-       * Returns <code>true</code> if the value is a reference to an object
-       * whose <code>class</code> internal property is <code>"Array"</code>;
-       * <code>false</code> otherwise.
-       * </p>
-       * @memberOf Array
-       * @function
-       * @return boolean
-       * @see ECMAScript Language Specification, Edition 5.1, section 15.4.3.2
-       */
-      isArray: (function () {
-        var _getClass = jsx.object.getClass;
-
-        return function (a) {
-          return (_getClass(a) === "Array");
-        };
-      }())
-    },
-    Array);
+  jsx.object.addProperties({isArray: jsx.object.isArray}, Array);
 
   /* Defines Array.prototype.indexOf and .map() if not already defined */
 //  jsx.object.addProperties(

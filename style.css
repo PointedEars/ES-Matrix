@@ -59,7 +59,7 @@ body {
 
 p {
   text-align: justify;
-  line-height: 1.5em;       
+  line-height: 1.5;       
 }
 
 p.subtitle {
@@ -70,7 +70,7 @@ p.subtitle {
 
 li p {
   text-align: left;
-  line-height: 1em;
+  line-height: 1;
 }
 
 div, ul, ol, th, td {
@@ -94,7 +94,7 @@ ul li,
 ol li
 {
   margin-left: 40px;
-  line-height: 1.5em;
+  line-height: 1.5;
 }
 
 ul.horizontal {
@@ -150,6 +150,10 @@ a[href^="https://PointedEars.de/"]
   background: none;
 }
 
+i em {
+  font-style: normal;
+}
+
 #header {
   margin-top: 5em;
 }
@@ -202,6 +206,11 @@ a[href^="https://PointedEars.de/"]
 
 #toc:hover h2:after {
   content: "\25B2 "
+}
+
+/* Abstract */
+blockquote p {
+  font-style: italic;
 }
 
 .closed {
@@ -293,7 +302,7 @@ td *
 }
 
 sup {
-  line-height: 1em;
+  line-height: 1;
   font-weight: 500;
 }
 
