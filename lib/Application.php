@@ -41,20 +41,25 @@ class Application
    */
   private static $_instance;
   
-  private function __construct()
+  protected function __construct()
   {
     /* Singleton pattern */
   }
   
   /**
    * Gets a reference to the <code>Application</code> instance
+   *
+   * @param Application $instance
+   *   The instance to be used as application.  The default is a new
+   *   application.  This parameter is ignored if the application was
+   *   already initialized.
    * @return Application
    */
-  public static function getInstance()
+  public static function getInstance(Application $instance = null)
   {
     if (is_null(self::$_instance))
     {
-      self::$_instance = new self();
+      self::$_instance = ($instance === null) ? new self() : $instance;
     }
     
     return self::$_instance;
@@ -123,7 +128,7 @@ class Application
    */
   public function run()
   {
-    session_start();
+    $this->startSession();
     
     $controller = self::getParam('controller', $_REQUEST);
     if (!$controller)
@@ -140,6 +145,11 @@ class Application
     return $this;
   }
 
+  protected function startSession()
+  {
+    session_start();
+  }
+  
   /**
    * Gets a request parameter
    *
