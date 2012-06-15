@@ -1,12 +1,22 @@
 <?php
 
-require_once 'includes/global.inc';
+require_once 'lib/global.inc';
 
 require_once 'lib/AbstractModel.php';
 
 /**
  * Generic database model class using PDO (PHP Data Objects)
  *
+ * @property-read array $lastError
+ *   Last error information of the database operation.
+ *   See {@link PDOStatement::errorInfo()}.
+ * @property-read string $lastInsertId
+ *   ID of the last inserted row, or the last value from a sequence object,
+ *   depending on the underlying driver. May not be supported by all databases.
+ * @property-read array $lastResult
+ *   Last result of the database operation
+ * @property-read boolean $lastSuccess
+ *   Last success value of the database operation
  * @author Thomas Lahn
  */
 class Database extends AbstractModel
@@ -47,6 +57,12 @@ class Database extends AbstractModel
    */
   protected $_lastSuccess;
 
+  /**
+   * Last error information of the database operation
+   * @var array
+   */
+  protected $_lastError;
+  
   /**
    * Last result of the database operation
    * @var array
@@ -127,7 +143,7 @@ class Database extends AbstractModel
    * @return string
    *   The escaped name
    */
-  public static function escapeName($name)
+  public function escapeName($name)
   {
     return $name;
   }
@@ -289,7 +305,7 @@ class Database extends AbstractModel
    *   If provided, MUST start with ORDER BY or GROUP BY
    * @param string $limit Limit (optional)
    * @param int $fetch_style
-   *   The mode that shoould be used for {@link PDOStatement::fetchAll()}.
+   *   The mode that should be used for {@link PDOStatement::fetchAll()}.
    *   The default is {@link PDO::FETCH_ASSOC}.
    * @return array
    * @see Database::prepare()
@@ -380,6 +396,9 @@ class Database extends AbstractModel
     $success =& $this->_lastSuccess;
     $success =  $stmt->execute($params);
     
+    $errorInfo =& $this->_lastError;
+    $errorInfo =  $stmt->errorInfo();
+    
     $result =& $this->_lastResult;
     $result =  $stmt->fetchAll($fetch_style);
     
@@ -387,7 +406,7 @@ class Database extends AbstractModel
     {
       debug(array(
         '_lastSuccess' => $success,
-        'errorInfo'    => $stmt->errorInfo(),
+        '_lastError'   => $errorInfo,
         '_lastResult'  => $result
       ));
     }
@@ -501,6 +520,9 @@ class Database extends AbstractModel
     $success =& $this->_lastSuccess;
     $success =  $stmt->execute($params);
     
+    $errorInfo =& $this->_lastError;
+    $errorInfo =  $stmt->errorInfo();
+    
     $this->_resetLastInsertId();
     
     $result =& $this->_lastResult;
@@ -510,7 +532,7 @@ class Database extends AbstractModel
     {
       debug(array(
         '_lastSuccess' => $success,
-        'errorInfo'    => $stmt->errorInfo(),
+        '_lastError'    => $errorInfo,
         '_lastResult'  => $result
       ));
     }
@@ -520,7 +542,7 @@ class Database extends AbstractModel
   
   /**
    * Inserts a record into a table.<p>The AUTO_INCREMENT value of the inserted
-   * row, if any (> 0), is stored in the {@link $lastId} property of
+   * row, if any (> 0), is stored in the {@link $lastInsertId} property of
    * the <code>Database</code> instance.</p>
    *
    * @param string $table
@@ -606,6 +628,9 @@ class Database extends AbstractModel
     $success =& $this->_lastSuccess;
     $success = $stmt->execute($params);
     
+    $errorInfo =& $this->_lastError;
+    $errorInfo =  $stmt->errorInfo();
+    
     $this->_setLastInsertId();
     
     $result =& $this->_lastResult;
@@ -615,7 +640,7 @@ class Database extends AbstractModel
     {
       debug(array(
         '_lastSuccess'  => $success,
-        'errorInfo'     => $stmt->errorInfo(),
+        '_lastError'    => $errorInfo,
         '_lastInsertId' => $this->_lastInsertId,
         '_lastResult'   => $result
       ));
@@ -639,6 +664,8 @@ class Database extends AbstractModel
     $stmt = $this->prepare("SELECT * FROM $table");
     $this->_lastSuccess = $stmt->execute();
   
+    $this->_lastError = $stmt->errorInfo();
+    
     $result =& $this->_lastResult;
     
     if (is_null($fetch_style))
@@ -733,11 +760,14 @@ class Database extends AbstractModel
     $result =& $this->_lastResult;
     $result =  $stmt->fetchAll();
     
+    $errorInfo =& $this->_lastError;
+    $errorInfo =  $stmt->errorInfo();
+    
     if (defined('DEBUG') && DEBUG > 1)
     {
       debug(array(
         '_lastSuccess' => $success,
-        'errorInfo'    => $stmt->errorInfo(),
+        '_lastError'   => $errorInfo,
         '_lastResult'  => $result
       ));
     }

@@ -55,7 +55,7 @@ class MySQLDB extends Database
    * @return string
    *   The escaped name
    */
-  public static function escapeName($name)
+  public function escapeName($name)
   {
     return '`' . $name . '`';
   }

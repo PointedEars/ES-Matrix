@@ -62,4 +62,27 @@ abstract class Mapper
     
     return $this->_dbTable;
   }
+  
+  /**
+   * Sorts an array of objects by the property of the nested object.
+   * To be used with the u*sort() functions.
+   *
+   * @param object $a First operand of the comparison
+   * @param object $b Second operand of the comparison
+   * @param string $property
+   *   Name of the property of the nested object by which to sort the outer array
+   * @return int
+   *   0 if <var>$a</var> and <var>$b</var> are "equal",
+   *   <code>-1</code> if <var>$a</var> is "less" than <var>$b</var>,
+   *   <code>1</code> otherwise.
+   */
+  protected static function sortByProperty($a, $b, $property)
+  {
+    if ($a->$property === $b->$property)
+    {
+      return 0;
+    }
+  
+    return ($a->$property < $b->$property) ? -1 : 1;
+  }
 }

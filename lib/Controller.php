@@ -28,6 +28,12 @@ if (false === function_exists('lcfirst'))
 abstract class Controller
 {
   /**
+   * Default action of the controller
+   * @var string
+   */
+  protected $_defaultAction = 'index';
+  
+  /**
    * The {@link View} used by this controller
    *
    * @var View
@@ -50,15 +56,16 @@ abstract class Controller
     $this->_view = new $viewClass($template);
 
     Application::getInstance()->setCurrentController($this);
-    $action = Application::getParam('action');
-    if ($action)
+    
+    $action = Application::getParam('action', $_REQUEST);
+    
+    /* NOTE: No `==='; treat empty action like no specific action */
+    if ($action == null)
     {
-      $this->{lcfirst($action) . 'Action'}();
+      $action = $this->_defaultAction;
     }
-    else
-    {
-      $this->indexAction();
-    }
+
+    $this->{lcfirst($action) . 'Action'}();
   }
     
   /**

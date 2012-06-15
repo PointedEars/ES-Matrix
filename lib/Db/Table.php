@@ -166,6 +166,9 @@ abstract class Table extends AbstractModel
   * @param string|array $condition
   *   If there are no records matching this condition, a row will be inserted;
   *   otherwise matching records are updated
+  * @return bool
+  * @see Table::update()
+  * @see Table::insert()
   */
   public function updateOrInsert($data, array $condition = null)
   {
@@ -173,10 +176,8 @@ abstract class Table extends AbstractModel
     {
       return $this->update($data, $condition);
     }
-    else
-    {
-      return $this->insert($data);
-    }
+
+    return $this->insert($data);
   }
 
   /**

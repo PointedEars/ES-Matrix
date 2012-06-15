@@ -1,6 +1,6 @@
 <?php
 
-// require_once 'lib/AbstractModel.php';
+require_once 'lib/AbstractModel.php';
 require_once 'lib/Registry.php';
 
 /**
@@ -61,6 +61,63 @@ class Application
   }
   
   /**
+   * Getter for properties
+   *
+   * @param string $name
+   * @throws ModelPropertyException
+   * @return mixed
+   */
+  public function __get($name)
+  {
+    /* Support for Object-Relational Mappers */
+    if (strpos($name, 'persistent') === 0)
+    {
+      $class = get_class($this);
+      return $class::${
+        $name};
+    }
+  
+    $method = 'get' . ucfirst($name);
+  
+    if (method_exists($this, $method))
+    {
+      return $this->$method();
+    }
+  
+    if (property_exists($this, "_$name"))
+    {
+      return $this->{"_$name"};
+    }
+  
+    return $this->$name;
+  }
+  
+  /**
+   * Setter for properties
+   *
+   * @param string $name
+   * @param mixed $value  The new property value before assignment
+   * @throws ModelPropertyException
+   */
+  public function __set($name, $value)
+  {
+    $method = 'set' . ucfirst($name);
+  
+    if (method_exists($this, $method))
+    {
+      return $this->$method($value);
+    }
+  
+    if (property_exists($this, "_$name"))
+    {
+      $this->{"_$name"} = $value;
+      return $this->{"_$name"};
+    }
+  
+    /* NOTE: Attempts to set other properties are _silently_ _ignored_ */
+  }
+  
+  /**
    * Runs the application, setting up session management and
    * constructing the controller indicated by the URI
    */
@@ -68,7 +125,7 @@ class Application
   {
     session_start();
     
-    $controller = self::getParam('controller');
+    $controller = self::getParam('controller', $_REQUEST);
     if (!$controller)
     {
       $controller = $this->_defaultController;
@@ -165,14 +222,26 @@ class Application
    * @param string[optional] $action
    * @param int[optional] $id
    */
-  public function getURL($controller = null, $action = 'index',
-                            $id = null)
+  public function getURL($controller = null, $action = null, $id = null)
   {
-    return $_SERVER['SCRIPT_URL']
-      . '?'
-      . (!is_null($controller) ? 'controller=' . $controller : '')
-      . ($action !== 'index' ? '&action=' . $action : '')
-      . (!is_null($id) ? '&id=' . $id : '');
+    /* Apache module */
+    $url = self::getParam('SCRIPT_URL', $_SERVER);
+    if ($url === null)
+    {
+      /* FastCGI */
+      $url = self::getParam('URL', $_SERVER);
+      if ($url === null)
+      {
+        throw new Exception(
+          'Neither $_SERVER["SCRIPT_URL"] nor $_SERVER["URL"] is available, cannot continue.');
+      }
+    }
+    
+    $query = (!is_null($controller) ? 'controller=' . $controller : '')
+           . (!is_null($action) ? '&action=' . $action : '')
+           . (!is_null($id) ? '&id=' . $id : '');
+    
+    return $url . ($query ? '?' . $query : '');
   }
     
   /**
@@ -203,6 +272,7 @@ class Application
                   . $query_prefix;
     }
 
-    header('Location: ' . $script_uri . $query);
+    header('Location: ' . $script_uri
+      . ($query ? (substr($query, 0, 1) === '?' ? '' : '?') . $query : ''));
   }
 }
