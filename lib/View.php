@@ -181,7 +181,7 @@ class View
    * @param int[optional] $id
    * @see Application::getURL()
    */
-  public function getURL($controller = null, $action = 'index', $id = null)
+  public function getURL($controller = null, $action = null, $id = null)
   {
     return Application::getInstance()->getURL($controller, $action, $id);
   }
