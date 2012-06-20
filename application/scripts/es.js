@@ -1,8 +1,47 @@
 "use strict";
 /**
+ * @fileOverview <title>ECMAScript Edition 5.1 Reference Implementation</title>
+ * @file $Id$
+ *
+ * @author (C) 2012 <a href="mailto:js@PointedEars.de">Thomas Lahn</a>
+ *
+ * This program is (intended to be) a complete reference
+ * implementation of the ECMAScript Language Specification,
+ * 5.1 Edition, written in ECMAScript.  It should be used
+ * to determine the degree of conformance of existing
+ * ECMAScript implementations to the Edition they claim
+ * to implement, respectively.
+ *
+ * These implementations of ECMAScript algorithms are intentionally
+ * not optimized for speed and memory footprint, but towards
+ * a maximum degree of standards compliance and clarity.  They are
+ * therefore _not_ suited as-is for emulations of ECMAScript
+ * features that are potentially missing in implementations or
+ * implemented in a non-conforming way.  You have been warned.
+ * However, optimized versions of this code may be used in feature
+ * emulation, as they are used, for example, in JSX:object.js.
+ *
+ * @partof ECMAScript Support Matrix (ES Matrix)
+ *
+ * The ES Matrix is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ *
+ * The ES Matrix is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ES Matrix.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/**
  * @namespace
  */
 var es = {
+  /* Data types */
   T_OTHER: -2,
   T_UNDEFINED: -1,
   T_NULL: 0,
@@ -96,10 +135,14 @@ var es = {
     return (a < b) ? a : b;
   },
 
+  max: function (a, b) {
+    return (a > b) ? a : b;
+  },
+
   /**
    * "The mathematical function sign(x) yields 1 if x is positive
    * and −1 if x is negative. The sign function is not used in this
-   * standard for cases when is zero."
+   * standard for cases when x is zero."
    *
    * @param x
    * @returns number
@@ -133,7 +176,33 @@ var es = {
     return a.join(str);
   },
 
-  DefaultValue: function (O, hint) {
+  shift: function (obj) {
+    var first = obj[0];
+
+    for (var i = 1, len = obj.length; i < len; ++i)
+    {
+      obj[i - 1] = obj[i];
+    }
+
+    delete obj[obj.length - 1];
+    --obj.length;
+
+    return first;
+  },
+
+  slice: function (obj, startIndex, endIndex) {
+    var a = [];
+    var count = 0;
+
+    for (var i = startIndex; i < endIndex; ++i)
+    {
+      a[count++] = obj[i];
+    }
+
+    return a;
+  },
+
+  DefaultValue: function (o, hint) {
     /*
      * "When the [[DefaultValue]] internal method of O is called
      * with no hint, then it behaves as if the hint were Number,
@@ -144,7 +213,7 @@ var es = {
     {
       hint = es.T_NUMBER;
 
-      if (es.getClass("O") == "Date")
+      if (es.getClass(o) == "Date")
       {
         hint = es.T_STRING;
       }
@@ -156,7 +225,7 @@ var es = {
        * "1. Let toString be the result of calling the [[Get]]
        * internal method of object O with argument "toString".
        */
-      var toString = O.toString;
+      var toString = o.toString;
 
       /* "2. If IsCallable(toString) is true then," */
       if (es.IsCallable(toString))
@@ -166,7 +235,7 @@ var es = {
          *     internal method of toString, with O as
          *     the this value and an empty argument list."
          */
-        var str = toString.call(O);
+        var str = toString.call(o);
 
         /* "b. If str is a primitive value, return str." */
         if (es.isPrimitive(str))
@@ -179,7 +248,7 @@ var es = {
        * "3. Let valueOf be the result of calling the [[Get]]
        *     internal method of object O with argument "valueOf"."
        */
-      var valueOf = O.valueOf;
+      var valueOf = o.valueOf;
 
       /* 4. If IsCallable(valueOf) is true then, */
       if (es.IsCallable(valueOf))
@@ -189,7 +258,7 @@ var es = {
          *     internal method of valueOf, with O as the
          *     this value and an empty argument list."
          */
-        var str = valueOf.call(O);
+        var val = valueOf.call(o);
 
         /* "b. If val is a primitive value, return val." */
         if (es.isPrimitive(val))
@@ -207,7 +276,7 @@ var es = {
        * "1. Let valueOf be the result of calling the [[Get]]
        *     internal method of object O with argument "valueOf"."
        */
-      var valueOf = O.valueOf;
+      var valueOf = o.valueOf;
 
       /* "2. If IsCallable(valueOf) is true then," */
       if (es.IsCallable(valueOf))
@@ -217,7 +286,7 @@ var es = {
          *     internal method of valueOf, with O as the
          *     this value and an empty argument list."
          */
-        var str = valueOf.call(O);
+        var str = valueOf.call(o);
 
         /* b. If val is a primitive value, return val. */
         if (es.isPrimitive(val))
@@ -230,7 +299,7 @@ var es = {
        * "3. Let toString be the result of calling the [[Get]]
        *     internal method of object O with argument "toString"."
        */
-      var toString = O.toString;
+      var toString = o.toString;
 
       /* 4. If IsCallable(toString) is true then, */
       if (es.IsCallable(toString))
@@ -240,7 +309,7 @@ var es = {
          *     internal method of toString, with O as the
          *     this value and an empty argument list."
          */
-        var str = toString.call(O);
+        var str = toString.call(o);
 
         /* "b. If str is a primitive value, return str." */
         if (es.isPrimitive(str))
@@ -255,11 +324,20 @@ var es = {
   },
 
   /**
-   * @param input
-   * @param PreferredType
+   * "9.1 ToPrimitive
+   *
+   * The abstract operation ToPrimitive takes an input argument
+   * and an optional argument PreferredType. The abstract operation
+   * ToPrimitive converts its input argument to a non-Object type.
+   * If an object is capable of converting to more than one
+   * primitive type, it may use the optional hint PreferredType
+   * to favour that type."
+   *
+   * @param input : mixed
+   * @param preferredType : Number
    * @returns mixed
    */
-  ToPrimitive: function (input, PreferredType) {
+  ToPrimitive: function (input, preferredType) {
     var t = es.Type(input);
 
     if (t == es.T_UNDEFINED || t == es.T_NULL || t == es.T_BOOLEAN
@@ -270,11 +348,16 @@ var es = {
 
     if (t == es.T_OBJECT)
     {
-      return es.DefaultValue(input, PreferredType);
+      return es.DefaultValue(input, preferredType);
     }
   },
 
   /**
+   * "9.3 ToNumber
+   *
+   * The abstract operation ToNumber converts its argument to
+   * a value of type Number …"
+   *
    * @param arg
    * @returns number
    */
@@ -317,6 +400,11 @@ var es = {
   },
 
   /**
+   * "9.4 ToInteger
+   *
+   * The abstract operation ToInteger converts its argument to
+   * an integral numeric value."
+   *
    * @param arg
    * @returns number
    */
@@ -341,6 +429,46 @@ var es = {
   },
 
   /**
+   * "9.6 ToUint32
+   *
+   * The abstract operation ToUint32 converts its argument to one
+   * of 2³² integer values in the range 0 through 2³²−1, inclusive."
+   *
+   * @param arg
+   * @returns number
+   */
+  ToUint32: function (arg) {
+    /* "1. Let number be the result of calling ToNumber on the input argument." */
+    var number = es.ToNumber(arg);
+
+    /* "2. If number is NaN, +0, −0, +inf, or −inf, return +0." */
+    if (isNaN(number) || number === 0 || Math.abs(number) === Infinity)
+    {
+      return 0;
+    }
+
+    /* "3. Let posInt be sign(number) × floor(abs(number))." */
+    var posInt = es.sign(arg) * Math.floor(Math.abs(number));
+
+    /*
+     * "4. Let int32bit be posInt modulo 2³²; that is, a
+     *  finite integer value k of Number type with positive sign
+     *  and less than 2³² in magnitude such that the mathematical
+     *  difference of posInt and k is mathematically an integer
+     *  multiple of 2³²."
+     */
+    var int32bit = posInt >>> 0;
+
+    /* "5. Return int32bit." */
+    return int32bit;
+  },
+
+  /**
+   * "9.9 ToString
+   *
+   * The abstract operation ToString converts its argument to
+   * a value of type String …"
+   *
    * @param arg
    * @returns string
    */
@@ -423,6 +551,43 @@ var es = {
   },
 
   /**
+   * "9.9 To Object
+   *
+   * The abstract operation ToObject converts its argument to
+   * a value of type Object …"
+   *
+   * @param arg
+   * @returns Object
+   */
+  ToObject: function (arg) {
+    var t = es.Type(arg);
+    if (t === es.T_UNDEFINED || t === es.T_NULL)
+    {
+      throw new TypeError();
+    }
+
+    if (t === es.T_BOOLEAN)
+    {
+      return new Boolean(arg);
+    }
+
+    if (t === es.T_NUMBER)
+    {
+      return new Number(arg);
+    }
+
+    if (t === es.T_STRING)
+    {
+      return new String(arg);
+    }
+
+    if (t === es.T_OBJECT)
+    {
+      return arg;
+    }
+  },
+
+  /**
    * Implements the "[[Class]] internal property" value in
    * ECMAScript algorithms.
    *
@@ -495,6 +660,266 @@ var es = {
     }
 
     return false;
+  },
+
+  Array: {
+    prototype: {
+      /**
+       * "When the splice method is called with two or more
+       *  arguments start, deleteCount and (optionally) item1,
+       *  item2, etc., the deleteCount elements of the array
+       *  starting at array index start are replaced by
+       *  the arguments item1, item2, etc. An Array object
+       *  containing the deleted elements (if any) is returned."
+       * @param start : int
+       * @param deleteCount : int
+       * @params items : Array[any]
+       * @return Array
+       */
+      splice: function (start, deleteCount/*, items */) {
+        /*
+         * "1. Let O be the result of calling ToObject passing
+         *     the this value as the argument."
+         */
+        var o = es.ToObject(this);
+
+        /*
+         * "2. Let A be a new array created as if by the expression
+         *     new Array() where Array is the standard built-in
+         *     constructor with that name."
+         */
+        var a = [];
+
+        /*
+         * 3. Let lenVal be the result of calling the [[Get]]
+         *    internal method of O with argument "length ".
+         */
+        var lenVal = o.length;
+
+        /* "4. Let len be ToUint32(lenVal). */
+        var len = es.ToUint32(lenVal);
+
+        /* "5. Let relativeStart be ToInteger(start)." */
+        var relativeStart = es.ToInteger(start);
+
+        /*
+         * "6. If relativeStart is negative, let actualStart be
+         *     max((len + relativeStart),0); else let actualStart
+         *     be min(relativeStart, len).
+         */
+        var actualStart = (relativeStart < 0)
+                         ? es.max((len + relativeStart), 0)
+                         : es.min(relativeStart, len);
+
+        /*
+         * "7. Let actualDeleteCount be min(
+         *     max(ToInteger(deleteCount),0), len – actualStart)."
+         */
+        var actualDeleteCount = es.min(
+          es.max(es.ToInteger(deleteCount), 0),
+          len - actualStart);
+
+        /* "8. Let k be 0." */
+        var k = 0;
+
+        /* "9. Repeat, while k < actualDeleteCount" */
+        while (k < actualDeleteCount)
+        {
+          /* "a. Let from be ToString(actualStart+k)." */
+          var from = es.ToString(actualStart + k);
+
+          /*
+           * "b. Let fromPresent be the result of calling
+           *     the [[HasProperty]] internal method of O
+           *     with argument from."
+           */
+          var fromPresent = (from in o);
+
+          /* "c. If fromPresent is true, then" */
+          if (fromPresent === true)
+          {
+            /*
+             * "i. Let fromValue be the result of calling
+             *     the [[Get]] internal method of O with
+             *     argument from."
+             */
+            var fromValue = o[from];
+
+            /*
+             * "ii. Call the [[DefineOwnProperty]] internal method
+             *  of A with arguments ToString(k), Property Descriptor
+             *  {[[Value]]: fromValue, [[Writable]]: true,
+             *  [[Enumerable]]: true, [[Configurable]]: true},
+             *  and false.
+             */
+            a[es.ToString(k)] = fromValue;
+
+            /* "d. Increment k by 1." */
+            ++k;
+          }
+        }
+
+        /*
+         * "10. Let items be an internal List whose elements are,
+         *      in left to right order, the portion of the actual
+         *      argument list starting with item1. The list will
+         *      be empty if no such items are present.
+         */
+        var items = es.slice(arguments, 2, arguments.length);
+
+        /* "11. Let itemCount be the number of elements in items." */
+        var itemCount = items.length;
+
+        /* "12. If itemCount < actualDeleteCount, then */
+        if (itemCount < actualDeleteCount)
+        {
+          /* "a. Let k be actualStart." */
+          k = actualStart;
+
+          /* "b. Repeat, while k < (len – actualDeleteCount)" */
+          while (k < (len - actualDeleteCount))
+          {
+            /* "i. Let from be ToString(k+actualDeleteCount)." */
+            from = es.ToString(k + actualDeleteCount);
+
+            /* "ii. Let to be ToString(k+itemCount)." */
+            var to = es.ToString(k + itemCount);
+
+            /*
+             * "iii. Let fromPresent be the result of calling
+             *       the [[HasProperty]] internal method of O
+             *       with argument from.
+             */
+            fromPresent = (from in o);
+
+            /*
+             * iv. If fromPresent is true, then
+             */
+            if (fromPresent === true)
+            {
+              /*
+               * 1. Let fromValue be the result of calling
+               *    the [[Get]] internal method of O with
+               *    argument from.
+               */
+              var fromValue = o[from];
+
+              /*
+               * 2. Call the [[Put]] internal method of O
+               *    with arguments to, fromValue, and true
+               */
+              o[to] = fromValue;
+            }
+            /* "v. Else, fromPresent is false" */
+            else if (fromPresent === false)
+            {
+              /* "1. Call the [[Delete]] internal method of O with arguments to and true." */
+              delete o[to];
+            }
+
+            /* "vi. Increase k by 1. */
+            ++k;
+          }
+
+          /* "c. Let k be len." */
+          k = len;
+
+          /* "d. Repeat, while k > (len – actualDeleteCount + itemCount)" */
+          while (k > (len - actualDeleteCount + itemCount))
+          {
+            /* "i. Call the [[Delete]] internal method of O with arguments ToString(k–1) and true." */
+            delete o[es.ToString(k - 1)];
+
+            /* "ii. Decrease k by 1." */
+            --k;
+          }
+        }
+        /* "13. Else if itemCount > actualDeleteCount, then" */
+        else
+        {
+          /* "a. Let k be (len – actualDeleteCount)." */
+          k = (len - actualDeleteCount);
+
+          /* "b. Repeat, while k > actualStart" */
+          while (k > actualStart)
+          {
+            /* "i. Let from be ToString(k + actualDeleteCount – 1)." */
+            from = es.ToString(k + actualDeleteCount - 1);
+
+            /* "ii. Let to be ToString(k + itemCount – 1) */
+            to = es.ToString(k + itemCount - 1);
+
+            /*
+             * "iii. Let fromPresent be the result of calling
+             *       the [[HasProperty]] internal method of O
+             *       with argument from."
+             */
+            fromPresent = (from in o);
+
+            /* "iv. If fromPresent is true, then" */
+            if (fromPresent === true)
+            {
+              /*
+               * "1. Let fromValue be the result of calling
+               *     the [[Get]] internal method of O with
+               *     argument from."
+               */
+              fromValue = o[from];
+
+              /*
+               * "2. Call the [[Put]] internal method of O
+               *     with arguments to, fromValue, and true."
+               */
+              o[to] = fromValue;
+            }
+            /* "v. Else, fromPresent is false" */
+            else if (fromPresent === false)
+            {
+              /*
+               * "1. Call the [[Delete]] internal method of O
+               *     with argument to and true."
+               */
+              delete o[to];
+            }
+
+            /* "vi. Decrease k by 1. */
+            --k;
+          }
+        }
+
+        /* "14. Let k be actualStart." */
+        k = actualStart;
+
+        /* "15. Repeat, while items is not empty" */
+        while (items.length > 0)
+        {
+          /*
+           * "a. Remove the first element from items and let E
+           *     be the value of that element."
+           */
+          var e = es.shift(items);
+
+          /*
+           * "b. Call the [[Put]] internal method of O
+           *     with arguments ToString(k), E, and true."
+           */
+          o[es.ToString(k)] = e;
+
+          /* "c. Increase k by 1." */
+          ++k;
+        }
+
+        /*
+         * "16. Call the [[Put]] internal method of O
+         *      with arguments "length",
+         *      (len – actualDeleteCount + itemCount), and true."
+         */
+        o.length = (len - actualDeleteCount + itemCount);
+
+        /* 17. Return A. */
+        return a;
+      }
+    }
   },
 
   Object: {
