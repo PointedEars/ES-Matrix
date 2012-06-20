@@ -1,6 +1,6 @@
 <?php
 
-require_once 'includes/global.inc';
+require_once 'lib/global.inc';
 
 require_once 'lib/AbstractModel.php';
 

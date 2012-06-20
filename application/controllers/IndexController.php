@@ -1,5 +1,6 @@
 <?php
 
+require_once 'lib/footnotes.class.php';
 require_once 'lib/Controller.php';
 
 require_once 'application/views/IndexView.php';
@@ -8,8 +9,6 @@ require_once 'application/models/mappers/FeatureMapper.php';
 require_once 'application/models/mappers/ImplementationMapper.php';
 require_once 'application/models/mappers/ResultMapper.php';
 require_once 'application/models/mappers/EnvironmentMapper.php';
-
-require_once 'includes/footnotes.class.php';
 
 /**
  * A controller for handling the default view of the ECMAScript Support Matrix

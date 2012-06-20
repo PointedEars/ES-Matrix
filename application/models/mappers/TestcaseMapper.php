@@ -1,10 +1,11 @@
 <?php
+
+require_once 'lib/features.class.php';
 require_once 'lib/Db/Mapper.php';
 
 require_once 'application/models/databases/es-matrix/tables/TestcaseTable.php';
 require_once 'application/models/TestcaseModel.php';
 
-require_once 'includes/features.class.php';
 require_once 'application/models/FeatureModel.php';
 
 /**
