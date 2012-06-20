@@ -6,7 +6,7 @@ require_once 'application/models/databases/es-matrix/tables/FeatureTable.php';
 require_once 'application/models/FeatureModel.php';
 require_once 'application/models/mappers/TestcaseMapper.php';
 
-require_once 'includes/features.class.php';
+require_once __DIR__ . '/lib/features.class.php';
 
 /**
  * Mapper class for features
