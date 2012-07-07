@@ -56,8 +56,8 @@
          programming language.  But it is in fact only the name of
          one implementation of a standard for an extensible
          programming language, <strong>ECMAScript</strong>, which
-         is enjoying <em>several implementations</em> that are
-         widely distributed.</p>
+         has <em>several implementations</em> that are widely
+         distributed.</p>
          
       <p>This standard – the ECMAScript Language Specification –
          is published in Editions.  While several current versions
@@ -86,12 +86,69 @@
          Using ambiguous umbrella terms such as the ones mentioned,
          without providing a clear definition for them, cannot be
          considered appropriate style in a technical discussion.</p>
+      
+      <p>Therefore, for lack of a better alternative, the precise and equally
+         concise term <strong>ECMAScript implementation(s)</strong> should be
+         used when talking about features that several implementations (ought
+         to) have in common (per the ECMAScript Language Specification).  And
+         whenever it was talked about one particular implementation, its proper
+         name should be used, like <strong>Netscape/Mozilla.org JavaScript</strong>
+         or simply <strong>JavaScript</strong> (if there is doubt, "™" might
+         be added to emphasize that the implementation is meant).  <strong>In all
+         other instances, the term “JavaScript” (any capitalization) should
+         <em>not</em> be used.</strong></p>
+          
+      <p>This overview began as a comparison of different “JavaScript” features
+         and, as time passed and understanding grew, evolved into a comparison
+         between the major ECMAScript implementations, detailing the differences,
+         the quirks and the bugs.  It has served its author (and its dedicated
+         readers) for years in writing client-side scripts that work cross-browser,
+         and helped to see the distinction between core language features, and
+         APIs with language binding, like the DOM.  (The features of the latter
+         API will be compared in another Matrix.)</p>
+         
+      <p>Whenever you read from this author that key line from arguably
+         <a href="http://en.wikipedia.org/wiki/The_Matrix"
+            title="The Matrix movie on Wikipedia"
+            >the most groundbreaking hacker movie</a>
+         &#8213;“The Matrix has you!”&#8213; a suggestion
+         is being considered as a
+         <a href="#contributors">contribution</a> to this work.
+         See below.</p>
     </div>
-
+   
     <div>
       <h2><a name="features" id="features">Language&nbsp;Features</a></h2>
       
       <div><a href="#toc">&#8593; Table of contents</a></div>
+
+      <p>The following table lists features of ECMAScript and its
+        implementations, with the Edition or version that introduced
+        it; furthermore, information about features that have been
+        deprecated is included.</p>
+        
+      <p>Features are <span class="safe"><span class="visual">highlighted
+        with a greenish background color</span></span> if they can be
+        considered <em>safe</em> to use without prior feature test
+        even when they do not appear to be formally specified or
+        to be supported among all versions of all implementations
+        considered here.  This is based on the fact that all minimum
+        versions of the implementations that a&nbsp;feature
+        requires can be considered obsolete because the user&nbsp;agents
+        known to implement them can be considered obsolete (see the
+        respective <a href="#version-info">version information</a>
+        for details).  Note that this assessment is likely to be
+        subject to change as more implementations are investigated.
+        If taken as a&nbsp;recommendation for design decisions,
+        it should be taken as a light&nbsp;one.</p>
+        
+      <p><strong>The contents of this table are based on what could be found in
+        the Editions of ECMAScript and in vendor's online documentation to date.
+        They are completed with results from test cases that have been run in a
+        careful selection of <a href="#environments">host environments</a>,
+        <em>and do not claim to be accurate or complete</em>.  Any correction/addition
+        as to how things really are is welcome and will be
+        <a href="#contributors">credited</a> where it is due.</strong></p>
     </div>
 <?php
     if ($_SERVER['HTTP_HOST'] === 'localhost')

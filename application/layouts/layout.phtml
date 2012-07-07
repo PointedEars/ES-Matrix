@@ -41,11 +41,9 @@
     <![endif]-->
     
     <script type="text/javascript">
-      var jsx = {
-        options: {
-          emulate: false
-        }
-      };
+      var jsx = new Object();
+      jsx.options = new Object();
+      jsx.options.emulate = false;
     </script>
     <script type="text/javascript" src="application/scripts/compat.js"></script>
     <!-- FIXME: hyphenation.js and dom.js interfere with emulate = false  -->
@@ -61,8 +59,10 @@
       function body_load ()
       {
         jsx.string.hyphenation.loadDictionary("application/scripts/hyphenation-en.js");
-        jsx.dom.hyphenate([document.getElementById('abstract'),
-                           document.getElementById('foreword')]);
+        var elements = new Array();
+        elements[0] = document.getElementById('abstract');
+        elements[1] = document.getElementById('foreword');
+        jsx.dom.hyphenate(elements);
 
         synhl();
       }
@@ -72,7 +72,7 @@
   <body onload="body_load()">
     <div id="header" style="margin-bottom: 1em; padding-bottom: 1em; border-bottom: 1px solid black">
       <h1><a name="top" id="top">ECMAScript Support Matrix</a></h1>
-      <p class="subtitle">There is no “javascript”.</p>
+      <p class="subtitle">There is no javascript.</p>
 
       <p style="text-align: left">
         Copyright &copy; 2005&#8211;<?php global $modi; echo gmdate('Y', $modi); ?>
@@ -129,6 +129,7 @@
       <div><a href="#top">&#8593; Top of document</a></div>
       
       <ul>
+        <li><a href="#abstract">Abstract</a></li>
         <li><a href="#foreword">Foreword and rationale</a></li>
         <li><a href="#features">Language features</a></li>
 <!--

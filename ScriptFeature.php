@@ -1,7 +1,7 @@
 <?php
 
-require_once 'includes/features.class.php';
-require_once 'includes/footnotes.class.php';
+require_once 'lib/features.class.php';
+require_once 'lib/footnotes.class.php';
 
 $footnotes = new FootnoteList('[', ']', true);
 

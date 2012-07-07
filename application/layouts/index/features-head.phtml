@@ -25,10 +25,30 @@ if ($this->edit)
                 // $footnotes->add('this-impl', '', $scriptEngineTest, '');
                 ?><br>
               <script type="text/javascript">
+                function strReplace (needle, replacement, haystack, global)
+                {
+                  var
+                    i,
+                    lastIndex = 0;
+                  
+                  while ((i = haystack.substring(lastIndex).indexOf(needle)) > -1)
+                  {
+                    haystack = haystack.substring(0, i) + replacement + haystack.substring(i + 1);
+                    if (!global)
+                    {
+                      break;
+                    }
+                                        
+                    lastIndex = i + replacement.length + 1;
+                  }
+
+                  return haystack;
+                }
+              
                 var implementation = jsx.object.isMethod(this, "ScriptEngine") ? ScriptEngine() : '';
                 if (implementation)
                 {
-                  implementation = implementation.replace(/"/g, "&quot;").replace(/</g, "&gt;");
+                  implementation = strReplace("<", "&gt;", strReplace('"', "&quot;", implementation, true), true);
                   var version = '';
                   if (jsx.object.isMethod(this, "ScriptEngineMajorVersion"))
                   {
@@ -46,7 +66,7 @@ if ($this->edit)
 
                     if (version)
                     {
-                      version = version.replace(/"/g, "&quot;").replace(/</g, "&gt;");
+                      version = strReplace("<", "&gt;", strReplace('"', "&quot;", version, true), true);
                     }
                   }
                       
