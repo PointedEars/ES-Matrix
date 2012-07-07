@@ -2,7 +2,7 @@
 
 require_once 'lib/AbstractModel.php';
 
-require_once 'application/models/adapters/MatrixAdapter.php';
+// require_once 'application/models/adapters/MatrixAdapter.php';
 
 /**
  * Model class for tested implementations
