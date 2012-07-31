@@ -1533,7 +1533,7 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
           <th rowspan="2">Netscape</th>
           <td class="blue">Navigator 2.0</td>
           <td class="blue">3.0</td>
-          <td class="blue" class="nowrap">4.0 &#8211; 4.05</td>
+          <td class="nowrap blue">4.0 &#8211; 4.05</td>
           <td colspan="5" class="blue">4.06 &#8211; 4.8</td>
         </tr>
         <tr>
@@ -1547,7 +1547,7 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
           <td class="blue">1.0</td>
           <td colspan="2" class="blue">3.0</td>
           <td class="blue">3.1</td>
-          <td class="blue" class="nowrap">4.0 &#8211; 4.1</td>
+          <td class="nowrap blue">4.0 &#8211; 4.1</td>
           <td colspan="3" class="blue">5.0</td>
           <td colspan="2" class="blue">5.1</td>
           <td colspan="3" class="blue">5.5</td>
