@@ -82,25 +82,41 @@ class ResultMapper extends Mapper
       $table->beginTransaction();
       
       $results = $data['results'];
-      
-      /* Delete old results for this environment */
-      $table->delete(null, array('env_id' => $env_id));
-      
+
       if (is_array($results))
       {
         foreach ($results as $testcase_id => $value)
         {
-          $table->updateOrInsert(
-            array(
-            	'testcase_id'    => $testcase_id,
-            	'env_id' => $env_id,
-          		'value'          => $value
-            ),
-            array(
-             'testcase_id'    => $testcase_id,
-             'env_id' => $env_id,
-            )
-          );
+          /* Find old result for this testcase and environment */
+          $previous = $table->select(
+              null,
+              array(
+              	'testcase_id' => $testcase_id,
+                'env_id' => $env_id
+              ));
+          
+          /*
+           * Never overwrite previous results; results are
+           * only reset when testcases are updated
+           */
+          if (!$previous)
+          {
+            $table->insert(
+              array(
+              	'testcase_id' => $testcase_id,
+              	'env_id'      => $env_id,
+            		'value'       => $value
+              )
+            );
+          }
+          else
+        {
+            $previous = $previous[0];
+            if ($value !== $previous['value'])
+            {
+              /* Handle differing results */
+            }
+          }
         }
       }
       

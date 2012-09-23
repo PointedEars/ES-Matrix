@@ -662,6 +662,60 @@ var es = {
     return false;
   },
 
+  /**
+   * "11.9.3 The Abstract Equality Comparison Algorithm
+   *
+   * The comparison x == y, where x and y are values, produces
+   * true or false."
+   */
+  AbstractEqualityComparison: function (x, y) {
+    /* 1. If Type(x) is the same as Type(y), then */
+    var typeX = es.Type(x);
+    var typeY = es.Type(y);
+
+    if (typeX == typeY)
+    {
+      /*
+       * a. If Type(x) is Undefined, return true.
+       * b. If Type(x) is Null, return true.
+       */
+      if (typeX == es.T_UNDEFINED || typeX == es.T_NULL)
+      {
+        return true;
+      }
+
+      /* c. If Type(x) is Number, then */
+      if (typeX == es.T_NUMBER)
+      {
+        /*
+         *  i. If x is NaN, return false.
+         * ii. If y is NaN, return false.
+         */
+        if (isNaN(x) || isNaN(y))
+        {
+          return false;
+        }
+
+        /* iii. If x is the same Number value as y, return true. */
+        if (x === y)
+        {
+          return true;
+        }
+
+        /*
+         * iv. If x is +0 and y is −0, return true.
+         *  v. If x is −0 and y is +0, return true.
+         */
+        if ((x === 0 && y === -0) || (x === -0 && y === 0))
+        {
+          return true;
+        }
+
+        /* TODO */
+      }
+    }
+  },
+
   Array: {
     prototype: {
       /**

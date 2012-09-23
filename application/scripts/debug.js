@@ -546,8 +546,7 @@ var synhl = (function () {
   var
     jsx_debug = jsx.debug,
     jsx_object = jsx.object,
-    isMethod = jsx_object.isMethod,
-    jsx_xpath = jsx.xpath,
+    _isMethod = jsx_object.isMethod,
     reservedWords = [
       /* ES5 keywords */
       "break", "case", "catch", "continue", "debugger", "default", "delete",
@@ -711,13 +710,13 @@ var synhl = (function () {
   return function (context) {
     if (jsx_debug.enabled)
     {
-      if (isMethod("console", "profile"))
+      if (_isMethod("console", "profile"))
       {
         console.profile("synhl()");
       }
     }
 
-    if (jsx_object.isMethod(context, "valueOf")
+    if (_isMethod(context, "valueOf")
         && typeof context.valueOf() == "string")
     {
       var passedCode = context;
@@ -732,7 +731,8 @@ var synhl = (function () {
       context = document;
     }
 
-    if (jsx_object.isMethod(jsx_xpath, "evaluate"))
+    var jsx_xpath = jsx.object.getFeature(jsx, "dom", "xpath");
+    if (_isMethod(jsx_xpath, "evaluate"))
     {
       var collCode = jsx_xpath.evaluate(
         '//code[not(contains(concat(" ", @class, " "), " donthl "))]',
@@ -741,7 +741,7 @@ var synhl = (function () {
 
     var useXPath = false;
     if ((collCode && (useXPath = true)
-          || (isMethod(context, "getElementsByTagName")
+          || (_isMethod(context, "getElementsByTagName")
                && (collCode = context.getElementsByTagName('code'))))
         && collCode.length)
     {
@@ -773,7 +773,7 @@ var synhl = (function () {
 
     if (jsx_debug.enabled)
     {
-      if (jsx_object.isMethod("console", "profileEnd"))
+      if (_isMethod("console", "profileEnd"))
       {
         console.profileEnd();
       }
@@ -1302,7 +1302,7 @@ function (
   sName, sValue, iID, oOwner, bNonEnum, bCalledFromProperty)
 {
   /* avoid dupes */
-  if ((isMethodType(typeof this.items.hasOwnProperty)
+  if ((typeof this.items.hasOwnProperty == "function"
       /* IE does not allow reference shortcut here! */
       && this.items.hasOwnProperty != null
       && !this.items.hasOwnProperty(sName))
@@ -1319,7 +1319,7 @@ function (
         bCalledFromProperty); /* avoid infinite recursion */
 
     /* BUGFIX: Don't overwrite numeric properties */
-    var bMethod = isMethodType(typeof this.items.hasOwnProperty);
+    var bMethod = (typeof this.items.hasOwnProperty == "function");
     if ((bMethod && !this.items.hasOwnProperty(sName))
         || (!bMethod && typeof this.items[sName] == "undefined"))
     {
@@ -2006,7 +2006,7 @@ function getObjInfo(sObject, aWhat, sStyle, sHeader, sFooter, sInspectorPath)
   }
 
   /* sort properties lexically */
-  if (isMethodType(typeof aProperties.sort))
+  if (typeof aProperties.sort == "function")
   {
     aProperties.sort();
   }

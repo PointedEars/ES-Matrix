@@ -1000,7 +1000,7 @@ HTML
     new ScriptFeature(array(
       'content' => '<code>Array.prototype.map(<var>callback</var>
         :&nbsp;Function</code>[<code>, <var>thisArg</var>
-        :&nbsp;Object</code>]<code>) :&nbsp;number|int</code>',
+        :&nbsp;Object</code>]<code>) :&nbsp;Array</code>',
       'versions' => array(
         'ecmascript' => array('5',
           'section' => '15.4.4.19'),

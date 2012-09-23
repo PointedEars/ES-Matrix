@@ -23,7 +23,7 @@
            defined as safe for use in web browsers, which makes
            efficiency-reducing compatibility measures unnecessary.”<?php
          echo $this->footnotes->add('abstract', null,
-             'from: Lahn,&nbsp;Thomas (2012-03-12). <i>Features von
+             'Lahn,&nbsp;Thomas (2012-03-12). <i>Features von
              ECMAScript-basierten Programmiersprachen – Eine vergleichende
              Analyse (“Features of ECMAScript-based
              programming languages – A&nbsp;comparative analysis”)</i>
@@ -115,6 +115,35 @@
          is being considered as a
          <a href="#contributors">contribution</a> to this work.
          See below.</p>
+
+      <p>Despite several valuable contributions, the previous version
+         of this work has primarily suffered from the fact that most
+         language features could only be tested, and test results
+         documented, as far as the resources of its author permitted.
+         Furthermore, it was not possible without considerable effort
+         to detail the differences between versions of the same
+         implementation. Test cases were incomplete and sketchy
+         at best.</p>
+         
+      <p>This version is based on a novel, scientific
+         approach<?php echo $this->footnotes->add('abstract'); ?>,
+         with which features can be tested by <em>anyone</em>
+         in the runtime environments available to them, and those
+         test results can be fed back to the overview <em>immediately</em>,
+         detailing <em>automatically</em> the differences between
+         the implementations and the versions of the same
+         implementation.  <!-- Whenever possible, test cases
+         are designed as tests against a reference implementation
+         of ECMAScript written in ECMAScript, in order to reduce
+         the number of possible false negatives and false
+         positives. --></p>
+         
+      <p>As a result, the general recommendation
+         as to whether a feature can be considered <em>safe</em>
+         (see below) can be updated immediately and automatically
+         as well.  This is assumed to further improve the overall
+         quality of design decisions with regard to language features
+         (although the caveat as to that must stay in place).</p>
     </div>
    
     <div>
