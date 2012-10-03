@@ -28,13 +28,13 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
 
 require_once 'lib/Application.php';
 
-if ($_SERVER['HTTP_HOST'] === 'pointedears.de')
+if ($_SERVER['HTTP_HOST'] === 'localhost')
 {
-  require_once 'application/models/databases/es-matrix/MatrixLiveDb.php';
+  require_once 'application/models/databases/es-matrix/MatrixDb.php';
 }
 else
 {
-  require_once 'application/models/databases/es-matrix/MatrixDb.php';
+  require_once 'application/models/databases/es-matrix/MatrixLiveDb.php';
 }
 
 $application = Application::getInstance();

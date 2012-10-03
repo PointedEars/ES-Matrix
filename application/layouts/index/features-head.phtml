@@ -18,7 +18,17 @@ if ($this->edit)
 <?php
   }
 ?>
-              Feature
+              Feature <script type="text/javascript">
+              printScrollButton();
+            </script><br>
+            <a href="#!">!</a>
+            <?php
+              for ($i = ord('a'), $max = ord('z'); $i <= $max; $i++)
+              {
+                $s = chr($i);
+                echo '<a href="#' . $s . '">' . strtoupper($s) . '</a> ';
+              }
+            ?>
             </th>
             <th><a href="#ecmascript">ECMAScript</a></th>
             <th>This <abbr title="implementation">impl.</abbr><?php

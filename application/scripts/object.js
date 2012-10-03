@@ -171,12 +171,6 @@ de.pointedears.jsx = jsx;
  */
 function jsx_object_isMethod (obj, prop)
 {
-  function returnThis (v)
-  {
-    me.checkNative = false;
-    return v;
-  }
-
   var len = arguments.length;
   if (len < 1)
   {
@@ -191,10 +185,9 @@ function jsx_object_isMethod (obj, prop)
 
   /*
    * Determine if we were called jsx.object.areNativeMethods;
-   * NOTE: Most compatible, but not thread-safe.
    */
   var me = jsx_object_isMethod;
-  var checkNative = me.checkNative;
+  var checkNative = (this == jsx_object_isNativeMethod);
 
   var t = typeof obj;
 
@@ -203,16 +196,16 @@ function jsx_object_isMethod (obj, prop)
   {
     if (checkNative)
     {
-      return returnThis(rxNativeMethod.test(t) && obj && true || false);
+      return rxNativeMethod.test(t) && obj && true || false;
     }
 
-    return returnThis(rxUnknown.test(t) || rxMethod.test(t) && obj && true || false);
+    return rxUnknown.test(t) || rxMethod.test(t) && obj && true || false;
   }
 
   /* otherwise the first argument must refer to a suitable object */
   if (rxUnknown.test(t) || !obj)
   {
-    return returnThis(false);
+    return false;
   }
 
   for (var i = 1; i < len; i++)
@@ -222,7 +215,7 @@ function jsx_object_isMethod (obj, prop)
     /* NOTE: Handle null _and_ undefined */
     if (prop == null)
     {
-      return returnThis(false);
+      return false;
     }
 
     var isLastSeg = (i == len - 1);
@@ -256,22 +249,22 @@ function jsx_object_isMethod (obj, prop)
           obj = obj[prop];
           if (!(rxUnknown.test(typeof obj) || obj))
           {
-            return returnThis(false);
+            return false;
           }
         }
         else if (checkNative && !rxNativeMethod.test(t))
         {
-          return returnThis(false);
+          return false;
         }
       }
       else
       {
-        return returnThis(false);
+        return false;
       }
     }
   }
 
-  return returnThis(true);
+  return true;
 }
 jsx.object.isMethod = jsx_object_isMethod;
 
@@ -313,15 +306,18 @@ jsx.object.areMethods =
  *   <code>false</code> otherwise.
  * @see jsx.object#isMethodType()
  */
-function jsx_object_areNativeMethods (obj, prop)
+function jsx_object_isNativeMethod (obj, prop)
 {
   /* NOTE: Thread-safe, argument-safe code reuse -- `this' is our ID */
-  var _areMethods = jsx.object.areMethods;
-  _areMethods.checkNative = true;
-  _areMethods.apply = Function_prototype_apply;
-  return _areMethods.apply(null, arguments);
+  var _isMethod = jsx_object_isMethod;
+  if (typeof _isMethod.apply != "function")
+  {
+    _isMethod.apply = Function_prototype_apply;
+  }
+
+  return _isMethod.apply(jsx_object_isNativeMethod, arguments);
 }
-jsx.object.isNativeMethod = jsx.object.areNativeMethods = jsx_object_areNativeMethods;
+jsx.object.isNativeMethod = jsx.object.areNativeMethods = jsx_object_isNativeMethod;
 
 /**
  * Prints debug messages to the script console.
@@ -1949,12 +1945,12 @@ function Function_prototype_apply (thisArg, argArray)
   }
 
   var
-    o = {},
+    o = thisArg || this,
     p = jsx_object.findNewProperty(o);
 
   if (p)
   {
-    o[p] = thisArg || this;
+    o[p] = this;
 
     var a = new Array();
     for (var i = 0, len = argArray.length; i < len; i++)

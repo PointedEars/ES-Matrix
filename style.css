@@ -450,7 +450,7 @@ tbody tr.safe:nth-child(even)
   background-color: #cfc;
 }
 
-body tr.even.safe:hover
+tbody tr.even.safe:hover
 {
   background-color: #dfd;
 }
