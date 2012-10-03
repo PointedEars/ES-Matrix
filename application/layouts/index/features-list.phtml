@@ -4,6 +4,7 @@
     return 'Test ' . ($key + 1) . ': ' . (($value === '1') ? "passed" : "failed");
   }
 
+  $oldAnchor = '';
   foreach ($this->features as $key => $feature)
   {
 ?>
@@ -28,7 +29,18 @@
                 {
                   ?> title="<?php echo $this->escape($feature->title); ?>"<?php
                 }
-                ?>><?php echo $feature->code;
+                ?>><?php
+                $code = $feature->code;
+                
+                $untagged = strtolower(substr(strip_tags($code), 0, 1));
+                
+                if (preg_match('/[!a-z]/i', $untagged) && ($untagged !== $oldAnchor))
+                {
+                  ?><a name="<?php echo $untagged; ?>" id="<?php echo $untagged; ?>"></a><?php
+                  $oldAnchor = $untagged;
+                }
+                
+                echo $code;
                 
                 if ($feature->versioned)
                 {
