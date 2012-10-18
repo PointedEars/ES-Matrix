@@ -48,28 +48,19 @@
       jsx.options = new Object();
       jsx.options.emulate = false;
     </script>
-    <script type="text/javascript" src="application/scripts/compat.js"></script>
     <!-- FIXME: hyphenation.js and dom.js interfere with emulate = false  -->
+    <script type="text/javascript" src="table.js"></script>
+    <script type="text/javascript" src="application/scripts/object.js"></script>
     <script type="text/javascript"
             src="../../builder.php?gzip=0<?php
               if ($_SERVER['HTTP_HOST'] === 'localhost')
               {
                 ?>&amp;debug=1&verbose=1<?php
               }
-              ?>&amp;src=test/es-matrix/application/scripts/object,test/es-matrix/application/scripts/es,dom/xpath,test/es-matrix/application/scripts/debug,http,string/hyphenation,dom,test/es-matrix/table"
+              ?>&amp;src=test/es-matrix/application/scripts/es,dom/xpath,test/es-matrix/application/scripts/debug,http,string/hyphenation,dom"
             ></script>
-    <script type="text/javascript">
-      function body_load ()
-      {
-        jsx.string.hyphenation.loadDictionary("application/scripts/hyphenation-en.js");
-        var elements = new Array();
-        elements[0] = document.getElementById('abstract');
-        elements[1] = document.getElementById('foreword');
-        jsx.dom.hyphenate(elements);
-
-        synhl();
-      }
-    </script>
+    <script type="text/javascript" src="table.js"></script>
+    <script type="text/javascript" src="application/scripts/es-matrix.js"></script>
   </head>
   
   <body onload="body_load()">

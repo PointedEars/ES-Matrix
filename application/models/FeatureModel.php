@@ -97,7 +97,7 @@ class FeatureModel extends AbstractModel
   /**
    * Sets the ORM database adapter for this model
    */
-  protected function setAdapter()
+  protected function setAdapter ()
   {
     self::$persistentAdapter = MatrixAdapter::getInstance();
   }
@@ -106,16 +106,20 @@ class FeatureModel extends AbstractModel
    * @param int $id
    * @return FeatureModel
    */
-  public function setId($id)
+  public function setId ($id)
   {
-    $this->_id = is_null($id) ? $id : (int) $id;
+    if ($id !== null)
+    {
+      $this->_id = (int) $id;
+    }
+    
     return $this;
   }
  
   /**
    * @return int
    */
-  public function getId()
+  public function getId ()
   {
     return $this->_id;
   }
@@ -124,7 +128,7 @@ class FeatureModel extends AbstractModel
    * @param string $code
    * @return FeatureModel
    */
-  public function setCode($code)
+  public function setCode ($code)
   {
     $this->_code = htmlEntityDecode(trim((string) $code), ENT_QUOTES, 'UTF-8');
     return $this;
@@ -133,7 +137,7 @@ class FeatureModel extends AbstractModel
   /**
    * @return string $code
    */
-  public function getCode()
+  public function getCode ()
   {
     return $this->_code;
   }
@@ -142,18 +146,20 @@ class FeatureModel extends AbstractModel
    * @param string $title
    * @return FeatureModel
    */
-  public function setTitle($title)
+  public function setTitle ($title)
   {
-    $this->_title = is_null($title)
-                  ? $title
-                  : htmlEntityDecode(trim((string) $title), ENT_QUOTES, 'UTF-8');
+    if ($title !== null)
+    {
+      $this->_title = htmlEntityDecode(trim((string) $title), ENT_QUOTES, 'UTF-8');
+    }
+    
     return $this;
   }
   
   /**
    * @return string
    */
-  public function getTitle()
+  public function getTitle ()
   {
     return $this->_title;
   }
@@ -162,16 +168,20 @@ class FeatureModel extends AbstractModel
    * @param string $edition
    * @return FeatureModel
    */
-  public function setEdition($edition)
+  public function setEdition ($edition)
   {
-    $this->_edition = is_null($edition) ? $edition : trim((string) $edition);
+    if ($edition !== null)
+    {
+      $this->_edition = trim((string) $edition);
+    }
+    
     return $this;
   }
   
   /**
    * @return string
    */
-  public function getEdition()
+  public function getEdition ()
   {
     return $this->_edition;
   }
@@ -180,16 +190,20 @@ class FeatureModel extends AbstractModel
    * @param string $section
    * @return FeatureModel
    */
-  public function setSection($section)
+  public function setSection ($section)
   {
-    $this->_section = is_null($section) ? $section : trim((string) $section);
+    if ($section !== null)
+    {
+      $this->_section = trim((string) $section);
+    }
+    
     return $this;
   }
   
   /**
    * @return string
    */
-  public function getSection()
+  public function getSection ()
   {
     return $this->_section;
   }
@@ -198,16 +212,20 @@ class FeatureModel extends AbstractModel
    * @param string $urn
    * @return FeatureModel
    */
-  public function setSection_URN($urn)
+  public function setSection_URN ($urn)
   {
-    $this->_section_urn = is_null($urn) ? $urn : trim((string) $urn);
+    if ($urn !== null)
+    {
+      $this->_section_urn = trim((string) $urn);
+    }
+    
     return $this;
   }
   
   /**
    * @return string
    */
-  public function getSection_URN()
+  public function getSection_URN ()
   {
     return $this->_section_urn;
   }
@@ -216,16 +234,20 @@ class FeatureModel extends AbstractModel
    * @param bool $generic
    * @return FeatureModel
    */
-  public function setGeneric($generic)
+  public function setGeneric ($generic)
   {
-    $this->_generic = (bool) $generic;
+    if ($generic !== null)
+    {
+      $this->_generic = (bool) $generic;
+    }
+    
     return $this;
   }
   
   /**
    * @return bool
    */
-  public function getGeneric()
+  public function getGeneric ()
   {
     return $this->_generic;
   }
@@ -234,16 +256,20 @@ class FeatureModel extends AbstractModel
    * @param bool $versioned
    * @return FeatureModel
    */
-  public function setVersioned($versioned)
+  public function setVersioned ($versioned)
   {
-    $this->_versioned = (bool) $versioned;
+    if ($versioned !== null)
+    {
+      $this->_versioned = (bool) $versioned;
+    }
+    
     return $this;
   }
   
   /**
    * @return bool
    */
-  public function getVersioned()
+  public function getVersioned ()
   {
     return $this->_versioned;
   }
@@ -252,7 +278,7 @@ class FeatureModel extends AbstractModel
    * @param string $date
    * @return FeatureModel
    */
-  public function setCreated($date)
+  public function setCreated ($date)
   {
     $this->_created = is_null($date) ? $date : strtotime($date . ' GMT');
     return $this;
@@ -261,7 +287,7 @@ class FeatureModel extends AbstractModel
   /**
    * @return int
    */
-  public function getCreated()
+  public function getCreated ()
   {
     return $this->_created;
   }
@@ -270,7 +296,7 @@ class FeatureModel extends AbstractModel
    * @param string $date
    * @return FeatureModel
    */
-  public function setModified($date)
+  public function setModified ($date)
   {
     $this->_modified = is_null($date) ? $date : strtotime($date . ' GMT');
     return $this;
@@ -279,7 +305,7 @@ class FeatureModel extends AbstractModel
   /**
    * @return int
    */
-  public function getModified()
+  public function getModified ()
   {
     return $this->_modified;
   }
@@ -288,7 +314,7 @@ class FeatureModel extends AbstractModel
    * @param array[TestcaseModel] $testcases
    * @return FeatureModel
    */
-  public function setTestcases($testcases)
+  public function setTestcases ($testcases)
   {
     $this->_testcases = is_array($testcases) ? $testcases : null;
     return $this;
@@ -297,15 +323,15 @@ class FeatureModel extends AbstractModel
   /**
    * @return array[TestcaseModel]
    */
-  public function getTestCases()
+  public function getTestCases ()
   {
     return $this->_testcases;
   }
 
-//   public function setCreated($timestamp);
-//   public function getCreated();
+//   public function setCreated ($timestamp);
+//   public function getCreated ();
 
-  static function compare(FeatureModel $a, FeatureModel $b)
+  static function compare (FeatureModel $a, FeatureModel $b)
   {
     $al = strip_tags($a->code);
     $bl = strip_tags($b->code);
@@ -317,7 +343,7 @@ class FeatureModel extends AbstractModel
   /**
    * Finds a feature by ID
    */
-//   public function find()
+//   public function find ()
 //   {
 //     parent::find();
 //     $this->setTestcases(TestcaseModel::findByFeatureId($this->id));

@@ -48,6 +48,19 @@ class FeatureMapper extends Mapper
    */
   public function save($feature)
   {
+    /*
+     * FIXME
+     * Improved approach:
+     * - Client is only provided with essential data
+     * - Client only provides essential data
+     *
+     * Steps:
+     * 1. Create new FeatureModel with default property values.
+     * 2. Update FeatureModel with data from database by ID.
+     * 3. Update FeatureModel with passed data.
+     * 4. Save updated FeatureModel in database.
+     */
+    
 //       debug($feature);
     if (is_array($feature))
     {
@@ -59,6 +72,8 @@ class FeatureMapper extends Mapper
     }
     
     $id = $featureObj->id;
+    $featureObj = $this->find($id, $featureObj);
+    
     $data = array(
       'code'        => $featureObj->code,
       'title'       => $featureObj->title,
@@ -74,12 +89,12 @@ class FeatureMapper extends Mapper
       $data['created'] = gmdate('Y-m-d H:i:s');
     }
     
-    $table = $this->getDbTable();
     if (defined('DEBUG') && DEBUG > 0)
     {
       debug($data);
     }
       
+    $table = $this->getDbTable();
     $success = $table->updateOrInsert($data, array('id' => $id));
     
     if ($success)
@@ -182,14 +197,12 @@ class FeatureMapper extends Mapper
   */
   public function find($id, FeatureModel $feature = null)
   {
-    $result = $this->getDbTable()->find($id);
-    if (0 == count($result))
+    $row = $this->getDbTable()->find($id);
+    if (!$row)
     {
       return null;
     }
-  
-    $row = $result[0];
-  
+    
     if (is_null($feature))
     {
       $feature = new FeatureModel();
