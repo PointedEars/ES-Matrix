@@ -1885,16 +1885,19 @@ jsx.importOnce = (function () {
 
 /**
  * Determines if a value refers to an object.
- * <p>
- * Returns <code>true</code> if the value is a reference to an object;
- * <code>false</code> otherwise.
- * </p>
+ *
+ * <p>Returns <code>true</code> if the value is a reference
+ * to an object; <code>false</code> otherwise.</p>
+ *
+ * <p>An value "is an object" if it is a function or
+ * <code>typeof "object"</code> but not <code>null</code>.
  *
  * @function
  * @return boolean
  */
 jsx.object.isObject = function (a) {
-  return typeof a == "object" && a !== null;
+  var t = typeof a;
+  return t == "function" || t == "object" && a !== null;
 };
 
 /**
