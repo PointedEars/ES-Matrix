@@ -191,8 +191,14 @@
      <a href="<?php echo $this->escape($this->getURL(null, 'endEdit')); ?>">End Edit</a>
 <?php
   }
+  
+  if (!$this->edit)
+  {
 ?>
-    <form action="<?php echo $this->escape($this->getURL(null, 'saveResult')); ?>" method="POST">
+    <form action="<?php echo $this->escape($this->getURL()); ?>" method="POST">
+<?php
+  }
+?>
       <table id="features-table"
              summary="Language features and the first editions of ECMAScript or first versions of the implementations that introduced or supported them"
              onclick="table_click(typeof event != 'undefined' ? event : void 0)">
@@ -206,8 +212,16 @@
           <?php require_once 'features-list.phtml'; ?>
         </tbody>
       </table>
+<?php
+  if ($this->edit)
+  {
+?>
     </form>
-<?php $this->footnotes->flush(); ?>
+<?php
+  }
+      
+  $this->footnotes->flush();
+?>
 
     <div>
       <h2><a name="version-info" id="version-info">Version Information</a></h2>

@@ -62,7 +62,7 @@ class VersionModel extends AbstractModel
    *
    * @see AbstractModel::map()
    */
-  public function map($data, $mapping = null, $exclusive = false)
+  public function map(array $data, array $mapping = null, $exclusive = false)
   {
     $mapping = array('impl_id' => 'implementation_id');
     parent::map($data, $mapping, $exclusive);

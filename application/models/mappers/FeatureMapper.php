@@ -29,7 +29,7 @@ class FeatureMapper extends Mapper
    *
    * @return FeatureMapper
    */
-  public static function getInstance()
+  public static function getInstance ()
   {
     if (is_null(self::$_instance))
     {
@@ -42,38 +42,32 @@ class FeatureMapper extends Mapper
   /**
    * Saves a feature in the features table
    *
-   * @param FeatureModel|array $feature
+   * @param array $feature
    * @return FeatureModel|null
    *   The updated or added feature, or <code>null</code> on error
    */
-  public function save($feature)
+  public function save (array $feature)
   {
     /*
-     * FIXME
      * Improved approach:
      * - Client is only provided with essential data
      * - Client only provides essential data
-     *
-     * Steps:
-     * 1. Create new FeatureModel with default property values.
-     * 2. Update FeatureModel with data from database by ID.
-     * 3. Update FeatureModel with passed data.
-     * 4. Save updated FeatureModel in database.
      */
     
-//       debug($feature);
-    if (is_array($feature))
+    /*
+     * 1. Create FeatureModel with data from database by ID
+     *    or default values
+     */
+    $featureObj = $this->find($feature['id']);
+    if ($featureObj === null)
     {
-      $featureObj = new FeatureModel($feature);
-    }
-    else
-    {
-      $featureObj = $feature;
+      $featureObj = new FeatureModel();
     }
     
-    $id = $featureObj->id;
-    $featureObj = $this->find($id, $featureObj);
-    
+    /* 2. Update FeatureModel with passed data */
+    $featureObj->map($feature);
+        
+    /* 3. Save updated FeatureModel in database */
     $data = array(
       'code'        => $featureObj->code,
       'title'       => $featureObj->title,
@@ -84,6 +78,7 @@ class FeatureMapper extends Mapper
       'versioned'   => $featureObj->versioned,
     );
 
+    $id = $featureObj->id;
     if (is_null($id))
     {
       $data['created'] = gmdate('Y-m-d H:i:s');
@@ -110,7 +105,7 @@ class FeatureMapper extends Mapper
         debug($featureObj);
       }
       
-      /* Do not replace testcases (and remove results) if only metadata should be saved  */
+      /* Do not replace testcases (and remove results) if only metadata should be saved */
       if (is_array($feature) && isset($feature['testcases']))
       {
         $success = (null !== TestcaseMapper::getInstance()->saveForFeature($featureObj));
@@ -125,7 +120,7 @@ class FeatureMapper extends Mapper
    *
    * @param FeatureList $featureList
    */
-  public function importAll(FeatureList $featureList)
+  public function importAll (FeatureList $featureList)
   {
     $features = array();
     
@@ -135,7 +130,7 @@ class FeatureMapper extends Mapper
       $app = Application::getInstance();
       $edition = $app->getParam('ecmascript', $versions);
       $section = null;
-      if (!is_null($edition))
+      if ($edition !== null)
       {
         if (is_array($edition))
         {
@@ -145,14 +140,14 @@ class FeatureMapper extends Mapper
         }
       }
       
-      $feature = new FeatureModel(array(
+      $feature = array(
         'id'          => $key + 1,
         'code'        => $featureData->content,
         'title'       => $featureData->title,
         'edition'     => $edition,
         'section'     => $section,
         'section_urn' => $urn
-      ));
+      );
       
       $this->save($feature);
       
@@ -167,7 +162,7 @@ class FeatureMapper extends Mapper
    *
    * @return array
    */
-  public function fetchAll()
+  public function fetchAll ()
   {
     $resultSet = $this->getDbTable()->fetchAll();
     $features = array();
@@ -184,6 +179,8 @@ class FeatureMapper extends Mapper
       debug($features);
     }
     
+    uasort($features, array('FeatureModel', 'compare'));
+    
     return $features;
   }
   
@@ -191,35 +188,20 @@ class FeatureMapper extends Mapper
   * Finds a feature in the features table by ID
   *
   * @param int $id
-  * @param FeatureModel[optional] $feature
-  *   TODO: Why?
-  * @return FeatureModel
+  * @return FeatureModel|null
+  *   A <code>FeatureModel</code> if the ID was found in
+  *   the database; null otherwise.
   */
-  public function find($id, FeatureModel $feature = null)
+  public function find ($id)
   {
     $row = $this->getDbTable()->find($id);
     if (!$row)
     {
       return null;
     }
-    
-    if (is_null($feature))
-    {
-      $feature = new FeatureModel();
-    }
-  
-    $id = $row['id'];
-    $feature->setId($id)
-            ->setCode($row['code'])
-            ->setTitle($row['title'])
-            ->setEdition($row['edition'])
-            ->setSection($row['section'])
-            ->setSection_URN($row['section_urn'])
-            ->setGeneric($row['generic'])
-            ->setVersioned($row['versioned'])
-            ->setTestcases(TestcaseMapper::getInstance()->findByFeatureId($id))
-    //             ->setCreated($row['created'])
-    ;
+      
+    $feature = new FeatureModel($row);
+    $feature->setTestcases(TestcaseMapper::getInstance()->findByFeatureId($id));
   
     return $feature;
   }
@@ -229,7 +211,7 @@ class FeatureMapper extends Mapper
    *
    * @return boolean
    */
-  public function delete($id)
+  public function delete ($id)
   {
     $success = $this->getDbTable()->delete($id);
 //     debug($success);

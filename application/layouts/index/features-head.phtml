@@ -278,8 +278,14 @@ if ($this->edit)
                     + '<input type="hidden" name="version" value="' + version + '">');
                 }
               </script>
-              <button type="submit" name="submitResults" accesskey="s"><u>S</u>ubmit results</button></th>
 <?php
+  if (!$this->edit)
+  {
+?>
+              <button type="submit" name="action" value="saveResults" accesskey="s"><u>S</u>ubmit results</button></th>
+<?php
+  }
+  
   $implementations = $this->implementations;
   foreach ($implementations as $impl)
   {

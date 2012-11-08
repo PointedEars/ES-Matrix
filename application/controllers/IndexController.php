@@ -36,7 +36,6 @@ class IndexController extends Controller
     }
         
     $features = FeatureMapper::getInstance()->fetchAll();
-    uasort($features, array('FeatureModel', 'compare'));
 
     $results = ResultMapper::getInstance()->getResultArray($features);
     
@@ -69,7 +68,6 @@ class IndexController extends Controller
   protected function testcasesLatexAction()
   {
     $features = FeatureMapper::getInstance()->fetchAll();
-    uasort($features, array('FeatureModel', 'compare'));
     
     $this->assign('features', $features);
     
@@ -105,7 +103,7 @@ class IndexController extends Controller
     Application::redirect();
   }
   
-  protected function saveResultAction()
+  protected function saveResultsAction()
   {
     if (ResultMapper::getInstance()->save(array(
           'implementation' => Application::getParam('implementation', $_POST),

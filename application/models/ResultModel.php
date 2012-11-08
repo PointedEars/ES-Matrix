@@ -120,7 +120,7 @@ class ResultModel extends AbstractModel
    *
    * @see AbstractModel::map()
    */
-  public function map($data, $mapping = null, $exclusive = false)
+  public function map(array $data, array $mapping = null, $exclusive = false)
   {
     $mapping = array('env_id' => 'environment_id');
     parent::map($data, $mapping, $exclusive);

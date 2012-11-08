@@ -43,7 +43,6 @@ class FeatureController extends Controller
   {
     $mapper = FeatureMapper::getInstance();
     $features = $mapper->fetchAll();
-    uasort($features, array('FeatureModel', 'compare'));
     
     if (is_null($feature))
     {

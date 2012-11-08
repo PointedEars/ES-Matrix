@@ -19,7 +19,7 @@
                       onsubmit="return window.confirm('Delete feature &quot;<?php echo addslashes($this->escape(strip_tags($feature->code))); ?>&quot;?')"
                       style="display: inline">
                   <input type="hidden" name="id" value="<?php echo $feature->id; ?>">
-                  <button type="submit" class="delete">Delete</button>
+                  <button type="submit" name="action" value="delete" class="delete">Delete</button>
                 </form></td>
 <?php
     }
