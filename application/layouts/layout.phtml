@@ -48,9 +48,8 @@
       jsx.options = new Object();
       jsx.options.emulate = false;
     </script>
-    <!-- FIXME: hyphenation.js and dom.js interfere with emulate = false  -->
-    <script type="text/javascript" src="table.js"></script>
-    <script type="text/javascript" src="application/scripts/object.js"></script>
+    <!-- FIXME: dom.js interfere with emulate = false  -->
+    <script type="text/javascript" src="application/scripts/object/object-compat.js"></script>
     <script type="text/javascript"
             src="../../builder.php?gzip=0<?php
               if ($_SERVER['HTTP_HOST'] === 'localhost')
