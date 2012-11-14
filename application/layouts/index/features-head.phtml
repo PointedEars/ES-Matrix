@@ -279,7 +279,7 @@ if ($this->edit)
                 }
               </script>
 <?php
-  if (!$this->edit)
+  if ($_SERVER['HTTP_HOST'] === 'localhost' && !$this->edit)
   {
 ?>
               <button type="submit" name="action" value="saveResults" accesskey="s"><u>S</u>ubmit results</button></th>

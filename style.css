@@ -68,6 +68,13 @@ p.subtitle {
   font-style: italic;
 }
 
+p.status {
+  border: 1px solid red;
+  padding: 0.25em 0.5em;
+  background-color: #ffc;
+  color: black;  
+}
+
 li p {
   text-align: left;
   line-height: 1;
@@ -185,7 +192,7 @@ i em {
 #toc:target
 {
   max-width: 100%;
-  height: 23em;
+  height: 25em;
   max-height: 100%;
   -moz-transition: 0.1s height;
   -webkit-transition: 0.5s height;
@@ -345,7 +352,7 @@ td sup *
   }
   
   span.safe:after {
-    content: 'marked with "safe to use"'; 
+    content: 'marked with "safe"'; 
   }
   
   span.unsafe:after {
@@ -353,7 +360,7 @@ td sup *
   }
   
   tr.safe th:first-child:after {
-    content: " (safe to use)";
+    content: " (safe)";
   }
 
   tr.unsafe th:first-child:after {
@@ -489,9 +496,32 @@ tfoot tbody tr:nth-child(even)
   font-weight: normal;
 }
 
+#features-table tbody tr span.hover {
+  display: none;
+  
+  opacity: 0;
+  -moz-transition: 0.1s 0.5s opacity, 0s 0.5s display;
+  -webkit-transition: 0.1s 0.5s opacity, 0s 0.5s display;
+  transition: 0.1s 0s opacity, 0s 0.5s display;
+}
+
+#features-table tbody tr:hover span.hover,
+#features-table tbody tr:focus span.hover,
+#features-table tbody tr:target span.hover
+{
+  display: inline;
+    
+  opacity: 1;  
+  -moz-transition: 0.1s 0.5s opacity;
+  -webkit-transition: 0.1s 0.5s opacity;
+  transition: 0.1s 0.5s opacity;
+}
+
+/*
 #features-table tbody tr.header th {
   font-weight: bold;
 }
+*/
 
 table.results td {
   text-align: right;
