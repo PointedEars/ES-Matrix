@@ -1,3 +1,35 @@
+"use strict";
+
+function TestcaseControl (oTarget, oParent, oProperties)
+{
+  TestcaseControl._super.apply(this, arguments);
+}
+
+TestcaseControl.extend(jsx.dom.widgets.Section, {
+  elementType: "article",
+
+  init: function () {
+    var _widgets = jsx.dom.widgets;
+    this._title = new _widgets.Input(null, this._target);
+    this._code = new _widgets.TextArea(null, this._target);
+    this._enclose = new _widgets.CheckBox(null, this._target, {
+      label: "Enclose in double-quotes"
+    });
+    this._alt = new _widgets.Input(null, this._target, {
+      label: new _widgets.Label(null, this._target, {
+        innerHTML: [
+          "Alternative ",
+          {
+            type: "code",
+            childNodes: ["type"],
+          },
+          " attribute value"
+        ]
+      })
+    });
+  }
+});
+
 function deleteTestcase(deleteButton, id)
 {
   var form = deleteButton.form;
