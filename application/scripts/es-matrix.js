@@ -4,7 +4,10 @@ function body_load ()
   var elements = new Array();
   elements[0] = document.getElementById('abstract');
   elements[1] = document.getElementById('foreword');
-  jsx.dom.hyphenate(elements);
+  if (elements[0])
+  {
+    jsx.dom.hyphenate(elements);
+  }
 
   synhl();
 }
@@ -27,12 +30,15 @@ function table_click (e)
       && target.firstChild.tagName.toLowerCase() != "textarea")
   {
     target.innerHTML =
-        '<textarea name="code[' + target.id.match(/\d+/)[0] + ']" style="width: 100%; height: 3em">'
-      + target.innerHTML
+        '<form action="index-db.php" method="POST">'
+      + '<textarea name="code" style="width: 100%; height: 3em">'
+      + unsynhl(target.innerHTML)
       + '</textarea>'
       + '<input type="hidden" name="controller" value="feature">'
       + '<input type="hidden" name="action" value="save">'
+      + '<input type="hidden" name="id" value="' + target.id.match(/\d+/)[0] + '">'
       + '<button type="submit" name="metadataOnly" value="1" style="clear: both; float: right">'
-      + 'Save</button>';
+      + 'Save</button>'
+      + '</form>';
   }
 }
