@@ -2,12 +2,13 @@
  * <title>Debug Library<title>
  *
  * @filename debug.js
+ * @version $Id$
  * @requires object.js, types.js, array.js (for #Properties)
  *
  * @section Copyright & Disclaimer
  *
  * @author
- *   (C) 2001‒2011  Thomas Lahn &lt;js@PointedEars.de&gt;
+ *   (C) 2001‒2012  Thomas Lahn &lt;js@PointedEars.de&gt;
  *
  * @partof PointedEars' JavaScript Extensions (JSX)
  *
@@ -26,8 +27,8 @@
  */
 
 jsx.debug = {
-  version:   /** @version */ "0.99.9.2010071614",
-  copyright: "Copyright \xA9 1999-2010",
+  version:   /** @version */ "0.99.$Revision$",
+  copyright: "Copyright \xA9 1999-2012",
   author:    "Thomas Lahn",
   email:     "js@PointedEars.de",
   path:      "http://pointedears.de/scripts/test/",
@@ -526,6 +527,19 @@ function uglyfy(s)
 // DEBUG
 // var rxCode;
 
+jsx.debug.synhlMatches = [
+  [ 1, 'comm'],
+  [ 4, 'scr'],
+  [ 7, 'regexp'],
+  [ 9, 'tag'],
+  [11, 'str'],
+  // [14, 'entity'],
+  [15, 'rswd'],
+  [18, 'ident'],
+  [21, 'punct'],
+  [22, 'num']
+];
+
 /**
  * Applies syntax highlighting on contents of <code>code</code>
  * elements unless their <code>class</code> attribute has the
@@ -540,6 +554,7 @@ function uglyfy(s)
  *   Reference to the context node or a text string to be
  *   syntax-highlighted. The default is the <code>document</code>
  *   node.
+ * @return string
  * @see jsx.object#isMethod()
  */
 var synhl = (function () {
@@ -547,6 +562,7 @@ var synhl = (function () {
     jsx_debug = jsx.debug,
     jsx_object = jsx.object,
     _isMethod = jsx_object.isMethod,
+    _getFeature = jsx_object.getFeature,
     reservedWords = [
       /* ES5 keywords */
       "break", "case", "catch", "continue", "debugger", "default", "delete",
@@ -640,18 +656,7 @@ var synhl = (function () {
       + "|\\b(0x[0-9A-Fa-f]+|[0-9]+|Infinity|NaN)\\b",
       "g"),
 
-    aReplace = [
-      [ 1, 'comm'],
-      [ 4, 'scr'],
-      [ 7, 'regexp'],
-      [ 9, 'tag'],
-      [11, 'str'],
-      // [14, 'entity'],
-      [15, 'rswd'],
-      [18, 'ident'],
-      [21, 'punct'],
-      [22, 'num']
-    ],
+    aReplace = jsx.debug.synhlMatches,
 
     fReplace = (function () {
       var len = aReplace.length;
@@ -669,51 +674,48 @@ var synhl = (function () {
 
         return match;
       };
-    }()),
+    }());
 
-    /**
-     * @param node : Node
-     * @param needle : string
-     * @param replacement : string
-     */
-    recursiveReplace = function (node, needle, replacement) {
-      if (node.nodeType == Node.ELEMENT_NODE)
-      {
-        for (var i = 0, cs = node.childNodes, len = cs.length; i < len; i++)
-        {
-          arguments.callee(cs[i], needle, replacement);
-        }
-      }
-      else if (node.nodeType == Node.TEXT_NODE)
-      {
-        var v = node.nodeValue;
-        var m = v.match(needle);
-        if (m)
-        {
-          var mLength = m[0].length;
-          var prefix = document.createTextNode(v.substring(0, m.index));
-          var suffix = document.createTextNode(v.slice(m.index + mLength));
-          var infix = document.createTextNode(v.slice(m.index, mLength));
-          var span = document.createElement("span");
-          span.style.color = "red";
-          span.appendChild(infix);
-          var parentNode = node.parentNode;
-          var nextSibling = node.nextSibling;
-          parentNode.removeChild(node);
-          parentNode.insertBefore(suffix, nextSibling);
-          parentNode.insertBefore(span, suffix);
-          parentNode.insertBefore(prefix, span);
-        }
-      }
-    };
+//  /**
+//   * @param node : Node
+//   * @param needle : string
+//   * @param replacement : string
+//   */
+//  var recursiveReplace = function (node, needle, replacement) {
+//    if (node.nodeType == Node.ELEMENT_NODE)
+//    {
+//      for (var i = 0, cs = node.childNodes, len = cs.length; i < len; i++)
+//      {
+//        arguments.callee(cs[i], needle, replacement);
+//      }
+//    }
+//    else if (node.nodeType == Node.TEXT_NODE)
+//    {
+//      var v = node.nodeValue;
+//      var m = v.match(needle);
+//      if (m)
+//      {
+//        var mLength = m[0].length;
+//        var prefix = document.createTextNode(v.substring(0, m.index));
+//        var suffix = document.createTextNode(v.slice(m.index + mLength));
+//        var infix = document.createTextNode(v.slice(m.index, mLength));
+//        var span = document.createElement("span");
+//        span.style.color = "red";
+//        span.appendChild(infix);
+//        var parentNode = node.parentNode;
+//        var nextSibling = node.nextSibling;
+//        parentNode.removeChild(node);
+//        parentNode.insertBefore(suffix, nextSibling);
+//        parentNode.insertBefore(span, suffix);
+//        parentNode.insertBefore(prefix, span);
+//      }
+//    }
+//  };
 
   return function (context) {
-    if (jsx_debug.enabled)
+    if (jsx_debug.enabled && _isMethod("console", "profile"))
     {
-      if (_isMethod("console", "profile"))
-      {
-        console.profile("synhl()");
-      }
+      console.profile("synhl()");
     }
 
     if (_isMethod(context, "valueOf")
@@ -731,8 +733,8 @@ var synhl = (function () {
       context = document;
     }
 
-    var jsx_xpath = jsx.object.getFeature(jsx, "dom", "xpath");
-    if (_isMethod(jsx_xpath, "evaluate"))
+    var jsx_xpath = _getFeature(jsx, "dom", "xpath");
+    if (jsx.object.isNativeMethod(jsx_xpath, "evaluate"))
     {
       var collCode = jsx_xpath.evaluate(
         '//code[not(contains(concat(" ", @class, " "), " donthl "))]',
@@ -760,7 +762,7 @@ var synhl = (function () {
                 o.innerHTML = sNew = s.replace(rxCode, fReplace);
               },
               function () {
-                o.innerHTML = sNew = s;
+                sNew = s;
               });
           }
           else
@@ -771,12 +773,110 @@ var synhl = (function () {
       }
     }
 
-    if (jsx_debug.enabled)
+    if (jsx_debug.enabled && _isMethod("console", "profileEnd"))
     {
-      if (_isMethod("console", "profileEnd"))
+      console.profileEnd();
+    }
+
+    return sNew;
+  };
+}());
+
+/**
+ * Returns a string or the HTML content of a {@link Node}
+ * with all syntax highlighting removed that was added
+ * with <code>synhl</code> before.
+ *
+ * Requires support for the (currently proprietary)
+ * <code>innerHTML</code> property of element objects
+ * if no arguments are provided or if a {@link Node}
+ * argument is provided.  Unlike {@link #synhl}, the
+ * content of elements is <em>not</em> modified.
+ *
+ * @param context : Node|String
+ *   Reference to the context node or a text string that
+ *   contains syntax highlighting. The default is the
+ *   <code>document</code> node.
+ * @return string
+ * @see jsx.object#isMethod()
+ */
+var unsynhl = (function () {
+  var _jsx = jsx;
+  var _tryThis = _jsx.tryThis;
+  var _jsx_object = _jsx.object;
+  var _isMethod = _jsx_object.isMethod;
+  var _getFeature = _jsx_object.getFeature;
+  var _jsx_debug = _jsx.debug;
+
+  var synhlClasses = _jsx.array.map(
+    _jsx_debug.synhlMatches, function (e) { return e[1]; });
+  var rxSynhlClasses = new RegExp(
+    '<span class="(' + synhlClasses.join("|") + ')">([^<]+)</span>', 'g');
+
+  return function (context) {
+    if (_jsx_debug.enabled && _isMethod("console", "profile"))
+    {
+      console.profile("unsynhl()");
+    }
+
+    if (_isMethod(context, "valueOf")
+        && typeof context.valueOf() == "string")
+    {
+      var passedCode = context;
+      context = {
+        getElementsByTagName: function () {
+          return [{innerHTML: passedCode}];
+        }
+      };
+    }
+    else if (!context)
+    {
+      context = document;
+    }
+
+    var jsx_xpath = _getFeature(_jsx, "dom", "xpath");
+    if (_jsx_object.isNativeMethod(jsx_xpath, "evaluate"))
+    {
+      var collCode = jsx_xpath.evaluate(
+        '//code[not(contains(concat(" ", @class, " "), " donthl "))]',
+        context);
+    }
+
+    var useXPath = false;
+    if ((collCode && (useXPath = true)
+          || (_isMethod(context, "getElementsByTagName")
+               && (collCode = context.getElementsByTagName('code'))))
+        && collCode.length)
+    {
+      var sNew;
+
+      for (var i = collCode.length; i--;)
       {
-        console.profileEnd();
+        var o = collCode[i];
+        if (useXPath || !/(^\s*|\s+)donthl(\s*$|\s+)/.test(o.className))
+        {
+          if (typeof o.innerHTML != "undefined")
+          {
+            var s = o.innerHTML;
+            _tryThis(
+              function () {
+                sNew = s.replace(rxSynhlClasses, "$2");
+              },
+              function () {
+                sNew = s;
+              });
+          }
+          else
+          {
+            // recursiveReplace(o, ...)
+          }
+        }
       }
+    }
+
+    if (_jsx_debug.enabled && _isMethod("console", "profileEnd"))
+    {
+      console.profileEnd();
     }
 
     return sNew;
