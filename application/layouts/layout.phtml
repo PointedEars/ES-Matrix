@@ -48,7 +48,7 @@
       jsx.options = new Object();
       jsx.options.emulate = false;
     </script>
-    <!-- FIXME: dom.js interfere with emulate = false  -->
+    <!-- FIXME: dom.js interferes with emulate = false  -->
     <script type="text/javascript" src="application/scripts/object/object-compat.js"></script>
     <script type="text/javascript"
             src="../../builder.php?gzip=0<?php
@@ -63,59 +63,61 @@
   </head>
   
   <body onload="body_load()">
-    <div id="header" style="margin-bottom: 1em; padding-bottom: 1em; border-bottom: 1px solid black">
-      <h1><a name="top" id="top">ECMAScript Support Matrix</a></h1>
-      <p class="subtitle">There is no javascript.</p>
-
-      <p style="text-align: left">
-        Version 2 <em>(under construction)</em><br>
-        Copyright &copy; 2005&#8211;<?php global $modi; echo gmdate('Y', $modi); ?>
-          Thomas Lahn
-          &lt;<a href="<?php echo randomEsc('mailto:js@PointedEars.de'); ?>"
-          ><?php echo randomEsc('js@PointedEars.de'); ?></a>&gt;
-          (<a href="#contributors">contributors</a>)</p>
-
-      <div>
-        <p style="margin-bottom: 0; text-align: left">
-          Last&nbsp;modified:
-          <?php echo gmdate('Y-m-d\TH:i:s+00:00', $modi); ?>
+    <section>
+      <div id="header" style="margin-bottom: 1em; padding-bottom: 1em; border-bottom: 1px solid black">
+        <h1><a name="top" id="top">ECMAScript Support Matrix</a></h1>
+        <p class="subtitle">There is no javascript.</p>
+  
+        <p style="text-align: left">
+          Version 2 <em>(under construction)</em><br>
+          Copyright &copy; 2005&#8211;<?php global $modi; echo gmdate('Y', $modi); ?>
+            Thomas Lahn
+            &lt;<a href="<?php echo randomEsc('mailto:js@PointedEars.de'); ?>"
+            ><?php echo randomEsc('js@PointedEars.de'); ?></a>&gt;
+            (<a href="#contributors">contributors</a>)</p>
+  
+        <div>
+          <p style="margin-bottom: 0; text-align: left">
+            Last&nbsp;modified:
+            <?php echo gmdate('Y-m-d\TH:i:s+00:00', $modi); ?>
+          </p>
+      
+          <ul class="horizontal">
+            <li><a
+              href="http://PointedEars.de/websvn/log.php?repname=es-matrix&amp;path=%2Ftrunk%2F&amp;isdir=1&amp;showchanges=1"
+            >Change&nbsp;log</a></li>
+            <li><a
+              href="http://PointedEars.de/websvn/listing.php?repname=es-matrix&amp;path=%2Ftrunk%2F"
+              title="Subversion repository browser"
+            >SVN</a></li>
+          </ul>
+        </div>
+      
+        <p style="clear: left; text-align: left">
+          Available online at <a
+            href="<?php
+                     $s = 'http://PointedEars.de/scripts/test/es-matrix/index-db';
+                     echo $s;
+                   ?>"
+          ><?php echo $s; ?></a>
         </p>
-    
-        <ul class="horizontal">
-          <li><a
-            href="http://PointedEars.de/websvn/log.php?repname=es-matrix&amp;path=%2Ftrunk%2F&amp;isdir=1&amp;showchanges=1"
-          >Change&nbsp;log</a></li>
-          <li><a
-            href="http://PointedEars.de/websvn/listing.php?repname=es-matrix&amp;path=%2Ftrunk%2F"
-            title="Subversion repository browser"
-          >SVN</a></li>
-        </ul>
-      </div>
-    
-      <p style="clear: left; text-align: left">
-        Available online at <a
-          href="<?php
-                   $s = 'http://PointedEars.de/scripts/test/es-matrix/index-db';
-                   echo $s;
-                 ?>"
-        ><?php echo $s; ?></a>
-      </p>
-      
-      <div><a href="#toc">Table of contents</a></div>
-      
+        
+        <div><a href="#toc">Table of contents</a></div>
+        
 <?php
   if ($_SERVER['QUERY_STRING'] == 'redir')
   {
 ?>
-      <p><strong>You have been redirected here because the URI that was used
-        to access this resource is obsolete, and may stop working in the future.
-        Please update your bookmarks using the link/URI above. If you followed
-        a link from another site, please notify its webmaster about
-        the change.</strong></p>
+        <p><strong>You have been redirected here because the URI that was used
+          to access this resource is obsolete, and may stop working in the future.
+          Please update your bookmarks using the link/URI above. If you followed
+          a link from another site, please notify its webmaster about
+          the change.</strong></p>
 <?php
   }
 ?>
-    </div>
+      </div>
+    </section>
 
     <nav id="toc">
       <h2>Table of contents</h2>

@@ -55,7 +55,7 @@ body {
   color: black;
   font-family: sans-serif;
   -webkit-font-smoothing: antialiased;
-  counter-reset: tables 1;
+  counter-reset: tables;
 }
 
 p {
@@ -180,6 +180,8 @@ i em {
   overflow: hidden;
   z-index: 1; 
   
+  cursor: default;
+  
   /* See http://www.useit.com/alertbox/mega-dropdown-menus.html */
   -moz-transition: 0.1s height;
   -moz-transition-delay: 0.5s;
@@ -261,6 +263,8 @@ button
 
 .footnotes {
   width: 100%;
+  margin-top: 0;
+  counter-increment: tables 0;
 }
 
 .footnotes th {
@@ -295,12 +299,21 @@ table {
 }
 */
 
-table {
-  counter: tables;
+table
+{
+  margin-top: 1em;
+  counter-increment: tables;
 }
 
-table > caption {
+table table
+{
+  margin-top: 0;
+  counter-increment: tables 0;
+}
+
+caption {
   font-size: small;
+  text-align: left;
 }
 
 table > caption:before {
