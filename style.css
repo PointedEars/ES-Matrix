@@ -55,6 +55,7 @@ body {
   color: black;
   font-family: sans-serif;
   -webkit-font-smoothing: antialiased;
+  counter-reset: tables 1;
 }
 
 p {
@@ -166,6 +167,7 @@ i em {
 }
 
 #toc {
+  display: block;
   position: fixed;
   right: 0;
   top: 0;
@@ -237,6 +239,22 @@ tr[title], th[title], td[title] {
   border-bottom: none;
 }
 
+input,
+button
+{
+  cursor: auto !important;
+}
+
+input
+{
+  border: inset !important;
+}
+
+button
+{
+  border: outset !important;
+}
+
 .footnote-ref .tooltip {
   border-bottom: none;
 }
@@ -276,6 +294,18 @@ table {
   border-collapse:collapse;
 }
 */
+
+table {
+  counter: tables;
+}
+
+table > caption {
+  font-size: small;
+}
+
+table > caption:before {
+  content: "Table " counter(tables) ": ";
+}
 
 tr {
   vertical-align: top;

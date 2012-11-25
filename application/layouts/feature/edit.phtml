@@ -1,8 +1,5 @@
 <?php $feature = $this->feature; ?>
     <h2><?php if ($feature->id) { ?>Edit<?php } else { ?>Add<?php } ?> Feature</h2>
-    <script type="text/javascript" src="../../dom.js"></script>
-    <script type="text/javascript" src="../../dom/events.js"></script>
-    <script type="text/javascript" src="../../dom/widgets.js"></script>
     <script type="text/javascript" src="application/layouts/feature/edit.js"></script>
     <form action="<?php echo $this->escape($this->getURL('feature', 'save')); ?>" method="POST"
           style="width: 100%">

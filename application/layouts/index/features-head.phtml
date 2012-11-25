@@ -211,17 +211,26 @@ if ($this->edit)
 <?php
   }
 ?>
-              Feature <script type="text/javascript">
+              <label for="filter"><u>F</u>eature</label> <script type="text/javascript">
               printScrollButton();
-            </script><br>
-            <a href="#!">!</a>
-            <?php
-              for ($i = ord('a'), $max = ord('z'); $i <= $max; $i++)
-              {
-                $s = chr($i);
-                echo '<a href="#' . $s . '">' . strtoupper($s) . '</a> ';
-              }
-            ?>
+            </script>
+            <div title="Go to the first entry that begins with the selected character" style="border-bottom: none"
+                 ><a href="#!">!</a>
+              <?php
+                for ($i = ord('a'), $max = ord('z'); $i <= $max; $i++)
+                {
+                  $s = chr($i);
+                  echo '<a href="#' . $s . '">' . strtoupper($s) . '</a> ';
+                }
+                ?></div>
+            <div>
+              <script type="text/javascript" src="../../builder?gzip=0&amp;src=regexp,dom/timeout"></script>
+              <input type="search" name="filter" id="filter" accesskey="f" style="width: 100%"
+                     onkeyup="es_matrix.timeout.run()"
+                     oninput="es_matrix.timeout.run()"
+                     placeholder="Filter string"
+                     title="String to filter the feature table (Shortcut: Access Key + F)">
+              </div>
             </th>
             <th><a href="#ecmascript">ECMAScript</a></th>
             <th>This <abbr title="implementation">impl.</abbr><?php
@@ -282,7 +291,9 @@ if ($this->edit)
   if ($_SERVER['HTTP_HOST'] === 'localhost' && !$this->edit)
   {
 ?>
-              <button type="submit" name="action" value="saveResults" accesskey="s"><u>S</u>ubmit results</button></th>
+              <button type="submit" name="action" value="saveResults" accesskey="s"
+                      title="Submit test results (Shortcut: Access Key + S)"
+                      ><u>S</u>ubmit results</button></th>
 <?php
   }
   

@@ -1,3 +1,5 @@
+var es_matrix = new Object();
+
 function body_load ()
 {
   jsx.string.hyphenation.loadDictionary("application/scripts/hyphenation-en.js");
@@ -10,6 +12,22 @@ function body_load ()
   }
 
   synhl();
+
+  var filterColumns = new Array();
+  filterColumns[0] = new Object();
+  filterColumns[0].index = 0;
+  filterColumns[0].ignoreCase = true;
+  var properties = new Object();
+  properties.filterColumns = filterColumns;
+  var table = new jsx.dom.widgets.Table(
+    document.getElementById("features-table"),
+    null,
+    properties);
+
+  var filter = document.forms[0].elements["filter"];
+  es_matrix.timeout = new jsx.dom.timeout.Timeout(function () {
+    table.applyFilter(filter.value);
+  });
 }
 
 function table_click (e)
