@@ -196,7 +196,7 @@ i em {
 #toc:target
 {
   max-width: 100%;
-  height: 25em;
+  height: 26.5em;
   max-height: 100%;
   -moz-transition: 0.1s height;
   -webkit-transition: 0.5s height;
@@ -237,10 +237,12 @@ blockquote p {
   cursor: help;
 }
 
+img,
 tr[title], th[title], td[title] {
-  border-bottom: none;
+  border-bottom: none !important;
 }
 
+img,
 input,
 button
 {

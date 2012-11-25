@@ -63,7 +63,7 @@
   </head>
   
   <body onload="body_load()">
-    <section>
+    <header>
       <div id="header" style="margin-bottom: 1em; padding-bottom: 1em; border-bottom: 1px solid black">
         <h1><a name="top" id="top">ECMAScript Support Matrix</a></h1>
         <p class="subtitle">There is no javascript.</p>
@@ -117,30 +117,31 @@
   }
 ?>
       </div>
-    </section>
 
-    <nav id="toc">
-      <h2>Table of contents</h2>
-      
-      <div><a href="#top">&#8593; Top of document</a></div>
-      
-      <ul>
-        <li><a href="#abstract">Abstract</a></li>
-        <li><a href="#foreword">Foreword and rationale</a></li>
-        <li><a href="#features">Language features</a></li>
-        <li><a href="#version-info">Version information</a>
-          <ul>
-            <li><a href="#javascript">Netscape/Mozilla.org JavaScript</a></li>
-            <li><a href="#jscript">Microsoft JScript</a></li>
-            <li><a href="#v8">Google V8</a></li>
-            <li><a href="#jsc">Apple JavaScriptCore</a></li>
-            <li><a href="#opera">Opera ECMAScript</a></li>
-            <li><a href="#actionscript">Adobe ActionScript</a></li>
-            <li><a href="#ecmascript">ECMAScript compatibility</a></li>
-          </ul></li>
-        <li><a href="#contributors">List of contributors</a></li>
-      </ul>
-    </nav>
+      <nav id="toc">
+        <h2>Table of contents</h2>
+        
+        <div><a href="#top">&#8593; Top of document</a></div>
+        
+        <ul>
+          <li><a href="#abstract">Abstract</a></li>
+          <li><a href="#foreword">Foreword and rationale</a></li>
+          <li><a href="#features">Language features</a></li>
+          <li><a href="#version-info">Version information</a>
+            <ul>
+              <li><a href="#javascript">Netscape/Mozilla.org JavaScript</a></li>
+              <li><a href="#jscript">Microsoft JScript</a></li>
+              <li><a href="#v8">Google V8</a></li>
+              <li><a href="#jsc">Apple JavaScriptCore</a></li>
+              <li><a href="#opera">Opera ECMAScript</a></li>
+              <li><a href="#actionscript">Adobe ActionScript</a></li>
+              <li><a href="#ecmascript">ECMAScript compatibility</a></li>
+              <li><a href="#timeline">Timeline</a></li>
+            </ul></li>
+          <li><a href="#contributors">List of contributors</a></li>
+        </ul>
+      </nav>
+    </header>
     
 <?php echo $this->getContent(); ?>
   </body>

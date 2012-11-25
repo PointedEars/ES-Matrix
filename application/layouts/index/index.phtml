@@ -216,9 +216,7 @@
         <table id="features-table"
                onclick="table_click(typeof event != 'undefined' ? event : void 0)">
           <caption>
-            Language features and the first editions of ECMAScript or
-            first versions of the implementations that introduced or
-            supported them
+            Language features
           </caption>
           <thead>
             <?php require_once 'features-head.phtml'; ?>
@@ -1158,11 +1156,16 @@
       </section>
       
       <section>
-        <h3><a name="timeline" id="timeline">Timeline</a></h3>
-    
-        <div><a href="#version-info">&#8593; Version information</a></div>
-        
+        <div>
+          <h3><a name="timeline" id="timeline">Timeline</a></h3>
+
+          <div><a href="#version-info">&#8593; Version information</a></div>
+        </div>
+
         <table class="timeline">
+          <caption>
+            Timeline of ECMAScript editions and implementations
+          </caption>
           <thead>
             <tr>
               <th rowspan="2">Date</th>
@@ -1338,15 +1341,17 @@
       </ul>
     </section>
     
-    <section>
+    <footer>
       <div id="footer">
-        <div><a href="http://validator.w3.org/check/referer"
-                ><img src="/media/valid-html401.png" style="border: 0"
-                      alt="Valid HTML 4.01"></a></div>
+        <div><a href="http://www.w3.org/html/logo/"
+                ><img src="http://www.w3.org/html/logo/badge/html5-badge-h-css3-semantics.png"
+                      width="165" height="64"
+                      alt="HTML5 Powered with CSS3 / Styling, and Semantics"
+                      title="HTML5 Powered with CSS3 / Styling, and Semantics"></a></div>
         <p>built with<br>
         <a href="http://www.eclipse.org/"
            ><img src="/media/eclipse.jpg" alt="eclipse"
                  style="border: 0; width: 131px; height: 68px"
                  ></a></p>
       </div>
-    </section>
+    </footer>
