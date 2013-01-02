@@ -80,12 +80,12 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
     <![endif]-->
     
     <script type="text/javascript"
-            src="../../builder?gzip=0<?php
+            src="../../builder?<?php
               if ($_SERVER['HTTP_HOST'] === 'localhost')
               {
-                ?>&amp;debug=1&amp;verbose=1<?php
+                ?>&amp;debug=1&amp;verbose=1&amp;<?php
               }
-              ?>&amp;src=object,types,dom/xpath,http,regexp,test/debug,dom,dom/css,dom/events,test/es-matrix/table"></script>
+              ?>src=object,types,dom/xpath,http,regexp,test/debug,dom,dom/css,dom/events,test/es-matrix/table"></script>
     <script type="text/javascript">
       /* Import methods into global namespace */
       var _global = jsx.global;

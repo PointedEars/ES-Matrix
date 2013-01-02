@@ -51,12 +51,12 @@
     <!-- FIXME: dom.js interferes with emulate = false  -->
     <script type="text/javascript" src="application/scripts/object/object-compat.js"></script>
     <script type="text/javascript"
-            src="../../builder.php?gzip=0<?php
+            src="../../builder.php?<?php
               if ($_SERVER['HTTP_HOST'] === 'localhost')
               {
-                ?>&amp;debug=1&amp;verbose=1<?php
+                ?>debug=1&amp;verbose=1&amp;<?php
               }
-              ?>&amp;src=test/es-matrix/application/scripts/es,dom/xpath,test/es-matrix/application/scripts/debug,http,string/hyphenation,dom,dom/events,dom/widgets"
+              ?>src=test/es-matrix/application/scripts/es,dom/xpath,test/es-matrix/application/scripts/debug,http,string/hyphenation,dom,dom/events,dom/widgets"
             ></script>
     <script type="text/javascript" src="table.js"></script>
     <script type="text/javascript" src="application/scripts/es-matrix.js"></script>
