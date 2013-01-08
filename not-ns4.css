@@ -5,10 +5,10 @@
 
 /* Padding in outer tables */
 th, td {
-  padding: 2.5px 5px;
+  padding: 0.2em 0.4em;
 }
 
 /* Reduced padding in inner tables */
 th th, td td {
-  padding: 0 2px !important;
+  padding: 0 0.2em !important;
 }
