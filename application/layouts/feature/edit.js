@@ -21,7 +21,7 @@ TestcaseControl.extend(jsx.dom.widgets.Section, {
           "Alternative ",
           {
             type: "code",
-            childNodes: ["type"],
+            childNodes: ["type"]
           },
           " attribute value"
         ]
