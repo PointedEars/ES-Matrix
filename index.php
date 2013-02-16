@@ -287,7 +287,7 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
                echo $footnotes->add('es1', null,
                  'Ecma&nbsp;International (1997-06).
                   <a href="http://www.ecma-international.org/publications/files/ECMA-ST-ARCH/ECMA-262,%201st%20edition,%20June%201997.pdf"
-                     ><i>ECMAScript Language Specification (1st edition)</a> (retrieved 2012&#8209;12&#8209;10)')
+                     ><i>ECMAScript Language Specification (1st edition)</i></a> (retrieved 2012&#8209;12&#8209;10)')
              ?></p>
              
           <p><strong>There are no dialects of “javascript”</strong>;
