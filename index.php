@@ -350,18 +350,17 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
         
           <h3>What is the Matrix?</h3>
               
-          <p>This overview – the <em>ECMAScript Support Matrix</em>
-             began as a comparison of different
-             “JavaScript” features and, as time passed and understanding
-             grew, evolved into a comparison between the major ECMAScript
-             implementations, detailing the differences, the quirks and
-             the bugs.  It has been serving its author (and its dedicated
-             readers) for years in writing client-side scripts that work
-             cross-browser, and has been helping to see the distinction
-             between core language features, and APIs with language binding,
-             like the DOM.  (The features of the latter API will be compared
-             in another Matrix.)</p>
-             
+          <p>This overview –&nbsp;the <em>ECMAScript Support Matrix</em> –
+             began as a comparison of different “JavaScript” features and,
+             as time passed and understanding grew, evolved into a comparison
+             between the major ECMAScript implementations, detailing
+             the differences, the quirks and the bugs.  It has been serving
+             its author (and its dedicated readers) for years in writing
+             client-side scripts that work cross-browser, and has been helping
+             to see the distinction between core language features, and APIs
+             with language binding, like the DOM.  (The features of the latter
+             API will be compared in another Matrix.)</p>
+                       
           <p>Whenever you read from this author that key line from arguably
              <a href="http://en.wikipedia.org/wiki/The_Matrix"
                 title="The Matrix movie on Wikipedia"
