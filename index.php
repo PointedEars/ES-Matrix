@@ -154,10 +154,10 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
     <!-- <script type="text/javascript" src="/scripts/anti-SOPA.js"></script> -->
   </head>
   
-  <body onload="/* antiSOPA('the ECMAScript\xA0Support\xA0Matrix'); */ alternateRows(); synhl(); scroller.init(); initTooltips();">
+  <body onload="/* antiSOPA('the ECMAScript\xA0Support\xA0Matrix'); */ alternateRows(); synhl(); scroller.init(); // initTooltips();">
     <div id="header">
       <h1><a name="top" id="top">ECMAScript Support Matrix</a></h1>
-      <p class="subtitle">There Is No Javascript</p>
+      <p class="subtitle">There is no javascript.</p>
     
       <p style="text-align: left">
         Copyright &copy; 2005&#8211;<?php echo gmdate('Y', $modi); ?>
@@ -224,6 +224,7 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
             <li><a href="#opera">Opera ECMAScript</a></li>
             <li><a href="#actionscript">Adobe ActionScript</a></li>
             <li><a href="#ecmascript">ECMAScript compatibility</a></li>
+            <li><a href="#timeline">Timeline</a></li>
           </ul></li>
         <li><a href="#contributors">List of contributors</a></li>
       </ul>
@@ -233,68 +234,142 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
       <h2 style="margin-top: 1em; padding-top: 1em; border-top: 1px solid black"
           ><a name="foreword" id="foreword">Foreword and Rationale</a></h2>
       
-      <p>Many people talk about <strong>JavaScript</strong> as if
-         it was one fully specified and universally implemented
-         programming language.  But it is in fact only the name of
-         one implementation of a standard for an extensible
-         programming language, <strong>ECMAScript</strong>, which
-         is enjoying <em>several implementations</em> that are
-         widely distributed.</p>
-         
-      <p>This standard – the ECMAScript Language Specification –
-         is published in Editions.  While several current versions
-         of programming languages are implementations of ECMAScript,
-         the first Edition of ECMAScript was based on two programming
-         languages that were already implemented for use in Web browsers:
-         Netscape JavaScript 1.1 and Microsoft JScript 1.0.</p>
-         
-      <p>Superficially, ECMAScript implementations are very similar.
-         It is therefore tempting to discuss them in a simplified way
-         using an umbrella term.  Often that term is “JavaScript” or,
-         supposedly in order to avoid misunderstandings, variations
-         in letter case thereof, such as “Javascript” and “javascript”
-         (the latter term is currently used in the
-         <a href="http://jibbering.com/faq/">comp.lang.javascript FAQ</a>).</p>
-         
-      <p>Although this approach is common, it is not without problems.
-         ECMAScript gives its conforming implementations a wide latitude.
-         The Editions of ECMAScript and their implementations
-         have been developed in parallel, and are partially
-         informing each other.  Also, some implementations are not
-         conforming in some features.  As a result, ECMAScript
-         implementations are in fact very different from one another.</p>
-         
-      <p>Hence, it does matter which implementation is being discussed.
-         Using ambiguous umbrella terms such as the ones mentioned,
-         without providing a clear definition for them, cannot be
-         considered appropriate style in a technical discussion.</p>
+          <blockquote>
+            <p style="margin-bottom: 0; font-style: italic"
+               ><!--<span lang="x-vulcan">&gt;Oren'uh pa'shi-nahpau.
+                Oren'uh fai-tukh t'natyan — nam-tor vellar heh ri nam-tor.&lt;</span><br>
+                (-->“Learn to think clearly.
+                Learn to distinguish: what is, and what seems to be.”<!--)--></p>
+            <div style="text-align: right"> —&nbsp;Surak<?php
+    //              echo $this->footnotes->add('vli', null, 'see also:
+    //                <a href="http://stogeek.com/wiki/Category:Vulcan_Language_Institute"
+    //                   >Vulcan Language Institute</a>', ''); ?></div>
+          </blockquote>
+  
+          <p>In a discussion, especially a technical one, it is very
+             important that all participants know what is being talked
+             about, so that misunderstandings can be avoided.  <em>Clear
+             language</em> is required.  It can be achieved only by
+             using terms that are <em>well-defined</em>; they should be
+             unambiguous and one should be able to look them up
+             in official reference material.</p>
+            
+          <p>Some people talk about a programming language they call
+             “javascript”.  This is supposed to be one fully specified
+             and universally implemented programming language that
+             provides, in dialects to a varying degree, the
+             capabilities to manipulate runtime environments such as
+             web browsers.</p>
+             
+          <p>In fact, <strong>there is no “javascript”</strong>;
+             there is <em>JavaScript</em>.  This is not just
+             a matter of letter case: JavaScript is the name
+             of <em>one</em> implementation of a standard for an
+             extensible scripting language, <em>ECMAScript</em>.</p>
+           
+          <p>“A <em>scripting language</em> is a programming language
+             that is used to manipulate, customise, and automate
+             the facilities of an existing system.”<?php
+               echo $footnotes->add('es5.1', null,
+                 'Ecma&nbsp;International (2011&#8209;06).
+                  <a href="http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-262.pdf"
+                     ><i>Standard ECMA&#8210;262. ECMAScript Language Specification.</i>
+                      5.1 Edition.</a> (retrieved 2011&#8209;08&#8209;27)')
+             ?>  The <em>ECMAScript Language Specification</em>
+             is a standard for scripting languages.  It is published
+             in <em>Editions</em>.
+             Several current versions of scripting languages
+             are implementations of an Edition of ECMAScript.
+             But its first Edition was based itself on two scripting
+             languages that were already implemented for use in
+             web browsers: Netscape JavaScript 1.1 and Microsoft
+             JScript 1.0.<?php
+               echo $footnotes->add('es1', null,
+                 'Ecma&nbsp;International (1997-06).
+                  <a href="http://www.ecma-international.org/publications/files/ECMA-ST-ARCH/ECMA-262,%201st%20edition,%20June%201997.pdf"
+                     ><i>ECMAScript Language Specification (1st edition)</a> (retrieved 2012&#8209;12&#8209;10)')
+             ?></p>
+             
+          <p><strong>There are no dialects of “javascript”</strong>;
+             there are <em>several implementations of ECMAScript</em>
+             that are widely distributed, primarily through web browsers.
+             The features that allow one to manipulate web browsers
+             are <em>not</em> part of any such programming language;
+             they are environment-dependent implementations of
+             language-independent
+             <abbr title="API: Application Programming Interface">API</abbr>s
+             for which a <em>language binding</em> is specified <?php
+               echo $footnotes->add('binding', null,
+                 'See <a href="http://www.w3.org/TR/2003/REC-DOM-Level-2-HTML-20030109/ecma-script-binding.html"
+                  >W3C DOM Level 2 HTML</a> for an example of language binding.');
+             ?> so they it can
+             be used with that programming language.<?php
+               echo $footnotes->add('legacy', null,
+                 'The distinction between core language and browser API
+                  was not made in Netscape JavaScript before version 1.4.
+                  JavaScript was designed to be the programming language
+                  for scripts in Netscape Navigator, therefore the
+                  Netscape API was part of JavaScript. This changed
+                  when JavaScript needed to work server-side in
+                  Netscape Enterprise Server as well.');
+            ?></p>
+        
+          <h3>The same, but not the same</h3>
           
-      <p>Therefore, for lack of a better alternative, the precise and equally
-         concise term <strong>ECMAScript implementation(s)</strong> should be
-         used when talking about features that several implementations (ought
-         to) have in common (per the ECMAScript Language Specification).  And
-         whenever it was talked about one particular implementation, its proper
-         name should be used, like <strong>Netscape/Mozilla.org JavaScript</strong>
-         or simply <strong>JavaScript</strong> (if there is doubt, "™" might
-         be added to emphasize that the implementation is meant).  <strong>In all
-         other instances, the term “JavaScript” (any capitalization) should
-         <em>not</em> be used.</strong></p>
+          <p>Superficially, ECMAScript implementations are very similar.
+             It is therefore tempting to discuss them in a simplified way
+             using an umbrella term such as “javascript”.<?php
+               echo $footnotes->add('cljs-FAQ', null,
+                 '<a href="http://jibbering.com/faq/">comp.lang.javascript FAQ</a>');
+             ?> But this approach is not without problems.
+             ECMAScript gives its conforming implementations a wide latitude.
+             The Editions of ECMAScript and their implementations
+             have been developed in parallel, and are partially
+             informing each other.  Also, some implementations
+             are not conforming in some features.  As a result,
+             ECMAScript implementations are in fact very different
+             from one another.</p>
+             
+          <p>It does matter which implementation is being discussed.
+             Using ambiguous umbrella terms, without providing a
+             clear definition for them, cannot be considered
+             appropriate style in a technical discussion.</p>
           
-      <p>This overview began as a comparison of different “JavaScript” features
-         and, as time passed and understanding grew, evolved into a comparison
-         between the major ECMAScript implementations, detailing the differences,
-         the quirks and the bugs.  It has served its author (and its dedicated
-         readers) for years in writing client-side scripts that work cross-browser,
-         and helped to see the distinction between core language features, and
-         APIs with language binding, like the DOM.  (The features of the latter
-         API will be compared in another Matrix.)</p>
-         
-      <p>Whenever you read from this author that key line from arguably
-         <a href="http://en.wikipedia.org/wiki/The_Matrix"
-            title="The Matrix movie on Wikipedia"
-            >the most groundbreaking hacker movie</a>
-         &#8213;“The Matrix has you!”&#8213; a suggestion
-         is being considered as a contribution to this overview.  See below.</p>
+          <p>Hence, for lack of a better alternative, the precise
+             and equally concise term <strong>ECMAScript implementation(s)</strong>
+             should be used when talking about features that several
+             implementations (ought to) have in common (per
+             the ECMAScript Language Specification).  And whenever
+             it was talked about one particular implementation, its proper
+             name should be used, like <strong>Netscape/Mozilla.org JavaScript</strong>
+             or simply <strong>JavaScript</strong> (if there is doubt,
+             "™" might be added to emphasize that the implementation
+             is meant).  <strong>In all other instances, the term
+             “JavaScript” (in any letter case) should <em>not</em>
+             be used.</strong></p>
+        
+          <h3>What is the Matrix?</h3>
+              
+          <p>This overview – the <em>ECMAScript Support Matrix</em>
+             began as a comparison of different
+             “JavaScript” features and, as time passed and understanding
+             grew, evolved into a comparison between the major ECMAScript
+             implementations, detailing the differences, the quirks and
+             the bugs.  It has been serving its author (and its dedicated
+             readers) for years in writing client-side scripts that work
+             cross-browser, and has been helping to see the distinction
+             between core language features, and APIs with language binding,
+             like the DOM.  (The features of the latter API will be compared
+             in another Matrix.)</p>
+             
+          <p>Whenever you read from this author that key line from arguably
+             <a href="http://en.wikipedia.org/wiki/The_Matrix"
+                title="The Matrix movie on Wikipedia"
+                >the most groundbreaking hacker movie</a>
+             &#8213;“The Matrix has you!”&#8213; a suggestion
+             is being considered as a
+             <a href="#contributors">contribution</a> to this work.
+             See below.</p>
     </div>
     
     <div>
