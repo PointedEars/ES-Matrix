@@ -350,7 +350,7 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
         
           <h3>What is the Matrix?</h3>
               
-          <p>This overview –&nbsp;the <em>ECMAScript Support Matrix</em> –
+          <p>This overview&nbsp;– the <em>ECMAScript Support Matrix</em> –
              began as a comparison of different “JavaScript” features and,
              as time passed and understanding grew, evolved into a comparison
              between the major ECMAScript implementations, detailing
