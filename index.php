@@ -161,7 +161,7 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
     
       <p style="text-align: left">
         Copyright &copy; 2005&#8211;<?php echo gmdate('Y', $modi); ?>
-          <a href="http://PointedEars.de/">Thomas Lahn</a>
+          <a href="/">Thomas Lahn</a>
           &lt;<a href="<?php echo randomEsc('mailto:js@PointedEars.de'); ?>"
           ><?php echo randomEsc('js@PointedEars.de'); ?></a>&gt;
           (<a href="#contributors">contributors</a>)</p>
