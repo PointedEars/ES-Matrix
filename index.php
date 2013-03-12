@@ -302,7 +302,7 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
                echo $footnotes->add('binding', null,
                  'See <a href="http://www.w3.org/TR/2003/REC-DOM-Level-2-HTML-20030109/ecma-script-binding.html"
                   >W3C DOM Level 2 HTML</a> for an example of language binding.');
-             ?> so they it can
+             ?> so that they can
              be used with that programming language.<?php
                echo $footnotes->add('legacy', null,
                  'The distinction between core language and browser API
