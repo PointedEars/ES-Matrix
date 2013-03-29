@@ -29,7 +29,7 @@ $scriptEngineTest = <<<HTML
 
 															return true;
 														}
-							
+
                             var s = "";
 
                             for (var i = versionMap.length; i--;)
@@ -49,13 +49,13 @@ $scriptEngineTest = <<<HTML
 
                             return s;
                           }
-                          
+
                           var
                           bCanDetect = jsx.object.isMethod(this, "ScriptEngine"),
 
                           /* No array or loop here for backwards compatibility */
                           out = "";
-           
+
                         if (bCanDetect)
                         {
                           out += ":<p><b>" + ScriptEngine();
@@ -162,7 +162,7 @@ $scriptEngineTest = <<<HTML
                               {
                                 m = ua.match(/\brv:(\d+\.\d+(\.\d+)*)\b/);
                               }
-               
+
                               if (m) out += " at least";
 
                               out += " Netscape/Mozilla.org JavaScript&#8482";
@@ -228,8 +228,8 @@ if ($this->edit)
               <input type="search" name="filter" id="filter" accesskey="f" style="width: 100%"
                      onkeyup="es_matrix.timeout.run()"
                      oninput="es_matrix.timeout.run()"
-                     placeholder="Filter expression"
-                     title="Expression to filter the feature table (Shortcut: Access Key + F)">
+                     placeholder="Filter expression (shortcut: Access Key + F)"
+                     title="Expression to filter the feature table (shortcut: Access Key + F)">
               </div>
             </th>
             <th><a href="#ecmascript">ECMAScript</a></th>
@@ -242,7 +242,7 @@ if ($this->edit)
                   var
                     i,
                     lastIndex = 0;
-                  
+
                   while ((i = haystack.substring(lastIndex).indexOf(needle)) > -1)
                   {
                     haystack = haystack.substring(0, i) + replacement + haystack.substring(i + 1);
@@ -250,13 +250,13 @@ if ($this->edit)
                     {
                       break;
                     }
-                                        
+
                     lastIndex = i + replacement.length + 1;
                   }
 
                   return haystack;
                 }
-              
+
                 var implementation = jsx.object.isMethod(this, "ScriptEngine") ? ScriptEngine() : '';
                 if (implementation)
                 {
@@ -281,7 +281,7 @@ if ($this->edit)
                       version = strReplace("<", "&gt;", strReplace('"', "&quot;", version, true), true);
                     }
                   }
-                      
+
                   document.write(
                     '<input type="hidden" name="implementation" value="' + implementation + '">'
                     + '<input type="hidden" name="version" value="' + version + '">');
@@ -296,7 +296,7 @@ if ($this->edit)
                       ><u>S</u>ubmit results</button></th>
 <?php
   }
-  
+
   $implementations = $this->implementations;
   foreach ($implementations as $impl)
   {
@@ -311,12 +311,12 @@ if ($this->edit)
             {
                 echo $this->escape($impl->name);
               }
-        
+
               if ($impl->acronym !== '')
               {
                 ?></abbr><?php
               }
-              
+
               if ($this->edit)
               {
                 ?><br>
@@ -326,7 +326,7 @@ if ($this->edit)
             ?></td>
 <?php
   }
-  
+
   if ($this->edit)
   {
 ?>
