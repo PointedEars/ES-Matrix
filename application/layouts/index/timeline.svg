@@ -1,0 +1,184 @@
+<?php header('Content-Type: image/svg+xml; charset=UTF-8');
+?><?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg"
+     height="200" width="<?php echo ($svg_width = 19 * 12 * 10) + 30; ?>">
+  <style type="text/css">
+    path {
+      fill: none;
+    }
+
+    text {
+      /* Must define default font in external SVG */
+      font: 13px sans-serif;
+    }
+    
+    text,
+    tspan {
+      text-anchor: middle;
+    }
+
+    #grid line {
+      stroke: blue;
+      stroke-opacity: 0.25;
+    }
+
+    #grid g line {
+      stroke-opacity: 1;
+    }
+
+    #grid line.year {
+      stroke-opacity: 0.5;
+    }
+
+    #netscape circle {
+      fill: #007C85;
+    }
+
+    #netscape line,
+    #netscape path {
+      stroke: #007C85;
+    }
+
+    #mozilla circle {
+      fill: #D1480C;
+    }
+
+    #mozilla line,
+    #mozilla path {
+      stroke: #D1480C;
+    }
+
+    #microsoft line,
+    #microsoft path {
+      stroke: #1570A6;
+    }
+
+    #microsoft circle {
+      fill: #1570A6;
+    }
+  </style>
+  <g id="grid" transform="translate(20 0)">
+    <?php for ($i = 0; $i <= $svg_width; $i += 10): ?>
+      <line x1="<?php echo $i; ?>" y1="0" x2="<?php echo $i; ?>" y2="100%"<?php
+        if ($i % 120 === 0)
+        {
+          ?> class="year"<?php
+        }
+                ?>/>
+    <?php endfor; ?>
+    <g id="versions" transform="translate(-5 0)">
+      <g id="netscape" transform="translate(120 30)">
+        <circle r="3" cx="-70" title="Mocha (1995-05)"/>
+        <circle r="3" cx="0" title="JavaScript (1995-12)"/>
+        <circle r="5" cx="30" title="JavaScript 1.0 (1996-03)"/>
+        <circle r="4" cx="80" title="JavaScript 1.1 (1996-08)"/>
+        <circle r="4" cx="180" title="JavaScript 1.2 (1997-06)"/>
+        <circle r="4" cx="320" title="JavaScript 1.3 (1998-08)"/>
+        <circle r="4" cx="410" title="JavaScript 1.4 (1999-05)"/>
+        <circle r="5" cx="560" title="JavaScript 2.0 (2002-12)"/>
+
+        <g id="mozilla" transform="translate(0 40)">
+          <path d="m 410 -40
+                   Q 530 0 570 0" />
+                   
+          <line x1="570" y1="0" x2="2080" y2="0"/>
+          <line x1="2080" y1="0" x2="2165" y2="0" style="stroke-dasharray: 2"/>
+        
+          <circle r="4" cx="570" title="JavaScript 1.5 (2000-09)"/>
+          <circle r="4" cx="1070" title="JavaScript 1.6 (2004-11)"/>
+          <circle r="4" cx="1270" title="JavaScript 1.7 (2006-07)"/>
+          <circle r="4" cx="1340" title="JavaScript 1.8 (2007-02)"/>
+          <circle r="3" cx="1510" title="JavaScript 1.8.1 (2008-07)"/>
+          <circle r="3" cx="1690" title="JavaScript 1.8.2 (2010-01)"/>
+          <circle r="3" cx="1700" title="JavaScript 1.8.5 (2010-02)"/>
+          <circle r="3" cx="1860" title="JavaScript 1.8.6 (2011-06)"/>
+          <circle r="3" cx="1880" title="Firefox 6 (2011-08)"/>
+          <circle r="3" cx="1890" title="Firefox 7 (2011-09)"/>
+          <circle r="3" cx="1910" title="Firefox 8 (2011-11)"/>
+          <circle r="3" cx="1930" title="Firefox 10 (2012-01)"/>
+          <circle r="3" cx="1960" title="Firefox 12 (2012-04)"/>
+          <circle r="3" cx="1980" title="Firefox 12 (2012-06)"/>
+          <circle r="3" cx="2000" title="Firefox 15 (2012-08)"/>
+          <circle r="3" cx="2020" title="Firefox 16 (2012-10)"/>
+          <circle r="3" cx="2030" title="Firefox 17 (2012-11)"/>
+          <circle r="3" cx="2050" title="Firefox 18 (2013-01)"/>
+          <circle r="3" cx="2060" title="Firefox 19 (2013-02)"/>
+          <circle r="3" cx="2080" title="Firefox 20 (2013-04)"/>
+          <circle r="3" cx="2090" title="Firefox 21 (2013-05)"/>
+          <circle r="3" cx="2100" title="Firefox 22 (2013-06)"/>
+        </g>
+
+        <g id="microsoft" transform="translate(0 80)">
+          <path d="m 30 -80
+                   Q 60 0 80 0" style="stroke-dasharray: 5"/>
+        
+          <circle r="5" cx="80" title="JScript 1.0 (1996-08)"/>
+          <circle r="5" cx="210" title="JScript 3.0 (1997-09)"/>
+          
+          <line x1="80" y1="0" x2="210" y2="0"/>
+          
+          <text x="80" y="20">
+            <tspan>Microsoft JScript</tspan>
+            <tspan x="80" y="-10">1.0</tspan>
+            <tspan x="210">3.0</tspan>
+          </text>
+        </g>
+
+        <!-- Connect the dots -->
+        <line x1="-70" y1="0" x2="560" y2="0"/>
+        <line x1="560" y1="0" x2="1320" y2="0" style="stroke-dasharray: 5"/>
+
+        <!-- version labels -->
+        <text y="-10">
+          <tspan x="-70" y="20">
+            <tspan>Mocha/</tspan>
+            <tspan x="-70" y="35">LiveScript</tspan>
+          </tspan>
+          <tspan x="0" y="-10" style="text-anchor: end">Netscape JavaScript</tspan>
+          <tspan x="30">1.0</tspan>
+          <tspan x="80">1.1</tspan>
+          <tspan x="180">1.2</tspan>
+          <tspan x="320">1.3</tspan>
+          <tspan x="410">1.4</tspan>
+          <tspan x="560">
+            <tspan>2.0 (historic)</tspan>
+            <tspan x="560" y="75"></tspan>
+            <tspan x="1320" y="5">X</tspan>
+          </tspan>
+          <tspan y="30">
+            <tspan x="570">1.5</tspan>
+            <tspan x="570" y="60">Mozilla JavaScript</tspan>
+            <tspan x="1070">1.6</tspan>
+            <tspan x="1270">1.7</tspan>
+            <tspan x="1340">1.8</tspan>
+            <tspan x="1510">1.8.1</tspan>
+            <tspan x="1690">1.8.2</tspan>
+            <tspan x="1700" y="30">1.8.5</tspan>
+            <tspan x="1860" y="60">1.8.6</tspan>
+            <tspan x="1880" y="30" style="text-anchor: end">Firefox 6</tspan>
+            <tspan x="1890">7</tspan>
+            <tspan x="1910">8</tspan>
+            <tspan x="1930">10</tspan>
+            <tspan x="1960">12</tspan>
+            <tspan x="1980">13</tspan>
+            <tspan x="2000">15</tspan>
+            <tspan x="2020">16</tspan>
+            <tspan x="2030" y="60">17</tspan>
+            <tspan x="2050" y="30">18</tspan>
+            <tspan x="2060" y="60">19</tspan>
+            <tspan x="2080" y="30">20</tspan>
+            <tspan x="2090" y="60">21</tspan>
+            <tspan x="2100" y="30">22</tspan>
+          </tspan>
+        </text>        
+      </g>
+    </g>
+    <text y="90%">
+      <?php for ($x_year = 60, $year = 1995; $x_year < $svg_width; $x_year += 120, ++$year): ?>
+        <tspan x="<?php echo $x_year; ?>"><?php echo $year; ?></tspan>
+      <?php endfor; ?>
+    </text>
+  </g>
+</svg>
