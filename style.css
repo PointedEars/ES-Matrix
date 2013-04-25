@@ -55,7 +55,7 @@ body {
   color: black;
   font-family: sans-serif;
   -webkit-font-smoothing: antialiased;
-  counter-reset: tables;
+  counter-reset: figures tables;
 }
 
 p {
@@ -301,6 +301,19 @@ table {
 }
 */
 
+figure {
+  counter-increment: figures;
+}
+
+figcaption {
+  font-size: small;
+  text-align: center;
+}
+
+figure > figcaption:before {
+  content: "Figure\a0" counter(figures) ": ";
+}
+
 table
 {
   margin-top: 1em;
@@ -319,7 +332,7 @@ caption {
 }
 
 table > caption:before {
-  content: "Table " counter(tables) ": ";
+  content: "Table\a0" counter(tables) ": ";
 }
 
 tr {
@@ -371,7 +384,7 @@ td sup *
 }
  
 .future {
-  border-left:1px dotted black;
+  border-left: 1px dotted black;
 }
 
 .assumed {
@@ -415,10 +428,10 @@ td sup *
 
 thead {
 /*
-  border-left:1px solid black;
-  border-top:1px solid black;
-  border-right:1px solid black;
-  border-bottom:1px solid gray;
+  border-left: 1px solid black;
+  border-top: 1px solid black;
+  border-right: 1px solid black;
+  border-bottom: 1px solid gray;
  */
   border: none;
 }
@@ -452,10 +465,10 @@ thead th a:visited:hover, thead td a:visited:hover
 
 /*
 tbody {
-  border-left:1px solid black;
-  border-top:1px solid gray;
-  border-right:1px solid black;
-  border-bottom:1px solid black;
+  border-left: 1px solid black;
+  border-top: 1px solid gray;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
 }
 */
 
@@ -707,4 +720,54 @@ button.delete:focus
 
 #footer, #footer p {
   text-align: center;
-}   
+}
+
+ul.tree, ul.tree ul {
+  padding: 0 0 0 1em;
+}
+
+ul.tree ul {
+  margin: 0;
+}
+
+ul.tree {
+  margin: auto;
+  width: 10em;
+}
+
+ul.tree ul {
+  margin: 0;
+}
+
+ul.tree li {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  position: relative;
+}
+
+ul.tree li li {
+  list-style: none;
+}
+
+ul.tree li:first-child::before {
+  position: absolute;
+  top: -0.2em;
+  left: -0.75em;
+  height: 1em;
+  width: 0.5em;
+  border-style: none none solid solid;
+  content: '';
+  border-width: 0.1em;
+}
+
+ul.tree li:not(:last-child)::after {
+  position: absolute;
+  top: 0;
+  bottom: -0.8em;
+  left: -0.75em;
+  width: 0.5em;
+  border-style: none none solid solid;
+  content: '';
+  border-width: 0.1em;
+}
