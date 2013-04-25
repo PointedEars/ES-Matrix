@@ -3,6 +3,7 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
   "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
      height="600" width="<?php echo ($svg_width = 19 * 12 * 10) + 30; ?>">
   <desc>Timeline of ECMAScript and its implementations</desc>
   <style type="text/css">
@@ -126,47 +127,84 @@
       <g id="ecmascript" transform="translate(120 40)">
         <title>ECMAScript Language Specification</title>
         
+        <!-- Edition 1 is based on JavaScript 1.1 -->
         <path d="m 80 40
                  Q 130 0 180 0" style="stroke-dasharray: 5"/>
+
+        <!-- JavaScript 1.5 implements Edition 3 -->
         <path d="m 80 220
                  Q 130 0 180 0" style="stroke-dasharray: 5"/>
 
+        <!-- Edition 4 is based on JavaScript 2.0 (historic) -->
+        <path d="m 560 40
+                 Q 560 0 600 0" style="stroke-dasharray: 5"/>
+
+        <!-- Edition 1 is based on JScript 1.1 -->
         <path d="m 540 0
                  Q 550 100 570 100" style="stroke-dasharray: 5"/>
+
+        <!-- JScript 5.5 implements Edition 3 -->
         <path d="m 540 0
                  Q 540 220 550 220" style="stroke-dasharray: 5"/>
+
+        <!-- JScript .NET implements the Edition 4 proposal -->
+        <path d="m 600 0
+                 Q 610 260 730 260" style="stroke-dasharray: 5"/>
 
         <line x1="180" x2="1860"/>
         <line x1="1860" x2="<?php echo $svg_width - 115; ?>"
               style="stroke-dasharray: 2"/>
 
         <g transform="translate(180 0)">
-          <circle r="5"/><title>ECMAScript Edition 1 (1997-06)</title>
-          <text y="-10" style="text-anchor: end">ECMAScript Edition 1</text>
+          <a xlink:href="http://www.ecma-international.org/publications/files/ECMA-ST-ARCH/ECMA-262,%201st%20edition,%20June%201997.pdf">
+            <circle r="5" /><title>ECMAScript Edition 1 (1997-06)</title>
+            <text y="-10" style="text-anchor: end">ECMAScript Edition 1</text>
+          </a>
         </g>
         <g transform="translate(410 0)">
-          <circle r="5"/><title>ECMAScript Edition 2 (1999-05)</title>
-          <text y="-10">2</text>
+          <a xlink:href="http://www.ecma-international.org/publications/files/ECMA-ST-ARCH/ECMA-262,%202nd%20edition,%20August%201998.pdf">
+            <circle r="5"/><title>ECMAScript Edition 2 (1999-05)</title>
+            <text y="-10">2</text>
+          </a>
         </g>
         <g transform="translate(480 0)">
-          <circle r="5"/><title>ECMAScript Edition 3 (1999-12)</title>
-          <text y="-10">3</text>
+          <a xlink:href="http://www.ecma-international.org/publications/files/ECMA-ST-ARCH/ECMA-262,%203rd%20edition,%20December%201999.pdf">
+            <circle r="5"/><title>ECMAScript Edition 3 (1999-12)</title>
+            <text y="-10">3</text>
+          </a>
         </g>
         <g transform="translate(540 0)">
-          <circle r="4"/><title>ECMAScript Edition 3 Final (2000-06)</title>
-          <text y="-10">3 Final</text>
+          <a xlink:href="http://wayback.archive.org/web/20060924061924/http://www.mozilla.org/js/language/index.html">
+            <circle r="4"/><title>ECMAScript Edition 3 Final (2000-06)</title>
+            <text y="-10">3 Final</text>
+          </a>
         </g>
-        <g transform="translate(1360 0)">
-          <circle r="5"/><title>ECMAScript Edition 4 (2007-04)</title>
-          <text y="-10">4</text>
+        <g transform="translate(600 0)">
+          <a xlink:href="http://wayback.archive.org/web/20070711032912/http://www.mozilla.org/js/language/es4/index.html">
+            <circle r="5"/><title>ECMAScript Edition 4 (2000-12-02)</title> 
+            <text y="-10">4</text>
+          </a>
         </g>
+        <text x="1420" y="5">
+          <title>Website for ECMAScript Ed. 4 proposal went offline (2007-10-13)</title>
+          X
+        </text>
+        <a xlink:href="https://mail.mozilla.org/pipermail/es-discuss/2008-August/006837.html">
+          <polygon points="1515,-5, 1525,0 1515, 5">
+            <title>“ECMAScript Harmony” announced (2008-08-13)</title>
+          </polygon>
+        </a>
         <g transform="translate(1680 0)">
-          <circle r="5"/><title>ECMAScript Edition 5 (2009-12)</title>
-          <text y="-10">5</text>
+          <a xlink:href="http://www.ecma-international.org/publications/files/ECMA-ST-ARCH/ECMA-262%205th%20edition%20December%202009.pdf">
+            <circle r="5"/><title>ECMAScript Edition 5 (2009-12)</title>
+            <text y="-10">5</text>
+          </a>
         </g>
         <g transform="translate(1860 0)">
-          <circle r="4"/><title>ECMAScript 5.1 Edition (2011-06)</title>
-          <text y="-10">5.1</text>
+          <a xlink:href="http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-262.pdf">
+            <circle r="4"/><title>ECMAScript 5.1 Edition (2011-06)</title>
+            <text y="-10">5.1</text>
+          </a>
         </g>
       </g>
       
@@ -210,7 +248,7 @@
         </g>
         <g transform="translate(560 0)">
           <circle r="5"/><title>JavaScript 2.0 (2002-12)</title>
-          <text y="-10" style="text-anchor: start">2.0 (historic)</text>
+          <text x="5" y="-10" style="text-anchor: start">2.0 (historic)</text>
           <text y="20" style="text-anchor: start">Epimetheus</text>
           <text x="1020" y="5">X</text>
         </g>
@@ -299,11 +337,11 @@
           </g>
           <g transform="translate(2050 0)">
             <circle r="2"/><title>Mozilla Firefox 18 (2013-01)</title>
-            <text y="20">18</text>
+            <text y="-10">18</text>
+            <text y="20" style="text-anchor: start">IonMonkey</text>
           </g>
           <g transform="translate(2060 0)">
             <circle r="2"/><title>Mozilla Firefox 19 (2013-02)</title>
-            <text y="-10">19</text>
           </g>
           <g transform="translate(2080 0)">
             <circle r="2"/><title>Mozilla Firefox 20 (2013-04)</title>
@@ -311,7 +349,6 @@
           </g>
           <g transform="translate(2090 0)">
             <circle r="2"/><title>Mozilla Firefox 21 (2013-05)</title>
-            <text y="20">21</text>
           </g>
           <g transform="translate(2100 0)">
             <circle r="2"/><title>Mozilla Firefox 22 (2013-06)</title>
@@ -722,82 +759,79 @@
         <g id="opera" transform="translate(0 420)">
           <title>Opera ECMAScript</title>
         
-          <line x1="410" x2="1830"/>
-          <line x1="1830" x2="<?php echo $svg_width - 115; ?>"
+          <line x1="240" x2="2080"/>
+          <line x1="2080" x2="<?php echo $svg_width - 115; ?>"
                 style="stroke-dasharray: 2"/>
 
+          <g transform="translate(240 0)">
+            <title>Opera ECMAScript 3.00 (1997-12)</title>
+            <circle r="5"/>
+            <text y="-10">3.00</text>
+            <text y="20">Opera ECMAScript</text>
+          </g>
           <g transform="translate(410 0)">
             <title>Opera ECMAScript 3.60 (1999-05)</title>
-            <circle r="5"/>
-            <text y="20">Opera Linear A</text>
+            <circle r="4"/>
             <text y="-10">3.60</text>
           </g>
-          <g transform="translate(600 0)">
-            <title>Opera ECMAScript 5.02 (2000-12)</title>
+          <g transform="translate(540 0)">
+            <title>Opera ECMAScript 4.00 (2000-06)</title>
             <circle r="5"/>
-            <text y="-10">5.02</text>
+            <text y="20" style="text-anchor: start">Linear A</text>
+            <text y="-10">4.00</text>
           </g>
-          <g transform="translate(710 0)">
-            <title>Opera ECMAScript 6.06 (2001-11)</title>
+          <g transform="translate(720 0)">
+            <title>Opera ECMAScript 6.00 (2001-12-18)</title>
             <circle r="5"/>
-            <text y="-10">6.06</text>
+            <text y="-10">6.00</text>
           </g>
           <g transform="translate(850 0)">
-            <title>Opera ECMAScript 7.02 (2003)</title>
+            <title>Opera ECMAScript 7.00 (2003-01-28)</title>
             <circle r="5"/>
             <text y="20" style="text-anchor: start">Linear B</text>
-            <text y="-10">7.02</text>
+            <text y="-10">7.00</text>
           </g>
-          <g transform="translate(1090 0)">
-            <title>Opera ECMAScript 8.0 (2005)</title>
+          <g transform="translate(1130 0)">
+            <title>Opera ECMAScript 8.0 (2005-04-19)</title>
             <circle r="5"/>
-            <text y="-10">8.0</text>
+            <text y="-10">8.00</text>
           </g>
-          <g transform="translate(1450 0)">
-            <title>Opera ECMAScript 9.27 (2008)</title>
-            <circle r="5"/>
-            <text y="-10">9.27</text>
+          <g transform="translate(1180 0)">
+            <title>Opera ECMAScript 8.50 (2005-09-20)</title>
+            <circle r="4"/>
+            <text y="-10">8.50</text>
           </g>
           <g transform="translate(1500 0)">
-            <title>Opera ECMAScript 9.52 (2008)</title>
+            <title>Opera ECMAScript 9.50 (2008-06-12)</title>
             <circle r="4"/>
-            <text y="-10">9.52</text>
+            <text y="-10">9.50</text>
             <text y="20" style="text-anchor: start">Futhark</text>
           </g>
-          <g transform="translate(1560 0)">
-            <title>Opera ECMAScript 9.62 (2008)</title>
-            <circle r="4"/>
-            <text y="-10">9.62</text>
-          </g>
-          <g transform="translate(1620 0)">
-            <title>Opera ECMAScript 9.64 (2009)</title>
-            <circle r="3"/>
-            <text y="-10">9.64</text>
-          </g>
-          <g transform="translate(1680 0)">
-            <title>Opera ECMAScript 10.10 (2009)</title>
+          <g transform="translate(1650 0)">
+            <title>Opera ECMAScript 10.00 (2009-09-01)</title>
             <circle r="5"/>
-            <text y="-10" style="text-anchor: end">10.10</text>
+            <text y="-10">10.00</text>
           </g>
           <g transform="translate(1700 0)">
             <title>Opera ECMAScript 10.50 (2010-03-02)</title>
             <circle r="4"/>
             <text y="20" style="text-anchor: start">Carakan</text>
-            <text y="-10" style="text-anchor: start">10.50</text>
+            <text y="-10">10.50</text>
           </g>
-          <g transform="translate(1730 0)">
-            <title>Opera ECMAScript 10.54 (2010-06-21)</title>
-            <circle r="3"/>
-          </g>
-          <g transform="translate(1770 0)">
-            <title>Opera ECMAScript 10.63 (2010-10-12)</title>
-            <circle r="4"/>
-            <text y="-10">10.63</text>
-          </g>
-          <g transform="translate(1830 0)">
-            <title>Opera ECMAScript 11.50 (2011-06-28)</title>
+          <g transform="translate(1800 0)">
+            <title>Opera ECMAScript 11.00 (2010-12-16)</title>
             <circle r="5"/>
-            <text y="-10">11.50</text>
+            <text y="-10">11.00</text>
+          </g>
+          <g transform="translate(1920 0)">
+            <title>Opera ECMAScript 11.60 (2011-12-06)</title>
+            <circle r="4"/>
+            <text y="-10">11.60</text>
+          </g>
+          <g transform="translate(2080 0)">
+            <title>Opera ECMAScript 12.15 (2013-04-04)</title>
+            <circle r="5"/>
+            <text y="-10">12.15</text>
           </g>
         </g>
       </g>
