@@ -3,6 +3,8 @@
 	<name>ECMAScript Support Matrix</name>
 	<comment></comment>
 	<projects>
+		<project>JSX</project>
+		<project>PHPX</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
