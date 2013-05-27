@@ -18,12 +18,12 @@ class FeatureMapper extends Mapper
   private static $_instance = null;
 
   protected $_table = 'FeatureTable';
-  
-  private function __construct()
+
+  protected function __construct()
   {
     /* Singleton */
   }
-  
+
   /**
    * Returns the instance of this mapper
    *
@@ -35,7 +35,7 @@ class FeatureMapper extends Mapper
     {
       self::$_instance = new self();
     }
-    
+
     return self::$_instance;
   }
 
@@ -53,7 +53,7 @@ class FeatureMapper extends Mapper
      * - Client is only provided with essential data
      * - Client only provides essential data
      */
-    
+
     /*
      * 1. Create FeatureModel with data from database by ID
      *    or default values
@@ -63,11 +63,11 @@ class FeatureMapper extends Mapper
     {
       $featureObj = new FeatureModel();
     }
-    
+
     /* 2. Update FeatureModel with passed data */
     $featureObj->map($feature);
-        
-    /* 3. Save updated FeatureModel in database */
+
+    /* 3. Save updated feature in database */
     $data = array(
       'code'        => $featureObj->code,
       'title'       => $featureObj->title,
@@ -83,38 +83,42 @@ class FeatureMapper extends Mapper
     {
       $data['created'] = gmdate('Y-m-d H:i:s');
     }
-    
+
     if (defined('DEBUG') && DEBUG > 0)
     {
       debug($data);
     }
-      
+
     $table = $this->getDbTable();
     $success = $table->updateOrInsert($data, array('id' => $id));
-    
+
     if ($success)
     {
       if ($table->lastInsertId)
       {
         $featureObj->id = $table->lastInsertId;
       }
-      
+
       /* DEBUG */
       if (defined('DEBUG') && DEBUG > 0)
       {
         debug($featureObj);
       }
-      
+
       /* Do not replace testcases (and remove results) if only metadata should be saved */
-      if (is_array($feature) && isset($feature['testcases']))
+      if (isset($feature['testcases']))
       {
+        /* DEBUG only */
+        var_dump($feature);
+        return null;
+
         $success = (null !== TestcaseMapper::getInstance()->saveForFeature($featureObj));
       }
     }
-    
+
     return $success ? $featureObj : null;
   }
-  
+
   /**
    * Import features from a <code>FeatureList</code> into the features table
    *
@@ -123,7 +127,7 @@ class FeatureMapper extends Mapper
   public function importAll (FeatureList $featureList)
   {
     $features = array();
-    
+
     foreach ($featureList->items as $key => $featureData)
     {
       $versions = $featureData->versions;
@@ -139,7 +143,7 @@ class FeatureMapper extends Mapper
           $edition = $edition[0];
         }
       }
-      
+
       $feature = array(
         'id'          => $key + 1,
         'code'        => $featureData->content,
@@ -148,15 +152,15 @@ class FeatureMapper extends Mapper
         'section'     => $section,
         'section_urn' => $urn
       );
-      
+
       $this->save($feature);
-      
+
       $features[] = $feature;
     }
-    
+
 //     debug($features);
   }
-  
+
   /**
    * Fetches all records from the features table
    *
@@ -178,12 +182,12 @@ class FeatureMapper extends Mapper
     {
       debug($features);
     }
-    
+
     uasort($features, array('FeatureModel', 'compare'));
-    
+
     return $features;
   }
-  
+
   /**
   * Finds a feature in the features table by ID
   *
@@ -199,13 +203,13 @@ class FeatureMapper extends Mapper
     {
       return null;
     }
-      
+
     $feature = new FeatureModel($row);
     $feature->setTestcases(TestcaseMapper::getInstance()->findByFeatureId($id));
-  
+
     return $feature;
   }
-  
+
   /**
    * Deletes a record from the features table
    *

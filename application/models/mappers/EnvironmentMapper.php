@@ -12,17 +12,17 @@ require_once 'application/models/EnvironmentModel.php';
 class EnvironmentMapper extends Mapper
 {
   private static $_instance = null;
-  
+
   /*
    * (non-PHPDoc) see Mapper::$_table
    */
   protected $_table = 'EnvironmentTable';
-  
-  private function __construct()
+
+  protected function __construct()
   {
     /* Singleton */
   }
-  
+
   /**
    * Returns the instance of this mapper
    *
@@ -34,7 +34,7 @@ class EnvironmentMapper extends Mapper
     {
       self::$_instance = new self();
     }
-    
+
     return self::$_instance;
   }
 
@@ -52,20 +52,20 @@ class EnvironmentMapper extends Mapper
   public function save($user_agent, $version_id)
   {
     $table = $this->getDbTable();
-    
+
     $data = array(
 			'user_agent' => $user_agent,
 			'version_id' => $version_id
 		);
-    
+
     if (!$table->insert($data))
     {
       return $this->getIdByUserAgent($user_agent);
     }
-    
+
     return $table->lastInsertId;
   }
-  
+
   /**
    * Finds an environment in the environment table by User-Agent string
    *
@@ -85,7 +85,7 @@ class EnvironmentMapper extends Mapper
     $env = new EnvironmentModel($row);
     return $env->id;
   }
-  
+
   /**
    * Fetches all records from the environment table
    *
@@ -105,7 +105,7 @@ class EnvironmentMapper extends Mapper
       ;
       $envs[] = $env;
     }
-    
+
     return $envs;
   }
 
@@ -134,7 +134,7 @@ class EnvironmentMapper extends Mapper
        SUBSTRING_INDEX(`version`, '.', -1) + 0,
        e.sortorder, e.name"
     );
-    
+
     $envs = array();
     foreach ($resultSet as $row)
     {
@@ -144,12 +144,12 @@ class EnvironmentMapper extends Mapper
         'userAgent' => $row['user_agent']
       );
     }
-    
+
     if (defined('DEBUG') && DEBUG > 0)
     {
       debug($envs);
     }
-    
+
     return $envs;
   }
 }

@@ -12,17 +12,17 @@ require_once 'application/models/VersionModel.php';
 class VersionMapper extends Mapper
 {
   private static $_instance = null;
-  
+
   /*
    * (non-PHPDoc) see Mapper::$_table
    */
   protected $_table = 'VersionTable';
-  
-  private function __construct()
+
+  protected function __construct()
   {
     /* Singleton */
   }
-  
+
   /**
    * Returns the instance of this mapper
    *
@@ -34,7 +34,7 @@ class VersionMapper extends Mapper
     {
       self::$_instance = new self();
     }
-    
+
     return self::$_instance;
   }
 
@@ -52,20 +52,20 @@ class VersionMapper extends Mapper
   public function save($implementation_id, $name)
   {
     $table = $this->getDbTable();
-    
+
     $data = array(
       'impl_id' => $implementation_id,
     	'name' => $name
   	);
-    
+
     if (!$table->insert($data))
     {
       return $this->getIdByName($name);
     }
-    
+
     return $table->lastInsertId;
   }
-  
+
 	/**
    * Updates the versions of an implementation in the database
    *
@@ -85,10 +85,10 @@ class VersionMapper extends Mapper
   {
     /* DEBUG */
 //     define('DEBUG', 2);
-    
+
     $table = $this->getDbTable();
     $table->beginTransaction();
-    
+
     /* Unassign all versions from the implementation */
     $table->update(
       array('impl_id' => null),
@@ -96,7 +96,7 @@ class VersionMapper extends Mapper
     );
 
 //     debug($versions);
-    
+
     /* Update or insert all assigned versions */
     foreach ($assigned as $version)
     {
@@ -116,13 +116,13 @@ class VersionMapper extends Mapper
         $this->save($implementation_id, $version);
       }
     }
-    
+
     /* Delete obsolete versions */
     $table->delete(null, array('id' => array('NOT IN' => array_merge($assigned, $available))));
-    
+
     return $table->commit();
   }
-  
+
   /**
    * Finds a version ID by name
    *
@@ -137,12 +137,12 @@ class VersionMapper extends Mapper
     {
       return null;
     }
-  
+
     $row = $result[0];
     $impl = new VersionModel($row);
     return $impl->id;
   }
-  
+
   /**
    * Finds all versions of an implementation by its ID
    *
@@ -154,29 +154,29 @@ class VersionMapper extends Mapper
   {
     /* DEBUG */
 //     define('DEBUG', 2);
-        
+
     $resultSet = $this->getDbTable()->select(null, array('impl_id' => $impl_id),
       "ORDER BY SUBSTRING_INDEX(`name`, '.', 1) + 0,
       	 SUBSTRING_INDEX(SUBSTRING_INDEX(`name`, '.', -3), '.', 1) + 0,
        	 SUBSTRING_INDEX(SUBSTRING_INDEX(`name`, '.', -2), '.', 1) + 0,
          SUBSTRING_INDEX(`name`, '.', -1) + 0");
-    
+
     if (0 === count($resultSet))
     {
       return null;
     }
 
     $versions = array();
-    
+
     foreach ($resultSet as $row)
     {
       $ver = new VersionModel($row);
       $versions[$ver->id] = $ver;
     }
-    
+
     return $versions;
   }
-  
+
   /**
    * Fetches all records from the version table
    *
@@ -189,18 +189,18 @@ class VersionMapper extends Mapper
         	 SUBSTRING_INDEX(SUBSTRING_INDEX(`name`, '.', -3), '.', 1) + 0,
          	 SUBSTRING_INDEX(SUBSTRING_INDEX(`name`, '.', -2), '.', 1) + 0,
            SUBSTRING_INDEX(`name`, '.', -1) + 0");
-    
+
     $versions = array();
-    
+
     foreach ($resultSet as $row)
     {
       $ver = new VersionModel($row);
       $versions[$ver->id] = $ver;
     }
-    
+
     return $versions;
   }
-  
+
   /**
    * Returns an array of the IDs of the versions that are considered safe
    *

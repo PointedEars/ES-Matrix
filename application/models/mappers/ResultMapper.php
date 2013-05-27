@@ -16,17 +16,17 @@ require_once 'application/models/mappers/VersionMapper.php';
 class ResultMapper extends Mapper
 {
   private static $_instance = null;
-  
+
   /*
    * (non-PHPDoc) see Mapper::$_table
    */
   protected $_table = 'ResultTable';
-  
-  private function __construct()
+
+  protected function __construct()
   {
     /* Singleton */
   }
-  
+
   /**
    * Returns the instance of this mapper
    *
@@ -38,7 +38,7 @@ class ResultMapper extends Mapper
     {
       self::$_instance = new self();
     }
-    
+
     return self::$_instance;
   }
 
@@ -54,7 +54,7 @@ class ResultMapper extends Mapper
   public function save($data)
   {
     $ver_id = null;
-    
+
     if (isset($data['implementation']))
     {
       $impl_id = ImplementationMapper::getInstance()->save($data['implementation']);
@@ -63,7 +63,7 @@ class ResultMapper extends Mapper
         $ver_id = VersionMapper::getInstance()->save($impl_id, $data['version']);
       }
     }
-    
+
     /* DEBUG */
     if (defined('DEBUG') && DEBUG > 0)
     {
@@ -71,16 +71,16 @@ class ResultMapper extends Mapper
       {
         $data['version_id'] = $ver_id;
       }
-    
+
       debug($data);
     }
-    
+
     $env_id = EnvironmentMapper::getInstance()->save($data['user_agent'], $ver_id);
     if (!is_null($env_id) && $env_id > 0)
     {
       $table = $this->getDbTable();
       $table->beginTransaction();
-      
+
       $results = $data['results'];
 
       if (is_array($results))
@@ -94,7 +94,7 @@ class ResultMapper extends Mapper
               	'testcase_id' => $testcase_id,
                 'env_id' => $env_id
               ));
-          
+
           /*
            * Never overwrite previous results; results are
            * only reset when testcases are updated
@@ -119,13 +119,13 @@ class ResultMapper extends Mapper
           }
         }
       }
-      
+
       return $table->commit();
     }
-    
+
     return false;
   }
-     
+
   /**
    * Returns an array which keys are the IDs of all features that are
    * considered safe.
@@ -137,7 +137,7 @@ class ResultMapper extends Mapper
   {
     $unsafeVersions = VersionMapper::getInstance()->getUnsafeVersions();
     $safeFeatures = array();
-    
+
     if (is_array($features) && is_array($results))
     {
       foreach ($features as $feature_id => $feature)
@@ -150,7 +150,7 @@ class ResultMapper extends Mapper
           {
             $safe_feature = true;
             $flat_results = array();
-            
+
             foreach ($results[$feature_id] as $impl_id => $impl_results)
             {
               if (is_array($impl_results))
@@ -167,7 +167,7 @@ class ResultMapper extends Mapper
               if (isset($flat_results[$unsafe_version_id]))
               {
                 $unsafe_result = array_sum(str_split($flat_results[$unsafe_version_id]));
-            
+
                 if ($unsafe_result < $num_testcases)
                 {
                   $safe_feature = false;
@@ -181,17 +181,17 @@ class ResultMapper extends Mapper
             $safe_feature = false;
           }
         }
-        
+
         if ($safe_feature)
         {
           $safeFeatures[$feature_id] = true;
         }
       }
     }
-    
+
     return $safeFeatures;
   }
-  
+
   /**
    * Returns the tensor array of test results.
    *
@@ -213,7 +213,7 @@ class ResultMapper extends Mapper
   {
     /* DEBUG */
 //     define('DEBUG', 2);
-    
+
     $db = $this->getDbTable()->getDatabase();
     $rows = $db->select(
       '`result` r
@@ -236,25 +236,25 @@ class ResultMapper extends Mapper
        SUBSTRING_INDEX(v.name, '.', -1) + 0,
        t.id"
     );
-    
+
     $result = array();
     if (is_array($rows))
     {
       /* Get version names here to make query result smaller and query faster */
       $versions = VersionMapper::getInstance()->fetchAll();
       $ver_name_cache = array();
-      
+
       foreach ($rows as $row)
       {
         $feature_id = (int) $row['feature_id'];
         $impl_id    = (int) $row['impl_id'];
         $version_id = (int) $row['version_id'];
-        
+
 //         if ($feature_id === 0 || $impl_id === 0 || $version_id === 0)
 //         {
 //           continue;
 //         }
-        
+
         if ($version_id > 0)
         {
           if (!isset($result['forFeatures'][$feature_id][$impl_id][$version_id]))
@@ -268,7 +268,7 @@ class ResultMapper extends Mapper
               $version_name = $versions[$version_id]->name;
               $ver_name_cache[$version_id] = $version_name;
             }
-            
+
             $result['forFeatures'][$feature_id][$impl_id][$version_id] = array(
               'version' => $version_name,
               'values'  => ''
@@ -279,15 +279,15 @@ class ResultMapper extends Mapper
             $row['value'];
         }
       }
-      
+
       $result['safeFeatures'] = $this->_getSafeFeatures($features, Application::getParam('forFeatures', $result));
     }
-      
+
     if (defined('DEBUG') && DEBUG > 0)
     {
       debug($result);
     }
-      
+
     return $result;
   }
 }

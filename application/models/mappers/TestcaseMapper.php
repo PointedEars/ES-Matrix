@@ -16,17 +16,17 @@ require_once 'application/models/FeatureModel.php';
 class TestcaseMapper extends Mapper
 {
   private static $_instance = null;
-  
+
   /*
    * (non-PHPDoc) see Mapper::$_table
    */
   protected $_table = 'TestcaseTable';
-  
-  private function __construct()
+
+  protected function __construct()
   {
     /* Singleton */
   }
-  
+
   /**
    * Returns the instance of this mapper
    *
@@ -38,7 +38,7 @@ class TestcaseMapper extends Mapper
     {
       self::$_instance = new self();
     }
-    
+
     return self::$_instance;
   }
 
@@ -62,10 +62,10 @@ class TestcaseMapper extends Mapper
     {
       debug($data);
     }
-    
+
     $this->getDbTable()->updateOrInsert($data, array('id' => $id));
   }
-  
+
   /**
    * Saves the testcases for a feature
    *
@@ -75,17 +75,17 @@ class TestcaseMapper extends Mapper
   {
     $table = $this->getDbTable();
     $table->beginTransaction();
-    
+
     /*
      * NOTE: Must _delete_ saved testcases for that feature to avoid
      * invalid results (ON DELETE CASCADE)
      */
     $table->delete(null, array('feature_id' => $feature->id));
-    
+
     /* Assign new testcases to feature */
     $testcases = $feature->testcases;
     $codes = $testcases['codes'];
-    
+
     if ($codes)
     {
       $gluedCodes = implode('', $codes);
@@ -102,7 +102,7 @@ class TestcaseMapper extends Mapper
             {
               $quoted = $quoteds[$key];
             }
-            
+
             $new_testcases[] = $testcase = new TestcaseModel(array(
               'feature_id' => $feature->id,
               'title'      => $title,
@@ -110,34 +110,34 @@ class TestcaseMapper extends Mapper
               'quoted'     => $quoted,
               'alt_type'   => $alt_types[$key]
             ));
-      
+
             /* DEBUG */
             if (defined('DEBUG') && DEBUG > 0)
             {
               debug($testcase);
             }
-      
+
             $this->save($testcase);
           }
         }
-        
+
         $feature->testcases = $new_testcases;
       }
     }
-    
+
     $success = $table->commit();
     if (!$success)
     {
       $table->rollBack();
     }
-    
+
     return $success ? $feature : null;
   }
-  
+
   public function importAll(FeatureList $featureList)
   {
     $testcases = array();
-    
+
     foreach ($featureList->items as $key => $featureData)
     {
       $versions = $featureData->versions;
@@ -150,9 +150,9 @@ class TestcaseMapper extends Mapper
         ));
 
         $testcase->setCode($code, true);
-        
+
         $this->save($testcase);
-      
+
         $testcases[] = $testcase;
       }
     }
@@ -162,10 +162,10 @@ class TestcaseMapper extends Mapper
 //       return strlen(trim($el->code));
 //     }
 //     debug(max(array_map('mapper', $testcases)));
-    
+
 //     debug($testcases);
   }
-  
+
   /**
    * Copies the testcases for a feature from another
    *
@@ -179,7 +179,7 @@ class TestcaseMapper extends Mapper
     {
       $testcases = array();
     }
-    
+
     $testcases = array_merge($testcases, $this->findByFeatureId($sourceId));
     foreach ($testcases as $key => $value)
     {
@@ -188,10 +188,10 @@ class TestcaseMapper extends Mapper
         unset($testcases[$key]);
       }
     }
-    
+
     $target->testcases = $testcases;
   }
-  
+
   /**
    * Returns the testcases for a feature specified by its ID
    *
@@ -214,7 +214,7 @@ class TestcaseMapper extends Mapper
     {
       debug(array('testcases' => $testcases));
     }
-    
+
     return $testcases;
   }
 }

@@ -14,17 +14,17 @@ require_once 'application/models/mappers/VersionMapper.php';
 class ImplementationMapper extends Mapper
 {
   private static $_instance = null;
-  
+
   /*
    * (non-PHPDoc) see Mapper::$_table
    */
   protected $_table = 'ImplementationTable';
-  
-  private function __construct()
+
+  protected function __construct()
   {
     /* Singleton */
   }
-  
+
   /**
    * Returns the instance of this mapper
    *
@@ -36,7 +36,7 @@ class ImplementationMapper extends Mapper
     {
       self::$_instance = new self();
     }
-    
+
     return self::$_instance;
   }
 
@@ -49,7 +49,7 @@ class ImplementationMapper extends Mapper
   {
     return parent::getDbTable();
   }
-  
+
 	/**
    * Saves an implementation in the database
    *
@@ -65,7 +65,7 @@ class ImplementationMapper extends Mapper
     if (is_array($implementation))
     {
       $implObj = new ImplementationModel($implementation);
-      
+
       $id = $implObj->id;
       $data = array(
         'sortorder' => $implObj->sortorder,
@@ -73,17 +73,17 @@ class ImplementationMapper extends Mapper
         'acronym'   => $implObj->acronym,
 //        'created' => date('Y-m-d H:i:s'),
       );
-      
+
       if (defined('DEBUG') && DEBUG > 0)
       {
         debug($data);
       }
 
       $success = $table->updateOrInsert($data, array('id' => $id));
-      
+
       VersionMapper::getInstance()->saveAll($id,
         $implementation['assigned'], $implementation['available']);
-      
+
       return $success;
     }
     else
@@ -93,10 +93,10 @@ class ImplementationMapper extends Mapper
         return $this->getIdByName($implementation);
       }
     }
-    
+
     return $table->lastInsertId;
   }
-  
+
   /**
    * Finds an implementation ID by name
    *
@@ -111,12 +111,12 @@ class ImplementationMapper extends Mapper
     {
       return null;
     }
-  
+
     $row = $result[0];
     $impl = new ImplementationModel($row);
     return $impl->id;
   }
-  
+
   /**
    * Fetches all records from the implementation table
    *
@@ -129,10 +129,10 @@ class ImplementationMapper extends Mapper
     foreach ($resultSet as $row)
     {
       $impl = new ImplementationModel($row);
-      
+
       $impls[$impl->id] = $impl;
     }
-    
+
     return $impls;
   }
 
@@ -151,14 +151,14 @@ class ImplementationMapper extends Mapper
     {
       return null;
     }
-    
+
     $row = $result[0];
-    
+
     if (is_null($impl))
     {
       $impl = new ImplementationModel();
     }
-    
+
     $id = $row['id'];
     $impl->setId($id)
          ->setSortOrder($row['sortorder'])
@@ -167,7 +167,7 @@ class ImplementationMapper extends Mapper
          ->setVersions(VersionMapper::getInstance()->getByImplementationId($id))
     //             ->setCreated($row['created'])
     ;
-    
+
     return $impl;
   }
 }
