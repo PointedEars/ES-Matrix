@@ -146,27 +146,20 @@ class ImplementationMapper extends \PointedEars\PHPX\Db\Mapper
    */
   public function find($id, ImplementationModel $impl = null)
   {
-    $result = $this->getDbTable()->find($id);
-    if (0 == count($result))
+    $row = $this->getDbTable()->find($id);
+    if (!$row)
     {
       return null;
     }
-
-    $row = $result[0];
 
     if (is_null($impl))
     {
       $impl = new ImplementationModel();
     }
 
-    $id = $row['id'];
-    $impl->setId($id)
-         ->setSortOrder($row['sortorder'])
-         ->setName($row['name'])
-         ->setAcronym($row['acronym'])
-         ->setVersions(VersionMapper::getInstance()->getByImplementationId($id))
-    //             ->setCreated($row['created'])
-    ;
+    $impl->map($row)
+         ->setVersions(
+         		 VersionMapper::getInstance()->getByImplementationId($row['id']));
 
     return $impl;
   }
