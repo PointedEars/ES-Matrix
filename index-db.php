@@ -29,7 +29,7 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
 require_once 'lib/Application.php';
 require_once 'application/models/databases/es-matrix/MatrixDb.php';
 
-$application = Application::getInstance();
+$application = PointedEars\PHPX\Application::getInstance();
 $application->registerDatabase('es-matrix', new MatrixDb());
 $application->setDefaultDatabase('es-matrix');
 $application->run();

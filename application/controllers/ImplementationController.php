@@ -7,13 +7,15 @@ require_once 'application/models/ImplementationModel.php';
 require_once 'application/models/mappers/ImplementationMapper.php';
 require_once 'application/models/mappers/VersionMapper.php';
 
+use \PointedEars\PHPX\Application;
+
 /**
  * A controller for handling the implementations listed in the
  * ECMAScript Support Matrix
  *
  * @author Thomas Lahn
  */
-class ImplementationController extends Controller
+class ImplementationController extends \PointedEars\PHPX\Controller
 {
   /**
    * Creates a new controller for the feature view
@@ -22,18 +24,18 @@ class ImplementationController extends Controller
   {
     parent::__construct('IndexView');
   }
-  
+
   protected function indexAction()
   {
     Application::redirect();
   }
-  
+
   protected function addAction()
   {
     $impl = new ImplementationModel();
     $this->editAction($impl);
   }
-  
+
   /**
    * Edit the feature specified by one of two parameters
    *
@@ -44,22 +46,22 @@ class ImplementationController extends Controller
   protected function editAction(ImplementationModel $impl = null)
   {
     $mapper = ImplementationMapper::getInstance();
-    
+
     if (is_null($impl))
     {
       $id = Application::getParam('id');
       $impl = $mapper->find($id);
     }
-    
+
     $all_impls = $mapper->fetchAll();
     $all_versions = VersionMapper::getInstance()->fetchAll();
-    
+
     $this->assign('implementation', $impl);
     $this->assign('implementations', $all_impls);
     $this->assign('all_versions', $all_versions);
     $this->render(null, 'application/layouts/implementation/edit.phtml');
   }
-  
+
   /**
    * Saves a feature
    */
@@ -67,7 +69,7 @@ class ImplementationController extends Controller
   {
     /* DEBUG */
 //     var_dump($_POST);
-    
+
     if (Application::getParam('cancel', $_POST))
     {
       $this->indexAction();
@@ -86,7 +88,7 @@ class ImplementationController extends Controller
        $this->indexAction();
     }
   }
-  
+
   /*
    * Deletes an implementation
    */

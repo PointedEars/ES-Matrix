@@ -9,7 +9,7 @@ require_once 'application/models/EnvironmentModel.php';
  *
  * @author Thomas Lahn
  */
-class EnvironmentMapper extends Mapper
+class EnvironmentMapper extends \PointedEars\PHPX\Db\Mapper
 {
   private static $_instance = null;
 

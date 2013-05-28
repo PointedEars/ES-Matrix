@@ -12,11 +12,11 @@ require_once 'application/models/TestcaseModel.php';
  * @author Thomas Lahn
  * @property array[TestcaseModel] $testcases
  */
-class FeatureModel extends AbstractModel
+class FeatureModel extends \PointedEars\PHPX\AbstractModel
 {
   /* ORM */
 //   const persistentTable = 'feature';
-  
+
   /**
    * ID of the feature
    * @var int
@@ -28,26 +28,26 @@ class FeatureModel extends AbstractModel
    * @var string
    */
   protected $_code;
-  
+
   /**
    * <code>title</code> attribute of the feature, if any
    * @var string
    */
   protected $_title = null;
-  
+
   /**
    * ECMAScript Edition that describes the feature, if any
    * @var string
    */
   protected $_edition = null;
-  
+
   /**
    * Section of the ECMAScript Language Specification that describes
    * the feature, if any
    * @var string
    */
   protected $_section = null;
-  
+
   /**
    * URN to refer to the section of the ECMAScript Language Specification
    * that describes the feature, if any
@@ -69,13 +69,13 @@ class FeatureModel extends AbstractModel
    * @var bool
    */
   protected $_versioned = false;
-  
+
   /**
    * UTC date of creation as timestamp
    * @var int
    */
   protected $_created;
-  
+
   /**
    * UTC date of last modification as timestamp
    * @var int
@@ -93,7 +93,7 @@ class FeatureModel extends AbstractModel
    * @var MatrixAdapter
    */
   public static $persistentAdapter;
-  
+
   /**
    * Sets the ORM database adapter for this model
    */
@@ -101,7 +101,7 @@ class FeatureModel extends AbstractModel
   {
     self::$persistentAdapter = MatrixAdapter::getInstance();
   }
-  
+
   /**
    * @param int $id
    * @return FeatureModel
@@ -112,10 +112,10 @@ class FeatureModel extends AbstractModel
     {
       $this->_id = (int) $id;
     }
-    
+
     return $this;
   }
- 
+
   /**
    * @return int
    */
@@ -123,7 +123,7 @@ class FeatureModel extends AbstractModel
   {
     return $this->_id;
   }
-    
+
   /**
    * @param string $code
    * @return FeatureModel
@@ -133,7 +133,7 @@ class FeatureModel extends AbstractModel
     $this->_code = htmlEntityDecode(trim((string) $code), ENT_QUOTES, 'UTF-8');
     return $this;
   }
-    
+
   /**
    * @return string $code
    */
@@ -141,7 +141,7 @@ class FeatureModel extends AbstractModel
   {
     return $this->_code;
   }
-  
+
   /**
    * @param string $title
    * @return FeatureModel
@@ -152,10 +152,10 @@ class FeatureModel extends AbstractModel
     {
       $this->_title = htmlEntityDecode(trim((string) $title), ENT_QUOTES, 'UTF-8');
     }
-    
+
     return $this;
   }
-  
+
   /**
    * @return string
    */
@@ -163,7 +163,7 @@ class FeatureModel extends AbstractModel
   {
     return $this->_title;
   }
-  
+
   /**
    * @param string $edition
    * @return FeatureModel
@@ -174,10 +174,10 @@ class FeatureModel extends AbstractModel
     {
       $this->_edition = trim((string) $edition);
     }
-    
+
     return $this;
   }
-  
+
   /**
    * @return string
    */
@@ -185,7 +185,7 @@ class FeatureModel extends AbstractModel
   {
     return $this->_edition;
   }
-  
+
   /**
    * @param string $section
    * @return FeatureModel
@@ -196,10 +196,10 @@ class FeatureModel extends AbstractModel
     {
       $this->_section = trim((string) $section);
     }
-    
+
     return $this;
   }
-  
+
   /**
    * @return string
    */
@@ -218,10 +218,10 @@ class FeatureModel extends AbstractModel
     {
       $this->_section_urn = trim((string) $urn);
     }
-    
+
     return $this;
   }
-  
+
   /**
    * @return string
    */
@@ -240,10 +240,10 @@ class FeatureModel extends AbstractModel
     {
       $this->_generic = (bool) $generic;
     }
-    
+
     return $this;
   }
-  
+
   /**
    * @return bool
    */
@@ -262,10 +262,10 @@ class FeatureModel extends AbstractModel
     {
       $this->_versioned = (bool) $versioned;
     }
-    
+
     return $this;
   }
-  
+
   /**
    * @return bool
    */
@@ -283,7 +283,7 @@ class FeatureModel extends AbstractModel
     $this->_created = is_null($date) ? $date : strtotime($date . ' GMT');
     return $this;
   }
-  
+
   /**
    * @return int
    */
@@ -291,7 +291,7 @@ class FeatureModel extends AbstractModel
   {
     return $this->_created;
   }
-  
+
   /**
    * @param string $date
    * @return FeatureModel
@@ -301,7 +301,7 @@ class FeatureModel extends AbstractModel
     $this->_modified = is_null($date) ? $date : strtotime($date . ' GMT');
     return $this;
   }
-  
+
   /**
    * @return int
    */
@@ -309,7 +309,7 @@ class FeatureModel extends AbstractModel
   {
     return $this->_modified;
   }
-  
+
   /**
    * @param array[TestcaseModel] $testcases
    * @return FeatureModel
@@ -319,7 +319,7 @@ class FeatureModel extends AbstractModel
     $this->_testcases = is_array($testcases) ? $testcases : null;
     return $this;
   }
-  
+
   /**
    * @return array[TestcaseModel]
    */
@@ -337,9 +337,9 @@ class FeatureModel extends AbstractModel
     $bl = strip_tags($b->code);
     return strcasecmp($al, $bl);
   }
-  
+
   /* ORM methods */
-  
+
   /**
    * Finds a feature by ID
    */

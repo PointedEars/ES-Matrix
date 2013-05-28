@@ -5,19 +5,19 @@ require_once 'lib/AbstractModel.php';
 /**
  * Model class for implementation versions
  */
-class VersionModel extends AbstractModel
+class VersionModel extends \PointedEars\PHPX\AbstractModel
 {
   protected $_id = null;
   protected $_implementation_id = null;
   protected $_name = '';
   protected $_safe = false;
-    
+
   public function setId($id)
   {
     $this->_id = is_null($id) ? $id : (int) $id;
     return $this;
   }
- 
+
   public function getId()
   {
     return $this->_id;
@@ -28,7 +28,7 @@ class VersionModel extends AbstractModel
     $this->_implementation_id = is_null($id) ? $id : (int) $id;
     return $this;
   }
- 
+
   public function getImplementationId()
   {
     return $this->_implementation_id;
@@ -39,7 +39,7 @@ class VersionModel extends AbstractModel
     $this->_name = trim((string) $name);
     return $this;
   }
-  
+
   public function getName()
   {
     return $this->_name;
@@ -50,7 +50,7 @@ class VersionModel extends AbstractModel
     $this->_safe = (bool) $safe;
     return $this;
   }
-  
+
   public function getSafe()
   {
     return $this->_safe;

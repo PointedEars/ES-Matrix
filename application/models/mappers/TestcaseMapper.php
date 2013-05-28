@@ -13,7 +13,7 @@ require_once 'application/models/FeatureModel.php';
  *
  * @author Thomas Lahn
  */
-class TestcaseMapper extends Mapper
+class TestcaseMapper extends \PointedEars\PHPX\Db\Mapper
 {
   private static $_instance = null;
 

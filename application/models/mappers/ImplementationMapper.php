@@ -11,7 +11,7 @@ require_once 'application/models/mappers/VersionMapper.php';
  *
  * @author Thomas Lahn
  */
-class ImplementationMapper extends Mapper
+class ImplementationMapper extends \PointedEars\PHPX\Db\Mapper
 {
   private static $_instance = null;
 

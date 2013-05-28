@@ -5,7 +5,7 @@
  *
  * @author Thomas Lahn
  */
-class IndexView extends View
+class IndexView extends \PointedEars\PHPX\View
 {
   /**
    * Default template resource path
@@ -27,7 +27,7 @@ class IndexView extends View
     global $encoding;
     $this->assign('encoding', $encoding);
   }
-  
+
   public function isSafe($feature_id)
   {
     return isset($this->results['safeFeatures'][$feature_id]);

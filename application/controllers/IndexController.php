@@ -10,12 +10,14 @@ require_once 'application/models/mappers/ImplementationMapper.php';
 require_once 'application/models/mappers/ResultMapper.php';
 require_once 'application/models/mappers/EnvironmentMapper.php';
 
+use \PointedEars\PHPX\Application;
+
 /**
  * A controller for handling the default view of the ECMAScript Support Matrix
  *
  * @author Thomas Lahn
  */
-class IndexController extends Controller
+class IndexController extends \PointedEars\PHPX\Controller
 {
   /**
    * Creates a new controller for the index view
@@ -24,7 +26,7 @@ class IndexController extends Controller
   {
     parent::__construct('IndexView');
   }
-  
+
   protected function indexAction($template = null, $content = null)
   {
     $implementations = ImplementationMapper::getInstance()->fetchAll();
@@ -34,20 +36,20 @@ class IndexController extends Controller
     {
       debug($implementations);
     }
-        
+
     $features = FeatureMapper::getInstance()->fetchAll();
 
     $results = ResultMapper::getInstance()->getResultArray($features);
-    
+
     $environments = EnvironmentMapper::getInstance()->fetchAllPerImplementation();
-    
+
     $this->assign('edit', isset($_SESSION['edit']));
     $this->assign('implementations', $implementations);
     $this->assign('features', $features);
     $this->assign('results', $results);
     $this->assign('environments', $environments);
     $this->assign('footnotes', new FootnoteList('[', ']', true));
-    
+
     if (is_null($template))
     {
       $this->render(null, 'application/layouts/index/index.phtml');
@@ -57,7 +59,7 @@ class IndexController extends Controller
       $this->render($template, $content);
     }
   }
-  
+
   protected function indexLatexAction()
   {
     $this->indexAction(
@@ -68,21 +70,21 @@ class IndexController extends Controller
   protected function testcasesLatexAction()
   {
     $features = FeatureMapper::getInstance()->fetchAll();
-    
+
     $this->assign('features', $features);
-    
+
     $this->render(
         'application/layouts/text.phtml',
         'application/layouts/index/testcases-latex.phtml');
   }
-  
+
   protected function resultsLatexAction()
   {
     $this->indexAction(
         'application/layouts/text.phtml',
         'application/layouts/index/results-latex.phtml');
   }
-  
+
   protected function importAction()
   {
     require_once 'es-matrix.inc.php';
@@ -90,7 +92,7 @@ class IndexController extends Controller
 //     TestcaseMapper::getInstance()->importAll($features);
     $this->indexAction();
   }
-  
+
   protected function editAction()
   {
     $_SESSION['edit'] = true;
@@ -102,7 +104,7 @@ class IndexController extends Controller
     unset($_SESSION['edit']);
     Application::redirect();
   }
-  
+
   protected function saveResultsAction()
   {
     if (ResultMapper::getInstance()->save(array(

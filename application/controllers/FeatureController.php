@@ -6,12 +6,14 @@ require_once 'application/views/IndexView.php';
 require_once 'application/models/FeatureModel.php';
 require_once 'application/models/mappers/FeatureMapper.php';
 
+use \PointedEars\PHPX\Application;
+
 /**
  * A controller for handling the feature view of the ECMAScript Support Matrix
  *
  * @author Thomas Lahn
  */
-class FeatureController extends Controller
+class FeatureController extends \PointedEars\PHPX\Controller
 {
   /**
    * Creates a new controller for the feature view
@@ -20,18 +22,18 @@ class FeatureController extends Controller
   {
     parent::__construct('IndexView');
   }
-  
+
   protected function indexAction()
   {
     Application::redirect();
   }
-  
+
   protected function addAction()
   {
     $feature = new FeatureModel();
     $this->editAction($feature);
   }
-  
+
   /**
    * Edit the feature specified by one of two parameters
    *
@@ -43,7 +45,7 @@ class FeatureController extends Controller
   {
     $mapper = FeatureMapper::getInstance();
     $features = $mapper->fetchAll();
-    
+
     if (is_null($feature))
     {
       $id = Application::getParam('id');
@@ -53,12 +55,12 @@ class FeatureController extends Controller
 //       $feature = new FeatureModel(array('id' => Application::getParam('id')));
 //       $feature->find();
     }
-    
+
     $this->assign('feature', $feature);
     $this->assign('features', $features);
     $this->render(null, 'application/layouts/feature/edit.phtml');
   }
-  
+
   /**
    * Saves a feature (metadata and/or testcases)
    */
@@ -67,13 +69,13 @@ class FeatureController extends Controller
     /* DEBUG */
 //     define('DEBUG', 2);
 //     debug($_POST);
-    
+
     if (Application::getParam('cancel', $_POST))
     {
       $this->indexAction();
       return;
     }
-    
+
     $data = array(
       'id'          => Application::getParam('id', $_POST),
       'code'        => Application::getParam('code', $_POST),
@@ -84,7 +86,7 @@ class FeatureController extends Controller
       'generic'     => Application::getParam('generic', $_POST),
       'versioned'   => Application::getParam('versioned', $_POST),
     );
-    
+
     if (!Application::getParam('metadataOnly', $_POST))
     {
       $data['testcases'] = array(
@@ -94,7 +96,7 @@ class FeatureController extends Controller
         'alt_types'   => Application::getParam('testcase_alt_type', $_POST),
       );
     }
-    
+
     if (null !== ($feature = FeatureMapper::getInstance()->save($data)))
     {
       $source_id = Application::getParam('source_id', $_POST);
@@ -107,11 +109,18 @@ class FeatureController extends Controller
       }
       else
       {
-        Application::redirect('#feature' . $feature->id);
+        if (Application::getParam('xhr', $_POST))
+        {
+          echo $feature->code;
+        }
+        else
+        {
+          Application::redirect('#feature' . $feature->id);
+        }
       }
     }
   }
-  
+
   /*
    * Deletes a feature
    */

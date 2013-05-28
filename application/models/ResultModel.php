@@ -10,32 +10,32 @@ require_once 'lib/AbstractModel.php';
  * @property int $env_id
  * @property bool $value
  */
-class ResultModel extends AbstractModel
+class ResultModel extends \PointedEars\PHPX\AbstractModel
 {
   /**
    * Result ID
    * @var int
    */
   protected $_id;
-  
+
   /**
    * ID of the testcase that has been run
    * @var int
    */
   protected $_testcase_id;
-  
+
   /**
    * ID of the environment in which has been tested
    * @var unknown_type
    */
   protected $_env_id;
-  
+
   /**
    * Testcase result; <code>true</code> for passed, <code>false</code> for fail
    * @var boolean
    */
   protected $_value;
-  
+
   /**
    * @param int $id
    * @return ResultModel
@@ -45,7 +45,7 @@ class ResultModel extends AbstractModel
     $this->_id = (int) $id;
     return $this;
   }
- 
+
   /**
    * @return int
    */
@@ -53,7 +53,7 @@ class ResultModel extends AbstractModel
   {
     return $this->_id;
   }
-    
+
   /**
    * @param int $id
    *   Testcase ID
@@ -64,7 +64,7 @@ class ResultModel extends AbstractModel
     $this->_testcase_id = (int) $id;
     return $this;
   }
- 
+
   /**
    * @return int
    *   Testcase ID
@@ -73,7 +73,7 @@ class ResultModel extends AbstractModel
   {
     return $this->_testcase_id;
   }
-    
+
   /**
    * @param int $id
    *   Environment ID
@@ -84,7 +84,7 @@ class ResultModel extends AbstractModel
     $this->_env_id = (int) $id;
     return $this;
   }
- 
+
   /**
    * @return int
    *   Environment ID
@@ -104,7 +104,7 @@ class ResultModel extends AbstractModel
     $this->_value = (bool) $value;
     return $this;
   }
- 
+
   /**
    * @return bool
    *   Testcase result
@@ -113,7 +113,7 @@ class ResultModel extends AbstractModel
   {
     return $this->_value;
   }
-  
+
   /**
    * Maps data used to initialize this <code>ResultModel</code> instance
    * to its data properties.

@@ -13,7 +13,7 @@ require_once 'application/models/mappers/VersionMapper.php';
  *
  * @author Thomas Lahn
  */
-class ResultMapper extends Mapper
+class ResultMapper extends \PointedEars\PHPX\Db\Mapper
 {
   private static $_instance = null;
 
@@ -280,7 +280,8 @@ class ResultMapper extends Mapper
         }
       }
 
-      $result['safeFeatures'] = $this->_getSafeFeatures($features, Application::getParam('forFeatures', $result));
+      $result['safeFeatures'] = $this->_getSafeFeatures($features,
+      	\PointedEars\PHPX\Application::getParam('forFeatures', $result));
     }
 
     if (defined('DEBUG') && DEBUG > 0)

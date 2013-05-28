@@ -9,7 +9,7 @@ require_once 'application/models/VersionModel.php';
  *
  * @author Thomas Lahn
  */
-class VersionMapper extends Mapper
+class VersionMapper extends \PointedEars\PHPX\Db\Mapper
 {
   private static $_instance = null;
 

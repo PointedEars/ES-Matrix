@@ -10,41 +10,41 @@ require_once 'lib/AbstractModel.php';
  *
  * @author Thomas Lahn
  */
-class TestcaseModel extends AbstractModel
+class TestcaseModel extends \PointedEars\PHPX\AbstractModel
 {
   /* ORM */
 //   const persistentTable = 'testcase';
-  
+
   /**
    * ID of the testcase
    * @var int
    */
   protected $_id = null;
-  
+
   /**
    * ID of the feature of the testcase
    * @var int
    */
   protected $_feature_id;
-  
+
   /**
    * Title of the testcase
    * @var string
    */
   protected $_title = null;
-  
+
   /**
    * Test code
    * @var string
    */
   protected $_code;
-  
+
   /**
    * Should the code be escaped and quoted on output?
    * @var bool
    */
   protected $_quoted = null;
-  
+
   /**
    * Alternative type attribute value
    * @var string
@@ -56,7 +56,7 @@ class TestcaseModel extends AbstractModel
   * @var int
   */
   protected $_created;
-  
+
   /**
    * Sets the database adapter for this model
    */
@@ -64,7 +64,7 @@ class TestcaseModel extends AbstractModel
   {
     self::$persistentAdapter = MatrixAdapter::getInstance();
   }
-  
+
   /**
    * @param null|int $id
    * @return TestcaseModel
@@ -74,7 +74,7 @@ class TestcaseModel extends AbstractModel
     $this->_id = is_null($id) ? $id : (int) $id;
     return $this;
   }
- 
+
   /**
    * @return null|int $id
    */
@@ -82,7 +82,7 @@ class TestcaseModel extends AbstractModel
   {
     return $this->_id;
   }
-    
+
   /**
    * @param null|int $id
    * @return TestcaseModel
@@ -92,7 +92,7 @@ class TestcaseModel extends AbstractModel
     $this->_feature_id = (int) $id;
     return $this;
   }
-    
+
   /**
    * @return null|int
    */
@@ -100,7 +100,7 @@ class TestcaseModel extends AbstractModel
   {
     return $this->_feature_id;
   }
-  
+
   /**
    * @param null|string $title
    * @return TestcaseModel
@@ -112,7 +112,7 @@ class TestcaseModel extends AbstractModel
                   : htmlEntityDecode(trim((string) $title), ENT_QUOTES, 'UTF-8');
     return $this;
   }
-  
+
   /**
    * @return null|string
    */
@@ -120,7 +120,7 @@ class TestcaseModel extends AbstractModel
   {
     return $this->_title;
   }
-    
+
   /**
    * @param null|string $code
    * @param bool[optional] $importing
@@ -133,18 +133,18 @@ class TestcaseModel extends AbstractModel
   public function setCode($code, $importing = false)
   {
     $code = (string) $code;
-    
+
     if ($importing)
     {
       $code = preg_replace('/"\\s*\\+\\s*"/', '',
         preg_replace('/\\s+/', ' ', $code));
     }
-    
+
     $this->_code = trim($code);
 
     return $this;
   }
-  
+
   /**
    * @return null|string
    */
@@ -162,7 +162,7 @@ class TestcaseModel extends AbstractModel
     $this->_quoted = (bool) $quoted;
     return $this;
   }
-  
+
   /**
    * @return null|bool
    */
@@ -170,7 +170,7 @@ class TestcaseModel extends AbstractModel
   {
     return $this->_quoted;
   }
-  
+
   /**
    * @param null|string $type
    * @return TestcaseModel
@@ -180,7 +180,7 @@ class TestcaseModel extends AbstractModel
     $this->_alt_type = is_null($type) ? $type : trim((string) $type);
     return $this;
   }
-  
+
   /**
    * @return null|string
    */
@@ -188,7 +188,7 @@ class TestcaseModel extends AbstractModel
   {
     return $this->_alt_type;
   }
-  
+
   /**
    * @param string $date
    * @return TestcaseModel
@@ -198,7 +198,7 @@ class TestcaseModel extends AbstractModel
     $this->_created = is_null($date) ? gmmktime() : strtotime($date . ' GMT');
     return $this;
   }
-  
+
   /**
    * @return int
    */
@@ -206,9 +206,9 @@ class TestcaseModel extends AbstractModel
   {
     return $this->_created;
   }
-  
+
   /* ORM */
-  
+
 //   /**
 //    * Returns the testcases for a feature specified by its ID
 //    *
@@ -219,12 +219,12 @@ class TestcaseModel extends AbstractModel
 //   {
 //     $testcase = new self(array('feature_id' => $id));
 //     $result = self::$persistentAdapter->findAll($testcase);
-    
+
 //     if (defined('DEBUG') && DEBUG > 0)
 //     {
 //       debug($result);
 //     }
-    
+
 //     return $result;
 //   }
 }

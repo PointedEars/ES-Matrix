@@ -13,7 +13,7 @@ require_once 'lib/features.class.php';
  *
  * @author Thomas Lahn
  */
-class FeatureMapper extends Mapper
+class FeatureMapper extends \PointedEars\PHPX\Db\Mapper
 {
   private static $_instance = null;
 

@@ -1,4 +1,6 @@
 <?php
+  use \PointedEars\PHPX\Application;
+
   function valueToString($value, $key)
   {
     return 'Test ' . ($key + 1) . ': ' . (($value === '1') ? "passed" : "failed");
@@ -31,17 +33,17 @@
                 }
                 ?>><?php
                 $code = $feature->code;
-                
+
                 $untagged = strtolower(substr(strip_tags($code), 0, 1));
-                
+
                 if (preg_match('/[!a-z]/i', $untagged) && ($untagged !== $oldAnchor))
                 {
                   ?><a name="<?php echo $untagged; ?>" id="<?php echo $untagged; ?>"></a><?php
                   $oldAnchor = $untagged;
                 }
-                
+
                 echo $code;
-                
+
                 if ($feature->versioned)
                 {
                   echo $this->footnotes->add('decl-ver', '<abbr title="Versioned">V<abbr>',
@@ -68,7 +70,7 @@
                     ?>]</span><?php
                   }
                 }
-                
+
                 if ($feature->generic)
                 {
                   echo $this->footnotes->add('generic', '<abbr title="Intentionally generic">G</abbr>',
@@ -153,14 +155,14 @@
                     {
                       ++count;
                     }
-                    
+
                     resultsStr += "Test " + (i + 1) + ": "
                       + (result ? "passed" : "failed")
                       + (i < results.length - 1 ? "\n" : "");
                   }
-  
+
                   var text = (count == len) ? "+" : (count == 0 ? "&#8722;" : "*");
-                  
+
                   document.write('<span title="' + resultsStr + '">' + text + '<\/span>');
                 </script><?php
               }
@@ -189,11 +191,11 @@
       			  {
       			    ?><table class="results"><?php
       			    $prev_values = '-';
-      			    
+
         			  foreach ($impl_result as $version_id => $result)
         			  {
         			    $values = $result['values'];
-        			    
+
         			    $value_array = str_split($values);
         			    $successes = array_sum($value_array);
         			    if ($successes === 0)
@@ -208,7 +210,7 @@
         			    {
         			      $success_string = '+';
         			    }
-        			    
+
         			    if ($values !== $prev_values)
         			    {
         			      ?><tr>

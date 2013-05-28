@@ -2,10 +2,10 @@
 
 require_once 'lib/Db/Table.php';
 
-class ImplementationTable extends Table
+class ImplementationTable extends \PointedEars\PHPX\Db\Table
 {
   protected $_name = 'implementation';
-  
+
   /**
    * Retrieves all rows from the table in sort order.
    *
