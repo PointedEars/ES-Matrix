@@ -1,7 +1,5 @@
 <?php
 
-require_once 'lib/Controller.php';
-
 require_once 'application/views/IndexView.php';
 require_once 'application/models/FeatureModel.php';
 require_once 'application/models/mappers/FeatureMapper.php';
@@ -41,7 +39,7 @@ class FeatureController extends \PointedEars\PHPX\Controller
    *   {@link FeatureModel} to use. The default is the feature specified
    *   by the <code>id</code> request parameter.
    */
-  protected function editAction(FeatureModel $feature = null)
+  protected function editAction (FeatureModel $feature = null)
   {
     $mapper = FeatureMapper::getInstance();
     $features = $mapper->fetchAll();
@@ -64,10 +62,10 @@ class FeatureController extends \PointedEars\PHPX\Controller
   /**
    * Saves a feature (metadata and/or testcases)
    */
-  protected function saveAction()
+  protected function saveAction ()
   {
     /* DEBUG */
-//     define('DEBUG', 2);
+    define('DEBUG', 2);
 //     debug($_POST);
 
     if (Application::getParam('cancel', $_POST))

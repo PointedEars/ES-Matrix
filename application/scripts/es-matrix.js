@@ -1,8 +1,10 @@
+/* NOTE: Stick to basic features for maximum backwards compatility */
 var es_matrix = new Object();
 
 function body_load ()
 {
   jsx.string.hyphenation.loadDictionary("application/scripts/hyphenation-en.js");
+
   var elements = new Array();
   elements[0] = document.getElementById('abstract');
   elements[1] = document.getElementById('foreword');
@@ -12,37 +14,40 @@ function body_load ()
     jsx.dom.hyphenate(elements);
   }
 
-  synhl();
-
-  var filterColumns = new Array();
-  filterColumns[0] = new Object();
-  filterColumns[0].index = 0;
-  filterColumns[0].ignoreCase = true;
-  var properties = new Object();
-  properties.filterColumns = filterColumns;
-  var table = new jsx.dom.widgets.Table(
-    document.getElementById("features-table"),
-    null,
-    properties);
+  var filterColumnIndex = 0;
 
   var filter = document.forms[0].elements["filter"];
   if (!filter)
   {
     /*
      * In Edit mode, there is no form for the filter input,
-     * and the first column contains Edit/Delete commands.
+     * and the first column (index 0) contains Edit/Delete commands.
      */
     filter = document.getElementById("filter");
-    filterColumns[0].index = 1;
+    filterColumnIndex = 1;
   }
 
-  /* No Timeout without filter input */
   if (filter)
   {
+    var filterColumns = new Array();
+    filterColumns[0] = new Object();
+    filterColumns[0].index = filterColumnIndex;
+    filterColumns[0].ignoreCase = true;
+
+    var properties = new Object();
+    properties.filterColumns = filterColumns;
+
+    var table = new jsx.dom.widgets.Table(
+      document.getElementById("features-table"),
+      null,
+      properties);
+
     es_matrix.timeout = new jsx.dom.timeout.Timeout(function () {
       table.applyFilter(filter.value);
     });
   }
+
+  synhl();
 }
 
 function table_click (e)

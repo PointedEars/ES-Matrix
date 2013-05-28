@@ -1,7 +1,6 @@
 <?php
 
 require_once 'lib/footnotes.class.php';
-require_once 'lib/Controller.php';
 
 require_once 'application/views/IndexView.php';
 require_once 'application/models/mappers/FeatureMapper.php';

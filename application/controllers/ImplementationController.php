@@ -1,7 +1,5 @@
 <?php
 
-require_once 'lib/Controller.php';
-
 require_once 'application/views/IndexView.php';
 require_once 'application/models/ImplementationModel.php';
 require_once 'application/models/mappers/ImplementationMapper.php';

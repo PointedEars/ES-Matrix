@@ -1,7 +1,5 @@
 <?php
 
-require_once 'lib/Db/Table.php';
-
 class ImplementationTable extends \PointedEars\PHPX\Db\Table
 {
   protected $_name = 'implementation';

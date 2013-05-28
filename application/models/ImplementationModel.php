@@ -1,7 +1,5 @@
 <?php
 
-require_once 'lib/AbstractModel.php';
-
 // require_once 'application/models/adapters/MatrixAdapter.php';
 
 /**
@@ -48,6 +46,14 @@ class ImplementationModel extends \PointedEars\PHPX\AbstractModel
   protected $_versions;
 
   /**
+   * Sets the database adapter for this model
+   */
+  protected function setAdapter()
+  {
+    $this->_persistentAdapter = MatrixAdapter::getInstance();
+  }
+
+  /**
    * @param int $id
    * @return ImplementationModel
    */
@@ -55,14 +61,6 @@ class ImplementationModel extends \PointedEars\PHPX\AbstractModel
   {
     $this->_id = (int) $id;
     return $this;
-  }
-
-  /**
-  * Sets the database adapter for this model
-  */
-  protected function setAdapter()
-  {
-    $this->_persistentAdapter = MatrixAdapter::getInstance();
   }
 
   /**

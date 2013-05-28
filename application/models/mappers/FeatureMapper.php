@@ -1,6 +1,4 @@
 <?php
-require_once 'lib/Application.php';
-require_once 'lib/Db/Mapper.php';
 
 require_once 'application/models/databases/es-matrix/tables/FeatureTable.php';
 require_once 'application/models/FeatureModel.php';
@@ -58,63 +56,86 @@ class FeatureMapper extends \PointedEars\PHPX\Db\Mapper
      * 1. Create FeatureModel with data from database by ID
      *    or default values
      */
-    $featureObj = $this->find($feature['id']);
-    if ($featureObj === null)
+//     $featureObj = $this->find($feature['id']);
+    $featureObj = new FeatureModel(array('id' => $feature['id']));
+
+    if (defined('DEBUG') && DEBUG > 0)
     {
-      $featureObj = new FeatureModel();
+    	debug($featureObj);
     }
+
+    $featureObj->find();
+
+    if (defined('DEBUG') && DEBUG > 0)
+    {
+    	debug($featureObj);
+    }
+
+//     if ($featureObj === null)
+//     {
+//       $featureObj = new FeatureModel();
+//     }
 
     /* 2. Update FeatureModel with passed data */
     $featureObj->map($feature);
 
+    if (defined('DEBUG') && DEBUG > 0)
+    {
+    	debug($featureObj);
+    }
+
     /* 3. Save updated feature in database */
-    $data = array(
-      'code'        => $featureObj->code,
-      'title'       => $featureObj->title,
-      'edition'     => $featureObj->edition,
-      'section'     => $featureObj->section,
-      'section_urn' => $featureObj->section_urn,
-      'generic'     => $featureObj->generic,
-      'versioned'   => $featureObj->versioned,
-    );
+//     $data = array(
+//       'code'        => $featureObj->code,
+//       'title'       => $featureObj->title,
+//       'edition'     => $featureObj->edition,
+//       'section'     => $featureObj->section,
+//       'section_urn' => $featureObj->section_urn,
+//       'generic'     => $featureObj->generic,
+//       'versioned'   => $featureObj->versioned,
+//     );
 
     $id = $featureObj->id;
     if (is_null($id))
     {
-      $data['created'] = gmdate('Y-m-d H:i:s');
+//       $data['created'] = gmdate('Y-m-d H:i:s');
+    	$featureObj->created = gmdate('Y-m-d H:i:s');
     }
 
     if (defined('DEBUG') && DEBUG > 0)
     {
-      debug($data);
+//       debug($data);
+    	debug($featureObj);
     }
 
-    $table = $this->getDbTable();
-    $success = $table->updateOrInsert($data, array('id' => $id));
+//     $table = $this->getDbTable();
+//     $success = $table->updateOrInsert($data, array('id' => $id));
+//     $success = $featureObj->save();
+    $success = true;
 
-    if ($success)
-    {
-      if ($table->lastInsertId)
-      {
-        $featureObj->id = $table->lastInsertId;
-      }
+//     if ($success)
+//     {
+//       if ($table->lastInsertId)
+//       {
+//         $featureObj->id = $table->lastInsertId;
+//       }
 
-      /* DEBUG */
-      if (defined('DEBUG') && DEBUG > 0)
-      {
-        debug($featureObj);
-      }
+//       /* DEBUG */
+//       if (defined('DEBUG') && DEBUG > 0)
+//       {
+//         debug($featureObj);
+//       }
 
-      /* Do not replace testcases (and remove results) if only metadata should be saved */
-      if (isset($feature['testcases']))
-      {
-        /* DEBUG only */
-        var_dump($feature);
-        return null;
+//       /* Do not replace testcases (and remove results) if only metadata should be saved */
+//       if (isset($feature['testcases']))
+//       {
+//         /* DEBUG only */
+//         var_dump($feature);
+//         return null;
 
-        $success = (null !== TestcaseMapper::getInstance()->saveForFeature($featureObj));
-      }
-    }
+//         $success = (null !== TestcaseMapper::getInstance()->saveForFeature($featureObj));
+//       }
+//     }
 
     return $success ? $featureObj : null;
   }

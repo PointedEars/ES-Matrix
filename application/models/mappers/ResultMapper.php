@@ -1,5 +1,4 @@
 <?php
-require_once 'lib/Db/Mapper.php';
 
 require_once 'application/models/databases/es-matrix/tables/ResultTable.php';
 require_once 'application/models/ResultModel.php';

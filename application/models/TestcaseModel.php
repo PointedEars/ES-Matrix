@@ -1,7 +1,6 @@
 <?php
 
 require_once 'lib/global.inc';
-require_once 'lib/AbstractModel.php';
 
 // require_once 'application/models/adapters/MatrixAdapter.php';
 

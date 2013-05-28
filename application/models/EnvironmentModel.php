@@ -1,7 +1,5 @@
 <?php
 
-require_once 'lib/AbstractModel.php';
-
 /**
  * Model class for test environments
  */

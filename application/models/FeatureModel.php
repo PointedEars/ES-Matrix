@@ -1,9 +1,9 @@
 <?php
 
 require_once 'lib/global.inc';
-require_once 'lib/AbstractModel.php';
 
 // require_once 'application/models/adapters/MatrixAdapter.php';
+require_once 'application/models/databases/es-matrix/tables/FeatureTable.php';
 require_once 'application/models/TestcaseModel.php';
 
 /**
@@ -12,10 +12,15 @@ require_once 'application/models/TestcaseModel.php';
  * @author Thomas Lahn
  * @property array[TestcaseModel] $testcases
  */
-class FeatureModel extends \PointedEars\PHPX\AbstractModel
+class FeatureModel extends \PointedEars\PHPX\Model
 {
   /* ORM */
-//   const persistentTable = 'feature';
+	protected $_persistentTable = 'FeatureTable';
+	protected $_persistentId = 'id';
+	protected $_persistentProperties = array(
+	  'id', 'code', 'title', 'edition', 'section', 'section_urn',
+		'generic', 'versioned', 'created', 'modified'
+	);
 
   /**
    * ID of the feature
