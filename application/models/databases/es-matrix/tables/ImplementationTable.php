@@ -2,7 +2,7 @@
 
 class ImplementationTable extends \PointedEars\PHPX\Db\Table
 {
-  protected $_name = 'implementation';
+  protected static $_name = 'implementation';
 
   /**
    * Retrieves all rows from the table in sort order.

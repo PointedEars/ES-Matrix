@@ -4,6 +4,6 @@
 
 class TestcaseTable extends \PointedEars\PHPX\Db\Table
 {
-  protected $_name = 'testcase';
+  protected static $_name = 'testcase';
 }
 

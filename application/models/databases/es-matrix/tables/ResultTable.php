@@ -2,5 +2,5 @@
 
 class ResultTable extends \PointedEars\PHPX\Db\Table
 {
-  protected $_name = 'result';
+  protected static $_name = 'result';
 }

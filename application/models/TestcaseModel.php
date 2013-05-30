@@ -19,8 +19,19 @@ require_once 'lib/global.inc';
 class TestcaseModel extends \PointedEars\PHPX\Model
 {
   /* ORM */
-  protected static $_persistentTable = 'TestcaseTable';
-  protected static $_persistentId = 'id';
+	/**
+	 * @see \PointedEars\PHPX\Model::$_persistentTable
+	 */
+	protected static $_persistentTable = 'TestcaseTable';
+
+	/**
+	 * @see \PointedEars\PHPX\Model::$_persistentId
+	 */
+	protected static $_persistentId = 'id';
+
+	/**
+	 * @see \PointedEars\PHPX\Model::$_persistentProperties
+	 */
   protected static $_persistentProperties = array(
     'feature_id', 'title', 'code', 'quoted', 'alt_type', 'created'
   );

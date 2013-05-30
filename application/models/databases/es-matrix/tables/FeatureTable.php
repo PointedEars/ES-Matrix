@@ -2,6 +2,6 @@
 
 class FeatureTable extends PointedEars\PHPX\Db\Table
 {
-  protected $_name = 'feature';
+  protected static $_name = 'feature';
 }
 
