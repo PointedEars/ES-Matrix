@@ -27,7 +27,7 @@ class FeatureModel extends \PointedEars\PHPX\Model
 	/**
 	 * @see \PointedEars\PHPX\Model::$_persistentTable
 	 */
-	protected $_persistentTable = 'FeatureTable';
+	protected static $_persistentTable = 'FeatureTable';
 
 	/**
 	 * @see \PointedEars\PHPX\Model::$_persistentId
@@ -385,9 +385,6 @@ class FeatureModel extends \PointedEars\PHPX\Model
   {
     return $this->_testcases;
   }
-
-//   public function setCreated ($timestamp);
-//   public function getCreated ();
 
   static function compare (FeatureModel $a, FeatureModel $b)
   {
