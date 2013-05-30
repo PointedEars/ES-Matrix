@@ -41,17 +41,12 @@ class FeatureController extends \PointedEars\PHPX\Controller
    */
   protected function editAction (FeatureModel $feature = null)
   {
-    $mapper = FeatureMapper::getInstance();
-    $features = $mapper->fetchAll();
+    $features = FeatureMapper::getInstance()->fetchAll();
 
     if (is_null($feature))
     {
       $id = Application::getParam('id');
-//       $feature = $mapper->find($id);
       $feature = $features[$id];
-      /* ORM */
-//       $feature = new FeatureModel(array('id' => Application::getParam('id')));
-//       $feature->find();
     }
 
     $this->assign('feature', $feature);
@@ -65,7 +60,7 @@ class FeatureController extends \PointedEars\PHPX\Controller
   protected function saveAction ()
   {
     /* DEBUG */
-    define('DEBUG', 2);
+//     define('DEBUG', 1);
 //     debug($_POST);
 
     if (Application::getParam('cancel', $_POST))

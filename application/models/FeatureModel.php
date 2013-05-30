@@ -2,23 +2,43 @@
 
 require_once 'lib/global.inc';
 
-// require_once 'application/models/adapters/MatrixAdapter.php';
 require_once 'application/models/databases/es-matrix/tables/FeatureTable.php';
 require_once 'application/models/TestcaseModel.php';
+require_once 'application/models/mappers/TestcaseMapper.php';
 
 /**
  * Data model for a language feature
  *
  * @author Thomas Lahn
  * @property array[TestcaseModel] $testcases
+ * @property string $code
+ * @property string $title
+ * @property string $edition
+ * @property string $section
+ * @property string $section_urn
+ * @property bool $generic
+ * @property bool $versioned
+ * @property int $created
+ * @property int $modified
  */
 class FeatureModel extends \PointedEars\PHPX\Model
 {
   /* ORM */
+	/**
+	 * @see \PointedEars\PHPX\Model::$_persistentTable
+	 */
 	protected $_persistentTable = 'FeatureTable';
+
+	/**
+	 * @see \PointedEars\PHPX\Model::$_persistentId
+	 */
 	protected $_persistentId = 'id';
+
+	/**
+	 * @see \PointedEars\PHPX\Model::$_persistentProperties
+	 */
 	protected $_persistentProperties = array(
-	  'id', 'code', 'title', 'edition', 'section', 'section_urn',
+	  'code', 'title', 'edition', 'section', 'section_urn',
 		'generic', 'versioned', 'created', 'modified'
 	);
 
@@ -94,20 +114,6 @@ class FeatureModel extends \PointedEars\PHPX\Model
   protected $_testcases = null;
 
   /**
-   * Database adapter
-   * @var MatrixAdapter
-   */
-  public static $persistentAdapter;
-
-  /**
-   * Sets the ORM database adapter for this model
-   */
-  protected function setAdapter ()
-  {
-    self::$persistentAdapter = MatrixAdapter::getInstance();
-  }
-
-  /**
    * @param int $id
    * @return FeatureModel
    */
@@ -116,6 +122,15 @@ class FeatureModel extends \PointedEars\PHPX\Model
     if ($id !== null)
     {
       $this->_id = (int) $id;
+
+      $testcases = $this->testcases;
+      if ($testcases)
+      {
+      	foreach ($testcases as $testcase)
+      	{
+      		$testcase->feature_id = $this->_id;
+      	}
+      }
     }
 
     return $this;
@@ -241,11 +256,7 @@ class FeatureModel extends \PointedEars\PHPX\Model
    */
   public function setGeneric ($generic)
   {
-    if ($generic !== null)
-    {
-      $this->_generic = (bool) $generic;
-    }
-
+    $this->_generic = (bool) $generic;
     return $this;
   }
 
@@ -263,11 +274,7 @@ class FeatureModel extends \PointedEars\PHPX\Model
    */
   public function setVersioned ($versioned)
   {
-    if ($versioned !== null)
-    {
-      $this->_versioned = (bool) $versioned;
-    }
-
+    $this->_versioned = (bool) $versioned;
     return $this;
   }
 
@@ -285,7 +292,11 @@ class FeatureModel extends \PointedEars\PHPX\Model
    */
   public function setCreated ($date)
   {
-    $this->_created = is_null($date) ? $date : strtotime($date . ' GMT');
+    $this->_created = ($date === null
+    	? $date
+    	: (($time = strtotime($date . ' GMT')) !== false
+    			? $time
+    			: null));
     return $this;
   }
 
@@ -303,7 +314,11 @@ class FeatureModel extends \PointedEars\PHPX\Model
    */
   public function setModified ($date)
   {
-    $this->_modified = is_null($date) ? $date : strtotime($date . ' GMT');
+    $this->_modified = ($date === null
+    	? $date
+      : (($time = strtotime($date . ' GMT')) !== false
+      		? $time
+      		: null));
     return $this;
   }
 
@@ -316,12 +331,50 @@ class FeatureModel extends \PointedEars\PHPX\Model
   }
 
   /**
-   * @param array[TestcaseModel] $testcases
+   * @param array|array[TestcaseModel]|null $testcases
    * @return FeatureModel
    */
   public function setTestcases ($testcases)
   {
-    $this->_testcases = is_array($testcases) ? $testcases : null;
+    if ($testcases && is_array($testcases))
+  	{
+  		$feature_id = $this->id;
+
+  		if (isset($testcases[0]) && $testcases[0] instanceof TestcaseModel)
+  		{
+  			foreach ($testcases as $testcase)
+  			{
+  				$testcase->feature_id = $feature_id;
+  			}
+
+  			$this->_testcases = $testcases;
+  		}
+  		else
+  		{
+  			/* Clear previous testcases */
+  			$this->_testcases = array();
+
+  			$codes = $testcases['codes'];
+  			if ($codes && trim(implode('', $codes)) !== '')
+  			{
+  				foreach ($codes as $key => $code)
+	  			{
+	  				$this->_testcases[$key] = new TestcaseModel(array(
+	  					'feature_id' => $feature_id,
+	  				  'title'      => $testcases['titles'][$key],
+	  					'code'       => $code,
+	  					'quoted'     => $testcases['quoteds'][$key],
+	  					'alt_type'   => $testcases['alt_types'][$key],
+	  				));
+	  			}
+  			}
+  		}
+  	}
+  	else if ($testcases === null)
+  	{
+  		$this->_testcases = null;
+  	}
+
     return $this;
   }
 
@@ -348,10 +401,9 @@ class FeatureModel extends \PointedEars\PHPX\Model
   /**
    * Finds a feature by ID
    */
-//   public function find ()
-//   {
-//     parent::find();
-//     $this->setTestcases(TestcaseModel::findByFeatureId($this->id));
-//   }
+  public function find ()
+  {
+    parent::find();
+    $this->setTestcases(TestcaseMapper::getInstance()->findByFeatureId($this->id));
+  }
 }
-

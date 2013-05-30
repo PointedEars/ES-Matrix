@@ -8,11 +8,22 @@ require_once 'lib/global.inc';
  * Data model for a testcase
  *
  * @author Thomas Lahn
+ * @property int $id
+ * @property int $feature_id
+ * @property string $title
+ * @property string $code
+ * @property bool $quoted
+ * @property string $alt_type
+ * @property int $created
  */
-class TestcaseModel extends \PointedEars\PHPX\AbstractModel
+class TestcaseModel extends \PointedEars\PHPX\Model
 {
   /* ORM */
-//   const persistentTable = 'testcase';
+  protected $_persistentTable = 'TestcaseTable';
+  protected $_persistentId = 'id';
+  protected $_persistentProperties = array(
+    'feature_id', 'title', 'code', 'quoted', 'alt_type', 'created'
+  );
 
   /**
    * ID of the testcase
@@ -55,14 +66,6 @@ class TestcaseModel extends \PointedEars\PHPX\AbstractModel
   * @var int
   */
   protected $_created;
-
-  /**
-   * Sets the database adapter for this model
-   */
-  protected function setAdapter()
-  {
-    self::$persistentAdapter = MatrixAdapter::getInstance();
-  }
 
   /**
    * @param null|int $id

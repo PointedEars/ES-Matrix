@@ -1,5 +1,7 @@
 <?php
 
+use \PointedEars\PHPX\Application;
+
 require_once 'application/models/databases/es-matrix/tables/ResultTable.php';
 require_once 'application/models/ResultModel.php';
 
@@ -280,7 +282,7 @@ class ResultMapper extends \PointedEars\PHPX\Db\Mapper
       }
 
       $result['safeFeatures'] = $this->_getSafeFeatures($features,
-      	\PointedEars\PHPX\Application::getParam('forFeatures', $result));
+      	Application::getParam('forFeatures', $result));
     }
 
     if (defined('DEBUG') && DEBUG > 0)

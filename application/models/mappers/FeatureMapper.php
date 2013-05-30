@@ -56,8 +56,7 @@ class FeatureMapper extends \PointedEars\PHPX\Db\Mapper
      * 1. Create FeatureModel with data from database by ID
      *    or default values
      */
-//     $featureObj = $this->find($feature['id']);
-    $featureObj = new FeatureModel(array('id' => $feature['id']));
+    $featureObj = new FeatureModel($feature);
 
     if (defined('DEBUG') && DEBUG > 0)
     {
@@ -71,73 +70,57 @@ class FeatureMapper extends \PointedEars\PHPX\Db\Mapper
     	debug($featureObj);
     }
 
-//     if ($featureObj === null)
-//     {
-//       $featureObj = new FeatureModel();
-//     }
-
     /* 2. Update FeatureModel with passed data */
     $featureObj->map($feature);
 
     if (defined('DEBUG') && DEBUG > 0)
     {
+    	debug($feature);
     	debug($featureObj);
     }
 
     /* 3. Save updated feature in database */
-//     $data = array(
-//       'code'        => $featureObj->code,
-//       'title'       => $featureObj->title,
-//       'edition'     => $featureObj->edition,
-//       'section'     => $featureObj->section,
-//       'section_urn' => $featureObj->section_urn,
-//       'generic'     => $featureObj->generic,
-//       'versioned'   => $featureObj->versioned,
-//     );
-
-    $id = $featureObj->id;
-    if (is_null($id))
+    if ($featureObj->id === null)
     {
-//       $data['created'] = gmdate('Y-m-d H:i:s');
     	$featureObj->created = gmdate('Y-m-d H:i:s');
     }
 
     if (defined('DEBUG') && DEBUG > 0)
     {
-//       debug($data);
     	debug($featureObj);
     }
 
-//     $table = $this->getDbTable();
-//     $success = $table->updateOrInsert($data, array('id' => $id));
-//     $success = $featureObj->save();
-    $success = true;
+    $success = $featureObj->save();
 
-//     if ($success)
-//     {
-//       if ($table->lastInsertId)
-//       {
-//         $featureObj->id = $table->lastInsertId;
-//       }
+    if ($success)
+    {
+      /* DEBUG */
+      if (defined('DEBUG') && DEBUG > 0)
+      {
+        debug($featureObj);
+      }
 
-//       /* DEBUG */
-//       if (defined('DEBUG') && DEBUG > 0)
-//       {
-//         debug($featureObj);
-//       }
-
-//       /* Do not replace testcases (and remove results) if only metadata should be saved */
-//       if (isset($feature['testcases']))
-//       {
+      /*
+       * Do not replace testcases (and remove results)
+       * if only metadata should be saved
+       */
+      if (isset($feature['testcases']))
+      {
 //         /* DEBUG only */
 //         var_dump($feature);
 //         return null;
 
-//         $success = (null !== TestcaseMapper::getInstance()->saveForFeature($featureObj));
-//       }
-//     }
+      	$success = (null !== TestcaseMapper::getInstance()->saveForFeature($featureObj));
 
-    return $success ? $featureObj : null;
+      	/* DEBUG */
+      	if (defined('DEBUG') && DEBUG > 0)
+      	{
+      		debug($featureObj);
+      	}
+      }
+    }
+
+    return ($success ? $featureObj : null);
   }
 
   /**

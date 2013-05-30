@@ -83,44 +83,18 @@ class TestcaseMapper extends \PointedEars\PHPX\Db\Mapper
 
     /* Assign new testcases to feature */
     $testcases = $feature->testcases;
-    $codes = $testcases['codes'];
 
-    if ($codes)
+    if ($testcases)
     {
-      $gluedCodes = implode('', $codes);
-      if (!empty($gluedCodes))
+      foreach ($testcases as $testcase)
       {
-        $quoteds = $testcases['quoteds'];
-        $alt_types = $testcases['alt_types'];
-        foreach ($testcases['titles'] as $key => $title)
+        /* DEBUG */
+        if (defined('DEBUG') && DEBUG > 0)
         {
-          if (trim($codes[$key]))
-          {
-            $quoted = false;
-            if (is_array($quoteds) && array_key_exists($key, $quoteds))
-            {
-              $quoted = $quoteds[$key];
-            }
-
-            $new_testcases[] = $testcase = new TestcaseModel(array(
-              'feature_id' => $feature->id,
-              'title'      => $title,
-              'code'       => $codes[$key],
-              'quoted'     => $quoted,
-              'alt_type'   => $alt_types[$key]
-            ));
-
-            /* DEBUG */
-            if (defined('DEBUG') && DEBUG > 0)
-            {
-              debug($testcase);
-            }
-
-            $this->save($testcase);
-          }
+          debug($testcase);
         }
 
-        $feature->testcases = $new_testcases;
+        $testcase->insert();
       }
     }
 
@@ -128,6 +102,10 @@ class TestcaseMapper extends \PointedEars\PHPX\Db\Mapper
     if (!$success)
     {
       $table->rollBack();
+    }
+    else if ($testcases)
+    {
+    	$feature->testcases = $testcases;
     }
 
     return $success ? $feature : null;
