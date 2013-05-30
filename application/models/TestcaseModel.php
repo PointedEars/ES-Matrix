@@ -20,8 +20,8 @@ class TestcaseModel extends \PointedEars\PHPX\Model
 {
   /* ORM */
   protected static $_persistentTable = 'TestcaseTable';
-  protected $_persistentId = 'id';
-  protected $_persistentProperties = array(
+  protected static $_persistentId = 'id';
+  protected static $_persistentProperties = array(
     'feature_id', 'title', 'code', 'quoted', 'alt_type', 'created'
   );
 

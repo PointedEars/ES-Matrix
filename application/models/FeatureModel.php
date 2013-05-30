@@ -32,12 +32,12 @@ class FeatureModel extends \PointedEars\PHPX\Model
 	/**
 	 * @see \PointedEars\PHPX\Model::$_persistentId
 	 */
-	protected $_persistentId = 'id';
+	protected static $_persistentId = 'id';
 
 	/**
 	 * @see \PointedEars\PHPX\Model::$_persistentProperties
 	 */
-	protected $_persistentProperties = array(
+	protected static $_persistentProperties = array(
 	  'code', 'title', 'edition', 'section', 'section_urn',
 		'generic', 'versioned', 'created', 'modified'
 	);
