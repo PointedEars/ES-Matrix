@@ -25,16 +25,19 @@ class FeatureModel extends \PointedEars\PHPX\Model
 {
   /* ORM */
 	/**
+	 * (non-PHPdoc)
 	 * @see \PointedEars\PHPX\Model::$_persistentTable
 	 */
 	protected static $_persistentTable = 'FeatureTable';
 
 	/**
+	 * (non-PHPdoc)
 	 * @see \PointedEars\PHPX\Model::$_persistentId
 	 */
 	protected static $_persistentId = 'id';
 
 	/**
+	 * (non-PHPdoc)
 	 * @see \PointedEars\PHPX\Model::$_persistentProperties
 	 */
 	protected static $_persistentProperties = array(
