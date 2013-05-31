@@ -5,6 +5,7 @@
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
      xmlns:xlink="http://www.w3.org/1999/xlink"
      height="600" width="<?php echo ($svg_width = 19 * 12 * 10) + 30; ?>">
+  <title>Timeline of ECMAScript and its implementations</title>
   <desc>Timeline of ECMAScript and its implementations</desc>
   <style type="text/css">
     title {

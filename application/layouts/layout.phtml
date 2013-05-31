@@ -15,11 +15,11 @@
     <meta http-equiv="Content-Style-Type" content="text/css">
 */ ?>
     <title>ECMAScript Support Matrix 2 (under construction)</title>
-    
+
     <meta name="DCTERMS.alternative" content="ES Matrix">
     <meta name="DCTERMS.audience" content="Web developers">
     <meta name="DCTERMS.available" content="2009-12-15T04:06:35+00:00">
-    
+
     <meta name="DCTERMS.created" content="2005-11-29T00:42:12+01:00">
 
     <link rel="stylesheet" href="/styles/tooltip.css" type="text/css">
@@ -33,7 +33,7 @@
         #header {
           margin-top: 0;
         }
-        
+
         #toc {
           margin-top: 1em;
           padding: 0;
@@ -42,7 +42,7 @@
         }
       </style>
     <![endif]-->
-    
+
     <script type="text/javascript">
       var jsx = new Object();
       jsx.options = new Object();
@@ -51,23 +51,23 @@
     <!-- FIXME: dom.js interferes with emulate = false  -->
     <script type="text/javascript" src="application/scripts/object/object-compat.js"></script>
     <script type="text/javascript"
-            src="../../builder.php?<?php
+            src="../../builder?<?php
               if ($_SERVER['HTTP_HOST'] === 'localhost')
               {
                 ?>debug=1&amp;verbose=1&amp;<?php
               }
-              ?>src=test/es-matrix/application/scripts/es,dom/xpath,test/es-matrix/application/scripts/debug,http,string/hyphenation,dom,dom/events,dom/widgets"
+              ?>src=test/es-matrix/application/scripts/es,dom/xpath,test/es-matrix/application/scripts/debug,http,string/hyphenation,dom,dom/css,dom/events,dom/forms,dom/widgets"
             ></script>
     <script type="text/javascript" src="table.js"></script>
     <script type="text/javascript" src="application/scripts/es-matrix.js"></script>
   </head>
-  
+
   <body onload="body_load()">
     <header>
       <div id="header" style="margin-bottom: 1em; padding-bottom: 1em; border-bottom: 1px solid black">
         <h1><a name="top" id="top">ECMAScript Support Matrix</a></h1>
         <p class="subtitle">There is no javascript.</p>
-  
+
         <p style="text-align: left">
           Version 2 <em>(under construction)</em><br>
           Copyright &copy; 2005&#8211;<?php global $modi; echo gmdate('Y', $modi); ?>
@@ -75,24 +75,24 @@
             &lt;<a href="<?php echo randomEsc('mailto:js@PointedEars.de'); ?>"
             ><?php echo randomEsc('js@PointedEars.de'); ?></a>&gt;
             (<a href="#contributors">contributors</a>)</p>
-  
+
         <div>
           <p style="margin-bottom: 0; text-align: left">
             Last&nbsp;modified:
             <?php echo gmdate('Y-m-d\TH:i:s+00:00', $modi); ?>
           </p>
-      
+
           <ul class="horizontal">
             <li><a
               href="http://PointedEars.de/websvn/log.php?repname=es-matrix&amp;path=%2Ftrunk%2F&amp;isdir=1&amp;showchanges=1"
-            >Change&nbsp;log</a></li>
+            >Changelog</a></li>
             <li><a
               href="http://PointedEars.de/websvn/listing.php?repname=es-matrix&amp;path=%2Ftrunk%2F"
               title="Subversion repository browser"
             >SVN</a></li>
           </ul>
         </div>
-      
+
         <p style="clear: left; text-align: left">
           Available online at <a
             href="<?php
@@ -101,9 +101,9 @@
                    ?>"
           ><?php echo $s; ?></a>
         </p>
-        
+
         <div><a href="#toc">Table of contents</a></div>
-        
+
 <?php
   if ($_SERVER['QUERY_STRING'] == 'redir')
   {
@@ -120,9 +120,9 @@
 
       <nav id="toc">
         <h2>Table of contents</h2>
-        
+
         <div><a href="#top">&#8593; Top of document</a></div>
-        
+
         <ul>
           <li><a href="#abstract">Abstract</a></li>
           <li><a href="#foreword">Foreword and rationale</a></li>
@@ -142,7 +142,7 @@
         </ul>
       </nav>
     </header>
-    
+
 <?php echo $this->getContent(); ?>
   </body>
 </html>
