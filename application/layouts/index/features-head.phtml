@@ -239,19 +239,21 @@ if ($this->edit)
               <script type="text/javascript">
                 function strReplace (needle, replacement, haystack, global)
                 {
-                  var
-                    i,
-                    lastIndex = 0;
+                  var i,
+                      lastIndex = 0,
+                      replacementLen = replacement.length;
 
-                  while ((i = haystack.substring(lastIndex).indexOf(needle)) > -1)
+                  while ((i = haystack.indexOf(needle, lastIndex)) > -1)
                   {
-                    haystack = haystack.substring(0, i) + replacement + haystack.substring(i + 1);
+                    haystack = haystack.substring(0, i)
+                             + replacement
+                             + haystack.substring(i + replacementLen);
                     if (!global)
                     {
                       break;
                     }
 
-                    lastIndex = i + replacement.length + 1;
+                    lastIndex = i + replacementLen;
                   }
 
                   return haystack;
