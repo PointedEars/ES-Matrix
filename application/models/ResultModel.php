@@ -1,30 +1,53 @@
 <?php
 
+require_once 'application/models/databases/es-matrix/tables/ResultTable.php';
+
 /**
  * Model class for test results
  *
- * @property int $id
- * @property int $testcase_id
- * @property int $env_id
+ * @property int|null $id
+ * @property int|null $testcase_id
+ * @property int|null $env_id
  * @property bool $value
  */
-class ResultModel extends \PointedEars\PHPX\AbstractModel
+class ResultModel extends \PointedEars\PHPX\Model
 {
+  /* ORM */
+	/**
+	 * (non-PHPdoc)
+	 * @see \PointedEars\PHPX\Model::$_persistentTable
+	 */
+  protected static $_persistentTable = 'ResultTable';
+
+	/**
+	 * (non-PHPdoc)
+	 * @see \PointedEars\PHPX\Model::$_persistentId
+	 */
+  protected static $_persistentId = 'id';
+
+  /**
+	 * (non-PHPdoc)
+	 * @see \PointedEars\PHPX\Model::$_persistentProperties
+	 */
+  protected static $_persistentProperties = array(
+    'version_id', 'testcase_id', 'env_id', 'value'
+  );
+
   /**
    * Result ID
-   * @var int
+   * @var int|null
    */
   protected $_id;
 
   /**
    * ID of the testcase that has been run
-   * @var int
+   * @var int|null
    */
   protected $_testcase_id;
 
   /**
    * ID of the environment in which has been tested
-   * @var unknown_type
+   * @var int|null
    */
   protected $_env_id;
 
@@ -35,29 +58,28 @@ class ResultModel extends \PointedEars\PHPX\AbstractModel
   protected $_value;
 
   /**
-   * @param int $id
+   * @param int|null $value
    * @return ResultModel
    */
-  public function setId($id)
+  public function setId ($value)
   {
-    $this->_id = (int) $id;
+    $this->_id = ($value === null) ? $value : (int) $value;
     return $this;
   }
 
   /**
-   * @return int
+   * @return int|null
    */
-  public function getId()
+  public function getId ()
   {
     return $this->_id;
   }
 
   /**
-   * @param int $id
-   *   Testcase ID
+   * @param int $value
    * @return ResultModel
    */
-  public function setTestcase_id($id)
+  public function setTestcase_id ($value)
   {
     $this->_testcase_id = (int) $id;
     return $this;
@@ -65,7 +87,6 @@ class ResultModel extends \PointedEars\PHPX\AbstractModel
 
   /**
    * @return int
-   *   Testcase ID
    */
   public function getTestcase_id()
   {
@@ -73,11 +94,10 @@ class ResultModel extends \PointedEars\PHPX\AbstractModel
   }
 
   /**
-   * @param int $id
-   *   Environment ID
+   * @param int $value
    * @return ResultModel
    */
-  public function setenv_id($id)
+  public function setEnv_id ($value)
   {
     $this->_env_id = (int) $id;
     return $this;
@@ -85,19 +105,17 @@ class ResultModel extends \PointedEars\PHPX\AbstractModel
 
   /**
    * @return int
-   *   Environment ID
    */
-  public function getenv_id()
+  public function getEnv_id ()
   {
     return $this->_env_id;
   }
 
   /**
    * @param bool $value
-   *   Testcase result
    * @return ResultModel
    */
-  public function setValue($value)
+  public function setValue ($value)
   {
     $this->_value = (bool) $value;
     return $this;
@@ -105,23 +123,9 @@ class ResultModel extends \PointedEars\PHPX\AbstractModel
 
   /**
    * @return bool
-   *   Testcase result
    */
-  public function getValue()
+  public function getValue ()
   {
     return $this->_value;
   }
-
-  /**
-   * Maps data used to initialize this <code>ResultModel</code> instance
-   * to its data properties.
-   *
-   * @see AbstractModel::map()
-   */
-  public function map(array $data, array $mapping = null, $exclusive = false)
-  {
-    $mapping = array('env_id' => 'environment_id');
-    parent::map($data, $mapping, $exclusive);
-  }
 }
-
