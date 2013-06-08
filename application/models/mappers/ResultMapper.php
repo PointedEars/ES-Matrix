@@ -2,9 +2,7 @@
 
 use \PointedEars\PHPX\Application;
 
-require_once 'application/models/databases/es-matrix/tables/ResultTable.php';
 require_once 'application/models/ResultModel.php';
-
 require_once 'application/models/mappers/ImplementationMapper.php';
 require_once 'application/models/mappers/EnvironmentMapper.php';
 require_once 'application/models/mappers/VersionMapper.php';
@@ -18,12 +16,13 @@ class ResultMapper extends \PointedEars\PHPX\Db\Mapper
 {
   private static $_instance = null;
 
-  /*
-   * (non-PHPDoc) see Mapper::$_table
+  /**
+	 * (non-PHPdoc)
+   * @see \PointedEars\PHPX\Db\Mapper::$_table
    */
   protected $_table = 'ResultTable';
 
-  protected function __construct()
+  protected function __construct ()
   {
     /* Singleton */
   }
@@ -33,7 +32,7 @@ class ResultMapper extends \PointedEars\PHPX\Db\Mapper
    *
    * @return ResultMapper
    */
-  public static function getInstance()
+  public static function getInstance ()
   {
     if (is_null(self::$_instance))
     {
@@ -50,16 +49,18 @@ class ResultMapper extends \PointedEars\PHPX\Db\Mapper
    *   Result data
    * @return bool
    *   <code>true</code> on success, <code>false</code> on failure
+   * @throws EnvironmentAlreadyTestedException if the environment
+   *   specified by the User-Agent header field was already tested.
    * @see PDO::commit()
    */
-  public function save($data)
+  public function save ($data)
   {
     $ver_id = null;
 
     if (isset($data['implementation']))
     {
       $impl_id = ImplementationMapper::getInstance()->save($data['implementation']);
-      if (!is_null($impl_id) && $impl_id > 0)
+      if ($impl_id !== null && $impl_id > 0)
       {
         $ver_id = VersionMapper::getInstance()->save($impl_id, $data['version']);
       }
@@ -68,7 +69,7 @@ class ResultMapper extends \PointedEars\PHPX\Db\Mapper
     /* DEBUG */
     if (defined('DEBUG') && DEBUG > 0)
     {
-      if (!is_null($ver_id) && $ver_id > 0)
+      if ($ver_id !== null && $ver_id > 0)
       {
         $data['version_id'] = $ver_id;
       }
@@ -77,7 +78,7 @@ class ResultMapper extends \PointedEars\PHPX\Db\Mapper
     }
 
     $env_id = EnvironmentMapper::getInstance()->save($data['user_agent'], $ver_id);
-    if (!is_null($env_id) && $env_id > 0)
+    if ($env_id !== null && $env_id > 0)
     {
       $table = $this->getDbTable();
       $table->beginTransaction();
@@ -93,7 +94,7 @@ class ResultMapper extends \PointedEars\PHPX\Db\Mapper
               null,
               array(
               	'testcase_id' => $testcase_id,
-                'env_id' => $env_id
+                'env_id'      => $env_id
               ));
 
           /*
@@ -134,7 +135,7 @@ class ResultMapper extends \PointedEars\PHPX\Db\Mapper
    * @param int $feature_id
    * @return bool
    */
-  private function _getSafeFeatures($features, $results)
+  private function _getSafeFeatures ($features, $results)
   {
     $unsafeVersions = VersionMapper::getInstance()->getUnsafeVersions();
     $safeFeatures = array();
@@ -210,7 +211,7 @@ class ResultMapper extends \PointedEars\PHPX\Db\Mapper
    *   to the results
    * @return array
    */
-  public function getResultArray($features)
+  public function getResultArray ($features)
   {
     /* DEBUG */
 //     define('DEBUG', 2);

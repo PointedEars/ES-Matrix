@@ -95,7 +95,7 @@ class VersionModel extends \PointedEars\PHPX\AbstractModel
   }
 
   /**
-   * Maps data used to initialize this <code>ResultModel</code> instance
+   * Maps data used to initialize this <code>VersionModel</code> instance
    * to its data properties.
    *
    * @see AbstractModel::map()

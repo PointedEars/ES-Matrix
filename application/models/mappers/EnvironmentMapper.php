@@ -2,6 +2,14 @@
 
 require_once 'application/models/EnvironmentModel.php';
 
+class EnvironmentTestedException extends Exception
+{
+  public function __construct ()
+  {
+    parent::__construct('Environment was already tested, discarding results');
+  }
+}
+
 /**
  * Mapper class for test environments
  *
@@ -46,21 +54,34 @@ class EnvironmentMapper extends \PointedEars\PHPX\Db\Mapper
    * @return int|null
    *   ID of the inserted or existing record,
    *   <code>null</code> otherwise.
+   * @throws EnvironmentAlreadyTestedException if the environment
+   *   specified by the User-Agent header field was already tested.
    */
   public function save ($user_agent, $version_id)
   {
     $env = new EnvironmentModel(array(
       'user_agent' => $user_agent,
-      'version_id' => $version_id
+      'version_id' => $version_id,
     ));
 
-    if (!$env->insert())
+    $env->findByUserAgent();
+    if ($env->id !== null && $env->tested)
     {
-      /* Environment was already tested */
+      throw new EnvironmentTestedException();
+    }
+
+    $env->tested = true;
+
+    if (!$env->save())
+    {
+      /*
+       * Untested environment could not be saved,
+       * makes no sense to add results
+       */
       return null;
     }
 
-    return $env->persistentTable->lastInsertId;
+    return $env->id;
   }
 
   /**
@@ -122,5 +143,16 @@ class EnvironmentMapper extends \PointedEars\PHPX\Db\Mapper
     }
 
     return $envs;
+  }
+
+  /**
+   * Resets the <code>tested</code> field for all environments
+   * so that they can be tested again
+   *
+   * @param bool $value
+   */
+  public function setAllUntested ()
+  {
+    $this->table->update(array('tested' => false), null);
   }
 }

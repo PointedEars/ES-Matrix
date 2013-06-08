@@ -2,10 +2,10 @@
 
 require_once 'lib/features.class.php';
 
-require_once 'application/models/databases/es-matrix/tables/TestcaseTable.php';
 require_once 'application/models/TestcaseModel.php';
-
 require_once 'application/models/FeatureModel.php';
+require_once 'application/models/mappers/ImplementationMapper.php';
+require_once 'application/models/mappers/EnvironmentMapper.php';
 
 /**
  * Mapper class for testcases
@@ -70,7 +70,7 @@ class TestcaseMapper extends \PointedEars\PHPX\Db\Mapper
    *
    * @param FeatureModel $feature
    */
-  public function saveForFeature(FeatureModel $feature)
+  public function saveForFeature (FeatureModel $feature)
   {
     $table = $this->getDbTable();
     $table->beginTransaction();
@@ -99,13 +99,18 @@ class TestcaseMapper extends \PointedEars\PHPX\Db\Mapper
     }
 
     $success = $table->commit();
-    if (!$success)
+    if ($success)
+    {
+      if ($testcases)
+      {
+        $feature->testcases = $testcases;
+      }
+
+      EnvironmentMapper::getInstance()->setAllUntested();
+    }
+    else
     {
       $table->rollBack();
-    }
-    else if ($testcases)
-    {
-    	$feature->testcases = $testcases;
     }
 
     return $success ? $feature : null;

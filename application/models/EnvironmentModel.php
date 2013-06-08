@@ -25,7 +25,7 @@ class EnvironmentModel extends \PointedEars\PHPX\Model
 	 * @see \PointedEars\PHPX\Model::$_persistentProperties
 	 */
   protected static $_persistentProperties = array(
-    'version_id', 'sortorder', 'name', 'user_agent'
+    'version_id', 'sortorder', 'name', 'user_agent', 'tested'
   );
 
   /**
@@ -56,6 +56,13 @@ class EnvironmentModel extends \PointedEars\PHPX\Model
    * @var string
    */
   protected $_user_agent;
+
+  /**
+   * <code>true</code> if this environment has been tested,
+   * <code>false</code> otherwise.
+   * @var bool
+   */
+  protected $_tested;
 
   /**
    * @param int|null $value
@@ -145,5 +152,47 @@ class EnvironmentModel extends \PointedEars\PHPX\Model
   public function getUser_agent()
   {
     return $this->_user_agent;
+  }
+
+  /**
+   * @param bool $value
+   * @return EnvironmentModel
+   */
+  public function setTested ($value)
+  {
+    $this->_tested = (bool) $value;
+    return $this;
+  }
+
+  /**
+   * @return bool
+   */
+  public function getTested()
+  {
+    return $this->_tested;
+  }
+
+  /**
+   * @return EnvironmentModel
+   */
+  public function findByUserAgent ()
+  {
+    $result = $this->persistentTable->select(
+      null,
+      array(
+        'user_agent' => $this->user_agent,
+      )
+    );
+
+    if ($result)
+    {
+      $this->map($result[0]);
+    }
+    else
+    {
+      $this->{self::$_persistentId} = null;
+    }
+
+    return $this;
   }
 }

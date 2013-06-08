@@ -43,6 +43,8 @@ class IndexController extends \PointedEars\PHPX\Controller
     $environments = EnvironmentMapper::getInstance()->fetchAllPerImplementation();
 
     $this->assign('edit', isset($_SESSION['edit']));
+    $this->assign('error', Application::getParam('error'), true);
+
     $this->assign('implementations', $implementations);
     $this->assign('features', $features);
     $this->assign('results', $results);
@@ -59,14 +61,14 @@ class IndexController extends \PointedEars\PHPX\Controller
     }
   }
 
-  protected function indexLatexAction()
+  protected function indexLatexAction ()
   {
     $this->indexAction(
       'application/layouts/text.phtml',
       'application/layouts/index/index-latex.phtml');
   }
 
-  protected function testcasesLatexAction()
+  protected function testcasesLatexAction ()
   {
     $features = FeatureMapper::getInstance()->fetchAll();
 
@@ -77,14 +79,14 @@ class IndexController extends \PointedEars\PHPX\Controller
         'application/layouts/index/testcases-latex.phtml');
   }
 
-  protected function resultsLatexAction()
+  protected function resultsLatexAction ()
   {
     $this->indexAction(
         'application/layouts/text.phtml',
         'application/layouts/index/results-latex.phtml');
   }
 
-  protected function importAction()
+  protected function importAction ()
   {
     require_once 'es-matrix.inc.php';
 //     FeatureMapper::getInstance()->importAll($features);
@@ -92,28 +94,41 @@ class IndexController extends \PointedEars\PHPX\Controller
     $this->indexAction();
   }
 
-  protected function editAction()
+  protected function editAction ()
   {
     $_SESSION['edit'] = true;
     Application::redirect();
   }
 
-  protected function endEditAction()
+  protected function endEditAction ()
   {
     unset($_SESSION['edit']);
     Application::redirect();
   }
 
-  protected function saveResultsAction()
+  protected function saveResultsAction ()
   {
-    if (ResultMapper::getInstance()->save(array(
+    $error = null;
+
+    try
+    {
+      if (!ResultMapper::getInstance()->save(array(
           'implementation' => Application::getParam('implementation', $_POST),
           'version'        => Application::getParam('version', $_POST),
           'user_agent'     => Application::getParam('HTTP_USER_AGENT', $_SERVER),
           'results'        => Application::getParam('results', $_POST)
         )))
-    {
-      Application::redirect();
+      {
+        /* Results not saved, other error */
+        $error = 'database';
+      }
     }
+    catch (EnvironmentTestedException $e)
+    {
+      /* Results not saved, environment already tested */
+      $error = 'tested';
+    }
+
+    Application::redirect($error ? 'error=' . urlencode($error) : '');
   }
 }

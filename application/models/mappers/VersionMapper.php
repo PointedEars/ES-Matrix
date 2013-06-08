@@ -48,7 +48,7 @@ class VersionMapper extends \PointedEars\PHPX\Db\Mapper
    *   ID of the inserted or existing record,
    *   <code>null</code> otherwise.
    */
-  public function save($implementation_id, $name)
+  public function save ($implementation_id, $name)
   {
     $table = $this->getDbTable();
 
@@ -80,7 +80,7 @@ class VersionMapper extends \PointedEars\PHPX\Db\Mapper
    *   <code>true</code> if all database operations were successful,
    *   <code>false</code> otherwise.
    */
-  public function saveAll($implementation_id, $assigned, $available)
+  public function saveAll ($implementation_id, $assigned, $available)
   {
     /* DEBUG */
 //     define('DEBUG', 2);
@@ -129,7 +129,7 @@ class VersionMapper extends \PointedEars\PHPX\Db\Mapper
    *   Version string to search for
    * @return int
    */
-  public function getIdByName($name)
+  public function getIdByName ($name)
   {
     $result = $this->getDbTable()->select(null, array('name' => $name));
     if (0 === count($result))
@@ -138,8 +138,8 @@ class VersionMapper extends \PointedEars\PHPX\Db\Mapper
     }
 
     $row = $result[0];
-    $impl = new VersionModel($row);
-    return $impl->id;
+    $ver = new VersionModel($row);
+    return $ver->id;
   }
 
   /**
@@ -160,7 +160,7 @@ class VersionMapper extends \PointedEars\PHPX\Db\Mapper
        	 SUBSTRING_INDEX(SUBSTRING_INDEX(`name`, '.', -2), '.', 1) + 0,
          SUBSTRING_INDEX(`name`, '.', -1) + 0");
 
-    if (0 === count($resultSet))
+    if (!$resultSet)
     {
       return null;
     }

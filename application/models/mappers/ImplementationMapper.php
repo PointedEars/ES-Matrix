@@ -140,24 +140,4 @@ class ImplementationMapper extends \PointedEars\PHPX\Db\Mapper
 
     return $impl;
   }
-
-  /**
-   * Resets the <code>tested</code> column of all implementations
-   *
-   * @param bool $value
-   */
-  public function setTested ()
-  {
-    $this->table->update(array('tested' => false));
-  }
-
-  /**
-   * Resets the <code>tested</code> column of all implementations
-   *
-   * @param bool $value
-   */
-  public function resetTested ()
-  {
-    $this->table->update(array('tested' => false));
-  }
 }
