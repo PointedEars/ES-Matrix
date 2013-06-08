@@ -48,41 +48,20 @@ class EnvironmentMapper extends \PointedEars\PHPX\Db\Mapper
    *   ID of the inserted or existing record,
    *   <code>null</code> otherwise.
    */
-  public function save($user_agent, $version_id)
+  public function save ($user_agent, $version_id)
   {
-    $table = $this->getDbTable();
+    $env = new EnvironmentModel(array(
+      'user_agent' => $user_agent,
+      'version_id' => $version_id
+    ));
 
-    $data = array(
-			'user_agent' => $user_agent,
-			'version_id' => $version_id
-		);
-
-    if (!$table->insert($data))
+    if (!$env->insert())
     {
-      return $this->getIdByUserAgent($user_agent);
-    }
-
-    return $table->lastInsertId;
-  }
-
-  /**
-   * Finds an environment in the environment table by User-Agent string
-   *
-   * @param string $ua
-   *   User-Agent string to search for
-   * @return int
-   */
-  public function getIdByUserAgent($ua)
-  {
-    $result = $this->getDbTable()->select(null, array('user_agent' => $ua));
-    if (0 == count($result))
-    {
+      /* Environment was already tested */
       return null;
     }
 
-    $row = $result[0];
-    $env = new EnvironmentModel($row);
-    return $env->id;
+    return $env->persistentTable->lastInsertId;
   }
 
   /**
@@ -96,13 +75,7 @@ class EnvironmentMapper extends \PointedEars\PHPX\Db\Mapper
     $envs = array();
     foreach ($resultSet as $row)
     {
-      $env = new EnvironmentModel(array(
-        'id'         => $row['id'],
-        'name'       => $row['name'],
-        'user_agent' => $row['user_agent']
-      ));
-      ;
-      $envs[] = $env;
+      $envs[] = new EnvironmentModel($row);
     }
 
     return $envs;
@@ -152,4 +125,3 @@ class EnvironmentMapper extends \PointedEars\PHPX\Db\Mapper
     return $envs;
   }
 }
-

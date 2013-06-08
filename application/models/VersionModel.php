@@ -5,50 +5,90 @@
  */
 class VersionModel extends \PointedEars\PHPX\AbstractModel
 {
-  protected $_id = null;
-  protected $_implementation_id = null;
+  /**
+   * @var int|null
+   */
+  protected $_id;
+
+  /**
+   * @var int|null
+   */
+  protected $_implementation_id;
+
+  /**
+   * @var string
+   */
   protected $_name = '';
+
+  /**
+   * @var bool
+   */
   protected $_safe = false;
 
-  public function setId($id)
+  /**
+   * @param int|null $id
+   * @return VersionModel
+   */
+  public function setId ($value)
   {
-    $this->_id = is_null($id) ? $id : (int) $id;
+    $this->_id = ($value === null) ? $value : (int) $value;
     return $this;
   }
 
-  public function getId()
+  /**
+   * @return int
+   */
+  public function getId ()
   {
     return $this->_id;
   }
 
-  public function setImplementation_Id($id)
+  /**
+   * @param int|null $value
+   * @return VersionModel
+   */
+  public function setImplementation_Id ($value)
   {
-    $this->_implementation_id = is_null($id) ? $id : (int) $id;
+    $this->_implementation_id = is_null($value) ? $value : (int) $value;
     return $this;
   }
 
-  public function getImplementationId()
+  public function getImplementationId ()
   {
     return $this->_implementation_id;
   }
 
-  public function setName($name)
+  /**
+   * @param string $value
+   * @return VersionModel
+   */
+  public function setName ($value)
   {
-    $this->_name = trim((string) $name);
+    $this->_name = trim((string) $value);
     return $this;
   }
 
-  public function getName()
+  /**
+   * @return string
+   */
+  public function getName ()
   {
     return $this->_name;
   }
 
-  public function setSafe($safe)
+  /**
+   * @param bool $value
+   * @return VersionModel
+   */
+  public function setSafe ($value)
   {
-    $this->_safe = (bool) $safe;
+    $this->_safe = (bool) $value;
     return $this;
   }
 
+  /**
+   * @return bool
+   */
   public function getSafe()
   {
     return $this->_safe;

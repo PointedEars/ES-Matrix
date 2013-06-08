@@ -58,39 +58,28 @@ class ImplementationMapper extends \PointedEars\PHPX\Db\Mapper
    *   ID of the inserted or existing record,
    *   <code>null</code> otherwise.
    */
-  public function save($implementation)
+  public function save ($implementation)
   {
-    $table = $this->getDbTable();
     if (is_array($implementation))
     {
       $implObj = new ImplementationModel($implementation);
 
-      $id = $implObj->id;
-      $data = array(
-        'sortorder' => $implObj->sortorder,
-        'name'      => $implObj->name,
-        'acronym'   => $implObj->acronym,
-//        'created' => date('Y-m-d H:i:s'),
-      );
-
       if (defined('DEBUG') && DEBUG > 0)
       {
-        debug($data);
+        debug($implObj);
       }
 
-      $success = $table->updateOrInsert($data, array('id' => $id));
+      $success = $implObj->save();
 
-      VersionMapper::getInstance()->saveAll($id,
+      VersionMapper::getInstance()->saveAll($implObj->id,
         $implementation['assigned'], $implementation['available']);
 
-      return $success;
+      return $implObj->persistentTable->lastInsertId;
     }
-    else
+
+    if (!$this->table->insert(array('name' => $implementation)))
     {
-      if (!$table->insert(array('name' => $implementation)))
-      {
-        return $this->getIdByName($implementation);
-      }
+      return $this->getIdByName($implementation);
     }
 
     return $table->lastInsertId;
@@ -136,30 +125,41 @@ class ImplementationMapper extends \PointedEars\PHPX\Db\Mapper
   }
 
   /**
-   * Finds a feature in the features table by ID
+   * Finds an implementation by ID
    *
    * @param int $id
-   * @param ImplementationModel[optional] $feature
-   *   TODO: Why?
    * @return ImplementationModel
    */
-  public function find($id, ImplementationModel $impl = null)
+  public function find ($id)
   {
-    $row = $this->getDbTable()->find($id);
-    if (!$row)
+    $impl = new ImplementationModel();
+    $impl = $impl->find($id);
+    if ($impl !== null)
     {
-      return null;
+      $impl->setVersions(
+           		 VersionMapper::getInstance()->getByImplementationId($impl->id));
     }
-
-    if (is_null($impl))
-    {
-      $impl = new ImplementationModel();
-    }
-
-    $impl->map($row)
-         ->setVersions(
-         		 VersionMapper::getInstance()->getByImplementationId($row['id']));
 
     return $impl;
+  }
+
+  /**
+   * Resets the <code>tested</code> column of all implementations
+   *
+   * @param bool $value
+   */
+  public function setTested ()
+  {
+    $this->table->update(array('tested' => false));
+  }
+
+  /**
+   * Resets the <code>tested</code> column of all implementations
+   *
+   * @param bool $value
+   */
+  public function resetTested ()
+  {
+    $this->table->update(array('tested' => false));
   }
 }

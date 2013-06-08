@@ -400,10 +400,17 @@ class FeatureModel extends \PointedEars\PHPX\Model
 
   /**
    * Finds a feature by ID
+   *
+   * @see \PointedEars\PHPX\Model::find()
    */
-  public function find ()
+  public function find ($id = null)
   {
-    parent::find();
-    $this->setTestcases(TestcaseMapper::getInstance()->findByFeatureId($this->id));
+    $result = parent::find($id);
+    if ($result !== null)
+    {
+      $this->setTestcases(TestcaseMapper::getInstance()->findByFeatureId($this->id));
+    }
+
+    return $result;
   }
 }

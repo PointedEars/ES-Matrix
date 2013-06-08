@@ -56,14 +56,14 @@ class FeatureMapper extends \PointedEars\PHPX\Db\Mapper
      * 1. Create FeatureModel with data from database by ID
      *    or default values
      */
-    $featureObj = new FeatureModel($feature);
+    $featureObj = new FeatureModel();
 
     if (defined('DEBUG') && DEBUG > 0)
     {
     	debug($featureObj);
     }
 
-    $featureObj->find();
+    $featureObj->find($feature['id']);
 
     if (defined('DEBUG') && DEBUG > 0)
     {
