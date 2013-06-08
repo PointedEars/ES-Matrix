@@ -1,8 +1,6 @@
 <?php
 
-require_once 'application/models/databases/es-matrix/tables/ImplementationTable.php';
 require_once 'application/models/ImplementationModel.php';
-
 require_once 'application/models/mappers/VersionMapper.php';
 
 /**

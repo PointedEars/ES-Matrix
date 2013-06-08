@@ -1,6 +1,5 @@
 <?php
 
-require_once 'application/models/databases/es-matrix/tables/FeatureTable.php';
 require_once 'application/models/FeatureModel.php';
 require_once 'application/models/mappers/TestcaseMapper.php';
 

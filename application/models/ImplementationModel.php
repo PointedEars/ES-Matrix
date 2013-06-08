@@ -1,6 +1,6 @@
 <?php
 
-// require_once 'application/models/adapters/MatrixAdapter.php';
+require_once 'application/models/databases/es-matrix/tables/ImplementationTable.php';
 
 /**
  * Model class for tested implementations

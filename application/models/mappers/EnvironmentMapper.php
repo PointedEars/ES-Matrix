@@ -1,6 +1,5 @@
 <?php
 
-require_once 'application/models/databases/es-matrix/tables/EnvironmentTable.php';
 require_once 'application/models/EnvironmentModel.php';
 
 /**
