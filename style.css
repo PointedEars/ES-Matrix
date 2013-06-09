@@ -69,11 +69,20 @@ p.subtitle {
   font-style: italic;
 }
 
+p.status, p.success {
+  padding: 0.25em 0.5em;
+  color: black;  
+}
+
 p.status {
   border: 1px solid red;
-  padding: 0.25em 0.5em;
   background-color: #ffc;
-  color: black;  
+}
+
+p.success {
+  border: 1px solid green;
+  background-color: #cfc;
+  color: black;
 }
 
 li p {
@@ -195,7 +204,7 @@ i em {
 #toc:focus,
 #toc:target
 {
-  max-width: 100%;
+  max-width: 20em;
   height: 26.5em;
   max-height: 100%;
   -moz-transition: 0.1s height;
@@ -217,6 +226,17 @@ i em {
 
 #toc:hover h2:after {
   content: "\25B2 "
+}
+
+#message {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+#message p {
+  margin: 0 22em 0 0;
 }
 
 /* Abstract */

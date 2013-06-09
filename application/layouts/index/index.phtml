@@ -1,6 +1,26 @@
 <?php
   if (!$this->edit)
   {
+    if (($message = $this->message))
+    {
+      ?>
+    <section id="message">
+    <?php
+      switch ($message)
+      {
+        case 'tested':
+          ?><p class="status">Thank you for your contribution, but
+            all features have already been tested in your runtime
+            environment.  Your results will not be considered.
+            Please contact me if you think this is an error.</p><?php
+          break;
+
+        case 'success':
+          ?><p class="success">Thank you for your contribution.</p><?php
+      }
+      ?>
+      </section><?php
+    }
 ?>
     <section>
       <div id="abstract">

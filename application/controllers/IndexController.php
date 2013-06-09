@@ -43,7 +43,7 @@ class IndexController extends \PointedEars\PHPX\Controller
     $environments = EnvironmentMapper::getInstance()->fetchAllPerImplementation();
 
     $this->assign('edit', isset($_SESSION['edit']));
-    $this->assign('error', Application::getParam('error'), true);
+    $this->assign('message', Application::getParam('message'), true);
 
     $this->assign('implementations', $implementations);
     $this->assign('features', $features);
@@ -108,7 +108,7 @@ class IndexController extends \PointedEars\PHPX\Controller
 
   protected function saveResultsAction ()
   {
-    $error = null;
+    $message = 'success';
 
     try
     {
@@ -120,15 +120,15 @@ class IndexController extends \PointedEars\PHPX\Controller
         )))
       {
         /* Results not saved, other error */
-        $error = 'database';
+        $message = 'database_error';
       }
     }
     catch (EnvironmentTestedException $e)
     {
       /* Results not saved, environment already tested */
-      $error = 'tested';
+      $message = 'tested';
     }
 
-    Application::redirect($error ? 'error=' . urlencode($error) : '');
+    Application::redirect($message ? "message=$message" : '');
   }
 }
