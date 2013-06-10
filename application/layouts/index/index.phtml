@@ -182,7 +182,7 @@
              implementations (ought to) have in common (per
              the ECMAScript Language Specification).  And whenever
              it was talked about one particular implementation, its proper
-             name should be used, like <strong>Netscape/Mozilla.org JavaScript</strong>
+             name should be used, like <strong>Netscape/Mozilla JavaScript</strong>
              or simply <strong>JavaScript</strong> (if there is doubt,
              "™" might be added to emphasize that the implementation
              is meant).  <strong>In all other instances, the term
@@ -263,7 +263,8 @@
           <div><a href="#toc">&#8593; Table of contents</a></div>
 
           <ul>
-            <li><a href="#type-hinting">Notes on type hinting</a></li>
+            <li><a href="#display-problems">Known display problems</a></li>
+            <?php // <li><a href="#type-hinting">Notes on type hinting</a></li> ?>
             <li><a href="#features-table">List of features</a></li>
           </ul>
         </div>
@@ -296,7 +297,7 @@
           <em>and do not claim to be accurate or complete</em>.  Any
           correction/addition as to how things really are is welcome and will be
           <a href="#contributors">credited</a> where it is due.</strong></p>
-
+<?php /*
         <section>
           <h3 id="type-hinting">Notes on type hinting</h3>
 
@@ -460,6 +461,42 @@
              which a reference is passed, or to which a reference
              is returned.</p>
         </section>
+*/ ?>
+        <section>
+          <h3 id="display-problems">Known display problems</h3>
+          <ul>
+            <li><b>Firefox&nbsp;3.0.x:</b> If the scrollable table body
+              flows out of the table, you are observing
+              <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=423823"
+                 title="Bug 135236 (VERIFIED FIXED): Overflowing tbody rows render background color for overflowing rows" class="closed"
+                 >Bug&nbsp;423823</a>, fixed since
+              <a href="http://www.mozilla-europe.org/en/firefox/3.0.2/releasenotes/"
+                 >Firefox&nbsp;3.0.2</a>.
+              <em>The Firefox&nbsp;3.0 branch has met its
+              <a href="#javascript">end-of-life on 2010-03-30&nbsp;CE</a></em>.
+              If you are still using Firefox&nbsp;3.0.x as your primary browser, you
+              are strongly recommended to <a href="http://www.mozilla.com/firefox/"
+              >update&nbsp;Firefox</a> (but see below).  As an alternative, you can
+              toggle table body scrollability.</li>
+            <li><b>Firefox&nbsp;4.0+:</b> The support for scrollable table body
+              has been removed per
+              <a
+                href="https://bugzilla.mozilla.org/show_bug.cgi?id=28800"
+                title="Bug 28800 (RESOLVED FIXED): Remove the ability for rowgroups to scroll (e.g. &quot;tbody style=&quot;overflow:auto&quot;&gt;)"
+              >Bug&nbsp;28800</a>.  This violates the
+              <a  href="http://www.w3.org/TR/css3-box/#overflow"
+                  title="CSS3 Basic Box Model">CSS3 Basic Box Model</a>
+              specification, which is only a Working Draft at the time of writing
+              but is intended to replace the corresponding parts of CSS 2.1.
+              If you want this useful feature (back), please comment on and vote for
+              <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=674214#c6"
+                 title="Bug 674214 (RESOLVED INVALID): Add the ability for rowgroups to scroll (e.g. &lt;tbody style=&quot;overflow:auto&quot;&gt;)"
+                 >Bug&nbsp;67421</a>.</li>
+          </ul>
+
+          <p>Since both of these were regressions, this author deems it necessary
+            not to cover any of them with a workaround.</p>
+        </section>
       </div>
 <?php
     if ($_SERVER['HTTP_HOST'] === 'localhost')
@@ -516,7 +553,7 @@
 
         <ul>
           <li><a href="#timeline">Timeline</a></li>
-          <li><a href="#javascript">Netscape/Mozilla.org JavaScript</a></li>
+          <li><a href="#javascript">Netscape/Mozilla JavaScript</a></li>
           <li><a href="#jscript">Microsoft JScript</a></li>
           <li><a href="#v8">Google V8</a></li>
           <li><a href="#jsc">Apple JavaScriptCore</a></li>
@@ -540,7 +577,7 @@
                    title="Click to enlarge" style="width: 100%"></a>
           <figcaption>Timeline of ECMAScript and its implementations (click to enlarge)</figcaption>
         </figure>
-<!--
+<?php /*
         <table class="timeline">
           <caption>
             Timeline of ECMAScript editions and implementations
@@ -681,12 +718,12 @@
             </tr>
           </tbody>
         </table>
- -->
+ */ ?>
       </section>
 
       <section>
         <div>
-          <h3><a name="javascript" id="javascript">Netscape/Mozilla.org&nbsp;JavaScript
+          <h3><a name="javascript" id="javascript">Netscape/Mozilla&nbsp;JavaScript
             Version Information</a><a href="#fn-javascript"><sup>1)</sup></a></h3>
 
           <div><a href="#version-info">&#8593; Version information</a></div>
@@ -801,11 +838,19 @@
                 href="https://developer.mozilla.org/en/Firefox_20_for_developers#JavaScript"
                 title="Firefox 20 for developers: JavaScript"
                 >20</a></td>
+              <td><a
+                href="https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/21#JavaScript"
+                title="Firefox 21 for developers: JavaScript"
+                >21</a></td>
+              <td><a
+                href="https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/21#JavaScript"
+                title="Firefox 21 for developers: JavaScript"
+                >22</a></td>
             </tr>
           </thead>
           <tfoot>
             <tr>
-              <td colspan="24"><a name="fn-javascript" id="fn-javascript"
+              <td colspan="28"><a name="fn-javascript" id="fn-javascript"
                 >1)</a><a href="#javascript" class="backref">&#8593;</a>
                 Version information from the JavaScript Guides and References;
                 release dates from <a href="about:">about:</a>&nbsp;documents,
@@ -816,11 +861,11 @@
           </tfoot>
           <tbody>
             <tr class="header">
-              <th colspan="27">Implementations</th>
+              <th colspan="28">Implementations</th>
             </tr>
             <tr>
               <th><a href="http://www.mozilla.org/js/spidermonkey/"
-                     >Netscape/Mozilla.org SpiderMonkey</a> (in C)</th>
+                     >Netscape/Mozilla SpiderMonkey</a> (in C)</th>
               <td>1.0</td>
               <td>1.1</td>
               <td>1.2</td>
@@ -851,16 +896,17 @@
                 href="https://wiki.mozilla.org/IonMonkey">IonMonkey</a>)</td>
               <td>?</td>
               <td>?</td>
+              <td>?</td>
             </tr>
             <tr>
               <th><a href="http://wayback.archive.org/web/20090201134254/http://www.mozilla.org/js/language/Epimetheus.html"
-                     >Mozilla.org Epimetheus</a> (in C++)</th>
+                     >Mozilla Epimetheus</a> (in C++)</th>
               <td colspan="5"></td>
-              <td>+</td>
+              <td>+ (<span title="2002-12">2002</span>)</td>
             </tr>
             <tr>
               <th><a href="http://www.mozilla.org/rhino/"
-                     >Netscape/Mozilla.org Rhino</a> (in Java)</th>
+                     >Netscape/Mozilla Rhino</a> (in Java)</th>
               <td colspan="4"></td>
               <td>1.4R3 (<span title="1999-05-10">1999</span>)</td>
               <td>&nbsp;</td>
@@ -885,10 +931,10 @@
             </tr>
 
             <tr class="header">
-              <th colspan="27">Layout Engines</th>
+              <th colspan="28">Layout Engines</th>
             </tr>
             <tr>
-              <th><a href="https://developer.mozilla.org/en/docs/Gecko">Netscape/Mozilla.org
+              <th><a href="https://developer.mozilla.org/en/docs/Gecko">Netscape/Mozilla
               <abbr title="Next Generation Layout Engine">NGLayout</abbr>/Gecko</a></th>
               <td colspan="6"></td>
               <td>0.6–1.8a6</td>
@@ -911,10 +957,11 @@
               <td>18.0</td>
               <td>19.0</td>
               <td>20.0</td>
+              <td>21.0</td>
             </tr>
 
             <tr class="header">
-              <th colspan="27">Web Browsers</th>
+              <th colspan="28">Web Browsers</th>
             </tr>
             <tr>
               <th><a href="http://browser.netscape.com/">Netscape
@@ -1000,10 +1047,12 @@
                 (<span title="2013&#8209;02&#8209;19">2013</span>)</td>
               <td>20<br>
                 (<span title="2013&#8209;04&#8209;02">2013&#8209;04&#8209;02</span>)</td>
+              <td>21<br>
+                (<span title="2013&#8209;05&#8209;14">2013&#8209;05&#8209;14</span>)</td>
             </tr>
 
             <tr class="header">
-              <th colspan="27">Other Clients</th>
+              <th colspan="28">Other Clients</th>
             </tr>
             <tr>
               <th><a href="http://www.mozilla.org/products/mozilla1.x/">Mozilla
@@ -1055,7 +1104,7 @@
             </tr>
 
             <tr class="header">
-              <th colspan="27">Web Servers</th>
+              <th colspan="28">Web Servers</th>
             </tr>
             <tr>
               <th><a href="http://wp.netscape.com/enterprise/">Netscape
