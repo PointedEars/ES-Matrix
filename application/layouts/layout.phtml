@@ -13,7 +13,7 @@
     <meta http-equiv="Content-Script-Type" content="text/javascript">
     <meta http-equiv="Content-Style-Type" content="text/css">
 */ ?>
-    <title>ECMAScript Support Matrix 2 (under construction)</title>
+    <title>ECMAScript Support Matrix</title>
 
     <meta name="DCTERMS.alternative" content="ES Matrix">
     <meta name="DCTERMS.audience" content="Web developers">
@@ -68,12 +68,16 @@
         <p class="subtitle">There is no javascript.</p>
 
         <p style="text-align: left">
-          Version 2 <em>(under construction)</em><br>
+          Version 2<br>
           Copyright &copy; 2005&#8211;<?php global $modi; echo gmdate('Y', $modi); ?>
             <a href="/">Thomas Lahn</a>
             &lt;<a href="<?php echo randomEsc('mailto:js@PointedEars.de'); ?>"
             ><?php echo randomEsc('js@PointedEars.de'); ?></a>&gt;
-            (<a href="#contributors">contributors</a>)</p>
+            (<a href="#contributors">contributors</a>)<br>
+          <a href="https://twitter.com/PointedEars2"
+             class="twitter-follow-button"
+             data-show-count="false">Follow @PointedEars2</a>
+        </p>
 
         <div>
           <p style="margin-bottom: 0; text-align: left">
@@ -98,7 +102,41 @@
                      $s = 'http://PointedEars.de/scripts/test/es-matrix/index-db';
                      echo $s;
                    ?>"
-          ><?php echo $s; ?></a>
+          ><?php echo $s; ?></a><br>
+          <a href="https://twitter.com/share"
+             class="twitter-share-button"
+             data-url="http://PointedEars.de/es-matrix"
+             data-text="#ECMAScript Support Matrix"
+             data-via="PointedEars2"
+             data-count="none"
+             data-hashtags="JavaScript">Tweet</a>
+          <script type="text/javascript">
+            function safeTwitter (d, s, id)
+            {
+              var _isMethod = jsx.object.isMethod;
+
+              var js,
+                   fjs = _isMethod(d, "getElementsByTagName")
+                           ? d.getElementsByTagName(s)[0]
+                           : new Object(),
+                   p   = String(d.location).indexOf("http:") == 0
+                           ? 'http'
+                           : 'https';
+              if (_isMethod(d, "getElementById") && !d.getElementById(id))
+              {
+                js = _isMethod(d, "createElement")
+                       ? d.createElement(s)
+                       : new Object();
+                js.id = id;
+                js.src = p + '://platform.twitter.com/widgets.js';
+                if (fjs.parentNode)
+                {
+                  fjs.parentNode.insertBefore(js, fjs);
+                }
+              }
+            }
+            safeTwitter(document, 'script', 'twitter-wjs');
+          </script>
         </p>
 
         <div><a href="#toc">Table of contents</a></div>

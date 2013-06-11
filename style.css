@@ -257,7 +257,7 @@ blockquote p {
   cursor: help;
 }
 
-img,
+img, iframe,
 tr[title], th[title], td[title] {
   border-bottom: none !important;
 }
