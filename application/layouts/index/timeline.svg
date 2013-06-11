@@ -4,9 +4,8 @@
   "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
      xmlns:xlink="http://www.w3.org/1999/xlink"
-     height="600" width="<?php echo ($svg_width = 19 * 12 * 10) + 30; ?>">
+     height="650" width="<?php echo ($svg_width = 19 * 12 * 10) + 30; ?>">
   <title>Timeline of ECMAScript and its implementations</title>
-  <desc>Timeline of ECMAScript and its implementations</desc>
   <style type="text/css">
     title {
       cursor: help;
@@ -21,6 +20,10 @@
       font: 13px sans-serif;
     }
     
+    text.icon {
+      cursor: default;
+    }
+
     #grid text,
     #grid tspan {
       text-anchor: middle;
@@ -80,13 +83,13 @@
       fill: #1570A6;
     }
     
-    #google circle {
-      fill: #245DC1;
+    #kde circle {
+      fill: #003f8a;
     }
 
-    #google line,
-    #google path {
-      stroke: #245DC1;
+    #kde line,
+    #kde path {
+      stroke: #003f8a;
     }
     
     #apple circle {
@@ -107,6 +110,15 @@
       stroke: #281;
     }
 
+    #google circle {
+      fill: #245DC1;
+    }
+
+    #google line,
+    #google path {
+      stroke: #245DC1;
+    }
+    
     #opera circle {
       fill: #CC0F16;
     }
@@ -198,7 +210,7 @@
             <text y="-10">4</text>
           </a>
         </g>
-        <text x="1420" y="5">
+        <text x="1420" y="5" class="icon">
           <title>Website for ECMAScript Ed. 4 proposal went offline (2007-10-13)</title>
           X
         </text>
@@ -265,7 +277,7 @@
           <circle r="5"/><title>JavaScript 2.0 (2002-12)</title>
           <text x="5" y="-10" style="text-anchor: start">2.0 (historic)</text>
           <text y="20" style="text-anchor: start">Epimetheus</text>
-          <text x="1020" y="5">X</text>
+          <text x="1020" y="5" class="icon">X</text>
         </g>
 
         <g class="mozilla" transform="translate(0 60)">
@@ -274,8 +286,8 @@
           <path d="m 410 -60
                    Q 490 0 570 0"/>
                    
-          <line x1="570" x2="2080"/>
-          <line x1="2080" x2="<?php echo $svg_width - 115; ?>"
+          <line x1="570" x2="2100"/>
+          <line x1="2100" x2="<?php echo $svg_width - 115; ?>"
                 class="future"/>
         
           <g transform="translate(570 0)">
@@ -314,7 +326,7 @@
             <text y="-10" style="text-anchor: end">1.8.6</text>
           </g>
           <g transform="translate(1880 0)">
-            <circle r="2" title="Firefox 6 (2011-08)" />
+            <circle r="2"/><title>Firefox 6 (2011-08)</title>
             <text y="-10" style="text-anchor: start">Firefox</text>
             <text y="20" style="text-anchor: end">6</text>
           </g>
@@ -362,7 +374,7 @@
             <circle r="2"/><title>Mozilla Firefox 20 (2013-04)</title>
             <text y="-10">20</text>
           </g>
-          <g transform="translate(2090 0)">
+          <g transform="translate(2100 0)">
             <circle r="2"/><title>Mozilla Firefox 21 (2013-05)</title>
           </g>
           <g transform="translate(2100 0)">
@@ -536,11 +548,242 @@
           </g>
         </g>
         
-        <g id="google" transform="translate(0 280)">
+        <g id="opera" transform="translate(0 280)">
+          <title>Opera ECMAScript</title>
+        
+          <line x1="240" x2="2100"/>
+          <line x1="2100" x2="<?php echo $svg_width - 115; ?>"
+                class="future"/>
+
+          <g transform="translate(240 0)">
+            <title>Opera ECMAScript 3.00 (1997-12)</title>
+            <circle r="5"/>
+            <text y="-10">3.00</text>
+            <text y="20">Opera ECMAScript</text>
+          </g>
+          <g transform="translate(410 0)">
+            <title>Opera ECMAScript 3.60 (1999-05)</title>
+            <circle r="4"/>
+            <text y="-10">3.60</text>
+          </g>
+          <g transform="translate(540 0)">
+            <title>Opera ECMAScript 4.00 (2000-06)</title>
+            <circle r="5"/>
+            <text y="20" style="text-anchor: start">Linear A</text>
+            <text y="-10">4.00</text>
+          </g>
+          <g transform="translate(720 0)">
+            <title>Opera ECMAScript 6.00 (2001-12-18)</title>
+            <circle r="5"/>
+            <text y="-10">6.00</text>
+          </g>
+          <g transform="translate(850 0)">
+            <title>Opera ECMAScript 7.00 (2003-01-28)</title>
+            <circle r="5"/>
+            <text y="20" style="text-anchor: start">Linear B</text>
+            <text y="-10">7.00</text>
+          </g>
+          <g transform="translate(1130 0)">
+            <title>Opera ECMAScript 8.0 (2005-04-19)</title>
+            <circle r="5"/>
+            <text y="-10">8.00</text>
+          </g>
+          <g transform="translate(1180 0)">
+            <title>Opera ECMAScript 8.50 (2005-09-20)</title>
+            <circle r="4"/>
+            <text y="-10">8.50</text>
+          </g>
+          <g transform="translate(1500 0)">
+            <title>Opera ECMAScript 9.50 (2008-06-12)</title>
+            <circle r="4"/>
+            <text y="-10">9.50</text>
+            <text y="20" style="text-anchor: start">Futhark</text>
+          </g>
+          <g transform="translate(1650 0)">
+            <title>Opera ECMAScript 10.00 (2009-09-01)</title>
+            <circle r="5"/>
+            <text y="-10">10.00</text>
+          </g>
+          <g transform="translate(1700 0)">
+            <title>Opera ECMAScript 10.50 (2010-03-02)</title>
+            <circle r="4"/>
+            <text y="20" style="text-anchor: start">Carakan</text>
+            <text y="-10">10.50</text>
+          </g>
+          <g transform="translate(1800 0)">
+            <title>Opera ECMAScript 11.00 (2010-12-16)</title>
+            <circle r="5"/>
+            <text y="-10">11.00</text>
+          </g>
+          <g transform="translate(1920 0)">
+            <title>Opera ECMAScript 11.60 (2011-12-06)</title>
+            <circle r="4"/>
+            <text y="-10">11.60</text>
+          </g>
+          <g transform="translate(2080 0)">
+            <title>Opera ECMAScript 12.15 (2013-04-04)</title>
+            <circle r="5"/>
+            <text y="-10">12.15</text>
+          </g>
+        </g>
+        
+        <g id="kde" transform="translate(0 340)">
+          <title>KDE JavaScript</title>
+
+          <line x1="580" x2="2100"/>
+          <line x1="2100" x2="<?php echo $svg_width - 115; ?>"
+                class="future"/>
+
+          <g transform="translate(580 0)">
+            <title>KDE JavaScript (2000-10)</title>
+            <circle r="5"/>
+            <text y="-10">2.0</text>
+            <text y="20" style="text-anchor: end">KDE JavaScript</text>
+          </g>
+          <g transform="translate(620 0)">
+            <title>KDE JavaScript 2.1.2 (2001-02-26)</title>
+            <circle r="3"/>
+            <text y="-10">2.1.2</text>
+          </g>
+          <g transform="translate(680 0)">
+            <title>KDE JavaScript 2.2 (2001-08-15)</title>
+            <circle r="4"/>
+            <text y="-10">2.2</text>
+          </g>
+          <g transform="translate(760 0)">
+            <title>KDE JavaScript 3.0 (2002-04-03)</title>
+            <circle r="5"/>
+            <text y="-10">3.0</text>
+          </g>
+          <g transform="translate(980 0)">
+            <title>KDE JavaScript 3.2 (2004-02-03)</title>
+            <circle r="4"/>
+            <text y="-10">3.2</text>
+          </g>
+          <g transform="translate(1460 0)">
+            <title>KDE JavaScript 4.0.1 (2008-02-05)</title>
+            <circle r="3"/>
+            <text y="-10">4.0.1</text>
+            <text y="20" style="text-anchor: start">Frostbyte</text>
+          </g>
+          <g transform="translate(1570 0)">
+            <title>KDE JavaScript 4.2 (2009-01-27)</title>
+            <circle r="4"/>
+            <text y="-10">4.2</text>
+          </g>
+          <g transform="translate(1880 0)">
+            <title>KDE JavaScript 4.6.5 (2011-07-07)</title>
+            <circle r="3"/>
+            <text y="-10">4.6.5</text>
+          </g>
+          
+          <g id="apple" transform="translate(0 60)">
+            <title>Apple JavaScriptCore</title>
+          
+            <path d="m 825 -60
+                     Q 825 0 850 0"/>
+                       
+            <line x1="850" x2="1320"/>
+  
+            <g transform="translate(850 0)">
+              <title>Apple JavaScriptCore 48 (2003)</title>
+              <circle r="5"/>
+              <text y="20">Apple JavaScriptCore</text>
+              <text y="-10">48</text>
+            </g>
+            <g transform="translate(1320 0)">
+              <title>Apple JavaScriptCore 312.6 (2006)</title>
+              <circle r="5"/>
+              <text y="-10">312.6</text>
+            </g>
+            
+            <g id="webkit" transform="translate(0 70)">
+              <title>WebKit JavaScriptCore</title>
+              
+              <path d="m 1095 -70
+                       Q 1095 0 1120 0"/>
+                       
+              <line x1="1120" x2="2100"/>
+              <line x1="2100" x2="<?php echo $svg_width - 115; ?>"
+                    class="future"/>
+                    
+              <g transform="translate(1120 0)">
+                <title>WebKit JavaScriptCore 412 (2005-04)</title>
+                <circle r="5"/>
+                <text y="-10">412</text>
+                <text y="20">WebKit JavaScriptCore</text>
+              </g>
+              <g transform="translate(1210 0)">
+                <title>WebKit JavaScriptCore 419.13 (2006-01)</title>
+                <circle r="3"/>
+                <text y="-10">419.13</text>
+              </g>
+              <g transform="translate(1380 0)">
+                <title>WebKit JavaScriptCore 522.11 (2007-06)</title>
+                <circle r="5"/>
+                <text y="-10">522.11</text>
+              </g>
+              <g transform="translate(1420 0)">
+                <title>WebKit JavaScriptCore 523.10 (2007-10)</title>
+                <circle r="3"/>
+                <text y="20">523.10</text>
+              </g>
+              <g transform="translate(1470 0)">
+                <title>WebKit JavaScriptCore 525.13 (2008-03)</title>
+                <circle r="3"/>
+                <text y="-10" style="text-anchor: end">525.13</text>
+              </g>
+              <g transform="translate(1500 0)">
+                <title>WebKit SquirrelFish 525.19 (2008-06-02)</title>
+                <circle r="5"/>
+                <text y="-10">525.19</text>
+                <text y="20" style="text-anchor: start">SquirrelFish</text>
+              </g>
+              <g transform="translate(1530 0)">
+                <title>WebKit SquirrelFish Extreme (2008-09-18)</title>
+                <circle r="5"/>
+                <text y="-10" style="text-anchor: start">
+                  <title>SquirrelFish Extreme</title>
+                  SFX
+                </text>
+              </g>
+              <g transform="translate(1550 0)">
+                <title>WebKit SquirrelFish Extreme 525.27.1 (2008-11)</title>
+                <circle r="2"/>
+              </g>
+              <g transform="translate(1620 0)">
+                <title>WebKit SquirrelFish Extreme 530.17 (2009-06)</title>
+                <circle r="4"/>
+                <text y="-10">530.17</text>
+              </g>
+              <g transform="translate(1640 0)">
+                <title>WebKit SquirrelFish Extreme 531.9 (2009-08)</title>
+                <circle r="3"/>
+                <text y="20">531.9</text>
+              </g>
+              <g transform="translate(1670 0)">
+                <title>WebKit SquirrelFish Extreme 531.21.8 (2009-11)</title>
+                <circle r="2"/>
+              </g>
+              <g transform="translate(1710 0)">
+                <title>WebKit SquirrelFish 531.22.7 (2010-03-11)</title>
+                <circle r="2"/>
+                <text y="-10">531.22.7</text>
+              </g>
+              <g transform="translate(1740 0)">
+                <title>WebKit SquirrelFish 533.16 (2010-06-07)</title>
+                <circle r="4"/>
+                <text y="20">533.16</text>
+              </g>
+            </g>
+          </g>
+        </g>
+
+        <g id="google" transform="translate(0 400)">
           <title>Google V8</title>
         
-          <line x1="1510" x2="2080"/>
-          <line x1="2080" x2="<?php echo $svg_width - 115; ?>"
+          <line x1="1510" x2="2100"/>
+          <line x1="2100" x2="<?php echo $svg_width - 115; ?>"
                 class="future"/>
           
           <g transform="translate(1510 0)">
@@ -667,186 +910,17 @@
             <circle r="4"/>
           </g>
           <g transform="translate(2080 0)">
-            <title>Google V8 3.17.16 (2013-04-04)</title>
+            <title>Google V8 3.18.0 (2013-04-17)</title>
+            <circle r="4"/>
+          </g>
+          <g transform="translate(2090 0)">
+            <title>Google V8 3.19.0 (2013-05-10)</title>
+            <circle r="4"/>
+          </g>
+          <g transform="translate(2100 0)">
+            <title>Google V8 3.19.8 (2013-06-03)</title>
             <circle r="3"/>
-            <text y="-10" style="text-anchor: start">3.17.16</text>
-          </g>
-        </g>
-
-        <g id="apple" transform="translate(0 280)">
-          <title>Apple JavaScriptCore</title>
-        
-          <line x1="850" x2="1320"/>
-
-          <g transform="translate(850 0)">
-            <title>Apple JavaScriptCore 48 (2003)</title>
-            <circle r="5"/>
-            <text y="20">Apple JavaScriptCore</text>
-            <text y="-10">48</text>
-          </g>
-          <g transform="translate(1320 0)">
-            <title>Apple JavaScriptCore 312.6 (2006)</title>
-            <circle r="5"/>
-            <text y="-10">312.6</text>
-          </g>
-          
-          <g id="webkit" transform="translate(0 70)">
-            <title>WebKit JavaScriptCore</title>
-            
-            <path d="m 1095 -70
-                     Q 1095 0 1120 0"/>
-                     
-            <line x1="1120" x2="1740"/>
-            <line x1="1740" x2="<?php echo $svg_width - 115; ?>"
-                  class="future"/>
-                  
-            <g transform="translate(1120 0)">
-              <title>WebKit JavaScriptCore 412 (2005-04)</title>
-              <circle r="5"/>
-              <text y="-10">412</text>
-              <text y="20">WebKit JavaScriptCore</text>
-            </g>
-            <g transform="translate(1210 0)">
-              <title>WebKit JavaScriptCore 419.13 (2006-01)</title>
-              <circle r="3"/>
-              <text y="-10">419.13</text>
-            </g>
-            <g transform="translate(1380 0)">
-              <title>WebKit JavaScriptCore 522.11 (2007-06)</title>
-              <circle r="5"/>
-              <text y="-10">522.11</text>
-            </g>
-            <g transform="translate(1420 0)">
-              <title>WebKit JavaScriptCore 523.10 (2007-10)</title>
-              <circle r="3"/>
-              <text y="20">523.10</text>
-            </g>
-            <g transform="translate(1470 0)">
-              <title>WebKit JavaScriptCore 525.13 (2008-03)</title>
-              <circle r="3"/>
-              <text y="-10" style="text-anchor: end">525.13</text>
-            </g>
-            <g transform="translate(1500 0)">
-              <title>WebKit SquirrelFish 525.19 (2008-06-02)</title>
-              <circle r="5"/>
-              <text y="-10">525.19</text>
-              <text y="20" style="text-anchor: start">SquirrelFish</text>
-            </g>
-            <g transform="translate(1530 0)">
-              <title>WebKit SquirrelFish Extreme (2008-09-18)</title>
-              <circle r="5"/>
-              <text y="-10" style="text-anchor: start">
-                <title>SquirrelFish Extreme</title>
-                SFX
-              </text>
-            </g>
-            <g transform="translate(1550 0)">
-              <title>WebKit SquirrelFish Extreme 525.27.1 (2008-11)</title>
-              <circle r="2"/>
-            </g>
-            <g transform="translate(1620 0)">
-              <title>WebKit SquirrelFish Extreme 530.17 (2009-06)</title>
-              <circle r="4"/>
-              <text y="-10">530.17</text>
-            </g>
-            <g transform="translate(1640 0)">
-              <title>WebKit SquirrelFish Extreme 531.9 (2009-08)</title>
-              <circle r="3"/>
-              <text y="20">531.9</text>
-            </g>
-            <g transform="translate(1670 0)">
-              <title>WebKit SquirrelFish Extreme 531.21.8 (2009-11)</title>
-              <circle r="2"/>
-            </g>
-            <g transform="translate(1710 0)">
-              <title>WebKit SquirrelFish 531.22.7 (2010-03-11)</title>
-              <circle r="2"/>
-              <text y="-10">531.22.7</text>
-            </g>
-            <g transform="translate(1740 0)">
-              <title>WebKit SquirrelFish 533.16 (2010-06-07)</title>
-              <circle r="4"/>
-              <text y="20">533.16</text>
-            </g>
-          </g>
-        </g>
-
-        <g id="opera" transform="translate(0 420)">
-          <title>Opera ECMAScript</title>
-        
-          <line x1="240" x2="2080"/>
-          <line x1="2080" x2="<?php echo $svg_width - 115; ?>"
-                class="future"/>
-
-          <g transform="translate(240 0)">
-            <title>Opera ECMAScript 3.00 (1997-12)</title>
-            <circle r="5"/>
-            <text y="-10">3.00</text>
-            <text y="20">Opera ECMAScript</text>
-          </g>
-          <g transform="translate(410 0)">
-            <title>Opera ECMAScript 3.60 (1999-05)</title>
-            <circle r="4"/>
-            <text y="-10">3.60</text>
-          </g>
-          <g transform="translate(540 0)">
-            <title>Opera ECMAScript 4.00 (2000-06)</title>
-            <circle r="5"/>
-            <text y="20" style="text-anchor: start">Linear A</text>
-            <text y="-10">4.00</text>
-          </g>
-          <g transform="translate(720 0)">
-            <title>Opera ECMAScript 6.00 (2001-12-18)</title>
-            <circle r="5"/>
-            <text y="-10">6.00</text>
-          </g>
-          <g transform="translate(850 0)">
-            <title>Opera ECMAScript 7.00 (2003-01-28)</title>
-            <circle r="5"/>
-            <text y="20" style="text-anchor: start">Linear B</text>
-            <text y="-10">7.00</text>
-          </g>
-          <g transform="translate(1130 0)">
-            <title>Opera ECMAScript 8.0 (2005-04-19)</title>
-            <circle r="5"/>
-            <text y="-10">8.00</text>
-          </g>
-          <g transform="translate(1180 0)">
-            <title>Opera ECMAScript 8.50 (2005-09-20)</title>
-            <circle r="4"/>
-            <text y="-10">8.50</text>
-          </g>
-          <g transform="translate(1500 0)">
-            <title>Opera ECMAScript 9.50 (2008-06-12)</title>
-            <circle r="4"/>
-            <text y="-10">9.50</text>
-            <text y="20" style="text-anchor: start">Futhark</text>
-          </g>
-          <g transform="translate(1650 0)">
-            <title>Opera ECMAScript 10.00 (2009-09-01)</title>
-            <circle r="5"/>
-            <text y="-10">10.00</text>
-          </g>
-          <g transform="translate(1700 0)">
-            <title>Opera ECMAScript 10.50 (2010-03-02)</title>
-            <circle r="4"/>
-            <text y="20" style="text-anchor: start">Carakan</text>
-            <text y="-10">10.50</text>
-          </g>
-          <g transform="translate(1800 0)">
-            <title>Opera ECMAScript 11.00 (2010-12-16)</title>
-            <circle r="5"/>
-            <text y="-10">11.00</text>
-          </g>
-          <g transform="translate(1920 0)">
-            <title>Opera ECMAScript 11.60 (2011-12-06)</title>
-            <circle r="4"/>
-            <text y="-10">11.60</text>
-          </g>
-          <g transform="translate(2080 0)">
-            <title>Opera ECMAScript 12.15 (2013-04-04)</title>
-            <circle r="5"/>
-            <text y="-10">12.15</text>
+            <text y="-10" style="text-anchor: start">3.19.8</text>
           </g>
         </g>
       </g>
@@ -854,7 +928,7 @@
     
     <text y="95%">
       <?php for ($x_year = 60, $year = 1995; $x_year < $svg_width; $x_year += 120, ++$year): ?>
-        <tspan x="<?php echo $x_year; ?>"><?php echo $year; ?></tspan>
+        <tspan x="<?php echo $x_year; ?>"><?php echo $year . ($year === 1995 ? ' (CE)' : ''); ?></tspan>
       <?php endfor; ?>
     </text>
   </g>
