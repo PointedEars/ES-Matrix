@@ -180,6 +180,7 @@ i em {
   position: fixed;
   right: 0;
   top: 0;
+  max-width: 20em;
   height: 3em;
   /* margin-top: 1em; */
   padding: 0 1em 1em 1em;
@@ -204,7 +205,6 @@ i em {
 #toc:focus,
 #toc:target
 {
-  max-width: 20em;
   height: 26.5em;
   max-height: 100%;
   -moz-transition: 0.1s height;
