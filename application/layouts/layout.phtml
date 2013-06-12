@@ -110,33 +110,6 @@
              data-via="PointedEars2"
              data-count="none"
              data-hashtags="JavaScript">Tweet</a>
-          <script type="text/javascript">
-            function safeTwitter (d, s, id)
-            {
-              var _isMethod = jsx.object.isMethod;
-
-              var js,
-                   fjs = _isMethod(d, "getElementsByTagName")
-                           ? d.getElementsByTagName(s)[0]
-                           : new Object(),
-                   p   = String(d.location).indexOf("http:") == 0
-                           ? 'http'
-                           : 'https';
-              if (_isMethod(d, "getElementById") && !d.getElementById(id))
-              {
-                js = _isMethod(d, "createElement")
-                       ? d.createElement(s)
-                       : new Object();
-                js.id = id;
-                js.src = p + '://platform.twitter.com/widgets.js';
-                if (fjs.parentNode)
-                {
-                  fjs.parentNode.insertBefore(js, fjs);
-                }
-              }
-            }
-            safeTwitter(document, 'script', 'twitter-wjs');
-          </script>
         </p>
 
         <div><a href="#toc">Table of contents</a></div>

@@ -1,8 +1,35 @@
 /* NOTE: Stick to basic features for maximum backwards compatility */
 var es_matrix = new Object();
 
+function safeTwitter (d, s, id)
+{
+  var _isMethod = jsx.object.isMethod;
+
+  var js,
+       fjs = _isMethod(d, "getElementsByTagName")
+               ? d.getElementsByTagName(s)[0]
+               : new Object(),
+       p   = String(d.location).indexOf("http:") == 0
+               ? 'http'
+               : 'https';
+  if (_isMethod(d, "getElementById") && !d.getElementById(id))
+  {
+    js = _isMethod(d, "createElement")
+           ? d.createElement(s)
+           : new Object();
+    js.id = id;
+    js.src = p + '://platform.twitter.com/widgets.js';
+    if (fjs.parentNode)
+    {
+      fjs.parentNode.insertBefore(js, fjs);
+    }
+  }
+}
+
 function body_load ()
 {
+  safeTwitter(document, 'script', 'twitter-wjs');
+
   jsx.string.hyphenation.loadDictionary("application/scripts/hyphenation-en.js");
 
   var elements = new Array();
