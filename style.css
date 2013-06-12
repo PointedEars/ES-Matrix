@@ -248,18 +248,17 @@ blockquote p {
   text-decoration: line-through;
 }
 
-[title],
+span[title],
+var[title],
 .footnote-ref,
 .footnote-ref :link,
 .footnote-ref :visited
 {
   border-bottom: 1px dotted #666;
-  cursor: help;
 }
 
-img, iframe,
-tr[title], th[title], td[title] {
-  border-bottom: none !important;
+[title] {
+  cursor: help;
 }
 
 img,
@@ -270,7 +269,7 @@ button
 }
 
 .footnote-ref .tooltip {
-  border-bottom: none;
+  border-bottom: none !important;
 }
 
 .footnotes {
@@ -284,8 +283,7 @@ button
 }
 
 a[title] {
-  border-bottom: none;
-  cursor: pointer;
+  cursor: pointer !important;
 }
 
 a.backref {
