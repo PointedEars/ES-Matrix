@@ -294,7 +294,7 @@ span.section {
   font-size: smaller; 
 }
 
-acronym, abbr {
+abbr {
   border-bottom: 1px dotted #666;
 }
 
