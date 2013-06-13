@@ -31,7 +31,7 @@
                 {
                   ?> title="<?php echo $this->escape($feature->title); ?>"<?php
                 }
-                ?>><?php
+                ?> headers="hdr-feature"><?php
                 $code = $feature->code;
 
                 $untagged = strtolower(substr(strip_tags($code), 0, 1));
@@ -51,7 +51,7 @@
                       needs to be declared in order to use this feature (without syntax error).');
                 }
                 ?></th>
-            <td><?php
+            <td headers="hdr-es"><?php
               $edition = $feature->edition;
               if ($edition)
               {
@@ -110,7 +110,7 @@
                   . ' click the feature code in the first column to run'
                   . ' a manual test."';
               }
-              ?>><?php
+              ?> headers="hdr-this"><?php
               if (count($testcases) > 0)
               {
                 ?><script type="text/javascript">
@@ -182,11 +182,19 @@
         $impl_results = Application::getParam($feature->id, $feature_results);
         if (is_array($implementations) && is_array($impl_results))
         {
-          foreach ($implementations as $key => $implementation)
+          foreach ($implementations as $key => $impl)
           {
 ?>
-      			<td><?php
-      			  $impl_result = Application::getParam($implementation->id, $impl_results);
+      			<td headers="hdr-<?php
+              echo $this->escape(
+                strtolower(
+                  ($impl->acronym !== '')
+                    ? strtolower($impl->acronym)
+                    : $impl->name
+                )
+              );
+              ?>"><?php
+      			  $impl_result = Application::getParam($impl->id, $impl_results);
       			  if (is_array($impl_result))
       			  {
       			    ?><table class="results"><?php

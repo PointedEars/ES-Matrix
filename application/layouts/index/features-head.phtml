@@ -25,7 +25,7 @@ if ($this->edit)
 <?php
   }
 ?>
-            <th id="atoz">
+            <th id="hdr-feature">
 <?php
   if ($this->edit)
   {
@@ -57,8 +57,8 @@ if ($this->edit)
                      title="Expression to filter the feature table (shortcut: Access Key + F)">
               </div>
             </th>
-            <th><a href="#ecmascript">ECMAScript</a></th>
-            <th>This <abbr title="implementation">impl.</abbr><?php
+            <th id="hdr-es"><a href="#ecmascript">ECMAScript</a></th>
+            <th id="hdr-this">This <abbr title="implementation">impl.</abbr><?php
                 echo $this->footnotes->add('this-impl', null, $scriptEngineTest, '');
                 ?><br>
               <script type="text/javascript">
@@ -128,7 +128,15 @@ if ($this->edit)
   foreach ($implementations as $impl)
   {
 ?>
-            <th><?php
+            <th id="hdr-<?php
+              echo $this->escape(
+                strtolower(
+                  ($impl->acronym !== '')
+                    ? strtolower($impl->acronym)
+                    : $impl->name
+                )
+              );
+              ?>"><?php
               if ($impl->acronym !== '')
               {
                 ?><abbr title="<?php echo $this->escape($impl->name); ?>"><?php
