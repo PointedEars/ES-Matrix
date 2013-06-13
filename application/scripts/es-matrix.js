@@ -63,6 +63,7 @@ function body_load ()
 
     var properties = new Object();
     properties.filterColumns = filterColumns;
+    properties.addTitles = true;
 
     var table = new jsx.dom.widgets.Table(
       document.getElementById("features-table"),

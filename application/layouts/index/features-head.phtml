@@ -25,7 +25,7 @@ if ($this->edit)
 <?php
   }
 ?>
-            <th id="hdr-feature">
+            <th id="hdr-feature" data-title="Feature">
 <?php
   if ($this->edit)
   {
@@ -57,63 +57,11 @@ if ($this->edit)
                      title="Expression to filter the feature table (shortcut: Access Key + F)">
               </div>
             </th>
-            <th id="hdr-es"><a href="#ecmascript">ECMAScript</a></th>
-            <th id="hdr-this">This <abbr title="implementation">impl.</abbr><?php
+            <th id="hdr-es" title="ECMAScript Edition"><a href="#ecmascript">ECMAScript</a></th>
+            <th id="hdr-this" data-title="This implementation">This <abbr title="implementation">impl.</abbr><?php
                 echo $this->footnotes->add('this-impl', null, $scriptEngineTest, '');
                 ?><br>
-              <script type="text/javascript">
-                function strReplace (needle, replacement, haystack, global)
-                {
-                  var i,
-                      lastIndex = 0,
-                      replacementLen = replacement.length;
-
-                  while ((i = haystack.indexOf(needle, lastIndex)) > -1)
-                  {
-                    haystack = haystack.substring(0, i)
-                             + replacement
-                             + haystack.substring(i + replacementLen);
-                    if (!global)
-                    {
-                      break;
-                    }
-
-                    lastIndex = i + replacementLen;
-                  }
-
-                  return haystack;
-                }
-
-                var implementation = jsx.object.isMethod(this, "ScriptEngine") ? ScriptEngine() : '';
-                if (implementation)
-                {
-                  implementation = strReplace("<", "&gt;", strReplace('"', "&quot;", implementation, true), true);
-                  var version = '';
-                  if (jsx.object.isMethod(this, "ScriptEngineMajorVersion"))
-                  {
-                    version = ScriptEngineMajorVersion();
-
-                    if (jsx.object.isMethod(this, "ScriptEngineMinorVersion"))
-                    {
-                      version += "." + ScriptEngineMinorVersion();
-
-                      if (jsx.object.isMethod(this, "ScriptEngineBuildVersion"))
-                      {
-                        version += "." + ScriptEngineBuildVersion();
-                      }
-                    }
-
-                    if (version)
-                    {
-                      version = strReplace("<", "&gt;", strReplace('"', "&quot;", version, true), true);
-                    }
-                  }
-
-                  document.write(
-                    '<input type="hidden" name="implementation" value="' + implementation + '">'
-                    + '<input type="hidden" name="version" value="' + version + '">');
-                }
-              </script>
+              <script type="text/javascript" src="application/scripts/impl-detection.js"></script>
 <?php
   if (/*$_SERVER['HTTP_HOST'] === 'localhost' && */!$this->edit)
   {
