@@ -1,6 +1,6 @@
 /**
  * Makes an element scrollable
- * 
+ *
  * @param target : string|Element
  *   Reference to the element object representing the element to be made
  *   scrollable, or its ID.
@@ -39,7 +39,7 @@ function Scrollable(target, sClassName, iMaxHeight, callback)
   {
     return throwThis("", "iMaxHeight must be a number");
   }
-  
+
   this.maxHeight = iMaxHeight;
 
   if (dom.addClassName(this.target, this.className))
@@ -50,16 +50,16 @@ function Scrollable(target, sClassName, iMaxHeight, callback)
         if (me.target.offsetHeight < me.maxHeight)
         {
           fCheckEnd();
-    
+
           if (typeof callback == "function")
           {
             callback(me);
           }
-    
+
           /* Firefox tbody-scroll bug workaround */
           me.toggleScroll();
           me.toggleScroll();
-          
+
           return;
         }
         else
@@ -67,23 +67,23 @@ function Scrollable(target, sClassName, iMaxHeight, callback)
           dom.runLater(fCheck, 1000);
         }
       },
-      
+
       fCheckEnd = function () {
         if (!isNaN(t))
         {
           window.clearTimeout(t);
         }
-        
+
         dom.removeEventListener(document, "MozAfterPaint", fCheck, true);
         dom.removeEventListener(document.body, "unload", fCheckEnd);
         fCheckEnd = fCheck = t = null;
       },
-  
+
       /* DOM Level 0: poll rendering status */
       t = dom.runLater(fCheck, 1000);
-    
+
     dom.addEventListener(document.body, "unload", fCheckEnd);
-    
+
     /* Gecko 1.9.1: precise timing */
     dom.addEventListener(document, "MozAfterPaint", fCheck, true);
   }
@@ -91,7 +91,7 @@ function Scrollable(target, sClassName, iMaxHeight, callback)
 
 /**
  * Toggles the scrollability of the body of the scroller table.
- * 
+ *
  * @param bVerbose : boolean
  *   If <code>true</code>, displays an error message if toggling
  *   is not possible.
@@ -101,7 +101,7 @@ Scrollable.prototype.toggleScroll = function (bVerbose) {
   if (target)
   {
     var className = this.className;
-    
+
     if (target.className == className)
     {
       dom.removeClassName(target, className);
@@ -128,12 +128,12 @@ Scrollable.prototype.toggleScroll = function (bVerbose) {
 
     return true;
   }
-  
+
   if (bVerbose)
   {
     window.alert("Sorry, this feature is not supported by your user agent.");
   }
-  
+
   return false;
 };
 
@@ -160,13 +160,13 @@ function HTMLSerializer(properties)
 
 /**
  * Returns the string representation of this object.
- * 
+ *
  * @return string The properties of this object represented as a
  *   SGML-conforming start tag.
  */
 HTMLSerializer.prototype.toString = function() {
   var res = [];
-  
+
   var tagName = this.tagName;
   if (tagName)
   {
@@ -177,7 +177,7 @@ HTMLSerializer.prototype.toString = function() {
   for (var i = 0, len = attrs && attrs.length; i < len; i++)
   {
     var attr = attrs[i];
-    
+
     if (attr.name == "style")
     {
       res.push(' style="');
@@ -193,14 +193,14 @@ HTMLSerializer.prototype.toString = function() {
       res.push(" ", attr.name, '="', attr.value, '"');
     }
   }
-  
+
   res = res.join("");
-  
+
   if (tagName)
   {
     res = "<" + res + ">";
   }
-  
+
   return res;
 };
 
@@ -230,7 +230,7 @@ HTMLSerializer.prototype.toObject = function(o) {
   for (var i = 0, len = attrs && attrs.length; i < len; ++i)
   {
     var attr = attrs[i];
-    
+
     switch (attr.name)
     {
       case "style":
@@ -240,7 +240,7 @@ HTMLSerializer.prototype.toObject = function(o) {
           o.style[sp[j].name] = sp[j].value;
         }
         break;
-      
+
       default:
         if (/^on/i.test(attr.name))
         {
@@ -252,7 +252,7 @@ HTMLSerializer.prototype.toObject = function(o) {
         }
     }
   }
-  
+
   return o;
 };
 
@@ -278,7 +278,7 @@ function printScrollButton()
       {name: "id", value: "btToggleScroll"}
     ]
   });
-          
+
   jsx.tryThis(
     /**
      * Writes the button in the document (HTML only)
@@ -290,7 +290,7 @@ function printScrollButton()
      * If writing fails (XHTML et al.), inserts the button in the document
      */
     function() {
-      var o = document.getElementById("atoz");
+      var o = document.getElementById("hdr-feature");
       if (o)
       {
         o.insertBefore(button.toObject(), o.firstChild.nextSibling);
@@ -302,7 +302,7 @@ function printScrollButton()
  * Sets or appends an alternating <code>class</code> attribute value
  * to all rows of all <code>tbody</code> elements in the document so as
  * to distinguish (and format) odd and even rows.
- * 
+ *
  * @param restrictToRows : number
  *   If <tt>1</tt>, only consider odd rows;
  *   if <tt>2</tt>, only consider even rows;
@@ -313,7 +313,7 @@ function alternateRows(restrictToRows)
   var
     allRows = isNaN(restrictToRows),
     tbodies = jsx.dom.gEBTN("tbody");
-  
+
   for (var i = tbodies && tbodies.length; i--;)
   {
     /* TODO */
@@ -322,13 +322,13 @@ function alternateRows(restrictToRows)
 //    {
 //
 //    }
-    
+
     for (var rows = tbodies[i].rows, j = rows.length; j--;)
     {
       if (allRows || (j - restrictToRows) % 2)
       {
         var o = rows[j];
-      
+
         var currentClass = o.className;
         if (!/\b(odd|even)\b/i.test(currentClass))
         {
