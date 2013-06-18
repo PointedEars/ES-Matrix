@@ -70,9 +70,12 @@ function body_load ()
       null,
       properties);
 
-    es_matrix.timeout = new jsx.dom.timeout.Timeout(function () {
+    var timeout = es_matrix.timeout = new jsx.dom.timeout.Timeout(function () {
       table.applyFilter(filter.value);
     });
+
+    /* Filter on pre-filled filter control */
+    timeout.run();
   }
 
   synhl();

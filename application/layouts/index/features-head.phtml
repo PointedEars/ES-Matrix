@@ -36,25 +36,45 @@ if ($this->edit)
 <?php
   }
 ?>
-              <label for="filter"><u>F</u>eature</label> <script type="text/javascript">
-              printScrollButton();
-            </script>
-            <div title="Go to the first entry that begins with the selected character" style="border-bottom: none"
-                 ><a href="#!">!</a>
-              <?php
-                for ($i = ord('a'), $max = ord('z'); $i <= $max; $i++)
-                {
-                  $s = chr($i);
-                  echo '<a href="#' . $s . '">' . strtoupper($s) . '</a> ';
-                }
-                ?></div>
-            <div>
-              <script type="text/javascript" src="../../builder?src=regexp,dom/timeout"></script>
-              <input type="search" name="filter" id="filter" accesskey="f" style="width: 100%"
-                     onkeyup="es_matrix.timeout.run()"
-                     oninput="es_matrix.timeout.run()"
-                     placeholder="Filter expression (shortcut: Access Key + F)"
-                     title="Expression to filter the feature table (shortcut: Access Key + F)">
+              <label for="filter"><u>F</u>eature</label>
+              <script type="text/javascript">
+                printScrollButton();
+              </script>
+              <div title="Go to the first entry that begins with the selected character" style="border-bottom: none"
+                   ><a href="#!">!</a>
+                <?php
+                  for ($i = ord('a'), $max = ord('z'); $i <= $max; $i++)
+                  {
+                    $s = chr($i);
+                    echo '<a href="#' . $s . '">' . strtoupper($s) . '</a> ';
+                  }
+                  ?></div>
+              <div>
+                <script type="text/javascript" src="../../builder?src=regexp,dom/timeout"></script>
+                <script type="text/javascript">
+                  document.write(new HTMLSerializer({
+                    tagName: "input",
+                    attributes: [
+                      {name: "type", value: "search"},
+                      {name: "name", value: "filter"},
+                      {name: "id",   value: "filter"},
+                      {name: "accesskey", value: "f"},
+                      {name: "style", value: {
+                        properties: [
+                          {name: "width", value: "100%"}
+                        ]
+                      }},
+                      {name: "onkeyup", value: "es_matrix.timeout.run()"},
+                      {name: "oninput", value: "es_matrix.timeout.run()"},
+                      {name: "placeholder", value: "Filter expression (shortcut: Access Key + F)"},
+                      {name: "title",   value: "Expression to filter the feature table (shortcut: Access Key + F)"},
+                      {name: "value",   value: decodeURIComponent(
+                        (document.URL.match(/[?&]filter=([^&#]+)/)
+                          || [null, ""])[1]
+                      )}
+                    ]
+                  }));
+                </script>
               </div>
             </th>
             <th id="hdr-es" title="ECMAScript Edition"><a href="#ecmascript">ECMAScript</a></th>
