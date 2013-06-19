@@ -1,0 +1,195 @@
+      <div id="foreword">
+        <h2>Foreword and Rationale</h2>
+
+<!--         <div> -->
+          <div><a href="#toc">&#8593; Table of contents</a></div>
+
+<!--           <ul> -->
+<!--             <li><a href="#not-the-same">The same, but not the same</a></li> -->
+<!--             <li><a href="#about">What is the Matrix?</a></li> -->
+<!--             <li><a href="#reloaded">Reloaded</a></li> -->
+<!--           </ul> -->
+<!--         </div> -->
+
+        <section>
+          <blockquote>
+            <p style="margin-bottom: 0; font-style: italic"
+               ><!--<span lang="x-vulcan">&gt;Oren'uh pa'shi-nahpau.
+                Oren'uh fai-tukh t'natyan — nam-tor vellar heh ri nam-tor.&lt;</span><br>
+                (-->“Learn to think clearly.
+                Learn to distinguish: what is, and what seems to be.”<!--)--></p>
+            <div style="text-align: right"> —&nbsp;Surak<?php
+    //              echo $this->footnotes->add('vli', null, 'see also:
+    //                <a href="http://stogeek.com/wiki/Category:Vulcan_Language_Institute"
+    //                   >Vulcan Language Institute</a>', ''); ?></div>
+          </blockquote>
+
+          <p>In a discussion, especially a technical one, it is very
+             important that all participants know what is being talked
+             about, so that misunderstandings can be avoided.  <em>Clear
+             language</em> is required.  It can be achieved only by
+             using terms that are <em>well-defined</em>; they should be
+             unambiguous and one should be able to look them up
+             in official reference material.</p>
+
+          <p>Some people talk about a programming language they call
+             “javascript”.  This is supposed to be one fully specified
+             and universally implemented programming language that
+             provides, in dialects to a varying degree, the
+             capabilities to manipulate runtime environments such as
+             web browsers.</p>
+
+          <p>In fact, <strong>there is no “javascript”</strong>;
+             there is <em>JavaScript</em>.  This is not just
+             a matter of letter case: JavaScript is the name
+             of <em>one</em> implementation of a standard for
+             extensible scripting languages, <em>ECMAScript</em>.</p>
+
+          <p>“A <em>scripting language</em> is a programming language
+             that is used to manipulate, customise, and automate
+             the facilities of an existing system.”<?php
+               echo $this->footnotes->add('es5.1', null,
+                 'Ecma&nbsp;International (2011&#8209;06).
+                  <a href="http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-262.pdf"
+                     ><i>Standard ECMA&#8210;262. ECMAScript Language Specification.</i>
+                      5.1 Edition.</a> (retrieved 2011&#8209;08&#8209;27)')
+             ?>  The <em>ECMAScript Language Specification</em>
+             is a standard for scripting languages.  It is published
+             in <em>Editions</em>.
+             Several current versions of scripting languages
+             are implementations of an Edition of ECMAScript.
+             But its first Edition was based itself on two scripting
+             languages that were already implemented for use in
+             web browsers: Netscape JavaScript 1.1 and Microsoft
+             JScript 1.0.<?php
+               echo $this->footnotes->add('es1', null,
+                 'Ecma&nbsp;International (1997-06).
+                  <a href="http://www.ecma-international.org/publications/files/ECMA-ST-ARCH/ECMA-262,%201st%20edition,%20June%201997.pdf"
+                     ><i>ECMAScript Language Specification (1st edition)</i></a> (retrieved 2012&#8209;12&#8209;10)')
+             ?></p>
+
+          <p><strong>There are no dialects of “javascript”</strong>;
+             there are <em>several implementations of ECMAScript</em>
+             that are widely distributed, primarily through web browsers.
+             The features that allow one to manipulate web browsers
+             are <em>not</em> part of any such programming language;
+             they are environment-dependent implementations of
+             language-independent
+             <abbr title="API: Application Programming Interface">API</abbr>s
+             for which a <em>language binding</em> is specified <?php
+               echo $this->footnotes->add('binding', null,
+                 'See <a href="http://www.w3.org/TR/2003/REC-DOM-Level-2-HTML-20030109/ecma-script-binding.html"
+                  >W3C DOM Level 2 HTML</a> for an example of language binding.');
+             ?> so that they can
+             be used with that programming language.<?php
+               echo $this->footnotes->add('legacy', null,
+                 'The distinction between core language and browser API
+                  was not made in Netscape JavaScript before version 1.4.
+                  JavaScript was designed to be the programming language
+                  for scripts in Netscape Navigator, therefore the
+                  Netscape API was part of JavaScript. This changed
+                  when JavaScript needed to work server-side in
+                  Netscape Enterprise Server as well.');
+            ?></p>
+        </section>
+
+        <section>
+          <h3 id="#not-the-same">The same, but not the same</h3>
+
+          <p>Superficially, ECMAScript implementations are very similar.
+             It is therefore tempting to discuss them in a simplified way
+             using an umbrella term such as “javascript”.<?php
+               echo $this->footnotes->add('cljs-FAQ', null,
+                 '<a href="http://jibbering.com/faq/">comp.lang.javascript FAQ</a>');
+             ?> But this approach is not without problems.
+             ECMAScript gives its conforming implementations a wide latitude.
+             The Editions of ECMAScript and their implementations
+             <a href="#timeline">have been developed in parallel,
+             and are partially informing each other</a>.  Also,
+             some implementations are not conforming in some features.
+             As a result, ECMAScript implementations are in fact
+             very different from one another.</p>
+
+          <p>It does matter which implementation is being discussed.
+             Using ambiguous umbrella terms, without providing a
+             clear definition for them, cannot be considered
+             appropriate style in a technical discussion.</p>
+
+          <p>Hence, for lack of a better alternative, the precise
+             and equally concise term <strong>ECMAScript implementation(s)</strong>
+             should be used when talking about features that several
+             implementations (ought to) have in common (per
+             the ECMAScript Language Specification).  And whenever
+             it was talked about one particular implementation, its proper
+             name should be used, like <strong>Netscape/Mozilla JavaScript</strong>
+             or simply <strong>JavaScript</strong> (if there is doubt,
+             "™" might be added to emphasize that the implementation
+             is meant).  <strong>In all other instances, the term
+             “JavaScript” (in any letter case) should <em>not</em>
+             be used.</strong></p>
+        </section>
+
+        <section>
+          <h3 id="about">What is the Matrix?</h3>
+
+          <p>This overview&nbsp;– the <em>ECMAScript Support Matrix</em> –
+             began as a comparison of different “JavaScript” features and,
+             as time passed and understanding grew, evolved into a comparison
+             between the major ECMAScript implementations, detailing
+             the differences, the quirks and the bugs.  It has been serving
+             its author (and its dedicated readers) for years in writing
+             client-side scripts that work cross-browser, and has been helping
+             to see the distinction between core language features, and APIs
+             with language binding, like the DOM.  (The features of the latter
+             API will be compared in another Matrix.)</p>
+
+          <p>Whenever you read from this author that key line from arguably
+             <a href="http://en.wikipedia.org/wiki/The_Matrix"
+                title="The Matrix movie on Wikipedia"
+                >the most groundbreaking hacker movie</a>
+             &#8213;“The Matrix has you!”&#8213; a suggestion
+             is being considered as a
+             <a href="#contributors">contribution</a> to this work.
+             See below.</p>
+        </section>
+
+        <section>
+          <h3 id="reloaded">Reloaded</h3>
+
+          <p>Despite several valuable contributions, the previous version
+             of this work has primarily suffered from the fact that most
+             language features could only be tested, and test results
+             documented, as far as the resources of its author permitted.
+             Furthermore, it was not possible without considerable effort
+             to detail the differences between versions of the same
+             implementation. Test cases were incomplete and sketchy
+             at best.</p>
+
+          <p>This version is based on a novel, scientific
+             approach<?php echo $this->footnotes->add('abstract'); ?>,
+             with which features can be tested by <em>anyone</em>
+             in the runtime environments available to them, and those
+             test results can be fed back to the overview <em>immediately</em>,
+             detailing <em>automatically</em> the differences between
+             the implementations and the versions of the same
+             implementation.  <!-- Whenever possible, test cases
+             are designed as tests against a reference implementation
+             of ECMAScript written in ECMAScript, in order to reduce
+             the number of possible false negatives and false
+             positives. --></p>
+
+          <p>As a result, the general recommendation
+             as to whether a feature can be considered <em>safe</em>
+             (see below) can be updated immediately and semi-automatically
+             as well.  This is assumed to further improve the overall
+             quality of design decisions with regard to language features
+             (although the caveat as to that must stay in place).</p>
+<?php /*
+          <p class="status"><em>This is a work in progress.  The feedback
+             feature has been disabled for the time being to ensure
+             the integrity of the already obtained results.  You are
+             kindly requested to postpone your contributions until it
+             is released.</em></p>
+*/ ?>
+        </div>
+      </section>

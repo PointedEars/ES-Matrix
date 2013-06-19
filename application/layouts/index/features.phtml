@@ -1,0 +1,277 @@
+<?php
+  if (!$this->edit)
+  {
+?>
+      <div id="features">
+        <h2>Language&nbsp;Features</h2>
+
+        <div>
+          <div><a href="#toc">&#8593; Table of contents</a></div>
+
+          <ul>
+            <li><a href="#display-problems">Known display problems</a></li>
+            <?php // <li><a href="#type-hinting">Notes on type hinting</a></li> ?>
+            <li><a href="#features-table">List of features</a></li>
+          </ul>
+        </div>
+
+        <p><a href="#features-table">The following table</a> lists features
+          of ECMAScript and its implementations, with the Edition or version
+          that introduced it; furthermore, information about features that
+          have been deprecated is included.</p>
+
+        <p>Features are <span class="safe"><span class="visual">highlighted
+          with a greenish background color</span></span> if they can be
+          considered <em>safe</em> to use without prior feature test
+          even when they do not appear to be formally specified or
+          to be supported among all versions of all implementations
+          considered here.  This is based on the fact that all minimum
+          versions of the implementations that a&nbsp;feature
+          requires can be considered obsolete because the user&nbsp;agents
+          known to implement them can be considered obsolete (see the
+          respective <a href="#version-info">version information</a>
+          for details).  Note that this assessment is likely to be
+          subject to change as more implementations are investigated.
+          If taken as a&nbsp;recommendation for design decisions,
+          it should be taken as a light&nbsp;one.</p>
+
+        <p><strong>The contents of <a href="#features-table">this table</a>
+          are based on what could be found in the Editions of ECMAScript
+          and in vendor's online documentation to date.  They are
+          completed with results from test cases that have been run in a
+          careful selection of <a href="#environments">host environments</a>,
+          <em>and do not claim to be accurate or complete</em>.  Any
+          correction/addition as to how things really are is welcome and will be
+          <a href="#contributors">credited</a> where it is due.</strong></p>
+<?php /*
+        <section>
+          <h3 id="type-hinting">Notes on type hinting</h3>
+
+          <p>The ECMAScript type system has grown quite complex
+             which makes it difficult to document features properly:</p>
+
+          <figure>
+            <ul class="tree">
+              <li><code>Object</code>
+                <ul>
+                  <li><code>Array</code></li>
+                  <li><code>Boolean</code>
+                   <ul>
+                     <li><code>boolean</code></li>
+                   </ul></li>
+                  <li><code>Date</code></li>
+                  <li><code>Function</code></li>
+                  <li><code>Number</code>
+                    <ul>
+                      <li><code>byte</code> (ES&thinsp;4)</li>
+                      <li><code>double</code> (ES&thinsp;4)</li>
+                      <li><code>float</code> (ES&thinsp;4)</li>
+                      <li><code>int</code> (ES&thinsp;4)</li>
+                      <li><code>number</code> (ES&thinsp;3)</li>
+                      <li><code>uint</code> (ES&thinsp;4)</li>
+                    </ul>
+                  </li>
+                  <li><code>RegExp</code> (ES&thinsp;3)</li>
+                  <li><code>String</code>
+                    <ul>
+                      <li><code>string</code></li>
+                    </ul></li>
+                </ul></li>
+              <li><code>Null</code>
+              <li><code>Undefined</code>
+            </ul>
+            <figcaption>ECMAScript type system by inheritance
+              and wrapper type relation</figcaption>
+          </figure>
+
+          <p>There are primitive values and object values.  Especially,
+             in addition to <code>Object</code>, for each primitive
+             value except <code>null</code> and <code>undefined</code>
+             there is an object value wrapping it if necessary.
+             However, those wrapper values exhibit unintuitive
+             behavior and should be avoided<sup>[citation needed]</sup>.  Because the wrapper
+             values are object values instead of primitive values,
+             they can be said to be of another type than the wrapped
+             primitive value; for the purposes of disambiguation,
+             henceforth <code>string</code> will be used for the
+             the primitive type, and <code>String</code> for the
+             object type.<br>
+             Values of the wrapper types do not need to be created
+             explicitly, because they are created implicitly if
+             necessary: <code>Math.PI.toString(2)</code> is
+             equivalent to <code>(new Number(Math.PI)).toString(2)</code>,
+             although <code>Math.PI</code> holds a primitive value
+             of type <code>number</code>.
+             Regardless, while user code would have to take special
+             precautions to handle those differences, ECMAScript
+             algorithms handle those seamlessly with the internal
+             <code>Type</code> algorithm<sup>[citation needed]</sup>. But they never return
+             values of wrapper object types.  Therefore, for
+             example parameters are hinted as <code>String</code>,
+             while return values are hinted as <code>string</code>,
+             even though the algorithm of the function converts all
+             arguments where <code>String</code> is hinted,
+             to a primitive <code>string</code> value (using the
+             <code>ToString</code> algorithm).</p>
+
+          <p><code>Null</code> is a primitive type with the sole
+             value <code>null</code>.  However, because <code>null</code>
+             is in Edition 5.1 a “primitive value that represents
+             the intentional absence of any object value”, and
+             in Edition 3 Final “a primitive value that represents
+             the null, empty, or non-existent reference”, sometimes
+             <code>null</code> can be used where object types are
+             expected (one can assume that this is the rationale
+             for <code>typeof null</code> evaluating to
+             <code>"object"</code>).  Therefore, it makes sense
+             to classify values that can be either of a type other
+             than <code>Null</code> or <code>null</code> as values
+             of a <a href="http://www.w3.org/TR/WebIDL/#idl-nullable-type"
+                     title="WebIDL: Nullable types"><em>nullable type</em></a>.</p>
+
+          <p>Implementations of ECMAScript Editions 1 to 3, 5,
+             and beyond, support only <a href="http://en.wikipedia.org/wiki/Dynamic_typing"
+             >dynamic</a> and <a href="http://en.wikipedia.org/wiki/Type_system#Strong_and_weak_typing"
+             >weak typing</a>; there is only one numerical type,
+             <code>Number</code>, implementing IEEE-754 “double precision”
+             floating-point values.  Implementations of the proposal
+             for ECMAScript Edition&nbsp;4, however, also support
+             <a href="http://en.wikipedia.org/wiki/Static_typing"
+             >static</a> and <a href="http://en.wikipedia.org/wiki/Type_system#Strong_and_weak_typing"
+             >strong typing</a>; for that, there are also specific
+             numerical types like <code>int</code> and
+             <code>double</code>.</p>
+
+          <p>Sometimes a method may also accept values of any type,
+             or return a value of a type depending on the arguments.
+             In this case, the parameter or return value is hinted
+             to be of type <code>any</code>.</p>
+
+          <p>The following special types have been used for
+             type hinting here:</p>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Meaning</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th><code>any</code></th>
+                <td>All values are supported, or the method returns
+                    a value of a type depending on its input.</td>
+              </tr>
+              <tr>
+                <th><code><var>any</var>?</code></th>
+                <td>Nullable type.  Supported values include those
+                    of type <code><var>any</var></code>, and
+                    <code>null</code>.</td>
+              </tr>
+              <tr>
+                <th><code>double</code></th>
+                <td>“Double precision” floating-point value.
+                    <code>double</code> for supporting implementations,
+                    <code>Number</code> (for parameters) or
+                    <code>number</code> (for return values) otherwise.</td>
+              </tr>
+              <tr>
+                <th><code>float</code></th>
+                <td>“Single precision” floating-point value.
+                    <code>float</code> for supporting implementations,
+                    <code>Number</code> (for parameters) or
+                    <code>number</code> (for return values) otherwise.</td>
+              </tr>
+              <tr>
+                <th><code>int</code></th>
+                <td>Integer value or floating-point value with zero
+                    fractional part.  <code>int</code> for supporting
+                    implementations, <code>Number</code> (for parameters)
+                    or <code>number</code> (for return values) otherwise.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p>On the other hand, each object can be associated with
+             a constructor, because the constructor has a prototype
+             property that serves as an object's <em>prototype
+             object</em> for property resolution along the
+             <em>prototype chain</em>.  For internal object types,
+             the constructor also defines the value of the internal
+             <code>[[Class]]</code> property.  <em>This must not be
+             confused with class-based inheritance.</em>  However, it
+             is useful to hint the expected type by the constructor
+             that should have been used to create the value,
+             to point out the properties required on an object for
+             which a reference is passed, or to which a reference
+             is returned.</p>
+        </section>
+*/ ?>
+        <section>
+          <h3 id="display-problems">Known display problems</h3>
+          <ul>
+            <li><b>Firefox&nbsp;3.0.x:</b> If the scrollable table body
+              flows out of the table, you are observing
+              <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=423823"
+                 title="Bug 135236 (VERIFIED FIXED): Overflowing tbody rows render background color for overflowing rows" class="closed"
+                 >Bug&nbsp;423823</a>, fixed since
+              <a href="http://www.mozilla-europe.org/en/firefox/3.0.2/releasenotes/"
+                 >Firefox&nbsp;3.0.2</a>.
+              <em>The Firefox&nbsp;3.0 branch has met its
+              <a href="#javascript">end-of-life on 2010-03-30&nbsp;CE</a></em>.
+              If you are still using Firefox&nbsp;3.0.x as your primary browser, you
+              are strongly recommended to <a href="http://www.mozilla.com/firefox/"
+              >update&nbsp;Firefox</a> (but see below).  As an alternative, you can
+              toggle table body scrollability.</li>
+            <li><b>Firefox&nbsp;4.0+:</b> The support for scrollable table body
+              has been removed per
+              <a
+                href="https://bugzilla.mozilla.org/show_bug.cgi?id=28800"
+                title="Bug 28800 (RESOLVED FIXED): Remove the ability for rowgroups to scroll (e.g. &quot;tbody style=&quot;overflow:auto&quot;&gt;)"
+              >Bug&nbsp;28800</a>.  This violates the
+              <a  href="http://www.w3.org/TR/css3-box/#overflow"
+                  title="CSS3 Basic Box Model">CSS3 Basic Box Model</a>
+              specification, which is only a Working Draft at the time of writing
+              but is intended to replace the corresponding parts of CSS 2.1.
+              If you want this useful feature (back), please comment on and vote for
+              <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=674214#c6"
+                 title="Bug 674214 (RESOLVED INVALID): Add the ability for rowgroups to scroll (e.g. &lt;tbody style=&quot;overflow:auto&quot;&gt;)"
+                 >Bug&nbsp;67421</a>.</li>
+          </ul>
+
+          <p>Since both of these were regressions, this author deems it necessary
+            not to cover any of them with a workaround.</p>
+        </section>
+      </div>
+<?php
+    if ($_SERVER['HTTP_HOST'] === 'localhost')
+    {
+      ?><a href="<?php echo $this->escape($this->getURL(null, 'edit')); ?>">Edit</a><?php
+    }
+  }
+  else
+  {
+?>
+     <a href="<?php echo $this->escape($this->getURL(null, 'endEdit')); ?>">End Edit</a>
+<?php
+  }
+
+  if (!$this->edit)
+  {
+?>
+      <form action="<?php echo $this->escape($this->getURL()); ?>" method="POST">
+<?php
+  }
+
+  require_once 'features-table.phtml';
+
+  if (!$this->edit)
+  {
+?>
+      </form>
+<?php
+  }
+
+  $this->footnotes->flush();
+?>
