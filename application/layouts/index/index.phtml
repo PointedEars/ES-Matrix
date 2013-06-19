@@ -518,23 +518,9 @@
       <form action="<?php echo $this->escape($this->getURL()); ?>" method="POST">
 <?php
   }
-?>
-        <table id="features-table"
-               onclick="table_click(typeof event != 'undefined' ? event : void 0)">
-          <caption>
-            Language features
-          </caption>
-          <thead>
-            <?php require_once 'features-head.phtml'; ?>
-          </thead>
-          <tfoot>
-            <?php require_once 'env-list.phtml'; ?>
-          </tfoot>
-          <tbody id="scroller" class="scroll">
-            <?php require_once 'features-list.phtml'; ?>
-          </tbody>
-        </table>
-<?php
+
+  require_once 'features-table.phtml';
+
   if (!$this->edit)
   {
 ?>
@@ -790,63 +776,59 @@
               <th><a
                 href="https://developer.mozilla.org/en/Firefox_5_for_developers#JavaScript"
                 title="Firefox 5 for developers: JavaScript"
-                >1.8.6</a></th>
+                >5</a></th>
               <th><a
                 href="https://developer.mozilla.org/en/Firefox_6_for_developers#JavaScript"
                 title="Firefox 6 for developers: JavaScript"
-                >Firefox 6</a></th>
+                >6</a></th>
               <th><a
                 href="https://developer.mozilla.org/en/Firefox_7_for_developers#JavaScript"
                 title="Firefox 7 for developers: JavaScript"
                 >7</a></th>
-              <td><a
+              <th><a
                 href="https://developer.mozilla.org/en/Firefox_8_for_developers#JavaScript"
-                title="Firefox 6 for developers: JavaScript"
-                >8</a></td>
-              <td><a
+                title="Firefox 8 for developers: JavaScript"
+                >8</a></th>
+              <th><a
                 href="https://developer.mozilla.org/en/Firefox_10_for_developers#JavaScript"
                 title="Firefox 10 for developers: JavaScript"
-                >10</a></td>
-              <td><a
+                >10</a></th>
+              <th><a
                 href="https://developer.mozilla.org/en/Firefox_12_for_developers#JavaScript"
                 title="Firefox 12 for developers: JavaScript"
-                >12</a></td>
-              <td><a
+                >12</a></th>
+              <th><a
                 href="https://developer.mozilla.org/en/Firefox_13_for_developers#JavaScript"
                 title="Firefox 13 for developers: JavaScript"
-                >13</a></td>
-              <td><a
+                >13</a></th>
+              <th><a
                 href="https://developer.mozilla.org/en/Firefox_15_for_developers#JavaScript"
                 title="Firefox 15 for developers: JavaScript"
-                >15</a></td>
-              <td><a
+                >15</a></th>
+              <th><a
                 href="https://developer.mozilla.org/en/Firefox_16_for_developers#JavaScript"
                 title="Firefox 16 for developers: JavaScript"
-                >16</a></td>
-              <td><a
+                >16</a></th>
+              <th><a
                 href="https://developer.mozilla.org/en/Firefox_17_for_developers#JavaScript"
                 title="Firefox 17 for developers: JavaScript"
-                >17</a></td>
-              <td><a
+                >17</a></th>
+              <th><a
                 href="https://developer.mozilla.org/en/Firefox_18_for_developers#JavaScript"
                 title="Firefox 18 for developers: JavaScript"
-                >18</a></td>
-              <td><a
+                >18</a></th>
+              <th><a
                 href="https://developer.mozilla.org/en/Firefox_19_for_developers#JavaScript"
                 title="Firefox 19 for developers: JavaScript"
-                >19</a></td>
-              <td><a
+                >19</a></th>
+              <th><a
                 href="https://developer.mozilla.org/en/Firefox_20_for_developers#JavaScript"
                 title="Firefox 20 for developers: JavaScript"
-                >20</a></td>
-              <td><a
+                >20</a></th>
+              <th><a
                 href="https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/21#JavaScript"
                 title="Firefox 21 for developers: JavaScript"
-                >21</a></td>
-              <td><a
-                href="https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/21#JavaScript"
-                title="Firefox 21 for developers: JavaScript"
-                >22</a></td>
+                >21</a></th>
             </tr>
           </thead>
           <tfoot>
@@ -883,21 +865,21 @@
               <td>1.8.2</td>
               <td>1.8.5 (<a
                 href="https://wiki.mozilla.org/JaegerMonkey">JägerMonkey</a>)</td>
-              <td>1.8.6</td>
-              <td>?</td>
-              <td>?</td>
-              <td>?</td>
-              <td>?</td>
-              <td>?</td>
-              <td>?</td>
-              <td>?</td>
-              <td>?</td>
-              <td>?</td>
-              <td>? (<a
+              <td>5</td>
+              <td>6</td>
+              <td>7</td>
+              <td>8</td>
+              <td>10</td>
+              <td>12</td>
+              <td>13</td>
+              <td>15</td>
+              <td>16</td>
+              <td>17</td>
+              <td>18 (<a
                 href="https://wiki.mozilla.org/IonMonkey">IonMonkey</a>)</td>
-              <td>?</td>
-              <td>?</td>
-              <td>?</td>
+              <td>19</td>
+              <td>20</td>
+              <td>21</td>
             </tr>
             <tr>
               <th><a href="http://wayback.archive.org/web/20090201134254/http://www.mozilla.org/js/language/Epimetheus.html"

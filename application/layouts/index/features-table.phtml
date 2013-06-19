@@ -1,0 +1,15 @@
+        <table id="features-table"
+               onclick="table_click(typeof event != 'undefined' ? event : void 0)">
+          <caption>
+            Language features
+          </caption>
+          <thead>
+            <?php require_once 'features-head.phtml'; ?>
+          </thead>
+          <tfoot>
+            <?php require_once 'env-list.phtml'; ?>
+          </tfoot>
+          <tbody id="scroller" class="scroll">
+            <?php require_once 'features-list.phtml'; ?>
+          </tbody>
+        </table>
