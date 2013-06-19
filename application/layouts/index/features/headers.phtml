@@ -1,0 +1,164 @@
+          <tr class="header">
+<?php
+  $repeated = isset($counter);
+  $scriptEngineTest = <<<HTML
+                  <ul>
+                    <li>This user agent:
+                      <script type="text/javascript">
+                        document.write('<p><b>' + navigator.userAgent + '<\/b><\/p>');
+                      </script>
+                      <noscript>
+                        <p><b>{$_SERVER['HTTP_USER_AGENT']}</b></p>
+                      </noscript>
+                    </li>
+
+                    <li><a{(!$repeated ? ' name="script-engine-test" id="script-engine-test"' : '')}
+                      >This ECMAScript implementation</a><script type="text/javascript"
+                         src="application/scripts/version-detection.js"></script>
+                    </li>
+                  </ul>
+HTML;
+
+  if ($this->edit)
+  {
+    ?>
+            <td style="width: 7em">&nbsp;</td>
+    <?php
+  }
+?>
+            <th<?php
+              if (!$repeated) { ?> id="hdr-feature"<?php } ?> data-title="Feature">
+<?php
+  if ($this->edit)
+  {
+?>
+              <a href="<?php echo $this->escape($this->getURL('feature', 'add')); ?>"
+                 title="Add feature"
+                 class="add">Add</a>
+<?php
+  }
+?>
+              <label for="filter"><u>F</u>eature</label>
+<?php
+  if (!$repeated)
+  {
+?>
+              <script type="text/javascript">
+                printScrollButton();
+              </script>
+<?php
+  }
+?>
+              <div title="Go to the first entry that begins with the selected character" style="border-bottom: none"
+                   ><a href="#!">!</a>
+                <?php
+                  for ($i = ord('a'), $max = ord('z'); $i <= $max; $i++)
+                  {
+                    $s = chr($i);
+                    echo '<a href="#' . $s . '">' . strtoupper($s) . '</a> ';
+                  }
+                  ?></div>
+<?php
+  if (!$repeated)
+  {
+?>
+              <div>
+                <script type="text/javascript" src="../../builder?src=regexp,dom/timeout"></script>
+                <script type="text/javascript">
+                  document.write(new HTMLSerializer({
+                    tagName: "input",
+                    attributes: [
+                      {name: "type", value: "search"},
+                      {name: "name", value: "filter"},
+                      {name: "id",   value: "filter"},
+                      {name: "accesskey", value: "f"},
+                      {name: "style", value: {
+                        properties: [
+                          {name: "width", value: "100%"}
+                        ]
+                      }},
+                      {name: "onkeyup", value: "es_matrix.timeout.run()"},
+                      {name: "oninput", value: "es_matrix.timeout.run()"},
+                      {name: "placeholder", value: "Filter expression (shortcut: Access Key + F)"},
+                      {name: "title",   value: "Expression to filter the feature table (shortcut: Access Key + F)"},
+                      {name: "value",   value: decodeURIComponent(
+                        (document.URL.match(/[?&]filter=([^&#]+)/)
+                          || [null, ""])[1]
+                      )}
+                    ]
+                  }));
+                </script>
+              </div>
+<?php
+  }
+?>
+            </th>
+            <th<?php if (!$repeated) { ?> id="hdr-es"<?php } ?> title="ECMAScript Edition"><a href="#ecmascript">ECMAScript</a></th>
+            <th<?php if (!$repeated) { ?> id="hdr-this"<?php } ?> data-title="This implementation">This <abbr title="implementation">impl.</abbr><?php
+                echo $this->footnotes->add('this-impl', null, $scriptEngineTest, '');
+                ?><br>
+<?php
+  if (!$repeated)
+  {
+?>
+              <script type="text/javascript" src="application/scripts/impl-detection.js"></script>
+<?php
+  }
+
+  if (/*$_SERVER['HTTP_HOST'] === 'localhost' && */!$this->edit)
+  {
+?>
+              <button type="submit" name="action" value="saveResults" accesskey="s"
+                      title="Submit test results (Shortcut: Access Key + S)"
+                      ><u>S</u>ubmit results</button></th>
+<?php
+  }
+
+  $implementations = $this->implementations;
+  foreach ($implementations as $impl)
+  {
+?>
+            <th<?php if (!$repeated) { ?> id="hdr-<?php
+              echo $this->escape(
+                strtolower(
+                  ($impl->acronym !== '')
+                    ? strtolower($impl->acronym)
+                    : $impl->name
+                )
+              );
+              ?>"<?php } ?>><?php
+              if ($impl->acronym !== '')
+              {
+                ?><abbr title="<?php echo $this->escape($impl->name); ?>"><?php
+                echo $this->escape($impl->acronym);
+              }
+              else
+            {
+                echo $this->escape($impl->name);
+              }
+
+              if ($impl->acronym !== '')
+              {
+                ?></abbr><?php
+              }
+
+              if ($this->edit)
+              {
+                ?><br>
+                <a href="<?php echo $this->escape($this->getURL('implementation', 'edit', $impl->id)); ?>"
+                   class="edit">Edit</a><?php
+              }
+            ?></th>
+<?php
+  }
+
+  if ($this->edit)
+  {
+?>
+            <td><a href="<?php echo $this->escape($this->getURL('implementation', 'add')); ?>"
+                   title="Add implementation"
+                   class="add">Add</a></td>
+<?php
+  }
+?>
+          </tr>
