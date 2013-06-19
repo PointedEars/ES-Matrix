@@ -7,8 +7,14 @@
   }
 
   $oldAnchor = '';
+  $counter = 0;
   foreach ($this->features as $key => $feature)
   {
+    ++$counter;
+    if ($counter % 50 === 0)
+    {
+      include 'features-head.phtml';
+    }
 ?>
           <tr<?php if ($this->isSafe($feature->id)) { ?> class="safe"<?php } ?>>
 <?php

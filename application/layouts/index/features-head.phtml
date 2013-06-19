@@ -1,6 +1,7 @@
-          <tr>
+          <tr class="header">
 <?php
-$scriptEngineTest = <<<HTML
+  $repeated = isset($counter);
+  $scriptEngineTest = <<<HTML
                   <ul>
                     <li>This user agent:
                       <script type="text/javascript">
@@ -11,21 +12,22 @@ $scriptEngineTest = <<<HTML
                       </noscript>
                     </li>
 
-                    <li><a name="script-engine-test" id="script-engine-test"
+                    <li><a{(!$repeated ? ' name="script-engine-test" id="script-engine-test"' : '')}
                       >This ECMAScript implementation</a><script type="text/javascript"
                          src="application/scripts/version-detection.js"></script>
                     </li>
                   </ul>
 HTML;
 
-if ($this->edit)
-{
-  ?>
+  if ($this->edit)
+  {
+    ?>
             <td style="width: 7em">&nbsp;</td>
-<?php
+    <?php
   }
 ?>
-            <th id="hdr-feature" data-title="Feature">
+            <th<?php
+              if (!$repeated) { ?> id="hdr-feature"<?php } ?> data-title="Feature">
 <?php
   if ($this->edit)
   {
@@ -37,9 +39,16 @@ if ($this->edit)
   }
 ?>
               <label for="filter"><u>F</u>eature</label>
+<?php
+  if (!$repeated)
+  {
+?>
               <script type="text/javascript">
                 printScrollButton();
               </script>
+<?php
+  }
+?>
               <div title="Go to the first entry that begins with the selected character" style="border-bottom: none"
                    ><a href="#!">!</a>
                 <?php
@@ -49,6 +58,10 @@ if ($this->edit)
                     echo '<a href="#' . $s . '">' . strtoupper($s) . '</a> ';
                   }
                   ?></div>
+<?php
+  if (!$repeated)
+  {
+?>
               <div>
                 <script type="text/javascript" src="../../builder?src=regexp,dom/timeout"></script>
                 <script type="text/javascript">
@@ -76,13 +89,22 @@ if ($this->edit)
                   }));
                 </script>
               </div>
+<?php
+  }
+?>
             </th>
-            <th id="hdr-es" title="ECMAScript Edition"><a href="#ecmascript">ECMAScript</a></th>
-            <th id="hdr-this" data-title="This implementation">This <abbr title="implementation">impl.</abbr><?php
+            <th<?php if (!$repeated) { ?> id="hdr-es"<?php } ?> title="ECMAScript Edition"><a href="#ecmascript">ECMAScript</a></th>
+            <th<?php if (!$repeated) { ?> id="hdr-this"<?php } ?> data-title="This implementation">This <abbr title="implementation">impl.</abbr><?php
                 echo $this->footnotes->add('this-impl', null, $scriptEngineTest, '');
                 ?><br>
+<?php
+  if (!$repeated)
+  {
+?>
               <script type="text/javascript" src="application/scripts/impl-detection.js"></script>
 <?php
+  }
+
   if (/*$_SERVER['HTTP_HOST'] === 'localhost' && */!$this->edit)
   {
 ?>
@@ -96,7 +118,7 @@ if ($this->edit)
   foreach ($implementations as $impl)
   {
 ?>
-            <th id="hdr-<?php
+            <th<?php if (!$repeated) { ?> id="hdr-<?php
               echo $this->escape(
                 strtolower(
                   ($impl->acronym !== '')
@@ -104,7 +126,7 @@ if ($this->edit)
                     : $impl->name
                 )
               );
-              ?>"><?php
+              ?>"<?php } ?>><?php
               if ($impl->acronym !== '')
               {
                 ?><abbr title="<?php echo $this->escape($impl->name); ?>"><?php

@@ -445,11 +445,13 @@ thead {
 }
 
 thead tr,
-tbody tr.header
+tbody tr.header,
+tbody tr.header th,
+tbody tr.header td
 {
-  font-weight: bold;
+  font-weight: bold !important;
   background-color: #99f !important;
-  color:#000;
+  color: #000;
 }
 
 thead th a:link, thead td a:link {
