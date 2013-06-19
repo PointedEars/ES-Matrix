@@ -50,6 +50,7 @@ function body_load ()
      * In Edit mode, there is no form for the filter input,
      * and the first column (index 0) contains Edit/Delete commands.
      */
+    es_matrix.editMode = true;
     filter = document.getElementById("filter");
     filterColumnIndex = 1;
   }
@@ -64,6 +65,13 @@ function body_load ()
     var properties = new Object();
     properties.filterColumns = filterColumns;
     properties.addTitles = true;
+
+    var scroller = document.getElementById("scroller");
+    if (scroller
+        && jsx.dom.css.getComputedStyle(scroller, null).getPropertyValue("overflow") != "auto")
+    {
+      jsx.dom.css.removeClassName(scroller, "scroll");
+    }
 
     var table = new jsx.dom.widgets.Table(
       document.getElementById("features-table"),
@@ -83,6 +91,11 @@ function body_load ()
 
 function table_click (e)
 {
+  if (!es_matrix.editMode)
+  {
+    return false;
+  }
+
   var target = e && (e.target || e.srcElement);
   if (!target)
   {
