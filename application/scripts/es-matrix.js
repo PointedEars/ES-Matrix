@@ -82,8 +82,33 @@ function body_load ()
       table.applyFilter(filter.value);
     });
 
+    es_matrix.timeout2 = new jsx.dom.timeout.Timeout((function () {
+      if (jsx.object.areHostMethods(window, "history", ["pushState", "replaceState"]))
+      {
+        return function () {
+          var history = window.history;
+          var value = filter.value;
+          var title = "Filter: " + value;
+          var url = "?filter=" + encodeURIComponent(value);
+          if (history.state == null)
+          {
+            history.pushState(value, title, url);
+          }
+          else
+          {
+            history.replaceState(value, title, url);
+          }
+        };
+      }
+
+      return function () {};
+    }()), 2000);
+
     /* Filter on pre-filled filter control */
-    timeout.run();
+    if (filter.value)
+    {
+      timeout.run();
+    }
   }
 
   synhl();

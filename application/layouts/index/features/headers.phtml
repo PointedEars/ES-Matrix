@@ -65,6 +65,9 @@ HTML;
               <div>
                 <script type="text/javascript" src="../../builder?src=regexp,dom/timeout"></script>
                 <script type="text/javascript">
+                  es_matrix.filter = (document.URL.match(/[?&]filter=([^&#]+)/)
+                    || [null, ""])[1];
+
                   document.write(new HTMLSerializer({
                     tagName: "input",
                     attributes: [
@@ -72,21 +75,40 @@ HTML;
                       {name: "name", value: "filter"},
                       {name: "id",   value: "filter"},
                       {name: "accesskey", value: "f"},
-                      {name: "style", value: {
-                        properties: [
-                          {name: "width", value: "100%"}
-                        ]
-                      }},
+                      {
+                        name: "style",
+                        value: {
+                          properties: [
+                            {name: "width", value: "100%"}
+                          ]
+                        }
+                      },
                       {name: "onkeyup", value: "es_matrix.timeout.run()"},
-                      {name: "oninput", value: "es_matrix.timeout.run()"},
-                      {name: "placeholder", value: "Filter expression (shortcut: Access Key + F)"},
-                      {name: "title",   value: "Expression to filter the feature table (shortcut: Access Key + F)"},
-                      {name: "value",   value: decodeURIComponent(
-                        (document.URL.match(/[?&]filter=([^&#]+)/)
-                          || [null, ""])[1]
-                      )}
+                      {
+                        name: "oninput",
+                        value: "es_matrix.timeout.run()"
+                                 + "; es_matrix.timeout2.run()"
+                      },
+                      {
+                        name: "placeholder",
+                        value: "Filter expression (shortcut: Access Key + F)"
+                      },
+                      {
+                        name: "title",
+                        value: "Expression to filter the feature table"
+                                 + " (shortcut: Access Key + F)"
+                      },
+                      {
+                        name: "value",
+                        value: decodeURIComponent(es_matrix.filter)
+                      }
                     ]
                   }));
+
+                  if (es_matrix.filter)
+                  {
+                    window.location.replace("#features-table");
+                  }
                 </script>
               </div>
 <?php
