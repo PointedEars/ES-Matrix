@@ -1,6 +1,7 @@
           <tr class="header">
 <?php
   $repeated = isset($counter);
+  $scriptEngineTestAnchor = (!$repeated ? ' name="script-engine-test" id="script-engine-test"' : '');
   $scriptEngineTest = <<<HTML
                   <ul>
                     <li>This user agent:
@@ -12,7 +13,7 @@
                       </noscript>
                     </li>
 
-                    <li><a{(!$repeated ? ' name="script-engine-test" id="script-engine-test"' : '')}
+                    <li><a{$scriptEngineTestAnchor}
                       >This ECMAScript implementation</a><script type="text/javascript"
                          src="application/scripts/version-detection.js"></script>
                     </li>
