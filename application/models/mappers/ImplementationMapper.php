@@ -50,7 +50,7 @@ class ImplementationMapper extends \PointedEars\PHPX\Db\Mapper
 	/**
    * Saves an implementation in the database
    *
-   * @param string $implementation
+   * @param string|array $implementation
    *   Implementation string
    * @return int|null
    *   ID of the inserted or existing record,
@@ -60,7 +60,10 @@ class ImplementationMapper extends \PointedEars\PHPX\Db\Mapper
   {
     if (is_array($implementation))
     {
-      $implObj = new ImplementationModel($implementation);
+      $implObj = new ImplementationModel($implementation, array(
+  			'assigned'    => null,
+  			'available'   => null
+      ));
 
       if (defined('DEBUG') && DEBUG > 0)
       {
@@ -69,10 +72,13 @@ class ImplementationMapper extends \PointedEars\PHPX\Db\Mapper
 
       $success = $implObj->save();
 
-      VersionMapper::getInstance()->saveAll($implObj->id,
-        $implementation['assigned'], $implementation['available']);
+      if ($success)
+      {
+        $success = VersionMapper::getInstance()->saveAll($implObj->id,
+          $implementation['assigned'], $implementation['available']);
 
-      return $implObj->persistentTable->lastInsertId;
+        return $success;
+      }
     }
 
     if (!$this->table->insert(array('name' => $implementation)))

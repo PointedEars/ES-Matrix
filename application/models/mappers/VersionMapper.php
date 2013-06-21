@@ -117,7 +117,9 @@ class VersionMapper extends \PointedEars\PHPX\Db\Mapper
     }
 
     /* Delete obsolete versions */
-    $table->delete(null, array('id' => array('NOT IN' => array_merge($assigned, $available))));
+    $table->delete(null, array(
+      'id' => array('NOT IN' => array_merge($assigned, $available))
+    ));
 
     return $table->commit();
   }
