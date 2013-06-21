@@ -1,6 +1,6 @@
 function inferVersion (version, versionMap, fallback)
 {
-  function gte(v1, v2)
+  function gte (v1, v2)
   {
     v1 = v1.split(".");
     v2 = v2.split(".");
@@ -159,7 +159,7 @@ else
 
       if (jsx.object.isNativeMethod(ua, "match"))
       {
-        m = ua.match(/\brv:(\d+\.\d+(\.\d+)*)\b/);
+        m = ua.match(/\brv:((\d+)\.\d+(\.\d+)*)\b/);
       }
 
       if (m)
@@ -171,15 +171,23 @@ else
 
       if (m)
       {
-        s = inferVersion(m[1],
-          [
-            ["0.6",   "1.5"],
-            ["1.8",   "1.6"],
-            ["1.8.1", "1.7"],
-            ["1.9",   "1.8"],
-            ["1.9.1", "1.8.1"],
-            ["1.9.2", "1.8.2"]
-          ]);
+        if (parseInt(m[2], 10) >= 5)
+        {
+          s = m[2];
+        }
+        else
+        {
+          s = inferVersion(m[1],
+            [
+              ["0.6",   "1.5"],
+              ["1.8",   "1.6"],
+              ["1.8.1", "1.7"],
+              ["1.9",   "1.8"],
+              ["1.9.1", "1.8.1"],
+              ["1.9.2", "1.8.2"],
+              ["1.9.3", "1.8.5"]
+            ]);
+        }
 
         if (s)
         {
