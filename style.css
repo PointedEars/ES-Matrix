@@ -591,6 +591,7 @@ table.results th {
 
 table.results td {
   text-align: right;
+  text-align: "/" center;
 } 
 
 /*
