@@ -228,7 +228,7 @@
         			    if ($values !== $prev_values)
         			    {
         			      ?><tr>
-                      <th><?php echo $result['version']; ?></th>
+                      <th scope="row"><?php echo $result['version']; ?></th>
                       <td title="<?php
                             echo implode("\n", array_map(
                             				'valueToString', $value_array, array_keys($value_array)

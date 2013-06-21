@@ -585,11 +585,9 @@ tfoot tbody tr:nth-child(even)
   transition: 0.1s 0.5s opacity;
 }
 
-/*
-#features-table tbody tr.header th {
-  font-weight: bold;
+table.results th {
+  text-align: "." center; 
 }
-*/
 
 table.results td {
   text-align: right;
