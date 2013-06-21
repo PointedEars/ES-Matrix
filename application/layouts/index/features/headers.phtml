@@ -26,8 +26,8 @@ HTML;
     <?php
   }
 ?>
-            <th<?php
-              if (!$repeated) { ?> id="hdr-feature"<?php } ?> data-title="Feature">
+            <th scope="col"<?php
+              if (!$repeated) { ?> id="hdr-feature"<?php } ?> abbr="Feature">
 <?php
   if ($this->edit)
   {
@@ -115,8 +115,10 @@ HTML;
   }
 ?>
             </th>
-            <th<?php if (!$repeated) { ?> id="hdr-es"<?php } ?> title="ECMAScript Edition"><a href="#ecmascript">ECMAScript</a></th>
-            <th<?php if (!$repeated) { ?> id="hdr-this"<?php } ?> data-title="This implementation">This <abbr title="implementation">impl.</abbr><?php
+            <th scope="col"<?php if (!$repeated) { ?> id="hdr-es"<?php } ?>
+                title="ECMAScript Edition"><a href="#ecmascript">ECMAScript</a></th>
+            <th scope="col"<?php if (!$repeated) { ?> id="hdr-this"<?php } ?>
+                abbr="This implementation">This <abbr title="implementation">impl.</abbr><?php
                 echo $this->footnotes->add('this-impl', null, $scriptEngineTest, '');
                 ?><br>
 <?php
@@ -140,15 +142,25 @@ HTML;
   foreach ($implementations as $impl)
   {
 ?>
-            <th<?php if (!$repeated) { ?> id="hdr-<?php
-              echo $this->escape(
-                strtolower(
-                  ($impl->acronym !== '')
-                    ? strtolower($impl->acronym)
-                    : $impl->name
-                )
-              );
-              ?>"<?php } ?>><?php
+            <th scope="col"<?php
+              if (!$repeated)
+              {
+                ?> id="hdr-<?php
+                echo $this->escape(
+                  strtolower(
+                    ($impl->acronym !== '')
+                      ? strtolower($impl->acronym)
+                      : $impl->name
+                  )
+                );
+                ?>"<?php
+                }
+
+                if ($impl->acronym !== '')
+                {
+                  ?> abbr="<?php echo $this->escape($impl->acronym); ?>"<?php
+                }
+              ?>><?php
               if ($impl->acronym !== '')
               {
                 ?><abbr title="<?php echo $this->escape($impl->name); ?>"><?php
