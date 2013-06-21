@@ -47,13 +47,13 @@ class VersionModel extends \PointedEars\PHPX\AbstractModel
    * @param int|null $value
    * @return VersionModel
    */
-  public function setImplementation_Id ($value)
+  public function setImplementation_id ($value)
   {
     $this->_implementation_id = is_null($value) ? $value : (int) $value;
     return $this;
   }
 
-  public function getImplementationId ()
+  public function getImplementation_id ()
   {
     return $this->_implementation_id;
   }
