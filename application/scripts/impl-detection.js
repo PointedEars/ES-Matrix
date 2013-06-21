@@ -20,37 +20,22 @@ function strReplace (needle, replacement, haystack, global)
   return haystack;
 }
 
-//function ScriptEngine () { return "JScript";}
-//function ScriptEngineMajorVersion () { return "42"; }
-//function ScriptEngineMinorVersion () { return "23"; }
-//function ScriptEngineBuildVersion () { return "1337"; }
+es_matrix.engineInfo = new jsx.engine.EngineInfo();
+es_matrix.implementation = es_matrix.engineInfo.getName();
+es_matrix.implVersion = es_matrix.engineInfo.getVersion();
 
-var implementation = jsx.object.isMethod(this, "ScriptEngine") ? ScriptEngine() : '';
-if (implementation)
+if (!es_matrix.engineInfo.isInferred())
 {
-  implementation = strReplace("<", "&gt;", strReplace('"', "&quot;", implementation, true), true);
-  var version = '';
-  if (jsx.object.isMethod(this, "ScriptEngineMajorVersion"))
+  es_matrix.implStr = strReplace("<", "&gt;",
+    strReplace('"', "&quot;", es_matrix.implementation, true), true);
+
+  if (es_matrix.implVersion)
   {
-    version = ScriptEngineMajorVersion();
-
-    if (jsx.object.isMethod(this, "ScriptEngineMinorVersion"))
-    {
-      version += "." + ScriptEngineMinorVersion();
-
-      if (jsx.object.isMethod(this, "ScriptEngineBuildVersion"))
-      {
-        version += "." + ScriptEngineBuildVersion();
-      }
-    }
-
-    if (version)
-    {
-      version = strReplace("<", "&gt;", strReplace('"', "&quot;", version, true), true);
-    }
+    es_matrix.implVerStr = strReplace("<", "&gt;",
+      strReplace('"', "&quot;", es_matrix.implVersion, true), true);
   }
 
   document.write(
-    '<input type="hidden" name="implementation" value="' + implementation + '">'
-    + '<input type="hidden" name="version" value="' + version + '">');
+    '<input type="hidden" name="implementation" value="' + (es_matrix.implStr || "") + '">'
+    + '<input type="hidden" name="version" value="' + (es_matrix.implVerStr || "") + '">');
 }
