@@ -322,63 +322,65 @@
             <text y="-10" style="text-anchor: start">1.8.5</text>
           </g>
           <g transform="translate(1860 0)">
-            <circle r="3"/><title>Mozilla JavaScript 1.8.6 (2011-06)</title>
-            <text y="-10" style="text-anchor: end">1.8.6</text>
+            <circle r="5"/><title>Mozilla JavaScript 5 (2011-06)</title>
+            <text y="-10">5</text>
           </g>
           <g transform="translate(1880 0)">
-            <circle r="2"/><title>Firefox 6 (2011-08)</title>
-            <text y="-10" style="text-anchor: start">Firefox</text>
-            <text y="20" style="text-anchor: end">6</text>
+            <circle r="5"/><title>Mozilla JavaScript 6 (2011-08)</title>
+            <text y="-10">6</text>
           </g>
           <g transform="translate(1890 0)">
-            <circle r="2"/><title>Mozilla Firefox 7 (2011-09)</title>
-            <text y="20" style="text-anchor: start">7</text>
+            <circle r="5"/><title>Mozilla JavaScript 7 (2011-09)</title>
+            <text y="20">7</text>
           </g>
           <g transform="translate(1910 0)">
-            <circle r="2"/><title>Mozilla Firefox 8 (2011-11)</title>
-            <text y="20">8</text>
+            <circle r="5"/><title>Mozilla JavaScript 8 (2011-11)</title>
+            <text y="-10">8</text>
           </g>
           <g transform="translate(1930 0)">
-            <circle r="2"/><title>Mozilla Firefox 10 (2012-01)</title>
-            <text y="20">10</text>
+            <circle r="5"/><title>Mozilla JavaScript 10 (2012-01)</title>
+            <text y="-10">10</text>
           </g>
           <g transform="translate(1960 0)">
-            <circle r="2"/><title>Mozilla Firefox 12 (2012-04)</title>
-            <text y="20">12</text>
+            <circle r="5"/><title>Mozilla JavaScript 12 (2012-04)</title>
+            <text y="-10">12</text>
           </g>
           <g transform="translate(1980 0)">
-            <circle r="2"/><title>Mozilla Firefox 13 (2012-06)</title>
-            <text y="20">13</text>
+            <circle r="5"/><title>Mozilla JavaScript 13 (2012-06)</title>
+            <text y="-10">13</text>
           </g>
           <g transform="translate(2000 0)">
-            <circle r="2"/><title>Mozilla Firefox 15 (2012-08)</title>
-            <text y="20">15</text>
+            <circle r="5"/><title>Mozilla JavaScript 15 (2012-08)</title>
+            <text y="-10">15</text>
           </g>
           <g transform="translate(2020 0)">
-            <circle r="2"/><title>Mozilla Firefox 16 (2012-10)</title>
+            <circle r="5"/><title>Mozilla JavaScript 16 (2012-10)</title>
             <text y="20">16</text>
           </g>
           <g transform="translate(2030 0)">
-            <circle r="2"/><title>Mozilla Firefox 17 (2012-11)</title>
+            <circle r="5"/><title>Mozilla JavaScript 17 (2012-11)</title>
             <text y="-10">17</text>
           </g>
           <g transform="translate(2050 0)">
-            <circle r="2"/><title>Mozilla Firefox 18 (2013-01)</title>
+            <circle r="5"/><title>Mozilla JavaScript 18 (2013-01)</title>
             <text y="-10">18</text>
             <text y="20" style="text-anchor: start">IonMonkey</text>
           </g>
           <g transform="translate(2060 0)">
-            <circle r="2"/><title>Mozilla Firefox 19 (2013-02)</title>
+            <circle r="5"/><title>Mozilla JavaScript 19 (2013-02)</title>
           </g>
           <g transform="translate(2080 0)">
-            <circle r="2"/><title>Mozilla Firefox 20 (2013-04)</title>
-            <text y="-10">20</text>
+            <a xlink:href="https://blog.mozilla.org/javascript/2013/04/05/the-baseline-compiler-has-landed/">
+              <circle r="5" /><title>Mozilla JavaScript 20 (2013-04)</title>
+              <text y="-10">20</text>
+              <text y="35" style="text-anchor: start">Baseline</text>
+            </a>
           </g>
           <g transform="translate(2100 0)">
-            <circle r="2"/><title>Mozilla Firefox 21 (2013-05)</title>
+            <circle r="5"/><title>Mozilla JavaScript 21 (2013-05)</title>
           </g>
           <g transform="translate(2100 0)">
-            <circle r="2"/><title>Mozilla Firefox 22 (2013-06)</title>
+            <circle r="5"/><title>Mozilla JavaScript 22 (2013-06)</title>
             <text y="-10">22</text>
           </g>
 
@@ -551,8 +553,8 @@
         <g id="opera" transform="translate(0 280)">
           <title>Opera ECMAScript</title>
         
-          <line x1="240" x2="2100"/>
-          <line x1="2100" x2="<?php echo $svg_width - 115; ?>"
+          <line x1="240" x2="2090"/>
+          <line x1="2090" x2="<?php echo $svg_width - 115; ?>"
                 class="future"/>
 
           <g transform="translate(240 0)">
@@ -616,14 +618,25 @@
             <text y="-10">11.00</text>
           </g>
           <g transform="translate(1920 0)">
-            <title>Opera ECMAScript 11.60 (2011-12-06)</title>
-            <circle r="4"/>
-            <text y="-10">11.60</text>
+            <a xlink:href="http://www.opera.com/docs/changelogs/unix/1160/">
+              <title>Opera ECMAScript 11.60 (2011-12-06)</title>
+              <circle r="4"/>
+              <text y="-10">11.60</text>
+            </a>
           </g>
           <g transform="translate(2080 0)">
-            <title>Opera ECMAScript 12.15 (2013-04-04)</title>
-            <circle r="5"/>
-            <text y="-10">12.15</text>
+            <a xlink:href="http://www.opera.com/docs/changelogs/unified/1215/">
+              <title>Opera ECMAScript 12.15 (2013-04-04)</title>
+              <circle r="5"/>
+              <text y="-10" style="text-anchor: end">12.15</text>
+            </a>
+          </g>
+          <g transform="translate(2090 0)">
+            <a xlink:href="http://www.opera.com/docs/changelogs/unified/1500n/">
+              <title>Opera ECMAScript 15.0 Next (2013-05-28)</title>
+              <circle r="5"/>
+              <text y="20" style="text-anchor: start">15.0 Next</text>
+            </a>
           </g>
         </g>
         
