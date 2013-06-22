@@ -153,7 +153,6 @@
     <line x2="<?php echo $svg_width; ?>" class="year"/>
     <line y1="96%" x2="<?php echo $svg_width; ?>" y2="96%" class="year"/>
     
-    <!-- <script type="text/javascript" xlink:href="/scripts/builder?src=object,dom,dom/xpath"></script> -->
     <script type="application/ecmascript"><![CDATA[
       function versions_load ()
       {
@@ -175,18 +174,22 @@
           for (var j = relation.length; j--;)
           {          
             var node = document.getElementById(relation[j]);
-            
-            node.addEventListener("mouseover", (function (e) {
+
+            var fOn = (function (e) {
               return function () {
                 e.style.opacity = "1";                              
               };
-            }(relationEl)), false);
+            }(relationEl));
+            node.addEventListener("mouseover", fOn, false);
+            node.addEventListener("focus", fOn, false);
             
-            node.addEventListener("mouseout", (function (e) {
+            var fOff = (function (e) {
               return function () {
                 e.style.opacity = "0";                              
               };
-            }(relationEl)), false);
+            }(relationEl));
+            node.addEventListener("mouseout", fOff, false);
+            node.addEventListener("blur", fOff, false);
           }
         }
       }
@@ -239,8 +242,9 @@
         <line x1="1860" x2="<?php echo $svg_width - 115; ?>"
               class="future"/>
 
-        <g transform="translate(180 0)" id="es1">
-          <a xlink:href="http://www.ecma-international.org/publications/files/ECMA-ST-ARCH/ECMA-262,%201st%20edition,%20June%201997.pdf">
+        <g transform="translate(180 0)">
+          <a xlink:href="http://www.ecma-international.org/publications/files/ECMA-ST-ARCH/ECMA-262,%201st%20edition,%20June%201997.pdf"
+             id="es1">
             <circle r="5" /><title>ECMAScript Edition 1 (1997-06)</title>
             <text y="-10" style="text-anchor: end">ECMAScript Edition 1</text>
           </a>
@@ -318,8 +322,9 @@
             <text y="-10">1.0</text>
           </a>
         </g>
-        <g transform="translate(80 0)" id="javascript1.1">
-          <a xlink:href="http://web.archive.org/web/20020606113017/http://wp.netscape.com/eng/mozilla/3.0/handbook/javascript/">
+        <g transform="translate(80 0)">
+          <a xlink:href="http://web.archive.org/web/20020606113017/http://wp.netscape.com/eng/mozilla/3.0/handbook/javascript/"
+             id="javascript1.1">
             <circle r="4" /><title>JavaScript 1.1 (1996-08)</title>
             <text y="-10">1.1</text>
           </a>
