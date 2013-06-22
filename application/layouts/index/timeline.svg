@@ -13,6 +13,11 @@
   
     path {
       fill: none;
+      <?php
+        require_once 'css/least/Mixins.php';
+        use de\pointedears\css\least\Mixins;
+        Mixins::transition('', 'opacity 0.1s ease 0.5s');
+      ?>
     }
 
     text {
@@ -148,23 +153,64 @@
     <line x2="<?php echo $svg_width; ?>" class="year"/>
     <line y1="96%" x2="<?php echo $svg_width; ?>" y2="96%" class="year"/>
     
-    <g id="versions" transform="translate(-5 0)">
+    <!-- <script type="text/javascript" xlink:href="/scripts/builder?src=object,dom,dom/xpath"></script> -->
+    <script type="application/ecmascript"><![CDATA[
+      function versions_load ()
+      {
+        var relations = [
+          ["es1", "javascript1.1"],
+          ["es1", "jscript1.0"],
+          ["es4", "javascript2.0"],
+          ["es4", "jscript.net"]
+        ];
+        
+        for (var i = relations.length; i--;)
+        {
+          var relation = relations[i];
+
+          var relationId = relation.join("-");
+          var relationEl = document.getElementById(relationId);
+          relationEl.style.opacity = "0";
+          
+          for (var j = relation.length; j--;)
+          {          
+            var node = document.getElementById(relation[j]);
+            
+            node.addEventListener("mouseover", (function (e) {
+              return function () {
+                e.style.opacity = "1";                              
+              };
+            }(relationEl)), false);
+            
+            node.addEventListener("mouseout", (function (e) {
+              return function () {
+                e.style.opacity = "0";                              
+              };
+            }(relationEl)), false);
+          }
+        }
+      }
+    ]]></script>
+    <g id="versions" transform="translate(-5 0)" onload="versions_load()">
       <g id="ecmascript" transform="translate(120 40)">
         <title>ECMAScript Language Specification</title>
         
         <!-- Edition 1 is based on JavaScript 1.1 -->
         <path d="m 80 40
-                 Q 130 0 180 0" class="relation"/>
+                 Q 130 0 180 0" class="relation"
+              id="es1-javascript1.1"/>
 
-        <!-- JavaScript 1.5 implements Edition 3 -->
+        <!-- Edition 1 is based on JScript 1.0 -->
         <path d="m 80 220
-                 Q 130 0 180 0" class="relation"/>
+                 Q 130 0 180 0" class="relation"
+              id="es1-jscript1.0"/>
 
         <!-- Edition 4 is based on JavaScript 2.0 (historic) -->
         <path d="m 560 40
-                 Q 560 0 600 0" class="relation"/>
+                 Q 560 0 600 0" class="relation"
+              id="es4-javascript2.0"/>
 
-        <!-- Edition 1 is based on JScript 1.1 -->
+        <!-- JavaScript 1.5 implements Edition 3 -->
         <path d="m 540 0
                  Q 550 100 570 100" class="relation"/>
 
@@ -174,7 +220,8 @@
 
         <!-- JScript .NET implements the Edition 4 proposal -->
         <path d="m 600 0
-                 Q 610 260 730 260" class="relation"/>
+                 Q 610 260 730 260" class="relation"
+              id="es4-jscript.net"/>
 
         <!-- Edition 5 is based on JavaScript 1.8.1 -->
         <path d="m 1510 100
@@ -192,7 +239,7 @@
         <line x1="1860" x2="<?php echo $svg_width - 115; ?>"
               class="future"/>
 
-        <g transform="translate(180 0)">
+        <g transform="translate(180 0)" id="es1">
           <a xlink:href="http://www.ecma-international.org/publications/files/ECMA-ST-ARCH/ECMA-262,%201st%20edition,%20June%201997.pdf">
             <circle r="5" /><title>ECMAScript Edition 1 (1997-06)</title>
             <text y="-10" style="text-anchor: end">ECMAScript Edition 1</text>
@@ -217,7 +264,8 @@
           </a>
         </g>
         <g transform="translate(600 0)">
-          <a xlink:href="http://wayback.archive.org/web/20070711032912/http://www.mozilla.org/js/language/es4/index.html">
+          <a xlink:href="http://wayback.archive.org/web/20070711032912/http://www.mozilla.org/js/language/es4/index.html"
+             id="es4">
             <circle r="5"/><title>ECMAScript Edition 4 Working Draft (2000-12-02)</title> 
             <text y="-10">4 (<tspan><title>Working Draft</title>WD</tspan>)</text>
           </a>
@@ -270,7 +318,7 @@
             <text y="-10">1.0</text>
           </a>
         </g>
-        <g transform="translate(80 0)">
+        <g transform="translate(80 0)" id="javascript1.1">
           <a xlink:href="http://web.archive.org/web/20020606113017/http://wp.netscape.com/eng/mozilla/3.0/handbook/javascript/">
             <circle r="4" /><title>JavaScript 1.1 (1996-08)</title>
             <text y="-10">1.1</text>
@@ -291,7 +339,7 @@
           <circle r="4"/><title>JavaScript 1.4 (1999-05)</title>
           <text y="-10">1.4</text>
         </g>
-        <g transform="translate(560 0)">
+        <g transform="translate(560 0)" id="javascript2.0">
           <circle r="5"/><title>JavaScript 2.0 (2002-12)</title>
           <text x="5" y="-10" style="text-anchor: start">2.0 (historic)</text>
           <text y="20" style="text-anchor: start">Epimetheus</text>
@@ -326,13 +374,17 @@
             <text y="-10">1.8</text>
           </g>
           <g transform="translate(1510 0)">
-            <circle r="3"/><title>Mozilla JavaScript 1.8.1 (2008-07)</title>
-            <text y="-10">1.8.1</text>
-            <text y="20" style="text-anchor: start">TraceMonkey</text>
+            <a xlink:href="http://developer.mozilla.org/en/docs/New_in_JavaScript_1.8.1">
+              <circle r="3"/><title>Mozilla JavaScript 1.8.1 (2008-07)</title>
+              <text y="-10">1.8.1</text>
+              <text y="20" style="text-anchor: start">TraceMonkey</text>
+            </a>
           </g>
           <g transform="translate(1690 0)">
-            <circle r="3"/><title>Mozilla JavaScript 1.8.2 (2010-01)</title>
-            <text y="-10" style="text-anchor: end">1.8.2</text>
+            <a xlink:href="https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/3.6#JavaScript">
+              <circle r="3"/><title>Mozilla JavaScript 1.8.2 (2010-01)</title>
+              <text y="-10" style="text-anchor: end">1.8.2</text>
+            </a>
           </g>
           <g transform="translate(1700 0)">
             <circle r="3"/><title>Mozilla JavaScript 1.8.5 (2010-02)</title>
@@ -398,14 +450,12 @@
               <text y="35" style="text-anchor: start">Baseline</text>
             </a>
           </g>
-          <g transform="translate(2100 0)">
-            <circle r="5"/><title>Mozilla JavaScript 21 (2013-05)</title>
-          </g>
+<!-- 
           <g transform="translate(2100 0)">
             <circle r="5"/><title>Mozilla JavaScript 22 (2013-06)</title>
             <text y="-10">22</text>
           </g>
-
+ -->
           <g id="rhino" transform="translate(0 60)">
             <title>Mozilla Rhino</title>
             
@@ -498,7 +548,7 @@
           <line x1="2000" x2="<?php echo $svg_width - 115; ?>"
                 class="future"/>
 
-          <g transform="translate(80 0)">
+          <g transform="translate(80 0)" id="jscript1.0">
             <circle r="5"/><title>JScript 1.0 (1996-08)</title>
             <text y="20">Microsoft JScript</text>
             <text y="-10">1.0</text>
@@ -556,7 +606,7 @@
             <line x1="1720" x2="<?php echo $svg_width - 115; ?>"
                   class="future"/>
             
-            <g transform="translate(730 0)">
+            <g transform="translate(730 0)" id="jscript.net">
               <circle r="5"/><title>JScript .NET 7.0 (2002-01)</title>
               <text y="20">JScript .NET</text>
               <text y="-10">7.0</text>
@@ -631,7 +681,9 @@
           <g transform="translate(1700 0)">
             <title>Opera ECMAScript 10.50 (2010-03-02)</title>
             <circle r="4"/>
-            <text y="20" style="text-anchor: start">Carakan</text>
+            <a xlink:href="http://my.opera.com/core/blog/2009/12/22/carakan-revisited">
+              <text y="20" style="text-anchor: start">Carakan</text>
+            </a>
             <text y="-10">10.50</text>
           </g>
           <g transform="translate(1800 0)">
