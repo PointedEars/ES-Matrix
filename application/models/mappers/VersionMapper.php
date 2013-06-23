@@ -12,8 +12,9 @@ class VersionMapper extends \PointedEars\PHPX\Db\Mapper
 {
   private static $_instance = null;
 
-  /*
-   * (non-PHPDoc) see Mapper::$_table
+  /**
+   * (non-PHPDoc)
+   * @see Mapper::$_table
    */
   protected $_table = 'VersionTable';
 
@@ -97,7 +98,7 @@ class VersionMapper extends \PointedEars\PHPX\Db\Mapper
 //     debug($versions);
 
     /* Update or insert all assigned versions */
-    foreach ($assigned as $version)
+    foreach ($assigned as &$version)
     {
       /*
        * NOTE: New versions must have a minor version part, else they are
@@ -112,7 +113,11 @@ class VersionMapper extends \PointedEars\PHPX\Db\Mapper
       }
       else
       {
-        $this->save($implementation_id, $version);
+        $result = $this->save($implementation_id, $version);
+        if ($result !== null)
+        {
+          $version = $result;
+        }
       }
     }
 
