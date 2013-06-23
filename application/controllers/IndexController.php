@@ -38,7 +38,7 @@ class IndexController extends \PointedEars\PHPX\Controller
 
     $features = FeatureMapper::getInstance()->fetchAll();
 
-    $results = ResultMapper::getInstance()->getResultArray($features);
+    $results = ResultMapper::getInstance()->getResultArray($features, $implementations);
 
     $environments = EnvironmentMapper::getInstance()->fetchAllPerImplementation();
 

@@ -129,13 +129,15 @@ class ResultMapper extends \PointedEars\PHPX\Db\Mapper
   }
 
   /**
-   * Returns an array which keys are the IDs of all features that are
+   * Returns an array whose keys are the IDs of all features that are
    * considered safe.
    *
-   * @param int $feature_id
-   * @return bool
+   * @param array[FeatureModel] $features
+   * @param array[ImplementationModel] $implementations
+   * @param array $results
+   * @return array
    */
-  private function _getSafeFeatures ($features, $results)
+  private function _getSafeFeatures ($features, $implementations, $results)
   {
     $unsafeVersions = VersionMapper::getInstance()->getUnsafeVersions();
     $safeFeatures = array();
@@ -144,50 +146,67 @@ class ResultMapper extends \PointedEars\PHPX\Db\Mapper
     {
       foreach ($features as $feature_id => $feature)
       {
-        $safe_feature = false;
         $num_testcases = count($feature->testcases);
-        if ($num_testcases > 0)
+
+        /*
+         * Features without testcases are _not_ safe,
+         * any assigned results must be bogus
+         * (should not happen because of database constraints).
+         * Also, features without results are _not_ safe.
+         */
+        if ($num_testcases < 1
+            || !isset($results[$feature_id])
+            || !is_array($results[$feature_id]))
         {
-          if (isset($results[$feature_id]) && is_array($results[$feature_id]))
+          continue;
+        }
+
+        $feature_results = $results[$feature_id];
+
+        /* Feature is _not_ safe if results are _incomplete_ */
+        foreach ($implementations as $impl_id => $implementation)
+        {
+          if (!isset($feature_results[$impl_id])
+               || !is_array($feature_results[$impl_id]))
           {
-            $safe_feature = true;
-            $flat_results = array();
-
-            foreach ($results[$feature_id] as $impl_id => $impl_results)
-            {
-              if (is_array($impl_results))
-              {
-                foreach ($impl_results as $version_id => $version_result)
-                {
-                  $flat_results[$version_id] = $version_result['values'];
-                }
-              }
-            }
-
-            foreach ($unsafeVersions as $unsafe_version_id)
-            {
-              if (isset($flat_results[$unsafe_version_id]))
-              {
-                $unsafe_result = array_sum(str_split($flat_results[$unsafe_version_id]));
-
-                if ($unsafe_result < $num_testcases)
-                {
-                  $safe_feature = false;
-                  break;
-                }
-              }
-            }
-          }
-          else
-          {
-            $safe_feature = false;
+            /* check next feature */
+            continue 2;
           }
         }
 
-        if ($safe_feature)
+        /* If results are complete, compute flat results */
+        $flat_results = array();
+
+        foreach ($feature_results as $impl_id => $impl_results)
         {
-          $safeFeatures[$feature_id] = true;
+          if (is_array($impl_results))
+          {
+            foreach ($impl_results as $version_id => $version_result)
+            {
+              $flat_results[$version_id] = $version_result['values'];
+            }
+          }
         }
+
+        /*
+         * Feature is _not_ safe if _complete_ results
+         * include _failed_ test for _unsafe_ version
+         */
+        foreach ($unsafeVersions as $unsafe_version_id)
+        {
+          if (isset($flat_results[$unsafe_version_id]))
+          {
+            $unsafe_result = array_sum(str_split($flat_results[$unsafe_version_id]));
+
+            if ($unsafe_result < $num_testcases)
+            {
+              /* check next feature */
+              continue 2;
+            }
+          }
+        }
+
+        $safeFeatures[$feature_id] = true;
       }
     }
 
@@ -209,9 +228,11 @@ class ResultMapper extends \PointedEars\PHPX\Db\Mapper
    * @param array[Feature] $features
    *   The features that should be checked if they are safe according
    *   to the results
+   * @param array[Implementation] $implementations
+   *   The implementations that should be checked
    * @return array
    */
-  public function getResultArray ($features)
+  public function getResultArray ($features, $implementations)
   {
     /* DEBUG */
 //     define('DEBUG', 2);
@@ -282,8 +303,9 @@ class ResultMapper extends \PointedEars\PHPX\Db\Mapper
         }
       }
 
-      $result['safeFeatures'] = $this->_getSafeFeatures($features,
-      	Application::getParam('forFeatures', $result));
+      $result['safeFeatures'] = $this->_getSafeFeatures(
+        $features, $implementations,
+        Application::getParam('forFeatures', $result));
     }
 
     if (defined('DEBUG') && DEBUG > 0)
