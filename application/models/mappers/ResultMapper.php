@@ -238,6 +238,11 @@ class ResultMapper extends \PointedEars\PHPX\Db\Mapper
 //     define('DEBUG', 2);
 
     $db = $this->getDbTable()->getDatabase();
+
+    /*
+     * FIXME: Different results in other UAs with same impl. version
+     *         lead to miscount.
+     */
     $rows = $db->select(
       '`result` r
        LEFT JOIN `testcase` t ON r.testcase_id = t.id
@@ -245,12 +250,11 @@ class ResultMapper extends \PointedEars\PHPX\Db\Mapper
        LEFT JOIN `environment` e ON r.env_id = e.id
        LEFT JOIN `version` v ON e.version_id = v.id
        LEFT JOIN `implementation` i ON v.impl_id = i.id',
-      array(
-      	'feature_id' => 'f.id',
-      	'impl_id'    => 'i.id',
-      	'version_id' => 'v.id',
-        'value'      => 'r.value'
-      ),
+      'DISTINCT
+       `f`.`id`    AS `feature_id`,
+       `i`.`id`    AS `impl_id`,
+       `v`.`id`    AS `version_id`,
+       `r`.`value` AS `value`',
       null,
       "ORDER BY feature_id, i.sortorder,
        SUBSTRING_INDEX(v.name, '.', 1) + 0,
