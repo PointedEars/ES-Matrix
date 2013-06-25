@@ -162,7 +162,7 @@
           ["es4", "javascript2.0"],
           ["es4", "jscript.net"]
         ];
-        
+/*        
         for (var i = relations.length; i--;)
         {
           var relation = relations[i];
@@ -192,6 +192,7 @@
             node.addEventListener("blur", fOff, false);
           }
         }
+*/
       }
     ]]></script>
     <g id="versions" transform="translate(-5 0)" onload="versions_load()">
@@ -233,6 +234,10 @@
         <!-- JavaScript 1.8.2 implements Edition 5 -->
         <path d="m 1680 0
                  Q 1680 100 1690 100" class="relation"/>
+
+        <!-- JScript 9.0 implements Edition 5 -->
+        <path d="m 1680 0
+                 Q 1650 220 1830 220" class="relation"/>
 
         <!-- Opera 11.60 implements Edition 5.1 -->
         <path d="m 1860 0
@@ -388,7 +393,7 @@
           <g transform="translate(1690 0)">
             <a xlink:href="https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/3.6#JavaScript">
               <circle r="3"/><title>Mozilla JavaScript 1.8.2 (2010-01)</title>
-              <text y="-10" style="text-anchor: end">1.8.2</text>
+              <text x="-10" y="20" style="text-anchor: end">1.8.2</text>
             </a>
           </g>
           <g transform="translate(1700 0)">
@@ -455,12 +460,13 @@
               <text y="35" style="text-anchor: start">Baseline</text>
             </a>
           </g>
-<!-- 
-          <g transform="translate(2100 0)">
-            <circle r="5"/><title>Mozilla JavaScript 22 (2013-06)</title>
-            <text y="-10">22</text>
+          <g transform="translate(2090 0)">
+            <a xlink:href="https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/21#JavaScript">
+              <circle r="5" /><title>Mozilla JavaScript 21 (2013&#8209;05&#8209;14)</title>
+              <text y="-10" style="text-anchor: start">21</text>
+            </a>
           </g>
- -->
+
           <g id="rhino" transform="translate(0 60)">
             <title>Mozilla Rhino</title>
             
