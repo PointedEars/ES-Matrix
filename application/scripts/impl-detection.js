@@ -21,7 +21,7 @@ function strReplace (needle, replacement, haystack, global)
 }
 
 es_matrix.engineInfo = new jsx.engine.EngineInfo();
-es_matrix.implementation = es_matrix.engineInfo.getName();
+es_matrix.implementation = es_matrix.engineInfo.getFullName();
 es_matrix.implVersion = es_matrix.engineInfo.getVersion();
 
 if (!es_matrix.engineInfo.isInferred())
