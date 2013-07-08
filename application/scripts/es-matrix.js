@@ -68,7 +68,7 @@ function body_load ()
 
     var scroller = document.getElementById("scroller");
     if (scroller
-        && jsx.dom.css.getComputedStyle(scroller, null).getPropertyValue("overflow") != "auto")
+        && jsx.dom.css.getComputedStyle(scroller, null, "overflow") != "auto")
     {
       jsx.dom.css.removeClassName(scroller, "scroll");
     }
