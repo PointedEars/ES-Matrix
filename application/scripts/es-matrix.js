@@ -70,7 +70,7 @@ function body_load ()
     if (scroller
         && jsx.dom.css.getComputedStyle(scroller, null, "overflow") != "auto")
     {
-      jsx.dom.css.removeClassName(scroller, "scroll");
+      jsx.dom.removeClassName(scroller, "scroll");
     }
 
     var table = new jsx.dom.widgets.Table(
