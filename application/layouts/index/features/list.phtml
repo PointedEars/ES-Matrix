@@ -71,9 +71,11 @@
 
                   if ($feature->section)
                   {
-                    ?> <span class="section" title="Specification section">[<?php
-                      echo $feature->section;
-                    ?>]</span><?php
+                    ?> <span class="section" title="Current specification section">[<a
+                          href="http://ecma-international.org/ecma-262/5.1/#sec-<?php
+                          $section = $feature->section;
+                          echo preg_replace('/^Annex\\s+/', '', $section);
+                        ?>"><?php echo $section; ?></a>]</span><?php
                   }
                 }
 
