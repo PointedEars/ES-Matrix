@@ -389,11 +389,32 @@ class FeatureModel extends \PointedEars\PHPX\Model
     return $this->_testcases;
   }
 
+  /**
+   * Returns a (code) string with tags and leading 'new ' removed.
+   *
+   * @param string $value
+   * @return string
+   * @see FeatureModel::compare()
+   */
+  static protected function _normalizeCode ($value)
+  {
+    return preg_replace('/^new\\s+/', '', strip_tags($value));
+  }
+
+  /**
+   * Compares two features for sorting them by their code.
+   *
+   * @param FeatureModel $a
+   * @param FeatureModel $b
+   * @return number
+   * @see FeatureModel::_normalizeCode()
+   * @see strcasecmp()
+   */
   static function compare (FeatureModel $a, FeatureModel $b)
   {
-    $al = strip_tags($a->code);
-    $bl = strip_tags($b->code);
-    return strcasecmp($al, $bl);
+    $a_code = self::_normalizeCode($a->code);
+    $b_code = self::_normalizeCode($b->code);
+    return strcasecmp($a_code, $b_code);
   }
 
   /* ORM methods */
