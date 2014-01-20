@@ -3,14 +3,17 @@
  * @fileOverview <title>ECMAScript Edition 5.1 Reference Implementation</title>
  * @file $Id$
  *
- * @author (C) 2012 <a href="mailto:js@PointedEars.de">Thomas Lahn</a>
+ * @author (C) 2012, 2013 Thomas Lahn &lt;js@PointedEars.de>
  *
  * This program is (intended to be) a complete reference
  * implementation of the ECMAScript Language Specification,
  * 5.1 Edition, written in ECMAScript.  It should be used
  * to determine the degree of conformance of existing
  * ECMAScript implementations to the Edition they claim
- * to implement, respectively.
+ * to implement, respectively.  A stack trace for ECMAScript
+ * algorithms can be written to the error console (see
+ * {@link es.enableTrace}), provided an implementation of
+ * ECMAScript Edition 3 or newer is used to run this program.
  *
  * These implementations of ECMAScript algorithms are intentionally
  * not optimized for speed and memory footprint, but towards
@@ -41,15 +44,173 @@
  * @namespace
  */
 var es = new Object();
+es.types = new Object();
+
+function es_addType (name, code)
+{
+  var types = es.types;
+  types[name] = code;
+  types[code] = name;
+}
+es._addType = es_addType;
 
 /* Data types */
-es.T_OTHER = -2;
-es.T_UNDEFINED = -1;
-es.T_NULL = 0;
-es.T_BOOLEAN = 1;
-es.T_STRING = 2;
-es.T_NUMBER = 3,
-es.T_OBJECT = 4;
+es._addType("OTHER", -2);
+es._addType("UNDEFINED", -1);
+es._addType("NULL", 0);
+es._addType("BOOLEAN", 1);
+es._addType("STRING", 2);
+es._addType("NUMBER", 3),
+es._addType("OBJECT", 4);
+
+/**
+ * Set to <code>true</code> to trace Specification algorithms;
+ * requires JSX:object.js
+ */
+es.enableTrace = false;
+
+es._slice = (typeof Array == "function"
+  && (es._Array_proto = Array.prototype)
+  && typeof es._Array_proto.slice == "function"
+  && es._Array_proto.slice);
+
+/**
+ * @param value
+ * @param {Function} context
+ * @returns {string}
+ */
+function es_debugValue (value, context)
+{
+  var type = typeof value;
+  var _class = jsx.object.getClass(value);
+
+  return (
+    (_class == "Array"
+      ? "[" + value.map(es_debugValue).join(", ") + "]"
+      : (jsx.object.isInstanceOf(value, String)
+          ? '"' + value.replace(/["\\]/g, "\\$&") + '"'
+          : value))
+    + " : "
+    + (type == "object" || type == "function" ? _class : type)
+    + ([es_DefaultValue, es_ToPrimitive, es_Type].indexOf(context) > -1
+      && typeof es.types[value] != "undefined"
+        ? " (es.types." + es.types[value] + ")"
+        : ""));
+}
+es._debugValue = es_debugValue;
+
+/**
+ * @param {Function} context
+ * @param {Arguments|Array} args
+ * @return {string}
+ */
+function es_fillArgs (context, args)
+{
+  var matches = jsx.object.getDoc(context).match(/\([^)]+\)/);
+  if (!matches)
+  {
+    return "(" + [].join.call(args, ", ") + ")";
+  }
+
+  var counter = 0;
+  return matches[0].replace(/[_\w]\w*/g, function (m) {
+    return m + "="
+      + (counter < args.length
+          ? es._debugValue(args[counter++], context)
+          : "");
+  });
+}
+es._fillArgs = es_fillArgs;
+
+/**
+ * @param {Function|String} context
+ * @param {Arguments|Array} args
+ * @param returnValue
+ * @return {string}
+ */
+function es_info (context, args, returnValue)
+{
+  var sReturn = " = " + (arguments.length > 2
+    ? es._debugValue(returnValue, context)
+    : "...");
+
+  if (typeof context == "function")
+  {
+    return jsx.object.getFunctionName(context) + es._fillArgs(context, args) + sReturn;
+  }
+
+  return (context + "("
+    + (es._slice ? es._slice.call(args).join(", ") : args) + ")"
+    + sReturn);
+}
+es._info = es_info;
+
+/**
+ * @param {String} context
+ * @param {Arguments|Array} args
+ * @param returnValue
+ * @return {any}
+ */
+function es_trace (context, args, returnValue)
+{
+  if (es.enableTrace
+      && typeof jsx != "undefined" && typeof jsx.dmsg == "function")
+  {
+    jsx.info(es._info.apply(this, arguments));
+  }
+
+  return returnValue;
+}
+es._trace = es_trace;
+
+/**
+ * @param {String} context
+ * @param {Arguments|Array} args
+ */
+function es_traceStart (context, args)
+{
+  if (!es.enableTrace)
+  {
+    return;
+  }
+
+  if (typeof console != "undefined"
+      && typeof console.group == "function")
+  {
+    console.group(es._info.apply(this, arguments));
+  }
+  else
+  {
+    es._trace(context, args);
+  }
+}
+es._traceStart = es_traceStart;
+
+/**
+ * @param {String} context (optional)
+ * @param {Arguments|Array} args (optional)
+ * @param returnValue
+ * @return {any}
+ */
+function es_traceEnd (context, args, returnValue)
+{
+  if (!es.enableTrace)
+  {
+    return returnValue;
+  }
+
+  if (typeof console != "undefined"
+    && typeof console.groupEnd == "function")
+  {
+    console.groupEnd();
+  }
+
+  if (arguments.length > 0)
+  {
+    return es._trace.apply(this, arguments);
+  }
+}
+es._traceEnd = es_traceEnd;
 
 /**
  * Implements the "Type(arg)" value in ECMAScript algorithms.
@@ -58,46 +219,44 @@ es.T_OBJECT = 4;
  */
 function es_Type (arg)
 {
+  /* Specification Types not yet implemented */
+  var result = es.types.OTHER;
+
   var t = typeof arg;
 
   if (t == "undefined")
   {
-    return es.T_UNDEFINED;
+    result = es.types.UNDEFINED;
   }
-
-  if (arg === null)
+  else if (arg === null)
   {
-    return es.T_NULL;
+    result = es.types.NULL;
   }
-
-  if (t == "boolean")
+  else if (t == "boolean")
   {
-    return es.T_BOOLEAN;
+    result = es.types.BOOLEAN;
   }
-
-  if (t == "string")
+  else if (t == "string")
   {
-    return es.T_STRING;
+    result = es.types.STRING;
   }
-
-  if (t == "number")
+  else if (t == "number")
   {
-    return es.T_NUMBER;
+    result = es.types.NUMBER;
   }
-
-  if (t == "object")
+  else if (t == "function" || t == "object")
   {
-    return es.T_OBJECT;
+    result = es.types.OBJECT;
   }
 
-  /* Specification Types not yet implemented */
-  return es.T_OTHER;
+  return es._trace(es_Type, arguments, result);
 }
 es.Type = es_Type;
 
 function es_isPrimitive (arg) {
   var t = typeof arg;
-  return (t == "undefined" || t == "boolean" || t == "string" || t == "number");
+  return es._trace(es_isPrimitive, arguments,
+    t == "undefined" || t == "boolean" || t == "string" || t == "number");
 }
 es.isPrimitive = es_isPrimitive;
 
@@ -118,14 +277,14 @@ es.isObject = es_isObject;
 
 /**
  * "The mathematical function abs(x) yields the absolute value of x,
- * which is x if x is negative (less than zero) and otherwise is x itself.
+ * which is −x if x is negative (less than zero) and otherwise is x itself.
  *
  * @param x
  * @returns number
  */
 function es_abs (x)
 {
-  return (x < 0) ? -x : x;
+  return es._trace(es_abs, arguments, (x < 0) ? -x : x);
 }
 es.abs = es_abs;
 
@@ -137,7 +296,8 @@ es.abs = es_abs;
  */
 function es_floor (x)
 {
-  return x - ((x < 0) ? 1 - (x % 1) : x % 1);
+  return es._trace(es_floor, arguments,
+    x - ((x < 0) ? 1 - (x % 1) : x % 1));
 }
 es.floor = es_floor;
 
@@ -163,7 +323,7 @@ es.max = es_max;
  */
 function es_sign (x)
 {
-  return (x > 0) ? 1 : -1;
+  return es._trace(es_sign, arguments, (x > 0) ? 1 : -1);
 }
 es.sign = es_sign;
 
@@ -226,6 +386,8 @@ es.slice = es_slice;
 
 function es_DefaultValue (o, hint)
 {
+  es._traceStart(es_DefaultValue, arguments);
+
   /*
    * "When the [[DefaultValue]] internal method of O is called
    * with no hint, then it behaves as if the hint were Number,
@@ -234,15 +396,15 @@ function es_DefaultValue (o, hint)
    */
   if (typeof hint == "undefined")
   {
-    hint = es.T_NUMBER;
+    hint = es.types.NUMBER;
 
     if (es.getClass(o) == "Date")
     {
-      hint = es.T_STRING;
+      hint = es.types.STRING;
     }
   }
 
-  if (hint == es.T_STRING)
+  if (hint == es.types.STRING)
   {
     /*
      * "1. Let toString be the result of calling the [[Get]]
@@ -263,7 +425,7 @@ function es_DefaultValue (o, hint)
       /* "b. If str is a primitive value, return str." */
       if (es.isPrimitive(str))
       {
-        return str;
+        return es._traceEnd(es_DefaultValue, arguments, str);
       }
     }
 
@@ -286,14 +448,14 @@ function es_DefaultValue (o, hint)
       /* "b. If val is a primitive value, return val." */
       if (es.isPrimitive(val))
       {
-        return val;
+        return es._traceEnd(es_DefaultValue, arguments, val);
       }
     }
 
     /* "5. Throw a TypeError exception." */
     eval("throw new TypeError();");
   }
-  else if (hint == es.T_NUMBER)
+  else if (hint == es.types.NUMBER)
   {
     /*
      * "1. Let valueOf be the result of calling the [[Get]]
@@ -309,12 +471,12 @@ function es_DefaultValue (o, hint)
        *     internal method of valueOf, with O as the
        *     this value and an empty argument list."
        */
-      var str = valueOf.call(o);
+      var val = valueOf.call(o);
 
       /* b. If val is a primitive value, return val. */
       if (es.isPrimitive(val))
       {
-        return val;
+        return es._traceEnd(es_DefaultValue, arguments, val);
       }
     }
 
@@ -337,9 +499,11 @@ function es_DefaultValue (o, hint)
       /* "b. If str is a primitive value, return str." */
       if (es.isPrimitive(str))
       {
-        return str;
+        return es._traceEnd(es_DefaultValue, arguments, str);
       }
     }
+
+    es._traceEnd();
 
     /* "5. Throw a TypeError exception." */
     eval("throw new TypeError();");
@@ -363,18 +527,22 @@ es.DefaultValue = es_DefaultValue;
  */
 function es_ToPrimitive (input, preferredType)
 {
+  es._traceStart(es_ToPrimitive, arguments);
+
+  var result;
   var t = es.Type(input);
 
-  if (t == es.T_UNDEFINED || t == es.T_NULL || t == es.T_BOOLEAN
-      || t == es.T_NUMBER || t == es.T_STRING)
+  if (t == es.types.UNDEFINED || t == es.types.NULL || t == es.types.BOOLEAN
+      || t == es.types.NUMBER || t == es.types.STRING)
   {
-    return input;
+    result = input;
+  }
+  else if (t == es.types.OBJECT)
+  {
+    result = es.DefaultValue(input, preferredType);
   }
 
-  if (t == es.T_OBJECT)
-  {
-    return es.DefaultValue(input, preferredType);
-  }
+  return es._traceEnd(es_ToPrimitive, arguments, result);
 }
 es.ToPrimitive = es_ToPrimitive;
 
@@ -389,41 +557,41 @@ es.ToPrimitive = es_ToPrimitive;
  */
 function es_ToNumber (arg)
 {
+  var result;
+  es._traceStart(es_ToNumber, arguments);
+
   var t = es.Type(arg);
 
-  if (t == es.T_UNDEFINED)
+  if (t == es.types.UNDEFINED)
   {
-    return NaN;
+    result = NaN;
   }
-
-  if (t == es.T_NULL)
+  else if (t == es.types.NULL)
   {
-    return +0;
+    result = +0;
   }
-
-  if (t == es.T_BOOLEAN)
+  else if (t == es.types.BOOLEAN)
   {
-    return (arg === true) ? 1 : +0;
+    result = (arg === true) ? 1 : +0;
   }
-
-  if (t == es.T_NUMBER)
+  else if (t == es.types.NUMBER)
   {
-    return arg;
+    result = arg;
   }
-
-  if (t == "String")
+  else if (t == "String")
   {
-    +arg;
+    result = +arg;
   }
-
-  if (t == es.T_OBJECT)
+  else if (t == es.types.OBJECT)
   {
     /*
      * "1. Let primValue be ToPrimitive(input argument, hint Number)."
      */
-    var primValue = es.ToPrimitive(arg, es.T_NUMBER);
-    return es.ToNumber(primValue);
+    var primValue = es.ToPrimitive(arg, es.types.NUMBER);
+    result = es.ToNumber(primValue);
   }
+
+  return es._traceEnd(es_ToNumber, arguments, result);
 }
 es.ToNumber = es_ToNumber;
 
@@ -438,6 +606,8 @@ es.ToNumber = es_ToNumber;
  */
 function es_ToInteger (arg)
 {
+  es._traceStart(es_ToInteger, arguments);
+
   /* "1. Let number be the result of calling ToNumber on the input argument." */
   var number = es.ToNumber(arg);
 
@@ -454,7 +624,7 @@ function es_ToInteger (arg)
   }
 
   /* "4. Return the result of computing sign(number) × floor(abs(number))." */
-  return es.sign(number) * es.floor(es.abs(number));
+  return es._traceEnd(es_ToInteger, arguments, es.sign(number) * es.floor(es.abs(number)));
 }
 es.ToInteger = es_ToInteger;
 
@@ -469,6 +639,8 @@ es.ToInteger = es_ToInteger;
  */
 function es_ToUint32 (arg)
 {
+  es._trace(es_ToUint32, arguments);
+
   /* "1. Let number be the result of calling ToNumber on the input argument." */
   var number = es.ToNumber(arg);
 
@@ -511,24 +683,26 @@ es.ToUint32 = es_ToUint32;
  */
 function es_ToString (arg)
 {
+  es._trace(es_ToString, arguments);
+
   var t = es.Type(arg);
 
-  if (t == es.T_UNDEFINED)
+  if (t == es.types.UNDEFINED)
   {
     return "undefined";
   }
 
-  if (t == es.T_NULL)
+  if (t == es.types.NULL)
   {
     return "null";
   }
 
-  if (t == es.T_BOOLEAN)
+  if (t == es.types.BOOLEAN)
   {
     return (arg) ? "true" : "false";
   }
 
-  if (t == es.T_NUMBER)
+  if (t == es.types.NUMBER)
   {
     var m = arg;
 
@@ -573,15 +747,15 @@ function es_ToString (arg)
     return String(m);
   }
 
-  if (t == es.T_STRING)
+  if (t == es.types.STRING)
   {
     return arg;
   }
 
-  if (t == es.T_OBJECT)
+  if (t == es.types.OBJECT)
   {
     /* "1. Let primValue be ToPrimitive(input argument, hint String)." */
-    var primValue = es.ToPrimitive(arg, es.T_STRING);
+    var primValue = es.ToPrimitive(arg, es.types.STRING);
 
     /* "2. Return ToString(primValue)." */
     return es.ToString(primValue);
@@ -600,28 +774,30 @@ es.ToString = es_ToString;
  */
 function es_ToObject (arg)
 {
+  es._trace(es_ToObject, arguments);
+
   var t = es.Type(arg);
-  if (t === es.T_UNDEFINED || t === es.T_NULL)
+  if (t === es.types.UNDEFINED || t === es.types.NULL)
   {
     throw new TypeError();
   }
 
-  if (t === es.T_BOOLEAN)
+  if (t === es.types.BOOLEAN)
   {
     return new Boolean(arg);
   }
 
-  if (t === es.T_NUMBER)
+  if (t === es.types.NUMBER)
   {
     return new Number(arg);
   }
 
-  if (t === es.T_STRING)
+  if (t === es.types.STRING)
   {
     return new String(arg);
   }
 
-  if (t === es.T_OBJECT)
+  if (t === es.types.OBJECT)
   {
     return arg;
   }
@@ -661,9 +837,11 @@ es.getClass = es_getClass;
  */
 function es_CheckObjectCoercible (arg)
 {
+  es._trace(es_CheckObjectCoercible, arguments);
+
   var t = es.Type(arg);
 
-  if (t == es.T_UNDEFINED || t == es.T_NULL)
+  if (t == es.types.UNDEFINED || t == es.types.NULL)
   {
     return jsx.throwThis("TypeError");
   }
@@ -692,20 +870,22 @@ es.CheckObjectCoercible = es_CheckObjectCoercible;
  */
 function es_IsCallable (arg)
 {
+  es._traceStart(es_IsCallable, arguments);
+
+  var result;
   var t = es.Type(arg);
 
-  if (t == es.T_UNDEFINED || t == es.T_NULL || t == es.T_BOOLEAN
-      || t == es.T_NUMBER || t == es.T_STRING)
+  if (t == es.types.UNDEFINED || t == es.types.NULL || t == es.types.BOOLEAN
+      || t == es.types.NUMBER || t == es.types.STRING)
   {
-    return false;
+    result = false;
+  }
+  else if (typeof arg == "function")
+  {
+    result = true;
   }
 
-  if (typeof arg == "function")
-  {
-    return true;
-  }
-
-  return false;
+  return es._traceEnd(es_IsCallable, arguments, result);
 }
 es.IsCallable = es_IsCallable;
 
@@ -717,6 +897,8 @@ es.IsCallable = es_IsCallable;
  */
 function es_AbstractEqualityComparison (x, y)
 {
+  es._trace(es_AbstractEqualityComparison, arguments);
+
   /* 1. If Type(x) is the same as Type(y), then */
   var typeX = es.Type(x);
   var typeY = es.Type(y);
@@ -727,13 +909,13 @@ function es_AbstractEqualityComparison (x, y)
      * a. If Type(x) is Undefined, return true.
      * b. If Type(x) is Null, return true.
      */
-    if (typeX == es.T_UNDEFINED || typeX == es.T_NULL)
+    if (typeX == es.types.UNDEFINED || typeX == es.types.NULL)
     {
       return true;
     }
 
     /* c. If Type(x) is Number, then */
-    if (typeX == es.T_NUMBER)
+    if (typeX == es.types.NUMBER)
     {
       /*
        *  i. If x is NaN, return false.
@@ -782,6 +964,8 @@ es.Array.prototype = new Object();
  */
 function es_Array_prototype_splice (start, deleteCount/*, items */)
 {
+  es._trace(es_Array_prototype_splice, arguments);
+
   /*
    * "1. Let O be the result of calling ToObject passing
    *     the this value as the argument."
@@ -1026,10 +1210,18 @@ function es_Array_prototype_splice (start, deleteCount/*, items */)
 }
 es.Array.prototype = es_Array_prototype_splice;
 
+function es_Call (func, thisArg, args)
+{
+  func.apply(thisArg, args);
+}
+es.Call = es_Call;
+
 es.Function = new Object();
 es.Function.prototype = new Object();
 function es_Function_prototype_apply (thisArg, argArray)
 {
+  es._trace(es_Function_prototype_apply, arguments);
+
   /*
    * When the apply method is called on an object func with
    * arguments thisArg and argArray, the following steps
@@ -1055,7 +1247,7 @@ function es_Function_prototype_apply (thisArg, argArray)
   }
 
   /* 3. If Type(argArray) is not Object, then throw a TypeError exception. */
-  if (es.Type(argArray) != es.T_OBJECT)
+  if (es.Type(argArray) != es.types.OBJECT)
   {
     throw new TypeError();
   }
@@ -1107,6 +1299,8 @@ es.Function.prototype.apply = es_Function_prototype_apply;
 es.Object = new Object();
 function es_Object_keys (obj)
 {
+  es._trace(es_Object_keys, arguments);
+
   var a = [];
 
   for (var property in obj)
@@ -1124,6 +1318,8 @@ es.Object.keys = es_Object_keys;
 es.JSON = new Object();
 function es_JSON_parse (text, reviver)
 {
+  es._trace(es_JSON_parse, arguments);
+
   /**
    * "The abstract operation Walk is a recursive abstract
    * operation that takes two parameters: a holder object and
@@ -1291,6 +1487,8 @@ es.JSON.parse = es_JSON_parse;
 es.JSON.stringify = es_JSON_stringify;
 function es_JSON_stringify (value, replacer, space)
 {
+  es._trace(es_JSON_stringify, arguments);
+
   /**
    * "The abstract operation Quote(value) wraps a String value
    *  in double quotes and escapes characters within it."
@@ -1717,7 +1915,7 @@ function es_JSON_stringify (value, replacer, space)
     var value = holder[key];
 
     /* "2. If Type(value) is Object, then" */
-    if (es.Type(value) == es.T_OBJECT)
+    if (es.Type(value) == es.types.OBJECT)
     {
       /*
        * "a. Let toJSON be the result of calling the [[Get]]
@@ -1751,7 +1949,7 @@ function es_JSON_stringify (value, replacer, space)
     }
 
     /* "4. If Type(value) is Object then," */
-    if (es.Type(value) == es.T_OBJECT)
+    if (es.Type(value) == es.types.OBJECT)
     {
       /*
        * "a. If the [[Class]] internal property of value is
@@ -1811,13 +2009,13 @@ function es_JSON_stringify (value, replacer, space)
      *     calling the abstract operation Quote with argument
      *     value."
      */
-    if (t == es.T_STRING)
+    if (t == es.types.STRING)
     {
       return Quote(value);
     }
 
     /* "9. If Type(value) is Number" */
-    if (t == es.T_NUMBER)
+    if (t == es.types.NUMBER)
     {
       /*
        * "a. If value is finite then return ToString(value).
@@ -1827,7 +2025,7 @@ function es_JSON_stringify (value, replacer, space)
     }
 
     /* "10. If Type(value) is Object, and IsCallable(value) is false" */
-    if (t == es.T_OBJECT && !es.IsCallable(value))
+    if (t == es.types.OBJECT && !es.IsCallable(value))
     {
       /*
        * "a. If the [[Class]] internal property of value is
@@ -1862,7 +2060,7 @@ function es_JSON_stringify (value, replacer, space)
   var PropertyList, ReplacerFunction;
 
   /* "4. If Type(replacer) is Object, then" */
-  if (es.Type(replacer) == es.T_OBJECT)
+  if (es.Type(replacer) == es.types.OBJECT)
   {
     var Class = es.getClass(replacer);
 
@@ -1901,12 +2099,12 @@ function es_JSON_stringify (value, replacer, space)
           item = v;
         }
         /* "Else if Type(v) is Number then let item be ToString(v)." */
-        else if (t == es.T_NUMBER)
+        else if (t == es.types.NUMBER)
         {
           item = es.ToString(v);
         }
         /* "4. Else if Type(v) is Object then,"  */
-        else if (t == es.T_OBJECT)
+        else if (t == es.types.OBJECT)
         {
           /*
            * "a  If the [[Class]] internal property of v
@@ -1936,7 +2134,7 @@ function es_JSON_stringify (value, replacer, space)
 
   /* "5. If Type(space) is Object then," */
   t = es.Type(space);
-  if (t == es.T_OBJECT)
+  if (t == es.types.OBJECT)
   {
     /*
      * "a. If the [[Class]] internal property of space is
@@ -1959,7 +2157,7 @@ function es_JSON_stringify (value, replacer, space)
   }
 
   /* "6. If Type(space) is Number" */
-  if (t == es.T_NUMBER)
+  if (t == es.types.NUMBER)
   {
     /* "a. Let space be min(10, ToInteger(space))." */
     space = es.min(10, es.ToInteger(space));
