@@ -63,8 +63,9 @@ function body_load ()
     filterColumns[0].ignoreCase = true;
 
     var properties = new Object();
-    properties.filterColumns = filterColumns;
     properties.addTitles = true;
+    properties.filterColumns = filterColumns;
+    properties.highlightMatches = true;
 
     var scroller = document.getElementById("scroller");
     if (scroller
@@ -221,5 +222,114 @@ function table_click (e)
 //      + '<button type="submit" name="metadataOnly" value="1" style="clear: both; float: right">'
 //      + 'Save</button>'
 //      + '</form>';
+  }
+}
+
+function es_matrix_write (s)
+{
+  var ns = document.documentElement.getAttribute("xmlns");
+  var scripts;
+  if (ns)
+  {
+    scripts = document.getElementsByTagNameNS(ns, "script");
+  }
+  else
+  {
+    scripts = document.getElementsByTagName("script");
+  }
+
+  if (scripts && scripts.length > 0)
+  {
+    var lastScript = scripts[scripts.length - 1];
+    result2 = !!jsx.dom.insertBefore(lastScript.parentNode,
+      document.createTextNode(s), lastScript.nextSibling);
+  }
+}
+
+function es_matrix_Result (testcaseId, value)
+{
+  this.testcaseId = testcaseId;
+  this.value = value;
+}
+
+function es_matrix_collect_results (tdId, results)
+{
+  /* Imports */
+  var _dom = jsx.dom;
+  var _createElementFromObj = _dom.createElementFromObj;
+  var _createMarkupFromObj = _dom.createMarkupFromObj;
+
+  var count = 0;
+  var inputs = new Array();
+  var resultsStr = new Array();
+
+  var supports_DOM1 = es_matrix.supportsDOM1;
+  if (typeof supports_DOM1 == "undefined")
+  {
+    supports_DOM1 = es_matrix.supportsDOM1 =
+      jsx.object.isHostMethod(document, "createElement");
+  }
+
+  if (supports_DOM1)
+  {
+    var result_cell = _dom.getElementById(tdId);
+
+    /* If this cell does not support appendChild(), assume none does */
+    supports_DOM1 = es_matrix.supportsDOM1 =
+      jsx.object.isHostMethod(result_cell, "appendChild");
+  }
+
+  for (var i = 0, len = results.length; i < len; ++i)
+  {
+    var result = results[i];
+    var value = result.value;
+    if (value)
+    {
+      ++count;
+    }
+
+    var input = new Object();
+    input.type = "input";
+    var attrs = input.attributes = new Object();
+    attrs.type = "hidden";
+    attrs.name = 'results[' + result.testcaseId + ']';
+    attrs.value = (value ? '1' : '0');
+
+    if (supports_DOM1)
+    {
+      var input = _createElementFromObj(input);
+      if (input)
+      {
+        result_cell.appendChild(input);
+      }
+      else
+      {
+        supports_DOM1 = es_matrix.supportsDOM1 = false;
+      }
+    }
+
+    if (!supports_DOM1)
+    {
+      inputs[inputs.length] = _createMarkupFromObj(input);
+    }
+
+    resultsStr[resultsStr.length] =
+      "Test " + (i + 1) + ": " + (result ? "passed" : "failed");
+  }
+
+  var span = new Object();
+  span.type = "span";
+  (span.attributes = new Object()).title = resultsStr.join("\n");
+  span.childNodes = new Array(
+    ((count == len) ? "+" : (count == 0 ? String.fromCharCode(8722) : "*"))
+  );
+
+  if (supports_DOM1)
+  {
+    result_cell.appendChild(_createElementFromObj(span));
+  }
+  else
+  {
+    document.write(inputs.join("\n") + _createMarkupFromObj(span));
   }
 }
