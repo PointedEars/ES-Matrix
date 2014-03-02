@@ -43,6 +43,7 @@ class IndexController extends \PointedEars\PHPX\Controller
     $environments = EnvironmentMapper::getInstance()->fetchAllPerImplementation();
 
     $this->assign('edit', isset($_SESSION['edit']));
+    $this->assign('test', (bool) Application::getParam('test'));
     $this->assign('message', Application::getParam('message'), true);
 
     $this->assign('implementations', $implementations);
@@ -104,6 +105,11 @@ class IndexController extends \PointedEars\PHPX\Controller
   {
     unset($_SESSION['edit']);
     Application::redirect();
+  }
+
+  protected function runTestsAction ()
+  {
+    Application::redirect('test=1#features-table');
   }
 
   protected function saveResultsAction ()

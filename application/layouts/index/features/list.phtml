@@ -8,6 +8,7 @@
 
   $oldAnchor = '';
   $counter = 0;
+
   foreach ($this->features as $key => $feature)
   {
     ++$counter;
@@ -18,8 +19,7 @@
 ?>
           <tr<?php if ($this->isSafe($feature->id)) { ?> class="safe"<?php } ?>>
 <?php
-    if ($this->edit)
-    {
+    if ($this->edit):
 ?>
             <td><a href="<?php echo $this->escape($this->getURL('feature', 'edit', $feature->id)); ?>"
                    class="edit">Edit</a>
@@ -30,7 +30,7 @@
                   <button type="submit" name="action" value="delete" class="delete">Delete</button>
                 </form></td>
 <?php
-    }
+    endif;
 ?>
             <th scope="row" id="feature<?php echo $feature->id; ?>"<?php
                 if ($feature->title)
@@ -66,7 +66,7 @@
                   ?><span title="Non-standard">&#8722;</span><?php
                 }
                 else
-                {
+              {
                   echo $edition;
 
                   if ($feature->section)
@@ -95,12 +95,12 @@
               }
             ?></td>
             <td<?php
-              $id = 'td' . ($key + 1);
+              $id = 'td' . $key;
               $testcases = $feature->testcases;
               if (count($testcases) > 0)
               {
-                echo " id='$id'";
-                echo ' title="'
+                echo " id='$id'"
+                  . ' title="'
                   . $this->escape(
                       implode("\n\n",
                         array_map(
@@ -119,25 +119,22 @@
                   . ' a manual test."';
               }
               ?> headers="hdr-this"><?php
-              if (count($testcases) > 0)
+
+              if ($do_tests)
               {
-                ?><script type="text/javascript">
-                    var results = new Array();
-                  </script><?php
-                foreach ($testcases as $testcase_key => $testcase)
+                if (count($testcases) > 0)
                 {
-                  ?><script type="text/javascript">
-                    var result = false;
-                  </script>
-                  <script type="<?php
-                    if ($testcase->alt_type)
-                    {
-                      echo $this->escape($testcase->alt_type);
-                    }
-                    else
-                    {
-                      echo 'text/javascript';
-                    }
+                  ?><script type="text/javascript">var results = new Array();</script><?php
+                  foreach ($testcases as $testcase_key => $testcase):
+                    ?><script type="<?php
+                      if ($testcase->alt_type)
+                      {
+                        echo $this->escape($testcase->alt_type);
+                      }
+                      else
+                   {
+                        echo 'text/javascript';
+                      }
                     ?>">
                     <?php
                       $code = $testcase->code;
@@ -146,39 +143,19 @@
                         $code = '"' . preg_replace('/(\\r?\\n|\\r)/', '\\n', addslashes($code)) . '"';
                       }
                     ?>
-                    result = jsx.debug.test(<?php echo str_replace('</', '<\\/', $code); ?>, true, false);
-                  </script>
-                  <script type="text/javascript">
-                    results[<?php echo $testcase_key; ?>] = result;
-                    document.write('<input type="hidden" name="results[<?php echo $testcase->id; ?>]" value="' + (result ? '1' : '0') + '">');
-                  </script><?php
-                }
-                ?><script type="text/javascript">
-                  var count = 0;
-                  var resultsStr = "";
-                  for (var i = 0, len = results.length; i < len; ++i)
-                  {
-                    var result = results[i];
-                    if (result)
-                    {
-                      ++count;
-                    }
-
-                    resultsStr += "Test " + (i + 1) + ": "
-                      + (result ? "passed" : "failed")
-                      + (i < results.length - 1 ? "\n" : "");
-                  }
-
-                  var text = (count == len) ? "+" : (count == 0 ? "&#8722;" : "*");
-
-                  document.write('<span title="' + resultsStr + '">' + text + '<\/span>');
-                </script><?php
+                    results[<?php echo $testcase_key; ?>] = new es_matrix_Result(
+                      <?php echo $testcase->id; ?>,
+                      jsx.debug.test(<?php echo str_replace('</', '<\\/', $code); ?>, true, false));
+                    </script><?php
+                  endforeach;
+                ?><script type="text/javascript">es_matrix_collect_results("<?php echo $id; ?>", results);</script><?php
               }
               else
             {
                 echo '<abbr>N/A</abbr>';
               }
-              ?></td>
+            }
+            ?></td>
 <?php
     /* No results to show if there are no testcases */
     $num_testcases = count($feature->testcases);

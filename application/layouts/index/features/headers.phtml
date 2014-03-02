@@ -53,11 +53,15 @@ HTML;
               <div title="Go to the first entry that begins with the selected character" style="border-bottom: none"
                    ><a href="#!">!</a>
                 <?php
-                  for ($i = ord('a'), $max = ord('z'); $i <= $max; $i++)
-                  {
-                    $s = chr($i);
-                    echo '<a href="#' . $s . '">' . strtoupper($s) . '</a> ';
-                  }
+                  echo implode(
+                    ' ',
+                    array_map(
+                      function ($s) {
+                        return '<a href="#' . $s . '">' . strtoupper($s) . '</a>';
+                      },
+                      array_map('chr', range(ord('a'), ord('z')))
+                    )
+                  );
                   ?></div>
 <?php
   if (!$repeated)
@@ -125,17 +129,37 @@ HTML;
 <?php
   if (!$repeated)
   {
+      /* TODO: Not allowed to load local resource: chrome://help-frame/strings.js */
+//               <script type="text/javascript">var loadTimeData = new Object();</script>
+//               <script type="text/javascript" src="chrome://help-frame/strings.js"></script>
 ?>
+              <script type="text/javascript">
+      // console.log(loadTimeData);
+    </script>
               <script type="text/javascript" src="application/scripts/impl-detection.js"></script>
 <?php
   }
 
-  if (/*$_SERVER['HTTP_HOST'] === 'localhost' && */!$this->edit)
+  $do_tests = $this->test;
+  if ($do_tests)
   {
+    if (/*$_SERVER['HTTP_HOST'] === 'localhost' && */!$this->edit)
+    {
 ?>
-              <button type="submit" name="action" value="saveResults" accesskey="s"
+              <button type="submit" name="action" value="saveResults"<?php
+                        if (!$repeated) { ?> accesskey="s"<?php } ?>
                       title="Submit test results (Shortcut: Access Key + S)"
                       ><u>S</u>ubmit results</button></th>
+<?php
+    }
+  }
+  else
+  {
+?>
+              <button type="submit" name="action" value="runTests"<?php
+                        if (!$repeated) { ?> accesskey="t"<?php } ?>
+                      title="Run tests (Shortcut: Access Key + T)"
+                      >Run <u>t</u>ests</button></th>
 <?php
   }
 
