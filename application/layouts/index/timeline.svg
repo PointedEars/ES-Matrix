@@ -251,61 +251,60 @@
         <line x1="<?php echo $now; ?>" x2="<?php echo $svg_width - 115; ?>"
               class="future"/>
 
-        <g transform="translate(180 0)">
-          <a xlink:href="http://www.ecma-international.org/publications/files/ECMA-ST-ARCH/ECMA-262,%201st%20edition,%20June%201997.pdf"
-             id="es1">
-            <circle r="5" /><title>ECMAScript Edition 1 (1997-06)</title>
-            <text y="-10" style="text-anchor: end">ECMAScript Edition 1</text>
-          </a>
-        </g>
-        <g transform="translate(410 0)">
-          <a xlink:href="http://www.ecma-international.org/publications/files/ECMA-ST-ARCH/ECMA-262,%202nd%20edition,%20August%201998.pdf">
-            <circle r="5"/><title>ECMAScript Edition 2 (1999-05)</title>
-            <text y="-10">2</text>
-          </a>
-        </g>
-        <g transform="translate(480 0)">
-          <a xlink:href="http://www.ecma-international.org/publications/files/ECMA-ST-ARCH/ECMA-262,%203rd%20edition,%20December%201999.pdf">
-            <circle r="5"/><title>ECMAScript Edition 3 (1999-12)</title>
-            <text y="-10">3</text>
-          </a>
-        </g>
-        <g transform="translate(540 0)">
-          <a xlink:href="http://wayback.archive.org/web/20060924061924/http://www.mozilla.org/js/language/index.html">
-            <circle r="4"/><title>ECMAScript Edition 3 Final (2000-06)</title>
-            <text y="-10">3 Final</text>
-          </a>
-        </g>
-        <g transform="translate(600 0)">
-          <a xlink:href="http://wayback.archive.org/web/20070711032912/http://www.mozilla.org/js/language/es4/index.html"
-             id="es4">
-            <circle r="5"/><title>ECMAScript Edition 4 Working Draft (2000-12-02)</title> 
-            <text y="-10">4 (<tspan><title>Working Draft</title>WD</tspan>)</text>
-          </a>
-        </g>
-        <text x="1420" y="5" class="icon">
-          <title>Website for ECMAScript Ed. 4 proposal went offline (2007-10-13)</title>
-          X
-        </text>
-        <g transform="translate(1515 0)">
-          <a xlink:href="https://mail.mozilla.org/pipermail/es-discuss/2008-August/006837.html">
-            <title>“ECMAScript Harmony” announced (2008-08-13)</title>
-            <polygon points="0,-5, 10,0 0, 5"/>
-            <text x="5" y="-10">♫</text>
-          </a>
-        </g>
-        <g transform="translate(1680 0)">
-          <a xlink:href="http://www.ecma-international.org/publications/files/ECMA-ST-ARCH/ECMA-262%205th%20edition%20December%202009.pdf">
-            <circle r="5"/><title>ECMAScript Edition 5 (2009-12)</title>
-            <text y="-10">5</text>
-          </a>
-        </g>
-        <g transform="translate(1860 0)">
-          <a xlink:href="http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-262.pdf">
-            <circle r="4"/><title>ECMAScript 5.1 Edition (2011-06)</title>
-            <text y="-10">5.1</text>
-          </a>
-        </g>
+<?php
+  require_once 'timeline-data.inc';
+
+  foreach ($implementations as $implementation):
+    foreach ($implementation as $version): 
+      $marker = $version['marker'];
+      $date = $version['date'];
+      $offset_x = (($date['0'] - 1995) * 12 + $date[1]) * 10 - 120;
+
+      ?><g transform="translate(<?php echo $offset_x; ?> 0)"><?php
+        if (isset($marker['href'])):
+          ?><a xlink:href="<?php echo $marker['href']; ?>"<?php
+          if (isset($version['id'])):
+            ?> id="<?php echo $version['id']; ?>"<?php
+          endif;
+          ?>><?php
+        endif;
+
+        if (isset($marker['shape'])):
+          switch ($marker['shape']):
+            case 'circle':
+              ?><circle r="<?php echo $marker['radius']; ?>"/><?php
+              break;
+
+            case 'polygon':
+              ?><polygon points="<?php echo $marker['points']; ?>"/><?php
+              break;
+          endswitch;
+        endif;
+
+        if (isset($marker['title'])):
+          $format = isset($date[2]) ? '%04d-%02d-%02d' : '%04d-%02d';
+          ?><title><?php echo $marker['title'] . ' (' . vsprintf($format, $date) . ')'; ?></title><?php
+        endif;
+
+        $text = $marker['text'];
+        ?><text y="<?php echo $text['y']; ?>"<?php
+        
+        if (isset($text['anchor'])):
+          ?> style="text-anchor: <?php echo $text['anchor']; ?>"<?php
+        endif;
+
+        if (isset($text['class'])):
+          ?> class="<?php echo $text['class']; ?>"<?php
+        endif; 
+        ?>><?php echo $text['content']; ?></text><?php
+        
+        if (isset($marker['href'])):
+          ?></a><?php
+        endif;
+      ?></g><?php
+    endforeach;
+  endforeach;
+?>        
       </g>
       
       <g id="netscape" transform="translate(120 80)">
