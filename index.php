@@ -11,15 +11,6 @@
 $encoding = 'UTF-8'; // mb_detect_encoding(file_get_contents(__FILE__));
 header("Content-Type: text/html" . ($encoding ? "; charset=$encoding" : ""));
 
-$modi = max(array(
-  @filemtime(__FILE__),
-//   @filemtime('es-matrix.inc.php'),
-  @filemtime('style.css'),
-  @filemtime('table.js')
-));
-
-header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $modi) . ' GMT');
-
 /* Cached resource expires in HTTP/1.1 caches 24h after last retrieval */
 header('Cache-Control: max-age=86400, s-maxage=86400, must-revalidate, proxy-revalidate');
 
@@ -29,7 +20,21 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
 require_once 'lib/Application.php';
 require_once 'application/models/databases/es-matrix/MatrixDb.php';
 
+$db = new MatrixDb();
+$modi = max(array_merge(
+  array_map('filemtime', array(
+    __FILE__,
+    //   'es-matrix.inc.php',
+    'style.css',
+    'table.js',
+    'application',
+  )),
+  array($db->getLastModified())
+));
+
+header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $modi) . ' GMT');
+
 $application = PointedEars\PHPX\Application::getInstance();
-$application->registerDatabase('es-matrix', new MatrixDb());
+$application->registerDatabase('es-matrix', $db);
 $application->setDefaultDatabase('es-matrix');
 $application->run();
