@@ -4,7 +4,7 @@
   "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
      xmlns:xlink="http://www.w3.org/1999/xlink"
-     height="650" width="<?php echo ($svg_width = 19 * 12 * 10) + 30; ?>">
+     height="650" width="<?php echo ($svg_width = (gmdate('Y') - 1995 + 1) * 12 * 10) + 30; ?>">
   <title>Timeline of ECMAScript and its implementations</title>
   <style type="text/css">
     title {
@@ -244,7 +244,11 @@
                  Q 1890 320 1920 320" class="relation"/>
 
         <line x1="180" x2="1860"/>
-        <line x1="1860" x2="<?php echo $svg_width - 115; ?>"
+        
+        <?php $now = ((gmdate('Y') - 1995) * 12 + gmdate('n')) * 10 - 120; ?>
+        
+        <line x1="180" x2="<?php echo $now; ?>"/>
+        <line x1="<?php echo $now; ?>" x2="<?php echo $svg_width - 115; ?>"
               class="future"/>
 
         <g transform="translate(180 0)">
@@ -362,8 +366,8 @@
           <path d="m 410 -60
                    Q 490 0 570 0"/>
                    
-          <line x1="570" x2="2100"/>
-          <line x1="2100" x2="<?php echo $svg_width - 115; ?>"
+          <line x1="570" x2="<?php echo $now; ?>"/>
+          <line x1="<?php echo $now; ?>" x2="<?php echo $svg_width - 115; ?>"
                 class="future"/>
         
           <g transform="translate(570 0)">
@@ -470,8 +474,8 @@
           <g id="rhino" transform="translate(0 60)">
             <title>Mozilla Rhino</title>
             
-            <line x1="410" x2="1980"/>
-            <line x1="1980" x2="<?php echo $svg_width - 115; ?>"
+            <line x1="410" x2="<?php echo $now; ?>"/>
+            <line x1="<?php echo $now; ?>" x2="<?php echo $svg_width - 115; ?>"
                   class="future"/>
   
             <g transform="translate(410 0)">
@@ -555,8 +559,8 @@
           
           <path d="m 30 -180
                    Q 30 0 80 0" class="relation"/>
-          <line x1="80" x2="2000"/>
-          <line x1="2000" x2="<?php echo $svg_width - 115; ?>"
+          <line x1="80" x2="<?php echo $now; ?>"/>
+          <line x1="<?php echo $now; ?>" x2="<?php echo $svg_width - 115; ?>"
                 class="future"/>
 
           <g transform="translate(80 0)" id="jscript1.0">
@@ -613,8 +617,8 @@
           <g transform="translate(0 40)">
             <title>Microsoft JScript .NET</title>
           
-            <line x1="730" x2="1720"/>
-            <line x1="1720" x2="<?php echo $svg_width - 115; ?>"
+            <line x1="730" x2="<?php echo $now; ?>"/>
+            <line x1="<?php echo $now; ?>" x2="<?php echo $svg_width - 115; ?>"
                   class="future"/>
             
             <g transform="translate(730 0)" id="jscript.net">
@@ -637,8 +641,6 @@
           <title>Opera ECMAScript</title>
         
           <line x1="240" x2="2090"/>
-          <line x1="2090" x2="<?php echo $svg_width - 115; ?>"
-                class="future"/>
 
           <g transform="translate(240 0)">
             <title>Opera ECMAScript 3.00 (1997-12)</title>
@@ -709,27 +711,14 @@
               <text y="-10">11.60</text>
             </a>
           </g>
-          <g transform="translate(2080 0)">
-            <a xlink:href="http://www.opera.com/docs/changelogs/unified/1215/">
-              <title>Opera ECMAScript 12.15 (2013-04-04)</title>
-              <circle r="5"/>
-              <text y="-10" style="text-anchor: end">12.15</text>
-            </a>
-          </g>
-          <g transform="translate(2090 0)">
-            <a xlink:href="http://www.opera.com/docs/changelogs/unified/1500n/">
-              <title>Opera ECMAScript 15.0 Next (2013-05-28)</title>
-              <circle r="5"/>
-              <text y="20" style="text-anchor: start">15.0 Next</text>
-            </a>
-          </g>
+          <text x="2090" y="5" class="icon">X</text>
         </g>
         
         <g id="kde" transform="translate(0 340)">
           <title>KDE JavaScript</title>
 
-          <line x1="580" x2="2100"/>
-          <line x1="2100" x2="<?php echo $svg_width - 115; ?>"
+          <line x1="580" x2="<?php echo $now; ?>"/>
+          <line x1="<?php echo $now; ?>" x2="<?php echo $svg_width - 115; ?>"
                 class="future"/>
 
           <g transform="translate(580 0)">
@@ -801,8 +790,8 @@
               <path d="m 1095 -70
                        Q 1095 0 1120 0"/>
                        
-              <line x1="1120" x2="2100"/>
-              <line x1="2100" x2="<?php echo $svg_width - 115; ?>"
+              <line x1="1120" x2="<?php echo $now; ?>"/>
+              <line x1="<?php echo $now; ?>" x2="<?php echo $svg_width - 115; ?>"
                     class="future"/>
                     
               <g transform="translate(1120 0)">
@@ -880,8 +869,8 @@
         <g id="google" transform="translate(0 400)">
           <title>Google V8</title>
         
-          <line x1="1510" x2="2100"/>
-          <line x1="2100" x2="<?php echo $svg_width - 115; ?>"
+          <line x1="1510" x2="<?php echo $now; ?>"/>
+          <line x1="<?php echo $now; ?>" x2="<?php echo $svg_width - 115; ?>"
                 class="future"/>
           
           <g transform="translate(1510 0)">
