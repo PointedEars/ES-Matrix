@@ -314,7 +314,7 @@ function es_matrix_collect_results (tdId, results)
     }
 
     resultsStr[resultsStr.length] =
-      "Test " + (i + 1) + ": " + (result ? "passed" : "failed");
+      "Test " + (i + 1) + ": " + (value ? "passed" : "failed");
   }
 
   var span = new Object();
