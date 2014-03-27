@@ -1,8 +1,8 @@
 <?php
 
-require_once 'lib/global.inc';
+require_once '../lib/global.inc';
 
-require_once 'application/models/databases/es-matrix/tables/TestcaseTable.php';
+require_once 'models/databases/es-matrix/tables/TestcaseTable.php';
 
 /**
  * Data model for a testcase

@@ -1,7 +1,7 @@
 <?php
 
-require_once 'application/models/databases/es-matrix/tables/VersionTable.php';
-require_once 'application/models/VersionModel.php';
+require_once 'models/databases/es-matrix/tables/VersionTable.php';
+require_once 'models/VersionModel.php';
 
 /**
  * Mapper class for tested implementation versions

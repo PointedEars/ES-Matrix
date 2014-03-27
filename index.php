@@ -18,16 +18,17 @@ header('Cache-Control: max-age=86400, s-maxage=86400, must-revalidate, proxy-rev
 header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
 
 require_once 'lib/Application.php';
-require_once 'application/models/databases/es-matrix/MatrixDb.php';
+chdir('application');
+require_once 'models/databases/es-matrix/MatrixDb.php';
 
 $db = new MatrixDb();
 $modi = max(array_merge(
   array_map('filemtime', array(
     __FILE__,
     //   'es-matrix.inc.php',
-    'style.css',
-    'table.js',
-    'application',
+    '../style.css',
+    '../table.js',
+    '.',
   )),
   array($db->getLastModified())
 ));

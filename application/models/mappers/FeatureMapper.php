@@ -1,9 +1,9 @@
 <?php
 
-require_once 'application/models/FeatureModel.php';
-require_once 'application/models/mappers/TestcaseMapper.php';
+require_once 'models/FeatureModel.php';
+require_once 'models/mappers/TestcaseMapper.php';
 
-require_once 'lib/features.class.php';
+require_once '../lib/features.class.php';
 
 /**
  * Mapper class for features

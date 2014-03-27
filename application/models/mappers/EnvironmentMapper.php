@@ -1,6 +1,6 @@
 <?php
 
-require_once 'application/models/EnvironmentModel.php';
+require_once 'models/EnvironmentModel.php';
 
 class EnvironmentTestedException extends Exception
 {

@@ -1,9 +1,9 @@
 <?php
 
-require_once 'application/views/IndexView.php';
-require_once 'application/models/ImplementationModel.php';
-require_once 'application/models/mappers/ImplementationMapper.php';
-require_once 'application/models/mappers/VersionMapper.php';
+require_once 'views/IndexView.php';
+require_once 'models/ImplementationModel.php';
+require_once 'models/mappers/ImplementationMapper.php';
+require_once 'models/mappers/VersionMapper.php';
 
 use \PointedEars\PHPX\Application;
 
@@ -57,7 +57,7 @@ class ImplementationController extends \PointedEars\PHPX\Controller
     $this->assign('implementation', $impl);
     $this->assign('implementations', $all_impls);
     $this->assign('all_versions', $all_versions);
-    $this->render(null, 'application/layouts/implementation/edit.phtml');
+    $this->render(null, 'layouts/implementation/edit.phtml');
   }
 
   /**

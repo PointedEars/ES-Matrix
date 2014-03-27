@@ -1,10 +1,10 @@
 <?php
 
-require_once 'lib/global.inc';
+require_once '../lib/global.inc';
 
-require_once 'application/models/databases/es-matrix/tables/FeatureTable.php';
-require_once 'application/models/TestcaseModel.php';
-require_once 'application/models/mappers/TestcaseMapper.php';
+require_once 'models/databases/es-matrix/tables/FeatureTable.php';
+require_once 'models/TestcaseModel.php';
+require_once 'models/mappers/TestcaseMapper.php';
 
 /**
  * Data model for a language feature

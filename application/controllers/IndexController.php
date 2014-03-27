@@ -1,13 +1,13 @@
 <?php
 
-require_once 'lib/footnotes.class.php';
+require_once '../lib/footnotes.class.php';
 
-require_once 'application/views/IndexView.php';
-require_once 'application/models/mappers/FeatureMapper.php';
-// require_once 'application/models/mappers/TestcaseMapper.php';
-require_once 'application/models/mappers/ImplementationMapper.php';
-require_once 'application/models/mappers/ResultMapper.php';
-require_once 'application/models/mappers/EnvironmentMapper.php';
+require_once 'views/IndexView.php';
+require_once 'models/mappers/FeatureMapper.php';
+// require_once 'models/mappers/TestcaseMapper.php';
+require_once 'models/mappers/ImplementationMapper.php';
+require_once 'models/mappers/ResultMapper.php';
+require_once 'models/mappers/EnvironmentMapper.php';
 
 use \PointedEars\PHPX\Application;
 
@@ -26,7 +26,7 @@ class IndexController extends \PointedEars\PHPX\Controller
     parent::__construct('IndexView');
   }
 
-  protected function indexAction($template = null, $content = null)
+  protected function indexAction ($template = null, $content = null)
   {
     $implementations = ImplementationMapper::getInstance()->fetchAll();
 
@@ -54,7 +54,7 @@ class IndexController extends \PointedEars\PHPX\Controller
 
     if (is_null($template))
     {
-      $this->render(null, 'application/layouts/index/index.phtml');
+      $this->render(null, 'layouts/index/index.phtml');
     }
     else
     {
@@ -65,8 +65,8 @@ class IndexController extends \PointedEars\PHPX\Controller
   protected function indexLatexAction ()
   {
     $this->indexAction(
-      'application/layouts/text.phtml',
-      'application/layouts/index/index-latex.phtml');
+      'layouts/text.phtml',
+      'layouts/index/index-latex.phtml');
   }
 
   protected function testcasesLatexAction ()
@@ -76,15 +76,15 @@ class IndexController extends \PointedEars\PHPX\Controller
     $this->assign('features', $features);
 
     $this->render(
-        'application/layouts/text.phtml',
-        'application/layouts/index/testcases-latex.phtml');
+        'layouts/text.phtml',
+        'layouts/index/testcases-latex.phtml');
   }
 
   protected function resultsLatexAction ()
   {
     $this->indexAction(
-        'application/layouts/text.phtml',
-        'application/layouts/index/results-latex.phtml');
+        'layouts/text.phtml',
+        'layouts/index/results-latex.phtml');
   }
 
   protected function importAction ()

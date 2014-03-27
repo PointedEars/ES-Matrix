@@ -1,11 +1,11 @@
 <?php
 
-require_once 'lib/features.class.php';
+require_once '../lib/features.class.php';
 
-require_once 'application/models/TestcaseModel.php';
-require_once 'application/models/FeatureModel.php';
-require_once 'application/models/mappers/ImplementationMapper.php';
-require_once 'application/models/mappers/EnvironmentMapper.php';
+require_once 'models/TestcaseModel.php';
+require_once 'models/FeatureModel.php';
+require_once 'models/mappers/ImplementationMapper.php';
+require_once 'models/mappers/EnvironmentMapper.php';
 
 /**
  * Mapper class for testcases

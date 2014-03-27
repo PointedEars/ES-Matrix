@@ -2,10 +2,10 @@
 
 use \PointedEars\PHPX\Application;
 
-require_once 'application/models/ResultModel.php';
-require_once 'application/models/mappers/ImplementationMapper.php';
-require_once 'application/models/mappers/EnvironmentMapper.php';
-require_once 'application/models/mappers/VersionMapper.php';
+require_once 'models/ResultModel.php';
+require_once 'models/mappers/ImplementationMapper.php';
+require_once 'models/mappers/EnvironmentMapper.php';
+require_once 'models/mappers/VersionMapper.php';
 
 /**
  * Mapper class for tested implementation versions

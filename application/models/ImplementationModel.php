@@ -1,6 +1,6 @@
 <?php
 
-require_once 'application/models/databases/es-matrix/tables/ImplementationTable.php';
+require_once 'models/databases/es-matrix/tables/ImplementationTable.php';
 
 /**
  * Model class for tested implementations

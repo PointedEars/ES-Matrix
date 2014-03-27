@@ -1,7 +1,7 @@
 <?php
 
-require_once 'application/models/ImplementationModel.php';
-require_once 'application/models/mappers/VersionMapper.php';
+require_once 'models/ImplementationModel.php';
+require_once 'models/mappers/VersionMapper.php';
 
 /**
  * Mapper class for tested implementations

@@ -1,6 +1,6 @@
 <?php
 
-require_once 'application/models/databases/es-matrix/MatrixDb.php';
+require_once 'models/databases/es-matrix/MatrixDb.php';
 
 require_once 'lib/Db/MySQLAdapter.php';
 

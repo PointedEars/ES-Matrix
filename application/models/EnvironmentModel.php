@@ -1,6 +1,6 @@
 <?php
 
-require_once 'application/models/databases/es-matrix/tables/EnvironmentTable.php';
+require_once 'models/databases/es-matrix/tables/EnvironmentTable.php';
 
 /**
  * Model class for test environments

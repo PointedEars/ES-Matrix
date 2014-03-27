@@ -1,8 +1,8 @@
 <?php
 
-require_once 'application/views/IndexView.php';
-require_once 'application/models/FeatureModel.php';
-require_once 'application/models/mappers/FeatureMapper.php';
+require_once 'views/IndexView.php';
+require_once 'models/FeatureModel.php';
+require_once 'models/mappers/FeatureMapper.php';
 
 use \PointedEars\PHPX\Application;
 
@@ -51,7 +51,7 @@ class FeatureController extends \PointedEars\PHPX\Controller
 
     $this->assign('feature', $feature);
     $this->assign('features', $features);
-    $this->render(null, 'application/layouts/feature/edit.phtml');
+    $this->render(null, 'layouts/feature/edit.phtml');
   }
 
   /**
