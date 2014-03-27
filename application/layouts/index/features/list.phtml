@@ -1,7 +1,7 @@
 <?php
   use \PointedEars\PHPX\Application;
 
-  function valueToString($value, $key)
+  function valueToString ($value, $key)
   {
     return 'Test ' . ($key + 1) . ': ' . (($value === '1') ? "passed" : "failed");
   }
@@ -72,9 +72,13 @@
                   if ($feature->section)
                   {
                     ?> <span class="section" title="Current specification section">[<a
-                          href="http://ecma-international.org/ecma-262/5.1/#sec-<?php
+                          href="<?php
                           $section = $feature->section;
-                          echo preg_replace('/^Annex\\s+/', '', $section);
+                          $urn = $feature->section_urn;
+                          echo ($urn
+                            ? $urn
+                            : 'http://ecma-international.org/ecma-262/5.1/#sec-'
+                              . preg_replace('/^Annex\\s+/', '', $section));
                         ?>"><?php echo $section; ?></a>]</span><?php
                   }
                 }
@@ -99,16 +103,10 @@
               $testcases = $feature->testcases;
               if (count($testcases) > 0)
               {
+                $me = $this;
                 echo " id='$id'"
                   . ' title="'
-                  . $this->escape(
-                      implode("\n\n",
-                        array_map(
-                          create_function('$e, $i', 'return "Test " . ($i + 1) . ": " . $e->code;'),
-                          $testcases, array_keys($testcases)
-                        )
-                      )
-                    )
+                  . "\n" . $this->getEscapedTestcaseCodes($testcases)
                   . '"';
               }
               else
