@@ -81,21 +81,11 @@ es._slice = (typeof Array == "function"
  */
 function es_debugValue (value, context)
 {
-  var type = typeof value;
-  var _class = jsx.object.getClass(value);
-
-  return (
-    (_class == "Array"
-      ? "[" + value.map(es_debugValue).join(", ") + "]"
-      : (jsx.object.isInstanceOf(value, String)
-          ? '"' + value.replace(/["\\]/g, "\\$&") + '"'
-          : value))
-    + " : "
-    + (type == "object" || type == "function" ? _class : type)
+  return jsx.debugValue(value)
     + ([es_DefaultValue, es_ToPrimitive, es_Type].indexOf(context) > -1
       && typeof es.types[value] != "undefined"
         ? " (es.types." + es.types[value] + ")"
-        : ""));
+        : "");
 }
 es._debugValue = es_debugValue;
 
