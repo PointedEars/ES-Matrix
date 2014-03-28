@@ -131,6 +131,13 @@ a:link {
   color: #00c;
 }
 
+a.broken:link,
+a.broken:focus,
+a.broken:hover
+{
+  text-decoration: line-through !important;
+}
+
 a:visited {
   background-color: transparent;
   color: #609;
