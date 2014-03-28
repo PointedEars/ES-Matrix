@@ -9,39 +9,56 @@
           <caption>
             JScript versions and the user agents that support them
           </caption>
+          <colgroup span="1"/>
+          <colgroup span="19"/>
           <thead>
             <tr>
-              <th class="right">JScript</th>
-              <th>1.0</th>
-              <th>2.0</th>
-              <th>3.0</th>
-              <th>3.1.3510</th>
-              <th>4.0</th>
-              <th>5.0</th>
-              <th>5.1.5010</th>
-              <th>5.5.6330</th>
-              <th><a
+              <th scope="row" class="right">JScript</th>
+              <th scope="col" id="jscript1.0">1.0</th>
+              <th scope="col" id="jscript2.0">2.0</th>
+              <th scope="col" id="jscript3.0">3.0</th>
+              <th scope="col" id="jscript3.1">3.1.3510</th>
+              <th scope="col" id="jscript4.0">4.0</th>
+              <th scope="col" id="jscript5.0">5.0</th>
+              <th scope="col" id="jscript5.1">5.1.5010</th>
+              <th scope="col" id="jscript5.5">5.5.6330</th>
+              <th scope="col" id="jscript5.6"><a
                 href="http://msdn2.microsoft.com/en-us/library/hbxc2t98.aspx"
                 title="JScript 5.6 documentation"
               >5.6.6626</a> –&nbsp;5.6.8819</th>
-              <th>5.7.5730</th>
-              <th>5.7.17184</th>
-              <th>5.8.18241</th>
-              <th>7.0 (.NET)</th>
-              <th><a
-                href="http://msdn.microsoft.com/en-us/library/72bd815a%28VS.71%29.aspx"
-                title="JScript 7.1 (.NET) documentation"
-              >7.1 (.NET)</a></th>
-              <th><a
-                href="http://msdn.microsoft.com/en-us/library/72bd815a%28VS.80%29.aspx"
-                title="JScript 8.0 documentation"
-              >8.0</a></th>
-              <th>9.0.16421
+              <th scope="col" id="jscript5.7.5730">5.7.5730</th>
+              <th scope="col" id="jscript5.7.17184">5.7.17184</th>
+              <th scope="col" id="jscript5.8">5.8.18241</th>
+              <td colspan="3">&nbsp;</td>
+              <th scope="col" id="jscript9.0">9.0.16421
                (<a href="http://en.wikipedia.org/wiki/Chakra_(JavaScript_engine)"
                    >Chakra</a>)</th>
-              <th><a
+              <td>&nbsp;</td>
+              <th scope="col" id="jscript10.0"><a
                 href="http://msdn.microsoft.com/en-us/library/72bd815a.aspx"
                 title="JScript 10.0 documentation"
+              >10.0.16578</a></th>
+              <th scope="col" id="jscript11.0"><a
+                href="http://msdn.microsoft.com/en-us/library/d1et7k7c(v=vs.94).aspx"
+                title="JScript 11.0 documentation"
+              >11</a></th>
+            </tr>
+            <tr>
+              <th scope="row" class="right">JScript .NET</th>
+              <td colspan="12">&nbsp;</td>
+              <th scope="col" id="jscript.net7.0">7.0 (.NET)</th>
+              <th scope="col" id="jscript.net7.1"><a
+                href="http://msdn.microsoft.com/en-us/library/72bd815a%28VS.71%29.aspx"
+                title="JScript 7.1 (.NET) documentation"
+                >7.1 (.NET)</a></th>
+              <th scope="col" id="jscript.net8.0"><a
+                href="http://msdn.microsoft.com/en-us/library/72bd815a%28VS.80%29.aspx"
+                title="JScript .NET 8.0 documentation"
+                >8.0</a></th>
+              <td>&nbsp;</td>
+              <th scope="col" id="jscript.net10.0"><a
+                href="http://msdn.microsoft.com/en-us/library/72bd815a.aspx"
+                title="JScript .NET 10.0 documentation"
               >10.0</a></th>
             </tr>
           </thead>
@@ -50,8 +67,8 @@
               <td colspan="16"><a name="fn-jscript" id="fn-jscript"
                 >2)</a><a href="#jscript" class="backref">&#8593;</a>
                 Version information from <a
-                  href="http://msdn.microsoft.com/library/en-us/jscript7/html/jsoriVersionInformation.asp"
-                ><abbr title="Microsoft Developer Network">MSDN</abbr>&nbsp;Library</a>;
+                  href="http://msdn.microsoft.com/en-us/library/2z6exc9e(v=vs.100).aspx"
+                  ><abbr title="Microsoft Developer Network">MSDN</abbr>&nbsp;Library</a>;
                 release&nbsp;dates from MSDN&nbsp;Library, <a
                   href="http://www.blooberry.com/indexdot/history/ie.htm"
                   title="Browser History: Windows Internet Explorer"
@@ -68,127 +85,142 @@
           </tfoot>
           <tbody>
             <tr class="header">
-              <th colspan="18">Implementations</th>
+              <th scope="rowgroup" colspan="20">Implementations</th>
             </tr>
             <tr>
-              <th><a href="http://microsoft.com/net/">Microsoft .NET Framework</a></th>
+              <th scope="row" id=".net"><a href="http://microsoft.com/net/">Microsoft .NET Framework</a></th>
               <td colspan="12"></td>
-              <td>1.0 (2002-01)</td>
-              <td>1.1 (2003)</td>
-              <td>2.0–3.5&nbsp;SP1 (2005–2008)</td>
-              <td></td>
-              <td>4.0&#8212; (2010-04-12&#8212;)</td>
+              <td headers=".net jscript.net7.0">1.0 (2002-01)</td>
+              <td headers=".net jscript.net7.1">1.1 (2003)</td>
+              <td headers=".net jscript.net8.0">2.0–3.5&nbsp;SP1 (2005–2008)</td>
+              <td>&nbsp;</td>
+              <td headers=".net jscript.net10.0">4.0&#8212; (2010-04-12&#8212;)</td>
             </tr>
-
+          </tbody>
+          <tbody>
             <tr class="header">
-              <th colspan="18">Web Browsers</th>
+              <th scope="rowgroup" colspan="20">Web Browsers</th>
             </tr>
             <tr>
-              <th><a href="http://microsoft.com/ie/">Microsoft Internet Explorer</a></th>
-              <td>3.0&nbsp;<span title="End-of-life">&#8224;</span><br>
+              <th scope="row" id="ie"><a href="http://microsoft.com/ie/">Microsoft Internet Explorer</a></th>
+              <td headers="ie jscript1.0">3.0&nbsp;<span title="End-of-life">&#8224;</span><br>
                 <span class="nowrap">(1996-08</span> <a
                 href="http://en.wikipedia.org/wiki/Common_Era"
               ><abbr title="Common Era">CE</abbr></a>)</td>
               <td></td>
-              <td class="nowrap">4.0 <span title="End-of-life">&#8224;</span><br>
+              <td headers="ie jscript3.0" class="nowrap">4.0 <span title="End-of-life">&#8224;</span><br>
                 (1997-09)</td>
-              <td class="nowrap">4.01 <span title="End-of-life">&#8224;</span><br>
+              <td headers="ie jscript3.1" class="nowrap">4.01 <span title="End-of-life">&#8224;</span><br>
               	(1997-11)</td>
               <td></td>
-              <td>5.0&nbsp;<span title="End-of-life">&#8224;</span><br>
+              <td headers="ie jscript5.0">5.0&nbsp;<span title="End-of-life">&#8224;</span><br>
                 <span class="nowrap">(1999-03</span>
                 <span class="nowrap">– 2005-06)</span></td>
-              <td class="nowrap">5.01 <span title="End-of-life">&#8224;</span></td>
-              <td>5.5&nbsp;<span title="End-of-life">&#8224;</span><br>
+              <td headers="ie jscript5.1" class="nowrap">5.01 <span title="End-of-life">&#8224;</span></td>
+              <td headers="ie jscript5.5">5.5&nbsp;<span title="End-of-life">&#8224;</span><br>
                 <span class="nowrap">(2000-07</span>
                 <span class="nowrap">–&nbsp;2005-12)</span></td>
-              <td>6.0 for <abbr title="Windows 95 and 98">Win9x</abbr>/NT/XP&nbsp;<span title="End-of-life">&#8224;</span><br>
+              <td headers="ie jscript5.6">6.0 for <abbr title="Windows 95 and 98">Win9x</abbr>/NT/XP&nbsp;<span title="End-of-life">&#8224;</span><br>
                 <span class="nowrap">(2001-10)</span></td>
-              <td>7.0 for <abbr title="Windows">Win</abbr>XP+<br>
+              <td headers="ie jscript5.7.5730">7.0 for <abbr title="Windows">Win</abbr>XP+<br>
                 <span class="nowrap">(2006-10)</span></td>
-              <td>8.0 beta 1 for <abbr title="Windows">Win</abbr>XP SP2+<br>
+              <td headers="ie jscript5.7.17184">8.0 beta 1 for <abbr title="Windows">Win</abbr>XP SP2+<br>
                 <span class="nowrap">(2008-03)</span></td>
-              <td>8.0 beta&nbsp;2 for <abbr title="Windows">Win</abbr>XP SP2+<br>
+              <td headers="ie jscript5.8">8.0 beta&nbsp;2 for <abbr title="Windows">Win</abbr>XP SP2+<br>
                 <span class="nowrap">(2008-08)</span></td>
-              <td colspan="3"></td>
-              <td><span title="9.0.8112.16421">9.0</span> for Vista SP2+ / Server&nbsp;2008<br>
+              <td colspan="3">&nbsp;</td>
+              <td headers="ie jscript9.0"><span title="9.0.8112.16421">9.0</span> for Vista SP2+ / Server&nbsp;2008<br>
                 (2011&#8209;03&#8209;14)</td>
+              <td>&nbsp;</td>
+              <td headers="ie jscript10.0">10 for Windows&nbsp;8
+                (2012&#8209;08)</td>
+              <td headers="ie jscript11.0">11.0.16518
+                (2013&#8209;10)</td>
             </tr>
-
+          </tbody>
+          <tbody>
             <tr class="header">
-              <th colspan="18">Web Servers</th>
+              <th scope="rowgroup" colspan="20">Web Servers</th>
             </tr>
             <tr>
-              <th><a href="http://microsoft.com/iis/">Microsoft Internet
+              <th scope="row" id="iis"><a href="http://microsoft.com/iis/">Microsoft Internet
               Information Server/Services</a></th>
               <td colspan="2"></td>
-              <td>4.0&nbsp;<span title="End-of-life">&#8224;</span><br>
+              <td headers="iis jscript3.0">4.0&nbsp;<span title="End-of-life">&#8224;</span><br>
                 <span class="nowrap">(1998–2002)</span></td>
               <td colspan="5"></td>
-              <td>5.1–6.0&nbsp;<span title="End-of-life">&#8224;</span><br>
+              <td headers="iis jscript5.6">5.1–6.0&nbsp;<span title="End-of-life">&#8224;</span><br>
                 <span class="nowrap">(2000–2005)</span></td>
-              <td colspan="2">7.0<br>
+              <td headers="iis jscript5.7.5730 jscript5.7.17184" colspan="2">7.0<br>
                 <span class="nowrap">(2008)</span></td>
-              <td>7.5<br>
+              <td headers="iis jscript5.8">7.5<br>
                 <span class="nowrap">(2009)</span></td>
             </tr>
-
+          </tbody>
+          <tbody>
             <tr class="header">
-              <th colspan="18">Operating Systems</th>
+              <th scope="rowgroup" colspan="20">Operating Systems</th>
             </tr>
             <tr>
-              <th><a href="http://microsoft.com/windows/">Microsoft Windows</a></th>
+              <th scope="row" id="windows"><a href="http://microsoft.com/windows/">Microsoft Windows</a></th>
               <td></td>
-              <td>NT&nbsp;4.0&nbsp;<span title="End-of-life">&#8224;</span><br>
+              <td headers="windows jscript2.0">NT&nbsp;4.0&nbsp;<span title="End-of-life">&#8224;</span><br>
                 <span class="nowrap">(1996)</span></td>
               <td colspan="4"></td>
-              <td>2000&nbsp;<span title="End-of-life">&#8224;</span><br>
+              <td headers="windows jscript5.1">2000&nbsp;<span title="End-of-life">&#8224;</span><br>
                 <span class="nowrap">(2000-02</span>
                 <span class="nowrap">–&nbsp;2005-06)</span></td>
-              <td><abbr title="Millennium Edition">Me</abbr>&nbsp;<span
+              <td headers="windows jscript5.5"><abbr title="Millennium Edition">Me</abbr>&nbsp;<span
                 title="End-of-life">&#8224;</span><br>
                 <span class="nowrap">(2000-09</span>
                 <span class="nowrap">–&nbsp;2005-12)</span></td>
-              <td><abbr title="eXPeriment^H^H^H^Hence ;-)">XP</abbr><br>
+              <td headers="windows jscript5.6"><abbr title="eXPeriment^H^H^H^Hence ;-)">XP</abbr><br>
                 <span class="nowrap">(2001-10)</span></td>
-              <td colspan="2">Vista<br>
+              <td headers="windows jscript5.7.5730 jscript5.7.17184" colspan="2">Vista<br>
                 <span class="nowrap">(2008-03)</span></td>
-              <td>7<br>
+              <td headers="windows jscript5.8">7<br>
                 <span class="nowrap">(2009-10)</span></td>
+              <td colspan="3">&nbsp;</td>
+              <td headers="windows jscript9.0">7</td>
+              <td>&nbsp;</td>
+              <td headers="windows jscript10.0">8 (2012&#8209;10&#8209;26)</td>
+              <td headers="windows jscript11.0">8.1 (2013&#8209;10&#8209;17)</td>
             </tr>
             <tr>
-              <th><a href="http://microsoft.com/windowsserver2003/"
+              <th scope="row" id="windows-server"><a href="http://microsoft.com/windowsserver2003/"
                      >Microsoft Windows Server</a></th>
               <td colspan="8"></td>
-              <td>2003<br>
+              <td headers="windows-server jscript5.6">2003<br>
                 <span class="nowrap">(2003-04)</span></td>
-              <td colspan="2">2008<br>
+              <td headers="windows-server jscript5.7.5730 jscript5.7.17184" colspan="2">2008<br>
                 <span class="nowrap">(2008-02)</span></td>
-              <td>2008&nbsp;R2<br>
+              <td headers="windows-server jscript5.8">2008&nbsp;R2<br>
                 <span class="nowrap">(2009-09)</span></td>
               <td colspan="2">&nbsp;</td>
-              <td>2008</td>
+              <td headers="windows-server jscript8.0">2008</td>
               <td>&nbsp;</td>
-              <td>2008&nbsp;R2</td>
+              <td headers="windows-server jscript.net10.0">2008&nbsp;R2</td>
             </tr>
-
+          </tbody>
+          <tbody>
             <tr class="header">
-              <th colspan="18"><abbr
+              <th scope="rowgroup" colspan="20"><abbr
                 title="Integrated Development Environment"
               >IDE</abbr>s</th>
             </tr>
             <tr>
-              <th><a href="http://www.microsoft.com/visualstudio/en-us/products"
-                     >Microsoft Visual Studio</a></th>
+              <th scope="row" id="visual-studio"><a
+                href="http://www.microsoft.com/visualstudio/eng/products/visual-studio-overview"
+                >Microsoft Visual Studio</a></th>
               <td colspan="4"></td>
-              <td>6.0&nbsp;<span title="End-of-life">&#8224;</span><br>
+              <td headers="visual-studio jscript4.0">6.0&nbsp;<span title="End-of-life">&#8224;</span><br>
                 <span class="nowrap">(1998–2005)</span></td>
               <td colspan="7"></td>
-              <td>.NET&nbsp;7.0<br>(2002)</td>
-              <td>.NET&nbsp;7.1<br>(2003)</td>
-              <td>8.0–9.0<br>(2005–2008)</td>
+              <td headers="visual-studio jscript.net7.0">.NET&nbsp;7.0<br>(2002)</td>
+              <td headers="visual-studio jscript.net7.1">.NET&nbsp;7.1<br>(2003)</td>
+              <td headers="visual-studio jscript.net8.0">8.0–9.0<br>(2005–2008)</td>
               <td></td>
-              <td>10.0&#8212;<br>(2010-04-12&#8212;)</td>
+              <td headers="visual-studio jscript.net10.0">10.0&#8212;<br>(2010-04-12&#8212;)</td>
             </tr>
           </tbody>
         </table>
