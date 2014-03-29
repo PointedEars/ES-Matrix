@@ -367,7 +367,8 @@ th {
   font-weight: bold;
 }
 
-.nowrap {
+.nowrap,
+.date {
   white-space: nowrap;
 }
 

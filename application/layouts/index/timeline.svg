@@ -293,7 +293,7 @@
         endif;
 
         if (isset($marker['title'])):
-          $format = isset($date[2]) ? '%04d-%02d-%02d' : '%04d-%02d';
+          $format = isset($date[2]) ? '%04d&#8208;%02d&#8208;%02d' : '%04d&#8208;%02d';
           ?><title><?php echo $marker['title'] . ' (' . vsprintf($format, $date) . ')'; ?></title><?php
         endif;
 
@@ -325,46 +325,46 @@
         <line x1="560" x2="1580" class="future"/>
 
         <g transform="translate(-70 0)">
-          <circle r="3"/><title>Mocha (1995-05)</title>
+          <circle r="3"/><title>Mocha (1995&#8208;05)</title>
           <text y="20" class="codename">
             <tspan style="text-anchor: start">Mocha/</tspan>
             <tspan x="0" y="35" style="text-anchor: start">LiveScript</tspan>
           </text>
         </g>
         <g>
-          <circle r="3"/><title>JavaScript (1995-12)</title>
+          <circle r="3"/><title>JavaScript (1995&#8208;12)</title>
           <text y="-10" class="impl">Netscape JavaScript</text>
         </g>
         <g transform="translate(30 0)">
           <a xlink:href="http://e-pla.net/documents/manuals/javascript-1.0/">
-            <circle r="5" /><title>JavaScript 1.0 (1996-03)</title>
+            <circle r="5" /><title>JavaScript 1.0 (1996&#8208;03)</title>
             <text y="-10">1.0</text>
           </a>
         </g>
         <g transform="translate(80 0)">
           <a xlink:href="http://web.archive.org/web/20020606113017/http://wp.netscape.com/eng/mozilla/3.0/handbook/javascript/"
              id="javascript1.1">
-            <circle r="4" /><title>JavaScript 1.1 (1996-08)</title>
+            <circle r="4" /><title>JavaScript 1.1 (1996&#8208;08)</title>
             <text y="-10">1.1</text>
           </a>
         </g>
         <g transform="translate(180 0)">
           <a xlink:href="https://twitter.com/BrendanEich/status/348128346472853507">
-            <circle r="4" /><title>JavaScript 1.2 (1997-06)</title>
+            <circle r="4" /><title>JavaScript 1.2 (1997&#8208;06)</title>
             <text y="-10">1.2</text>
             <text y="20" class="codename">SpiderMonkey</text>
           </a>
         </g>
         <g transform="translate(320 0)">
-          <circle r="4"/><title>JavaScript 1.3 (1998-08)</title>
+          <circle r="4"/><title>JavaScript 1.3 (1998&#8208;08)</title>
           <text y="-10">1.3</text>
         </g>
         <g transform="translate(410 0)">
-          <circle r="4"/><title>JavaScript 1.4 (1999-05)</title>
+          <circle r="4"/><title>JavaScript 1.4 (1999&#8208;05)</title>
           <text y="-10">1.4</text>
         </g>
         <g transform="translate(560 0)" id="javascript2.0">
-          <circle r="5"/><title>JavaScript 2.0 (2002-12)</title>
+          <circle r="5"/><title>JavaScript 2.0 (2002&#8208;12)</title>
           <text x="5" y="-10" style="text-anchor: start">2.0 (historic)</text>
           <text y="20" class="codename">Epimetheus</text>
           <text x="1020" y="5" class="icon"><title>Website for JavaScript 2.0 proposal goes offline</title>X</text>
@@ -381,84 +381,84 @@
                 class="future"/>
         
           <g transform="translate(570 0)">
-            <circle r="4"/><title>Mozilla JavaScript 1.5 (2000-09)</title>
+            <circle r="4"/><title>Mozilla JavaScript 1.5 (2000&#8208;09)</title>
             <text y="-10" style="text-anchor: start">1.5</text>
             <text x="-160" y="20" class="impl" style="text-anchor: start !important">Mozilla JavaScript</text>
             <text y="20" class="codename">SpiderMonkey</text>
           </g>
           <g transform="translate(1070 0)">
-            <circle r="4"/><title>Mozilla JavaScript 1.6 (2004-11)</title>
+            <circle r="4"/><title>Mozilla JavaScript 1.6 (2004&#8208;11)</title>
             <text y="-10">1.6</text>
           </g>
           <g transform="translate(1270 0)">
-            <circle r="4"/><title>Mozilla JavaScript 1.7 (2006-07)</title>
+            <circle r="4"/><title>Mozilla JavaScript 1.7 (2006&#8208;07)</title>
             <text y="-10">1.7</text>
           </g>
           <g transform="translate(1340 0)">
-            <circle r="4"/><title>Mozilla JavaScript 1.8 (2007-02)</title>
+            <circle r="4"/><title>Mozilla JavaScript 1.8 (2007&#8208;02)</title>
             <text y="-10">1.8</text>
           </g>
           <g transform="translate(1510 0)">
             <a xlink:href="http://developer.mozilla.org/en/docs/New_in_JavaScript_1.8.1">
-              <circle r="3"/><title>Mozilla JavaScript 1.8.1 (2008-07)</title>
+              <circle r="3"/><title>Mozilla JavaScript 1.8.1 (2008&#8208;07)</title>
               <text y="-10">1.8.1</text>
               <text y="20" class="codename">TraceMonkey</text>
             </a>
           </g>
           <g transform="translate(1690 0)">
             <a xlink:href="https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/3.6#JavaScript">
-              <circle r="3"/><title>Mozilla JavaScript 1.8.2 (2010-01)</title>
+              <circle r="3"/><title>Mozilla JavaScript 1.8.2 (2010&#8208;01)</title>
               <text x="-10" y="20" style="text-anchor: end">1.8.2</text>
             </a>
           </g>
           <g transform="translate(1700 0)">
-            <circle r="3"/><title>Mozilla JavaScript 1.8.5 (2010-02)</title>
+            <circle r="3"/><title>Mozilla JavaScript 1.8.5 (2010&#8208;02)</title>
             <text y="20" class="codename">JägerMonkey</text>
             <text y="-10" style="text-anchor: start">1.8.5</text>
           </g>
           <g transform="translate(1860 0)">
-            <circle r="5"/><title>Mozilla JavaScript 5 (2011-06)</title>
+            <circle r="5"/><title>Mozilla JavaScript 5 (2011&#8208;06)</title>
             <text y="-10">5</text>
           </g>
           <g transform="translate(1880 0)">
-            <circle r="5"/><title>Mozilla JavaScript 6 (2011-08)</title>
+            <circle r="5"/><title>Mozilla JavaScript 6 (2011&#8208;08)</title>
             <text y="-10">6</text>
           </g>
           <g transform="translate(1890 0)">
-            <circle r="5"/><title>Mozilla JavaScript 7 (2011-09)</title>
+            <circle r="5"/><title>Mozilla JavaScript 7 (2011&#8208;09)</title>
             <text y="20">7</text>
           </g>
           <g transform="translate(1910 0)">
-            <circle r="5"/><title>Mozilla JavaScript 8 (2011-11)</title>
+            <circle r="5"/><title>Mozilla JavaScript 8 (2011&#8208;11)</title>
             <text y="-10">8</text>
           </g>
           <g transform="translate(1930 0)">
-            <circle r="5"/><title>Mozilla JavaScript 10 (2012-01)</title>
+            <circle r="5"/><title>Mozilla JavaScript 10 (2012&#8208;01)</title>
             <text y="-10">10</text>
           </g>
           <g transform="translate(1960 0)">
-            <circle r="5"/><title>Mozilla JavaScript 12 (2012-04)</title>
+            <circle r="5"/><title>Mozilla JavaScript 12 (2012&#8208;04)</title>
             <text y="-10">12</text>
           </g>
           <g transform="translate(1980 0)">
-            <circle r="5"/><title>Mozilla JavaScript 13 (2012-06)</title>
+            <circle r="5"/><title>Mozilla JavaScript 13 (2012&#8208;06)</title>
             <text y="-10">13</text>
           </g>
           <g transform="translate(2000 0)">
-            <circle r="5"/><title>Mozilla JavaScript 15 (2012-08)</title>
+            <circle r="5"/><title>Mozilla JavaScript 15 (2012&#8208;08)</title>
             <text y="-10">15</text>
           </g>
           <g transform="translate(2020 0)">
-            <circle r="5"/><title>Mozilla JavaScript 16 (2012-10)</title>
+            <circle r="5"/><title>Mozilla JavaScript 16 (2012&#8208;10)</title>
             <text y="20">16</text>
           </g>
           <g transform="translate(2030 0)">
-            <circle r="5"/><title>Mozilla JavaScript 17 (2012-11)</title>
+            <circle r="5"/><title>Mozilla JavaScript 17 (2012&#8208;11)</title>
             <text y="-10">17</text>
           </g>
           <g transform="translate(2050 0)">
             <a xlink:href="https://developer.mozilla.org/en/Firefox_18_for_developers#JavaScript">
-              <circle r="5"/><title>Mozilla JavaScript 18 (2013-01)</title>
+              <circle r="5"/><title>Mozilla JavaScript 18 (2013&#8208;01)</title>
               <text y="-10">18</text>
             </a>
             <a xlink:href="https://wiki.mozilla.org/IonMonkey">
@@ -466,59 +466,59 @@
             </a>
           </g>
           <g transform="translate(2060 0)">
-            <circle r="5"/><title>Mozilla JavaScript 19 (2013-02)</title>
+            <circle r="5"/><title>Mozilla JavaScript 19 (2013&#8208;02)</title>
           </g>
           <g transform="translate(2080 0)">
             <a xlink:href="https://blog.mozilla.org/javascript/2013/04/05/the-baseline-compiler-has-landed/">
-              <circle r="5" /><title>Mozilla JavaScript 20 (2013-04)</title>
+              <circle r="5" /><title>Mozilla JavaScript 20 (2013&#8208;04)</title>
               <text y="-10">20</text>
               <text y="35" class="codename">Baseline</text>
             </a>
           </g>
           <g transform="translate(2090 0)">
             <a xlink:href="https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/21#JavaScript">
-              <circle r="5" /><title>Mozilla JavaScript 21 (2013&#8209;05&#8209;14)</title>
+              <circle r="5" /><title>Mozilla JavaScript 21 (2013&#8208;05&#8208;14)</title>
             </a>
           </g>
           <g transform="translate(2100 0)">
             <a xlink:href="https://developer.mozilla.org/en-US/Firefox/Releases/22#JavaScript">
-              <circle r="5"/><title>Mozilla JavaScript 22 (2013-06-25)</title>
+              <circle r="5"/><title>Mozilla JavaScript 22 (2013&#8208;06&#8208;25)</title>
               <text y="-10" style="text-anchor: start">22</text>
               <text y="50" class="codename">OdinMonkey</text>
             </a>
           </g>
           <g transform="translate(2120 0)">
             <a xlink:href="https://developer.mozilla.org/en-US/Firefox/Releases/23#JavaScript">
-              <circle r="5"/><title>Mozilla JavaScript 23 (2013-08-06)</title>
+              <circle r="5"/><title>Mozilla JavaScript 23 (2013&#8208;08&#8208;06)</title>
               <text y="-10" style="text-anchor: start">23</text>
             </a>
           </g>
           <g transform="translate(2130 0)">
             <a xlink:href="https://developer.mozilla.org/en-US/Firefox/Releases/24#JavaScript">
-              <circle r="5"/><title>Mozilla JavaScript 24 (2013-09-17)</title>
+              <circle r="5"/><title>Mozilla JavaScript 24 (2013&#8208;09&#8208;17)</title>
               <text y="20">24</text>
             </a>
           </g>
           <g transform="translate(2140 0)">
             <a xlink:href="https://developer.mozilla.org/en-US/Firefox/Releases/25#JavaScript">
-              <circle r="5"/><title>Mozilla JavaScript 25 (2013-10-29)</title>
+              <circle r="5"/><title>Mozilla JavaScript 25 (2013&#8208;10&#8208;29)</title>
             </a>
           </g>
           <g transform="translate(2160 0)">
             <a xlink:href="https://developer.mozilla.org/en-US/Firefox/Releases/26#JavaScript">
-              <circle r="5"/><title>Mozilla JavaScript 26 (2013-12-10)</title>
+              <circle r="5"/><title>Mozilla JavaScript 26 (2013&#8208;12&#8208;10)</title>
               <text y="-10">26</text>
             </a>
           </g>
           <g transform="translate(2180 0)">
             <a xlink:href="https://developer.mozilla.org/en-US/Firefox/Releases/27#JavaScript">
-              <circle r="5"/><title>Mozilla JavaScript 27 (2014-02-04)</title>
+              <circle r="5"/><title>Mozilla JavaScript 27 (2014&#8208;02&#8208;04)</title>
               <text y="-10">27</text>
             </a>
           </g>
           <g transform="translate(2190 0)">
             <a xlink:href="https://developer.mozilla.org/en-US/Firefox/Releases/28#JavaScript">
-              <circle r="5"/><title>Mozilla JavaScript 28 (2014-03-18)</title>
+              <circle r="5"/><title>Mozilla JavaScript 28 (2014&#8208;03&#8208;18)</title>
               <text y="20">28</text>
             </a>
           </g>
@@ -531,76 +531,76 @@
                   class="future"/>
   
             <g transform="translate(410 0)">
-              <circle r="4"/><title>Mozilla Rhino 1.4R3 (1999-05-10)</title>
+              <circle r="4"/><title>Mozilla Rhino 1.4R3 (1999&#8208;05&#8208;10)</title>
               <text y="-10">1.4R3</text>
               <text y="20" class="impl">Mozilla Rhino</text>
             </g>
             <g transform="translate(570 0)">
-              <circle r="4"/><title>Mozilla Rhino 1.5R1 (2000-09-10)</title>
+              <circle r="4"/><title>Mozilla Rhino 1.5R1 (2000&#8208;09&#8208;10)</title>
               <text y="-10">1.5R1</text>
             </g>
             <g transform="translate(670 0)">
-              <circle r="3"/><title>Mozilla Rhino 1.5R2 (2001-07-27)</title>
+              <circle r="3"/><title>Mozilla Rhino 1.5R2 (2001&#8208;07&#8208;27)</title>
               <text y="-10">1.5R2</text>
             </g>
             <g transform="translate(730 0)">
-              <circle r="3"/><title>Mozilla Rhino 1.5R3 (2002-01-27)</title>
+              <circle r="3"/><title>Mozilla Rhino 1.5R3 (2002&#8208;01&#8208;27)</title>
               <text y="-10">1.5R3</text>
             </g>
             <g transform="translate(860 0)">
-              <circle r="3"/><title>Mozilla Rhino 1.5R4 (2003-02-10)</title>
+              <circle r="3"/><title>Mozilla Rhino 1.5R4 (2003&#8208;02&#8208;10)</title>
               <text y="-10" style="text-anchor: end">1.5R4</text>
             </g>
             <g transform="translate(880 0)">
-              <circle r="3"/><title>Mozilla Rhino 1.5R4 (2003-04-21)</title>
+              <circle r="3"/><title>Mozilla Rhino 1.5R4 (2003&#8208;04&#8208;21)</title>
               <text y="-10" style="text-anchor: start">1.5R4.1</text>
             </g>
             <g transform="translate(990 0)">
-              <circle r="3"/><title>Mozilla Rhino 1.5R5 (2004-03-25)</title>
+              <circle r="3"/><title>Mozilla Rhino 1.5R5 (2004&#8208;03&#8208;25)</title>
               <text y="-10">1.5R5</text>
             </g>
             <g transform="translate(1070 0)">
-              <circle r="4"/><title>Mozilla Rhino 1.6R1 (2004-11-29)</title>
+              <circle r="4"/><title>Mozilla Rhino 1.6R1 (2004&#8208;11&#8208;29)</title>
               <text y="-10">1.6R1</text>
             </g>
             <g transform="translate(1170 0)">
-              <circle r="3"/><title>Mozilla Rhino 1.6R2 (2005-09-19)</title>
+              <circle r="3"/><title>Mozilla Rhino 1.6R2 (2005&#8208;09&#8208;19)</title>
               <text y="-10">1.6R2</text>
             </g>
             <g transform="translate(1270 0)">
-              <circle r="3"/><title>Mozilla Rhino 1.6R3 (2006-07-24)</title>
+              <circle r="3"/><title>Mozilla Rhino 1.6R3 (2006&#8208;07&#8208;24)</title>
               <text y="-10" style="text-anchor: end">R3</text>
             </g>
             <g transform="translate(1290 0)">
-              <circle r="3"/><title>Mozilla Rhino 1.6R4 (2006-09-10)</title>
+              <circle r="3"/><title>Mozilla Rhino 1.6R4 (2006&#8208;09&#8208;10)</title>
               <text y="-10">R4</text>
             </g>
             <g transform="translate(1310 0)">
-              <circle r="3"/><title>Mozilla Rhino 1.6R5 (2006-11-19)</title>
+              <circle r="3"/><title>Mozilla Rhino 1.6R5 (2006&#8208;11&#8208;19)</title>
               <text y="-10" style="text-anchor: start">R5</text>
             </g>
             <g transform="translate(1390 0)">
-              <circle r="3"/><title>Mozilla Rhino 1.6R6 (2007-07-30)</title>
+              <circle r="3"/><title>Mozilla Rhino 1.6R6 (2007&#8208;07&#8208;30)</title>
               <text y="-10" style="text-anchor: end">R6</text>
             </g>
             <g transform="translate(1400 0)">
-              <circle r="3"/><title>Mozilla Rhino 1.6R7 (2007-08-20)</title>
+              <circle r="3"/><title>Mozilla Rhino 1.6R7 (2007&#8208;08&#8208;20)</title>
               <text y="-10" style="text-anchor: start">R7</text>
             </g>
             <g transform="translate(1470 0)">
-              <circle r="4"/><title>Mozilla Rhino 1.7R1 (2008-03-06)</title>
+              <circle r="4"/><title>Mozilla Rhino 1.7R1 (2008&#8208;03&#8208;06)</title>
               <text y="-10">1.7R1</text>
             </g>
             <g transform="translate(1590 0)">
-              <circle r="3"/><title>Mozilla Rhino 1.7R2 (2009-03-22)</title>
+              <circle r="3"/><title>Mozilla Rhino 1.7R2 (2009&#8208;03&#8208;22)</title>
               <text y="-10">1.7R2</text>
             </g>
             <g transform="translate(1850 0)">
-              <circle r="3"/><title>Mozilla Rhino 1.7R3 (2011-05-09)</title>
+              <circle r="3"/><title>Mozilla Rhino 1.7R3 (2011&#8208;05&#8208;09)</title>
               <text y="-10">1.7R3</text>
             </g>
             <g transform="translate(1980 0)">
-              <circle r="3"/><title>Mozilla Rhino 1.7R4 (2012-06-18)</title>
+              <circle r="3"/><title>Mozilla Rhino 1.7R4 (2012&#8208;06&#8208;18)</title>
               <text y="-10">1.7R4</text>
             </g>
           </g>
@@ -616,60 +616,60 @@
                 class="future"/>
 
           <g transform="translate(80 0)" id="jscript1.0">
-            <circle r="5"/><title>JScript 1.0 (1996-08)</title>
+            <circle r="5"/><title>JScript 1.0 (1996&#8208;08)</title>
             <text y="20" class="impl">Microsoft JScript</text>
             <text y="-10">1.0</text>
           </g>
           <g transform="translate(210 0)">
-            <circle r="5"/><title>JScript 3.0 (1997-09)</title>
+            <circle r="5"/><title>JScript 3.0 (1997&#8208;09)</title>
             <text y="-10">3.0</text>
           </g>
           <g transform="translate(230 0)">
-            <circle r="4"/><title>JScript 3.1 (1997-11)</title>
+            <circle r="4"/><title>JScript 3.1 (1997&#8208;11)</title>
             <text y="20">3.1</text>
           </g>
           <g transform="translate(390 0)">
-            <circle r="5"/><title>JScript 5.0 (1999-03)</title>
+            <circle r="5"/><title>JScript 5.0 (1999&#8208;03)</title>
             <text y="-10">5.0</text>
           </g>
           <g transform="translate(500 0)">
-            <circle r="4"/><title>JScript 5.1 (2000-02)</title>
+            <circle r="4"/><title>JScript 5.1 (2000&#8208;02)</title>
             <text y="-10">5.1</text>
           </g>
           <g transform="translate(550 0)">
-            <circle r="4"/><title>JScript 5.5 (2000-07)</title>
+            <circle r="4"/><title>JScript 5.5 (2000&#8208;07)</title>
             <text y="20">5.5</text>
           </g>
           <g transform="translate(700 0)">
-            <circle r="4"/><title>JScript 5.6 (2001-10)</title>
+            <circle r="4"/><title>JScript 5.6 (2001&#8208;10)</title>
             <text y="-10">5.6</text>
           </g>
           <g transform="translate(1300 0)">
-            <circle r="4"/><title>JScript 5.7 (2006-10)</title>
+            <circle r="4"/><title>JScript 5.7 (2006&#8208;10)</title>
             <text y="-10">5.7</text>
           </g>
           <g transform="translate(1470 0)">
-            <circle r="3"/><title>JScript 5.7.17184 (2008-03)</title>
+            <circle r="3"/><title>JScript 5.7.17184 (2008&#8208;03)</title>
             <text y="20">5.7.17184</text>
           </g>
           <g transform="translate(1520 0)">
-            <circle r="4"/><title>JScript 5.8 (2008-08)</title>
+            <circle r="4"/><title>JScript 5.8 (2008&#8208;08)</title>
             <text y="-10">5.8</text>
           </g>
           <g transform="translate(1830 0)">
             <a xlink:href="http://en.wikipedia.org/wiki/Chakra_(JScript_engine)">
-              <circle r="5"/><title>JScript 9.0 (2011-03)</title>
+              <circle r="5"/><title>JScript 9.0 (2011&#8208;03)</title>
               <text y="-10">9.0</text>
               <text y="20" class="codename">Chakra</text>
             </a>
           </g>
           <g transform="translate(2000 0)">
-            <circle r="5"/><title>JScript 10 (“JavaScript for Internet Explorer” 10) (2012-08)</title>
+            <circle r="5"/><title>JScript 10 (“JavaScript for Internet Explorer” 10) (2012&#8208;08)</title>
             <text y="-10" style="text-anchor: start">Internet Explorer</text>
             <text y="20">10</text>
           </g>
           <g transform="translate(2140 0)">
-            <circle r="5"/><title>JScript 11 (“JavaScript for Internet Explorer” 11) (2013-10-17)</title>
+            <circle r="5"/><title>JScript 11 (“JavaScript for Internet Explorer” 11) (2013&#8208;10&#8208;17)</title>
             <text y="20">11</text>
           </g>
 
@@ -681,7 +681,7 @@
                   class="future"/>
             
             <g transform="translate(730 0)" id="jscript.net">
-              <circle r="5"/><title>JScript .NET 7.0 (2002-01)</title>
+              <circle r="5"/><title>JScript .NET 7.0 (2002&#8208;01)</title>
               <text y="20" class="impl">Microsoft JScript .NET</text>
               <text y="-10">7.0</text>
             </g>
@@ -690,7 +690,7 @@
               <text y="-10">8.0</text>
             </g>
             <g transform="translate(1720 0)">
-              <circle r="5"/><title>JScript .NET 10.0 (2010-04)</title>
+              <circle r="5"/><title>JScript .NET 10.0 (2010&#8208;04)</title>
               <text y="-10">10.0</text>
             </g>
           </g>
@@ -702,56 +702,56 @@
           <line x1="240" x2="2090"/>
 
           <g transform="translate(240 0)">
-            <title>Opera ECMAScript 3.00 (1997-12)</title>
+            <title>Opera ECMAScript 3.00 (1997&#8208;12)</title>
             <circle r="5"/>
             <text y="-10">3.00</text>
             <text y="20" class="impl">Opera ECMAScript</text>
           </g>
           <g transform="translate(410 0)">
-            <title>Opera ECMAScript 3.60 (1999-05)</title>
+            <title>Opera ECMAScript 3.60 (1999&#8208;05)</title>
             <circle r="4"/>
             <text y="-10">3.60</text>
           </g>
           <g transform="translate(540 0)">
-            <title>Opera ECMAScript 4.00 (2000-06)</title>
+            <title>Opera ECMAScript 4.00 (2000&#8208;06)</title>
             <circle r="5"/>
             <text y="20" class="codename">Linear A</text>
             <text y="-10">4.00</text>
           </g>
           <g transform="translate(720 0)">
-            <title>Opera ECMAScript 6.00 (2001-12-18)</title>
+            <title>Opera ECMAScript 6.00 (2001&#8208;12&#8208;18)</title>
             <circle r="5"/>
             <text y="-10">6.00</text>
           </g>
           <g transform="translate(850 0)">
-            <title>Opera ECMAScript 7.00 (2003-01-28)</title>
+            <title>Opera ECMAScript 7.00 (2003&#8208;01&#8208;28)</title>
             <circle r="5"/>
             <text y="20" class="codename">Linear B</text>
             <text y="-10">7.00</text>
           </g>
           <g transform="translate(1130 0)">
-            <title>Opera ECMAScript 8.0 (2005-04-19)</title>
+            <title>Opera ECMAScript 8.0 (2005&#8208;04&#8208;19)</title>
             <circle r="5"/>
             <text y="-10">8.00</text>
           </g>
           <g transform="translate(1180 0)">
-            <title>Opera ECMAScript 8.50 (2005-09-20)</title>
+            <title>Opera ECMAScript 8.50 (2005&#8208;09&#8208;20)</title>
             <circle r="4"/>
             <text y="-10">8.50</text>
           </g>
           <g transform="translate(1500 0)">
-            <title>Opera ECMAScript 9.50 (2008-06-12)</title>
+            <title>Opera ECMAScript 9.50 (2008&#8208;06&#8208;12)</title>
             <circle r="4"/>
             <text y="-10">9.50</text>
             <text y="20" class="codename">Futhark</text>
           </g>
           <g transform="translate(1650 0)">
-            <title>Opera ECMAScript 10.00 (2009-09-01)</title>
+            <title>Opera ECMAScript 10.00 (2009&#8208;09&#8208;01)</title>
             <circle r="5"/>
             <text y="-10">10.00</text>
           </g>
           <g transform="translate(1700 0)">
-            <title>Opera ECMAScript 10.50 (2010-03-02)</title>
+            <title>Opera ECMAScript 10.50 (2010&#8208;03&#8208;02)</title>
             <circle r="4"/>
             <a xlink:href="http://my.opera.com/core/blog/2009/12/22/carakan-revisited">
               <text y="20" class="codename">Carakan</text>
@@ -759,26 +759,26 @@
             <text y="-10">10.50</text>
           </g>
           <g transform="translate(1800 0)">
-            <title>Opera ECMAScript 11.00 (2010-12-16)</title>
+            <title>Opera ECMAScript 11.00 (2010&#8208;12&#8208;16)</title>
             <circle r="5"/>
             <text y="-10">11.00</text>
           </g>
           <g transform="translate(1920 0)">
             <a xlink:href="http://www.opera.com/docs/changelogs/unix/1160/">
-              <title>Opera ECMAScript 11.60 (2011-12-06)</title>
+              <title>Opera ECMAScript 11.60 (2011&#8208;12&#8208;06)</title>
               <circle r="4"/>
               <text y="-10" style="text-anchor: start">11.60</text>
             </a>
           </g>
           <g transform="translate(2080 0)">
             <a xlink:href="http://www.opera.com/docs/changelogs/unified/1215/">
-              <title>Opera ECMAScript 12.15 (2013-04-04)</title>
+              <title>Opera ECMAScript 12.15 (2013&#8208;04&#8208;04)</title>
               <circle r="3"/>
               <text y="-10" style="text-anchor: end">12.15</text>
             </a>
           </g>
           <text x="2090" y="5" class="icon">
-            <title>Development terminated in favor of Opera 15+ using Google V8 (2013-05)</title>
+            <title>Development terminated in favor of Opera 15+ using Google V8 (2013&#8208;05)</title>
             X
           </text>
         </g>
@@ -791,44 +791,44 @@
                 class="future"/>
 
           <g transform="translate(580 0)">
-            <title>KDE JavaScript (2000-10)</title>
+            <title>KDE JavaScript (2000&#8208;10)</title>
             <circle r="5"/>
             <text y="-10">2.0</text>
             <text y="20" class="impl">KDE JavaScript</text>
           </g>
           <g transform="translate(620 0)">
-            <title>KDE JavaScript 2.1.2 (2001-02-26)</title>
+            <title>KDE JavaScript 2.1.2 (2001&#8208;02&#8208;26)</title>
             <circle r="3"/>
             <text y="-10">2.1.2</text>
           </g>
           <g transform="translate(680 0)">
-            <title>KDE JavaScript 2.2 (2001-08-15)</title>
+            <title>KDE JavaScript 2.2 (2001&#8208;08&#8208;15)</title>
             <circle r="4"/>
             <text y="-10">2.2</text>
           </g>
           <g transform="translate(760 0)">
-            <title>KDE JavaScript 3.0 (2002-04-03)</title>
+            <title>KDE JavaScript 3.0 (2002&#8208;04&#8208;03)</title>
             <circle r="5"/>
             <text y="-10">3.0</text>
           </g>
           <g transform="translate(980 0)">
-            <title>KDE JavaScript 3.2 (2004-02-03)</title>
+            <title>KDE JavaScript 3.2 (2004&#8208;02&#8208;03)</title>
             <circle r="4"/>
             <text y="-10">3.2</text>
           </g>
           <g transform="translate(1460 0)">
-            <title>KDE JavaScript 4.0.1 (2008-02-05)</title>
+            <title>KDE JavaScript 4.0.1 (2008&#8208;02&#8208;05)</title>
             <circle r="3"/>
             <text y="-10">4.0.1</text>
             <text y="20" class="codename">Frostbyte</text>
           </g>
           <g transform="translate(1570 0)">
-            <title>KDE JavaScript 4.2 (2009-01-27)</title>
+            <title>KDE JavaScript 4.2 (2009&#8208;01&#8208;27)</title>
             <circle r="4"/>
             <text y="-10">4.2</text>
           </g>
           <g transform="translate(1880 0)">
-            <title>KDE JavaScript 4.6.5 (2011-07-07)</title>
+            <title>KDE JavaScript 4.6.5 (2011&#8208;07&#8208;07)</title>
             <circle r="3"/>
             <text y="-10">4.6.5</text>
           </g>
@@ -864,39 +864,39 @@
                     class="future"/>
                     
               <g transform="translate(1120 0)">
-                <title>WebKit JavaScriptCore 412 (2005-04)</title>
+                <title>WebKit JavaScriptCore 412 (2005&#8208;04)</title>
                 <circle r="5"/>
                 <text y="-10">412</text>
                 <text y="20" class="impl">WebKit JavaScriptCore</text>
               </g>
               <g transform="translate(1210 0)">
-                <title>WebKit JavaScriptCore 419.13 (2006-01)</title>
+                <title>WebKit JavaScriptCore 419.13 (2006&#8208;01)</title>
                 <circle r="5"/>
                 <text y="-10">419</text>
               </g>
               <g transform="translate(1380 0)">
-                <title>WebKit JavaScriptCore 522.11 (2007-06)</title>
+                <title>WebKit JavaScriptCore 522.11 (2007&#8208;06)</title>
                 <circle r="5"/>
                 <text y="-10">522</text>
               </g>
               <g transform="translate(1420 0)">
-                <title>WebKit JavaScriptCore 523.10 (2007-10)</title>
+                <title>WebKit JavaScriptCore 523.10 (2007&#8208;10)</title>
                 <circle r="5"/>
                 <text y="20">523</text>
               </g>
               <g transform="translate(1470 0)">
-                <title>WebKit JavaScriptCore 525.13 (2008-03)</title>
+                <title>WebKit JavaScriptCore 525.13 (2008&#8208;03)</title>
                 <circle r="5"/>
                 <text y="-10" style="text-anchor: end">525</text>
               </g>
               <g transform="translate(1500 0)">
-                <title>WebKit SquirrelFish 525.19 (2008-06-02)</title>
+                <title>WebKit SquirrelFish 525.19 (2008&#8208;06&#8208;02)</title>
                 <circle r="4"/>
                 <text y="-10">525.19</text>
                 <text y="20" class="codename">SquirrelFish</text>
               </g>
               <g transform="translate(1530 0)">
-                <title>WebKit SquirrelFish Extreme (2008-09-18)</title>
+                <title>WebKit SquirrelFish Extreme (2008&#8208;09&#8208;18)</title>
                 <circle r="5"/>
                 <text y="-10" class="codename">
                   <title>SquirrelFish Extreme</title>
@@ -904,65 +904,65 @@
                 </text>
               </g>
               <g transform="translate(1550 0)">
-                <title>WebKit SquirrelFish Extreme 525.27.1 (2008-11)</title>
+                <title>WebKit SquirrelFish Extreme 525.27.1 (2008&#8208;11)</title>
                 <circle r="2"/>
               </g>
               <g transform="translate(1580 0)">
-                <title>WebKit Nitro 528.16 (2009-02)</title>
+                <title>WebKit Nitro 528.16 (2009&#8208;02)</title>
                 <circle r="5"/>
                 <text y="-10">528</text>
                 <text y="20" class="codename">Nitro</text>
               </g>
               <g transform="translate(1620 0)">
-                <title>WebKit Nitro 530.17 (2009-06)</title>
+                <title>WebKit Nitro 530.17 (2009&#8208;06)</title>
                 <circle r="5"/>
                 <text y="-10">530</text>
               </g>
               <g transform="translate(1640 0)">
-                <title>WebKit Nitro 531.9 (2009-08)</title>
+                <title>WebKit Nitro 531.9 (2009&#8208;08)</title>
                 <circle r="3"/>
                 <text y="20">531.9</text>
               </g>
               <g transform="translate(1670 0)">
-                <title>WebKit Nitro 531.21.8 (2009-11)</title>
+                <title>WebKit Nitro 531.21.8 (2009&#8208;11)</title>
                 <circle r="2"/>
               </g>
               <g transform="translate(1710 0)">
-                <title>WebKit Nitro 531.22.7 (2010-03-11)</title>
+                <title>WebKit Nitro 531.22.7 (2010&#8208;03&#8208;11)</title>
                 <circle r="2"/>
                 <text y="-10">531.22.7</text>
               </g>
               <g transform="translate(1740 0)">
-                <title>WebKit Nitro 533.16 (2010-06-07)</title>
+                <title>WebKit Nitro 533.16 (2010&#8208;06&#8208;07)</title>
                 <circle r="4"/>
                 <text y="20">533.16</text>
               </g>
               <g transform="translate(1750 0)">
-                <title>WebKit Nitro 533.17.8 (2010-07-28)</title>
+                <title>WebKit Nitro 533.17.8 (2010&#8208;07&#8208;28)</title>
                 <circle r="3"/>
               </g>
               <g transform="translate(1790 0)">
-                <title>WebKit Nitro 533.19.4 (2010-11-18)</title>
+                <title>WebKit Nitro 533.19.4 (2010&#8208;11&#8208;18)</title>
                 <circle r="3"/>
                 <text y="-10">533.19</text>
               </g>
               <g transform="translate(1900 0)">
-                <title>WebKit Nitro 534.51.22 (2011-10-12)</title>
+                <title>WebKit Nitro 534.51.22 (2011&#8208;10&#8208;12)</title>
                 <circle r="5"/>
                 <text y="-10">534</text>
               </g>
               <g transform="translate(1950 0)">
-                <title>WebKit Nitro 534.54.16 (2012-03-12)</title>
+                <title>WebKit Nitro 534.54.16 (2012&#8208;03&#8208;12)</title>
                 <circle r="4"/>
                 <text y="20">534.54</text>
               </g>
               <g transform="translate(1990 0)">
-                <title>WebKit Nitro 536.25 (2012-07-25)</title>
+                <title>WebKit Nitro 536.25 (2012&#8208;07&#8208;25)</title>
                 <circle r="5"/>
                 <text y="-10">536</text>
               </g>
               <g transform="translate(2130 0)">
-                <title>WebKit Nitro 537.71 (2013-10-22)</title>
+                <title>WebKit Nitro 537.71 (2013&#8208;10&#8208;22)</title>
                 <circle r="5"/>
                 <text y="-10">537</text>
                 <text y="20" class="codename">Nitro Tiered JIT</text>
@@ -979,159 +979,159 @@
                 class="future"/>
           
           <g transform="translate(1510 0)">
-            <title>Google V8 0.1 (2008-07-03)</title>
+            <title>Google V8 0.1 (2008&#8208;07&#8208;03)</title>
             <circle r="4"/>
             <text y="20" class="impl">Google V8</text>
             <text y="-10" style="text-anchor: end">0.1</text>
           </g>
           <g transform="translate(1530 0)">
-            <title>Google V8 0.3.0 (2008-09-04)</title>
+            <title>Google V8 0.3.0 (2008&#8208;09&#8208;04)</title>
             <circle r="4"/>
             <text y="-10">0.3</text>
           </g>
           <g transform="translate(1540 0)">
-            <title>Google V8 0.5.0 (2008-10-23)</title>
+            <title>Google V8 0.5.0 (2008&#8208;10&#8208;23)</title>
             <circle r="4"/>
             <text y="20" style="text-anchor: start">0.4</text>
           </g>
           <g transform="translate(1600 0)">
-            <title>Google V8 1.2.0 (2009-04-23)</title>
+            <title>Google V8 1.2.0 (2009&#8208;04&#8208;23)</title>
             <circle r="5"/>
             <text y="-10">1.2</text>
           </g>
           <g transform="translate(1630 0)">
-            <title>Google V8 1.3.0 (2009-07-27)</title>
+            <title>Google V8 1.3.0 (2009&#8208;07&#8208;27)</title>
             <circle r="4"/>
             <text y="-10">1.3</text>
           </g>
           <g transform="translate(1700 0)">
-            <title>Google V8 2.1.0 (2010-02-03)</title>
+            <title>Google V8 2.1.0 (2010&#8208;02&#8208;03)</title>
             <circle r="5"/>
             <text y="-10" style="text-anchor: end">2.1</text>
           </g>
           <g transform="translate(1710 0)">
-            <title>Google V8 2.2.0 (2010-03-29)</title>
+            <title>Google V8 2.2.0 (2010&#8208;03&#8208;29)</title>
             <circle r="4"/>
             <text y="20" style="text-anchor: start">2.2</text>
           </g>
           <g transform="translate(1760 0)">
-            <title>Google V8 2.3.11.22 (2010-08-25)</title>
+            <title>Google V8 2.3.11.22 (2010&#8208;08&#8208;25)</title>
             <circle r="4"/>
             <text y="-10">2.3</text>
           </g>
           <g transform="translate(1780 0)">
-            <title>Google V8 2.4.9.19 (2010-10-13)</title>
+            <title>Google V8 2.4.9.19 (2010&#8208;10&#8208;13)</title>
             <circle r="4"/>
           </g>
           <g transform="translate(1790 0)">
-            <title>Google V8 2.5.9.6 (2010-11-29)</title>
+            <title>Google V8 2.5.9.6 (2010&#8208;11&#8208;29)</title>
             <circle r="4"/>
           </g>
           <g transform="translate(1810 0)">
-            <title>Google V8 3.0.12.30 (2011-01-28)</title>
+            <title>Google V8 3.0.12.30 (2011&#8208;01&#8208;28)</title>
             <circle r="5"/>
             <text y="-10">3.0</text>
           </g>
           <g transform="translate(1840 0)">
-            <title>Google V8 3.1.8.16 (2011-04-27)</title>
+            <title>Google V8 3.1.8.16 (2011&#8208;04&#8208;27)</title>
             <circle r="4"/>
             <text y="20">3.1</text>
           </g>
           <g transform="translate(1860 0)">
-            <title>Google V8 3.2.10.21 (2011-06-07)</title>
+            <title>Google V8 3.2.10.21 (2011&#8208;06&#8208;07)</title>
             <circle r="4"/>
             <text y="-10">3.2</text>
           </g>
           <g transform="translate(1880 0)">
-            <title>Google V8 3.3.10.30 (2011-08-02)</title>
+            <title>Google V8 3.3.10.30 (2011&#8208;08&#8208;02)</title>
             <circle r="4"/>
             <text y="20">3.3</text>
           </g>
           <g transform="translate(1890 0)">
-            <title>Google V8 3.4.14.21 (2011-09-16)</title>
+            <title>Google V8 3.4.14.21 (2011&#8208;09&#8208;16)</title>
             <circle r="4"/>
           </g>
           <g transform="translate(1900 0)">
-            <title>Google V8 3.5.10.24 (2011-10-25)</title>
+            <title>Google V8 3.5.10.24 (2011&#8208;10&#8208;25)</title>
             <circle r="4"/>
           </g>
           <g transform="translate(1920 0)">
-            <title>Google V8 3.6.6.19 (2011-12-13)</title>
+            <title>Google V8 3.6.6.19 (2011&#8208;12&#8208;13)</title>
             <circle r="4"/>
             <text y="-10">3.6</text>
           </g>
           <g transform="translate(1940 0)">
-            <title>Google V8 3.7.12.29 (2012-02-08)</title>
+            <title>Google V8 3.7.12.29 (2012&#8208;02&#8208;08)</title>
             <circle r="4"/>
             <text y="20">3.7</text>
           </g>
           <g transform="translate(1950 0)">
-            <title>Google V8 3.8.9.19 (2012-03-28)</title>
+            <title>Google V8 3.8.9.19 (2012&#8208;03&#8208;28)</title>
             <circle r="4"/>
           </g>
           <g transform="translate(1970 0)">
-            <title>Google V8 3.9.24.7 (2012-05-15)</title>
+            <title>Google V8 3.9.24.7 (2012&#8208;05&#8208;15)</title>
             <circle r="4"/>
             <text y="-10">3.9</text>
           </g>
           <g transform="translate(1980 0)">
-            <title>Google V8 3.10.6.0 (2012-06-26)</title>
+            <title>Google V8 3.10.6.0 (2012&#8208;06&#8208;26)</title>
             <circle r="4"/>
           </g>
           <g transform="translate(1990 0)">
-            <title>Google V8 3.11.10.6 (2012-07-31)</title>
+            <title>Google V8 3.11.10.6 (2012&#8208;07&#8208;31)</title>
             <circle r="4"/>
           </g>
           <g transform="translate(2010 0)">
-            <title>Google V8 3.12.19.4 (2012-09-25)</title>
+            <title>Google V8 3.12.19.4 (2012&#8208;09&#8208;25)</title>
             <circle r="4"/>
             <text y="-10">3.12</text>
           </g>
           <g transform="translate(2030 0)">
-            <title>Google V8 3.13.7.1 (2012-11-06)</title>
+            <title>Google V8 3.13.7.1 (2012&#8208;11&#8208;06)</title>
             <circle r="4"/>
             <text y="20">3.13</text>
           </g>
           <g transform="translate(2050 0)">
-            <title>Google V8 3.14.5.0 (2013-01-10)</title>
+            <title>Google V8 3.14.5.0 (2013&#8208;01&#8208;10)</title>
             <circle r="4"/>
           </g>
           <g transform="translate(2060 0)">
-            <title>Google V8 3.15.11.5 (2013-02)</title>
+            <title>Google V8 3.15.11.5 (2013&#8208;02)</title>
             <circle r="4"/>
           </g>
           <g transform="translate(2070 0)">
-            <title>Google V8 3.16.14.9 (2013-03)</title>
+            <title>Google V8 3.16.14.9 (2013&#8208;03)</title>
             <circle r="4"/>
           </g>
           <g transform="translate(2090 0)">
-            <title>Google V8 3.17.6.14 (2013-05)</title>
+            <title>Google V8 3.17.6.14 (2013&#8208;05)</title>
             <circle r="4"/>
             <text y="-10">3.17</text>
           </g>
           <g transform="translate(2100 0)">
-            <title>Google V8 3.18.5.8 (2013-06)</title>
+            <title>Google V8 3.18.5.8 (2013&#8208;06)</title>
             <circle r="4"/>
           </g>
           <g transform="translate(2120 0)">
-            <title>Google V8 3.19.18.19 (2013-08)</title>
+            <title>Google V8 3.19.18.19 (2013&#8208;08)</title>
             <circle r="4"/>
           </g>
           <g transform="translate(2130 0)">
-            <title>Google V8 3.20.17.13 (2013-09)</title>
+            <title>Google V8 3.20.17.13 (2013&#8208;09)</title>
             <circle r="4"/>
           </g>
           <g transform="translate(2150 0)">
-            <title>Google V8 3.21.18.7 (2013-11)</title>
+            <title>Google V8 3.21.18.7 (2013&#8208;11)</title>
             <circle r="4"/>
             <text y="-10">3.21</text>
           </g>
           <g transform="translate(2170 0)">
-            <title>Google V8 3.22.24.10 (2014-01)</title>
+            <title>Google V8 3.22.24.10 (2014&#8208;01)</title>
             <circle r="4"/>
           </g>
           <g transform="translate(2180 0)">
-            <title>Google V8 3.23.17.13 (2014-02)</title>
+            <title>Google V8 3.23.17.13 (2014&#8208;02)</title>
             <circle r="4"/>
             <text y="-10" style="text-anchor: start">3.23</text>
           </g>
