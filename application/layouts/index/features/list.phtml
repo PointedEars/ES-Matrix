@@ -75,7 +75,7 @@
                           href="<?php
                           $section = $feature->section;
                           $urn = $feature->section_urn;
-                          echo ($urn
+                          echo (strpos($urn, 'http') === 0
                             ? $urn
                             : 'http://ecma-international.org/ecma-262/5.1/#sec-'
                               . preg_replace('/^Annex\\s+/', '', $section));
