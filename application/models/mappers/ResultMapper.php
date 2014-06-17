@@ -238,7 +238,7 @@ class ResultMapper extends \PointedEars\PHPX\Db\Mapper
 //     define('DEBUG', 2);
 
     $db = $this->getDbTable()->getDatabase();
-    $rows = $db->select(
+    $stmt = $db->select(
       '`result` r
        LEFT JOIN `testcase` t ON r.testcase_id = t.id
        LEFT JOIN `feature` f ON t.feature_id = f.id
@@ -257,17 +257,20 @@ class ResultMapper extends \PointedEars\PHPX\Db\Mapper
        SUBSTRING_INDEX(SUBSTRING_INDEX(v.name, '.', -3), '.', 1) + 0,
        SUBSTRING_INDEX(SUBSTRING_INDEX(v.name, '.', -2), '.', 1) + 0,
        SUBSTRING_INDEX(v.name, '.', -1) + 0,
-       t.id"
+       t.id",
+      null,
+      null,
+      false
     );
 
     $result = array();
-    if (is_array($rows))
+    if ($stmt)
     {
       /* Get version names here to make query result smaller and query faster */
       $versions = VersionMapper::getInstance()->fetchAll();
       $ver_name_cache = array();
 
-      foreach ($rows as $row)
+      while (($row = $stmt->fetch(\PDO::FETCH_ASSOC)))
       {
         $feature_id = (int) $row['feature_id'];
         $impl_id    = (int) $row['impl_id'];
