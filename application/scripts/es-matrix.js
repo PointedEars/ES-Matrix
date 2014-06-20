@@ -115,6 +115,69 @@ function body_load ()
   synhl();
 }
 
+var req;
+
+function es_matrix_edit (link)
+{
+  if (!req)
+  {
+    req = new jsx.net.http.Request();
+  }
+
+  var me = this;
+
+  req.setURL(link.href);
+  req.setData('xhr=1');
+  req.setSuccessListener(function (response) {
+    /* Add/show edit links */
+
+    /* Modify edit link */
+    me.edit_href = link.getAttribute("href");
+    me.edit_onclick = link.onclick;
+    me.edit_textContent = link.textContent;
+    link.href = me.endEdit_href;
+    link.onclick = function () {
+      return es_matrix.endEdit(this);
+    };
+    link.textContent = me.endEdit_textContent;
+  });
+
+  if (req.send())
+  {
+    console.log(req);
+    return false;
+  }
+}
+es_matrix.edit = es_matrix_edit;
+
+function es_matrix_endEdit (link)
+{
+  if (!req)
+  {
+    req = new jsx.net.http.Request();
+  }
+
+  var me = this;
+
+  req.setURL(link.href);
+  req.setData('xhr=1');
+  req.setSuccessListener(function (response) {
+    /* Hide edit links */
+
+    /* Restore edit link */
+    link.href = me.edit_href;
+    link.onclick = me.edit_onclick;
+    link.textContent = me.edit_textContent;
+  });
+
+  if (req.send())
+  {
+    console.log(req);
+    return false;
+  }
+}
+es_matrix.endEdit = es_matrix_endEdit;
+
 function table_click (e)
 {
   if (!es_matrix.editMode)
@@ -145,7 +208,10 @@ function table_click (e)
         action: "index-db",
         method: "POST",
         onsubmit: function (ev) {
-          var req = new jsx.net.http.Request();
+          if (!req)
+          {
+            req = new jsx.net.http.Request();
+          }
           req.getDataFromForm(this, true);
           req.setData(req.data + "&xhr=1");
           req.setSuccessListener(function (response) {
@@ -321,7 +387,7 @@ function es_matrix_collect_results (tdId, results)
   span.type = "span";
   (span.attributes = new Object()).title = resultsStr.join("\n");
   span.childNodes = new Array(
-    ((count == len) ? "+" : (count == 0 ? String.fromCharCode(8722) : "*"))
+    ((len > 0 && count == len) ? "+" : (count == 0 ? String.fromCharCode(8722) : "*"))
   );
 
   if (supports_DOM1)
