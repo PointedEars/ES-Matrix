@@ -10,7 +10,7 @@
     title {
       cursor: help;
     }
-  
+
     path {
       fill: none;
       <?php
@@ -24,18 +24,18 @@
       /* Must define default font in external SVG */
       font: 13px sans-serif;
     }
-    
+
     text.impl {
       font-weight: bold;
       text-anchor: end !important;
     }
-    
+
     text.codename,
     tspan.codename {
       font-style: italic;
       text-anchor: start !important;
     }
-    
+
     text.icon {
       cursor: default;
     }
@@ -44,7 +44,7 @@
     #grid tspan {
       text-anchor: middle;
     }
-    
+
     line {
       stroke: black;
     }
@@ -98,7 +98,7 @@
     #microsoft circle {
       fill: #1570A6;
     }
-    
+
     #kde circle {
       fill: #003f8a;
     }
@@ -107,20 +107,20 @@
     #kde path {
       stroke: #003f8a;
     }
-    
+
     #apple circle {
       fill: #777;
     }
-    
+
     #apple line,
     #apple path {
       stroke: #777;
     }
-    
+
     #webkit circle {
       fill: #281;
     }
-    
+
     #webkit line,
     #webkit path {
       stroke: #281;
@@ -134,16 +134,16 @@
     #google path {
       stroke: #245DC1;
     }
-    
+
     #opera circle {
       fill: #CC0F16;
     }
-    
+
     #opera line,
     #opera path {
       stroke: #CC0F16;
     }
-    
+
     .relation {
       stroke-dasharray: 5;
     }
@@ -163,7 +163,7 @@
     <?php endfor; ?>
     <line x2="<?php echo $svg_width; ?>" class="year"/>
     <line y1="96%" x2="<?php echo $svg_width; ?>" y2="96%" class="year"/>
-    
+
     <script type="application/ecmascript"><![CDATA[
       function versions_load ()
       {
@@ -173,7 +173,7 @@
           ["es4", "javascript2.0"],
           ["es4", "jscript.net"]
         ];
-/*        
+/*
         for (var i = relations.length; i--;)
         {
           var relation = relations[i];
@@ -181,22 +181,22 @@
           var relationId = relation.join("-");
           var relationEl = document.getElementById(relationId);
           relationEl.style.opacity = "0";
-          
+
           for (var j = relation.length; j--;)
-          {          
+          {
             var node = document.getElementById(relation[j]);
 
             var fOn = (function (e) {
               return function () {
-                e.style.opacity = "1";                              
+                e.style.opacity = "1";
               };
             }(relationEl));
             node.addEventListener("mouseover", fOn, false);
             node.addEventListener("focus", fOn, false);
-            
+
             var fOff = (function (e) {
               return function () {
-                e.style.opacity = "0";                              
+                e.style.opacity = "0";
               };
             }(relationEl));
             node.addEventListener("mouseout", fOff, false);
@@ -209,7 +209,7 @@
     <g id="versions" transform="translate(-5 0)" onload="versions_load()">
       <g id="ecmascript" transform="translate(120 40)">
         <title>ECMAScript Language Specification</title>
-        
+
         <!-- Edition 1 is based on JavaScript 1.1 -->
         <path d="m 80 40
                  Q 130 0 180 0" class="relation"
@@ -255,9 +255,9 @@
                  Q 1890 320 1920 320" class="relation"/>
 
         <line x1="180" x2="1860"/>
-        
+
         <?php $now = ((gmdate('Y') - 1995) * 12 + gmdate('n')) * 10 - 120; ?>
-        
+
         <line x1="180" x2="<?php echo $now; ?>"/>
         <line x1="<?php echo $now; ?>" x2="<?php echo $svg_width - 115; ?>"
               class="future"/>
@@ -266,7 +266,7 @@
   require_once 'timeline-data.inc';
 
   foreach ($implementations as $implementation):
-    foreach ($implementation as $version): 
+    foreach ($implementation as $version):
       $marker = $version['marker'];
       $date = $version['date'];
       $offset_x = (($date['0'] - 1995) * 12 + $date[1]) * 10 - 120;
@@ -299,28 +299,28 @@
 
         $text = $marker['text'];
         ?><text y="<?php echo $text['y']; ?>"<?php
-        
+
         if (isset($text['anchor'])):
           ?> style="text-anchor: <?php echo $text['anchor']; ?>"<?php
         endif;
 
         if (isset($text['class'])):
           ?> class="<?php echo $text['class']; ?>"<?php
-        endif; 
+        endif;
         ?>><?php echo $text['content']; ?></text><?php
-        
+
         if (isset($marker['href'])):
           ?></a><?php
         endif;
       ?></g><?php
     endforeach;
   endforeach;
-?>        
+?>
       </g>
-      
+
       <g id="netscape" transform="translate(120 80)">
         <title>Netscape SpiderMonkey</title>
-      
+
         <line x1="-70" x2="560"/>
         <line x1="560" x2="1580" class="future"/>
 
@@ -372,14 +372,14 @@
 
         <g class="mozilla" transform="translate(0 60)">
           <title>Mozilla JavaScript</title>
-        
+
           <path d="m 410 -60
                    Q 490 0 570 0"/>
-                   
+
           <line x1="570" x2="<?php echo $now; ?>"/>
           <line x1="<?php echo $now; ?>" x2="<?php echo $svg_width - 115; ?>"
                 class="future"/>
-        
+
           <g transform="translate(570 0)">
             <circle r="4"/><title>Mozilla JavaScript 1.5 (2000&#8208;09)</title>
             <text y="-10" style="text-anchor: start">1.5</text>
@@ -417,11 +417,13 @@
             <text y="-10" style="text-anchor: start">1.8.5</text>
           </g>
           <g transform="translate(1860 0)">
-            <circle r="5"/><title>Mozilla JavaScript 5 (2011&#8208;06)</title>
-            <text y="-10">5</text>
+            <a xlink:href="http://mxr.mozilla.org/mozilla-release/source/js/src/configure.in#248">
+              <circle r="5"/><title>Mozilla JavaScript 5 (2011&#8208;06)</title>
+              <text y="-10">5</text>
+            </a>
           </g>
           <g transform="translate(1880 0)">
-            <circle r="5"/><title>Mozilla JavaScript 6 (2011&#8208;08)</title>
+            <circle r="5" /><title>Mozilla JavaScript 6 (2011&#8208;08)</title>
             <text y="-10">6</text>
           </g>
           <g transform="translate(1890 0)">
@@ -522,14 +524,14 @@
               <text y="20">28</text>
             </a>
           </g>
-          
+
           <g id="rhino" transform="translate(0 60)">
             <title>Mozilla Rhino</title>
-            
+
             <line x1="410" x2="<?php echo $now; ?>"/>
             <line x1="<?php echo $now; ?>" x2="<?php echo $svg_width - 115; ?>"
                   class="future"/>
-  
+
             <g transform="translate(410 0)">
               <circle r="4"/><title>Mozilla Rhino 1.4R3 (1999&#8208;05&#8208;10)</title>
               <text y="-10">1.4R3</text>
@@ -608,7 +610,7 @@
 
         <g id="microsoft" transform="translate(0 180)">
           <title>Microsoft JScript</title>
-          
+
           <path d="m 30 -180
                    Q 30 0 80 0" class="relation"/>
           <line x1="80" x2="<?php echo $now; ?>"/>
@@ -675,11 +677,11 @@
 
           <g transform="translate(0 40)">
             <title>Microsoft JScript .NET</title>
-          
+
             <line x1="730" x2="<?php echo $now; ?>"/>
             <line x1="<?php echo $now; ?>" x2="<?php echo $svg_width - 115; ?>"
                   class="future"/>
-            
+
             <g transform="translate(730 0)" id="jscript.net">
               <circle r="5"/><title>JScript .NET 7.0 (2002&#8208;01)</title>
               <text y="20" class="impl">Microsoft JScript .NET</text>
@@ -695,10 +697,10 @@
             </g>
           </g>
         </g>
-        
+
         <g id="opera" transform="translate(0 280)">
           <title>Opera ECMAScript</title>
-        
+
           <line x1="240" x2="2090"/>
 
           <g transform="translate(240 0)">
@@ -782,7 +784,7 @@
             X
           </text>
         </g>
-        
+
         <g id="kde" transform="translate(0 340)">
           <title>KDE JavaScript</title>
 
@@ -832,15 +834,15 @@
             <circle r="3"/>
             <text y="-10">4.6.5</text>
           </g>
-          
+
           <g id="apple" transform="translate(0 60)">
             <title>Apple JavaScriptCore</title>
-          
+
             <path d="m 825 -60
                      Q 825 0 850 0"/>
-                       
+
             <line x1="850" x2="1320"/>
-  
+
             <g transform="translate(850 0)">
               <title>Apple JavaScriptCore 48 (2003)</title>
               <circle r="5"/>
@@ -852,17 +854,17 @@
               <circle r="5"/>
               <text y="-10">312.6</text>
             </g>
-            
+
             <g id="webkit" transform="translate(0 70)">
               <title>WebKit JavaScriptCore</title>
-              
+
               <path d="m 1095 -70
                        Q 1095 0 1120 0"/>
-                       
+
               <line x1="1120" x2="<?php echo $now; ?>"/>
               <line x1="<?php echo $now; ?>" x2="<?php echo $svg_width - 115; ?>"
                     class="future"/>
-                    
+
               <g transform="translate(1120 0)">
                 <title>WebKit JavaScriptCore 412 (2005&#8208;04)</title>
                 <circle r="5"/>
@@ -973,11 +975,11 @@
 
         <g id="google" transform="translate(0 400)">
           <title>Google V8</title>
-        
+
           <line x1="1510" x2="<?php echo $now; ?>"/>
           <line x1="<?php echo $now; ?>" x2="<?php echo $svg_width - 115; ?>"
                 class="future"/>
-          
+
           <g transform="translate(1510 0)">
             <title>Google V8 0.1 (2008&#8208;07&#8208;03)</title>
             <circle r="4"/>
@@ -1138,49 +1140,49 @@
         </g>
       </g>
     </g>
-    
+
     <text y="95%">
       <?php for ($x_year = 60, $year = 1995; $x_year < $svg_width; $x_year += 120, ++$year): ?>
         <tspan x="<?php echo $x_year; ?>"><?php echo $year . ($year === 1995 ? ' (CE)' : ''); ?></tspan>
       <?php endfor; ?>
     </text>
   </g>
-  
+
   <g transform="translate(30 0)">
-<!-- 
+<!--
     <g transform="translate(15 0)">
     </g>
  -->
     <g transform="translate(0 5)">
       <text x="10" y="98%" class="impl" style="text-anchor: start !important">Implementation</text>
       <text x="145" y="98%" class="codename">Codename</text>
-      
+
       <g transform="translate(255 -5)">
         <line x1="0" y1="98%" x2="30" y2="98%"/>
         <circle r="5" cx="0"  cy="98%"/>
         <circle r="4" cx="10" cy="98%"/>
         <circle r="3" cx="20" cy="98%"/>
         <circle r="2" cx="30" cy="98%"/>
-        
+
         <g transform="translate(40 5)">
           <text style="text-anchor: start" y="98%">Versions</text>
         </g>
       </g>
-      
+
       <g transform="translate(370 -5)">
         <line x1="0" y1="98%" x2="40" y2="98%"/>
         <g transform="translate(0 5)">
           <text x="50" y="98%">Lifecycle</text>
         </g>
       </g>
-      
+
       <g transform="translate(495 -5)">
         <line x1="0" y1="98%" x2="45" y2="98%" class="relation"/>
         <g transform="translate(0 5)">
           <text x="55" y="98%">Influenced by/implements</text>
         </g>
       </g>
-      
+
       <g transform="translate(735 -5)">
         <line x1="0" y1="98%" x2="40" y2="98%" class="future"/>
         <g transform="translate(0 5)">
