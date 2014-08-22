@@ -937,7 +937,7 @@ function es_AbstractEqualityComparison (x, y)
 }
 es.AbstractEqualityComparison = es_AbstractEqualityComparison;
 
-es.Array = new Object();
+es.Array = new Function();
 es.Array.prototype = new Object();
 
 /**
