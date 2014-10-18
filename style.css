@@ -60,7 +60,7 @@ body {
 
 p {
   text-align: justify;
-  line-height: 1.5;       
+  line-height: 1.5;
 }
 
 p.subtitle {
@@ -71,7 +71,7 @@ p.subtitle {
 
 p.status, p.success {
   padding: 0.25em 0.5em;
-  color: black;  
+  color: black;
 }
 
 p.status {
@@ -195,10 +195,10 @@ i em {
   background-color: rgb(255, 255, 255);
   background-color: rgba(255, 255, 255, 0.9);
   overflow: hidden;
-  z-index: 1; 
-  
+  z-index: 1;
+
   cursor: default;
-  
+
   /* See http://www.useit.com/alertbox/mega-dropdown-menus.html */
   -moz-transition: 0.1s height;
   -moz-transition-delay: 0.5s;
@@ -248,7 +248,10 @@ i em {
 
 /* Abstract */
 blockquote p {
+  padding-left: 0.25em;
   font-style: italic;
+  text-align: left;
+  text-indent: -0.25em;
 }
 
 .closed {
@@ -298,7 +301,7 @@ a.backref {
 }
 
 span.section {
-  font-size: smaller; 
+  font-size: smaller;
 }
 
 abbr {
@@ -356,9 +359,9 @@ tr {
 }
 
 th, td {
-  /* moved to not-ns4.css for compatibility */ 
+  /* moved to not-ns4.css for compatibility */
   /* padding: 5px; */
-  
+
   text-align: left;
   font-size: small;
 }
@@ -398,7 +401,7 @@ td sup *
 {
   font-size: inherit;
 }
- 
+
 .future {
   border-left: 1px dotted black;
 }
@@ -424,15 +427,15 @@ td sup *
   span.unsafe .visual {
     display: none;
   }
-  
+
   span.safe:after {
-    content: 'marked with "safe"'; 
+    content: 'marked with "safe"';
   }
-  
+
   span.unsafe:after {
-    content: 'marked with "unsafe"'; 
+    content: 'marked with "unsafe"';
   }
-  
+
   tr.safe th:first-child:after {
     content: " (safe)";
   }
@@ -574,7 +577,7 @@ tfoot tbody tr:nth-child(even)
 
 #features-table tbody tr span.hover {
   display: none;
-  
+
   opacity: 0;
   -moz-transition: 0.1s 0.5s opacity, 0s 0.5s display;
   -webkit-transition: 0.1s 0.5s opacity, 0s 0.5s display;
@@ -586,26 +589,26 @@ tfoot tbody tr:nth-child(even)
 #features-table tbody tr:target span.hover
 {
   display: inline;
-    
-  opacity: 1;  
+
+  opacity: 1;
   -moz-transition: 0.1s 0.5s opacity;
   -webkit-transition: 0.1s 0.5s opacity;
   transition: 0.1s 0.5s opacity;
 }
 
 table.results th {
-  text-align: "." center; 
+  text-align: "." center;
 }
 
 table.results td {
   text-align: right;
   text-align: "/" center;
-} 
+}
 
 /*
  * Not for IE 6 and below.
  * Bugfix for IE 7 follows below.
- */  
+ */
 table>tbody.scroll {
   border-top: 0;
   border-left-color: gray;
@@ -630,8 +633,8 @@ table>tbody.scroll tr.header {
 /*
  * ... and make enough room so that the text won't flow under the
  * vertical scrollbar.  However, that is still a dirty hack as we
- * assume that the vertical scrollbar is not wider than 20px.  
- */ 
+ * assume that the vertical scrollbar is not wider than 20px.
+ */
 table>tbody.scroll td:last-child {
   padding-right: 20px;
 }
@@ -642,7 +645,7 @@ table>tbody.scroll td:last-child td:last-child {
 }
 
 /* keeps background color in line with table design */
-table code, 
+table code,
 table span
 {
   background-color: transparent !important;
