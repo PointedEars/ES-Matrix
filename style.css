@@ -248,10 +248,19 @@ i em {
 
 /* Abstract */
 blockquote p {
+  margin-bottom: 0;
   padding-left: 0.25em;
   font-style: italic;
   text-align: left;
   text-indent: -0.25em;
+}
+
+blockquote p em {
+  font-style: normal;
+}
+
+blockquote div {
+  text-align: right;
 }
 
 .closed {
