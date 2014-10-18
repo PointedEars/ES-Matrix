@@ -248,18 +248,21 @@ i em {
 
 /* Abstract */
 blockquote p {
+  font-style: italic;
+}
+
+#foreword blockquote p {
   margin-bottom: 0;
   padding-left: 0.25em;
-  font-style: italic;
   text-align: left;
   text-indent: -0.25em;
 }
 
-blockquote p em {
+#foreword blockquote p em {
   font-style: normal;
 }
 
-blockquote div {
+#foreword blockquote div {
   text-align: right;
 }
 
