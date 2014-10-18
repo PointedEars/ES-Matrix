@@ -50,11 +50,14 @@
     <script type="text/javascript" src="application/scripts/object/object-compat.js"></script>
     <script type="text/javascript"
             src="../../builder?<?php
-              if ($_SERVER['HTTP_HOST'] === 'localhost')
+              $is_local = ($_SERVER['HTTP_HOST'] === 'localhost');
+              if ($is_local)
               {
                 ?>debug=1&amp;verbose=1&amp;<?php
               }
-              ?>src=test/es-matrix/application/scripts/es,engine,dom/xpath,test/es-matrix/application/scripts/debug,http,string/hyphenation,dom,dom/css,dom/events,dom/forms,dom/widgets"
+              ?>src=test/es-matrix/application/scripts/es,engine,dom/xpath,test/es-matrix/application/scripts/debug,<?php
+                if ($is_local) ?>http,<?php
+              ?>string/hyphenation,dom,dom/css,dom/events,dom/forms,dom/widgets"
             ></script>
     <script type="text/javascript" src="table.js"></script>
     <script type="text/javascript" src="application/scripts/es-matrix.js"></script>
@@ -86,10 +89,10 @@
 
           <ul class="horizontal">
             <li><a
-              href="http://PointedEars.de/wsvn/es-matrix/trunk/?op=log&amp;isdir=1&amp;showchanges=1"
+              href="http://PointedEars.de/wsvn/es-matrix/branches/live/?op=log&amp;isdir=1&amp;showchanges=1"
             >Changelog</a></li>
             <li><a
-              href="http://pointedears.de/wsvn/es-matrix/trunk/"
+              href="http://pointedears.de/wsvn/es-matrix/branches/live/"
               title="Subversion repository browser"
             >SVN</a></li>
           </ul>
