@@ -46,9 +46,9 @@
 
           <p>In fact, <strong>there is no “javascript”</strong>;
              there is <em>JavaScript</em>.  This is not just
-             a matter of letter case: “JavaScript” originally was
-             only the name of one implementation of a standard
-             for extensible scripting languages, <em>ECMAScript</em>.</p>
+             a matter of letter case: Originally, “JavaScript” was
+             only the name of <em>one</em> implementation of
+             <em>ECMAScript</em>.</p>
 
           <p>“A <em>scripting language</em> is a programming language
              that is used to manipulate, customise, and automate
@@ -59,10 +59,47 @@
                      ><i>Standard ECMA&#8210;262. ECMAScript Language Specification.</i>
                       5.1 Edition.</a> (retrieved 2011&#8208;08&#8208;27)')
              ?>  The <em>ECMAScript Language Specification</em>
-             is a standard for scripting languages.  It is published
-             in <em>Editions</em>.
+             is a standard for extensible scripting languages.
+             It is published in <em>Editions</em>.
              Several current versions of scripting languages
-             are implementations of an Edition of ECMAScript.
+             are implementations of an Edition of ECMAScript.<?php
+               echo
+                 $this->footnotes->add('impl-ref-javascript', null,
+                 'Mozilla Developer Network and individual contributors (2014-10-18).
+                  <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/A_re-introduction_to_JavaScript"
+                     >A re-introduction to JavaScript (JS tutorial)</a>.
+                  (retrieved 2014&#8208;10&#8208;18).');
+               echo $this->footnotes->add('impl-ref-jscript', null,
+                 'Microsoft Corporation (2014). MSDN Library:
+                    <a href="http://msdn.microsoft.com/en-us/library/hbxc2t98(VS.85).aspx"
+                       >JScript (ECMAScript3)</a>.
+                  (retrieved 2014&#8208;10&#8208;18).');
+               echo $this->footnotes->add('impl-ref-msjs', null,
+                 'Microsoft Corporation (2014). MSDN Library:
+                    <a href="http://msdn.microsoft.com/en-us/library/d1et7k7c(v=VS.94).aspx"
+                       >JavaScript Language Reference</a>.
+                  (retrieved 2014&#8208;10&#8208;18).');
+               echo $this->footnotes->add('impl-ref-opera', null,
+                 'Opera Software ASA (2013). Opera browser:
+                    <a href="http://www.opera.com/docs/specs/presto2.12/ecmascript/"
+                       >ECMAScript support in Opera Presto 2.12</a>.
+                  (retrieved 2014&#8208;10&#8208;18).');
+               echo $this->footnotes->add('impl-ref-kjs', null,
+                 'The KDE developers (2013). KDE API Reference:
+                    <a href="http://api.kde.org/4.10-api/kdelibs-apidocs/kjs/html/index.html"
+                       >KDE JavaScript/EcmaScript Engine</a>.
+                  (retrieved 2014&#8208;10&#8208;18).');
+               echo $this->footnotes->add('impl-ref-jsc', null,
+                 'Apple Inc. (2014). The WebKit Open Source Project:
+                    <a href="http://trac.webkit.org/wiki/JavaScriptCore"
+                       >JavaScriptCore</a>.
+                  (retrieved 2014&#8208;10&#8208;18).');
+               echo $this->footnotes->add('impl-ref-v8', null,
+                 'Google Inc. (2014). Google Developers:
+                    <a href="https://developers.google.com/v8/"
+                       >Chrome V8</a>.
+                  (retrieved 2014&#8208;10&#8208;18).');
+             ?>
              But its first Edition was based itself on two scripting
              languages that were already implemented for use in
              web browsers: Netscape JavaScript 1.1 and Microsoft
@@ -81,12 +118,11 @@
              they are environment-dependent implementations of
              language-independent
              <abbr title="API: Application Programming Interface">API</abbr>s
-             for which a <em>language binding</em> is specified <?php
+             for which <em>language bindings</em> are specified<?php
                echo $this->footnotes->add('binding', null,
                  'See <a href="http://www.w3.org/TR/2003/REC-DOM-Level-2-HTML-20030109/ecma-script-binding.html"
                   >W3C DOM Level 2 HTML</a> for an example of language binding.');
-             ?> so that they can
-             be used with that programming language.<?php
+             ?> so that they can be used with programming languages.<?php
                echo $this->footnotes->add('legacy', null,
                  'The distinction between core language and browser API
                   was not made in Netscape JavaScript before version 1.4.
