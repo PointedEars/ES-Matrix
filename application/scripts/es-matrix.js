@@ -26,9 +26,75 @@ function safeTwitter (d, s, id)
   }
 }
 
+function publicTwitter ()
+{
+  for (var i = es_matrix.twitterButtons.length; i--;)
+  {
+    es_matrix.twitterButtons[i].onclick = null;
+  }
+
+  var _removeChild = jsx.dom.removeChild;
+  for (var i = es_matrix.twitterInfoButtons.length; i--;)
+  {
+    var infoButton = es_matrix.twitterInfoButtons[i];
+    _removeChild(infoButton.parentNode, infoButton);
+  }
+
+  safeTwitter(document, 'script', 'twitter-wjs');
+
+  return false;
+}
+
 function body_load ()
 {
-  safeTwitter(document, 'script', 'twitter-wjs');
+  var twitterButtons = es_matrix.twitterButtons = jsx.dom.css.getElemByClassName("twitter");
+  if (twitterButtons && twitterButtons.length > 0)
+  {
+    var _createNodeFromObj = jsx.dom.createNodeFromObj;
+    var _insertBefore = jsx.dom.insertBefore;
+
+    var infoButton = new Object();
+    infoButton.type = "a";
+    infoButton.attributes = new Object();
+    infoButton.attributes.href = "http://www.heise.de/ct/artikel/2-Klicks-fuer-mehr-Datenschutz-1333879.html";
+    infoButton.className = "twitter-privacy";
+
+    var child = new Object();
+    child.type = "img";
+    var attributes = child.attributes = new Object();
+    attributes.src = "/media/video/img/buttons/twitter-privacy-info.png";
+    attributes.width = 23;
+    attributes.height = 20;
+    attributes.alt = "(more information)";
+    attributes.title =
+        "If you enable the button on the left by selecting it,"
+      + " information will be transferred to and perhaps stored in servers"
+      + " located in the United States of America, which can infringe upon"
+      + " your privacy.  Select this for further information (in German)"
+      + " on heise online.";
+
+    infoButton.childNodes = new Array();
+    infoButton.childNodes[0] = child;
+
+    var infoButtons = es_matrix.twitterInfoButtons = new Array();
+
+    for (var i = twitterButtons.length; i--;)
+    {
+      var button = twitterButtons[i];
+      button.title =
+          "An extra click is protecting your privacy here."
+        + "  Select this to enable the Twitter buttons in this document,"
+        + " which will already transfer information to servers located in"
+        + " the United States of America.  Once enabled, you can use them"
+        + " to follow me and/or share this on Twitter.";
+      
+      var textNode = _createNodeFromObj(" ");
+      _insertBefore(button.parentNode, textNode, button.nextSibling);
+      
+      var infoButtonNode = infoButtons[infoButtons.length] = _createNodeFromObj(infoButton);
+      _insertBefore(button.parentNode, infoButtonNode, textNode.nextSibling);
+    }
+  }
 
   jsx.string.hyphenation.loadDictionary("application/scripts/hyphenation-en.js");
 

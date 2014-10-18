@@ -77,8 +77,11 @@
             ><?php echo randomEsc('js@PointedEars.de'); ?></a>&gt;
             (<a href="#contributors">contributors</a>)<br>
           <a href="https://twitter.com/PointedEars2"
-             class="twitter-follow-button"
-             data-show-count="false">Follow @PointedEars2</a>
+             class="twitter twitter-follow-button"
+             data-show-count="false"
+             onclick="return publicTwitter()"
+             ><img src="/media/video/img/buttons/twitter-follow-disabled.png"
+                   width="146" height="20" alt="Follow @PointedEars2"></a>
         </p>
 
         <div>
@@ -92,7 +95,7 @@
               href="http://PointedEars.de/wsvn/es-matrix/branches/live/?op=log&amp;isdir=1&amp;showchanges=1"
             >Changelog</a></li>
             <li><a
-              href="http://pointedears.de/wsvn/es-matrix/branches/live/"
+              href="http://PointedEars.de/wsvn/es-matrix/branches/live/"
               title="Subversion repository browser"
             >SVN</a></li>
           </ul>
@@ -106,12 +109,14 @@
                    ?>"
           ><?php echo $s; ?></a><br>
           <a href="https://twitter.com/share"
-             class="twitter-share-button"
+             class="twitter twitter-share-button"
              data-url="http://PointedEars.de/es-matrix"
              data-text="#ECMAScript Support Matrix"
              data-via="PointedEars2"
-             data-count="none"
-             data-hashtags="JavaScript">Tweet</a>
+             data-hashtags="JavaScript"
+             onclick="return publicTwitter()"
+             ><img src="/media/video/img/buttons/twitter-tweet-disabled.png"
+                   width="59" height="20" alt="Tweet"></a>
         </p>
 
         <div><a href="#toc">Table of contents</a></div>
