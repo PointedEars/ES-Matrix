@@ -407,6 +407,13 @@ td *
 sup {
   line-height: 1;
   font-weight: 500;
+  font-style: normal;
+}
+
+sup :link,
+sup :visited {
+  margin-left: 0.125em;
+  text-decoration: none;
 }
 
 th sup,
