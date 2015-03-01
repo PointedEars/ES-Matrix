@@ -98,13 +98,29 @@ class IndexController extends \PointedEars\PHPX\Controller
   protected function editAction ()
   {
     $_SESSION['edit'] = true;
-    Application::redirect();
+
+    if (Application::getParam('xhr'))
+    {
+      header('HTTP/1.0 204 No Content');
+    }
+    else
+    {
+      Application::redirect();
+    }
   }
 
   protected function endEditAction ()
   {
     unset($_SESSION['edit']);
-    Application::redirect();
+
+    if (Application::getParam('xhr'))
+    {
+      header('HTTP/1.0 204 No Content');
+    }
+    else
+    {
+      Application::redirect();
+    }
   }
 
   protected function runTestsAction ()

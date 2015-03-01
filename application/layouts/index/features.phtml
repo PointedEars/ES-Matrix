@@ -1,4 +1,12 @@
 <?php
+  $edit_href = $this->getURL(null, 'edit');
+  $edit_onclick = 'return es_matrix.edit(this)';
+  $edit_textContent = 'Edit';
+
+  $endEdit_href = $this->getURL(null, 'endEdit');
+  $endEdit_onclick = 'return es_matrix.endEdit(this)';
+  $endEdit_textContent = 'End Edit';
+
   if (!$this->edit)
   {
 ?>
@@ -247,13 +255,36 @@
 <?php
     if ($_SERVER['HTTP_HOST'] === 'localhost')
     {
-      ?><a href="<?php echo $this->escape($this->getURL(null, 'edit')); ?>">Edit</a><?php
+      ?><script type="text/javascript">
+        es_matrix.endEdit_href = <?php echo json_encode($endEdit_href); ?>;
+        es_matrix.endEdit_textContent = <?php echo json_encode($endEdit_textContent); ?>;
+        es_matrix.endEdit_onclick = function () {
+          <?php echo $endEdit_onclick; ?>;
+        };
+      </script>
+      <a href="<?php echo $this->escape($edit_href); ?>"
+         onclick="<?php echo $this->escape($edit_onclick); ?>"><?php
+           echo $this->escape($edit_textContent);
+         ?></a><?php
     }
   }
   else
   {
-?>
-     <a href="<?php echo $this->escape($this->getURL(null, 'endEdit')); ?>">End Edit</a>
+    ?><script type="text/javascript">
+      es_matrix.edit_href = <?php echo json_encode($edit_href); ?>;
+      es_matrix.edit_textContent = <?php echo json_encode($edit_textContent); ?>;
+      <?php /* Backwards compatibility required */ ?>
+      function es_matrix_edit_onclick ()
+      {
+        <?php echo $edit_onclick; ?>;
+      }
+      es_matrix.edit_onclick = es_matrix_edit_onclick;
+    </script>
+
+   <a href="<?php echo $this->escape($endEdit_href); ?>"
+      onclick="<?php echo $this->escape($endEdit_onclick); ?>"><?php
+        echo $this->escape($endEdit_textContent);
+      ?></a>
 <?php
   }
 
@@ -274,4 +305,3 @@
   }
 
   $this->footnotes->flush();
-?>

@@ -19,7 +19,8 @@
 ?>
           <tr<?php if ($this->isSafe($feature->id)) { ?> class="safe"<?php } ?>>
 <?php
-    if ($this->edit):
+    if ($this->edit)
+    {
 ?>
             <td><a href="<?php echo $this->escape($this->getURL('feature', 'edit', $feature->id)); ?>"
                    class="edit">Edit</a>
@@ -30,7 +31,7 @@
                   <button type="submit" name="action" value="delete" class="delete">Delete</button>
                 </form></td>
 <?php
-    endif;
+    }
 ?>
             <th scope="row" id="feature<?php echo $feature->id; ?>"<?php
                 if ($feature->title)
