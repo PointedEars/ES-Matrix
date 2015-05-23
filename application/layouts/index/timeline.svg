@@ -297,17 +297,21 @@
           ?><title><?php echo $marker['title'] . ' (' . vsprintf($format, $date) . ')'; ?></title><?php
         endif;
 
-        $text = $marker['text'];
-        ?><text y="<?php echo $text['y']; ?>"<?php
+        if (isset($marker['text'])):
+          $text = $marker['text'];
+          ?><text y="<?php echo $text['y']; ?>"<?php
 
-        if (isset($text['anchor'])):
-          ?> style="text-anchor: <?php echo $text['anchor']; ?>"<?php
-        endif;
+          if (isset($text['anchor'])):
+            ?> style="text-anchor: <?php echo $text['anchor']; ?>"<?php
+          endif;
 
-        if (isset($text['class'])):
-          ?> class="<?php echo $text['class']; ?>"<?php
+          if (isset($text['class'])):
+            ?> class="<?php echo $text['class']; ?>"<?php
+          endif;
+          
+          ?>><?php
+          echo $text['content']; ?></text><?php
         endif;
-        ?>><?php echo $text['content']; ?></text><?php
 
         if (isset($marker['href'])):
           ?></a><?php
