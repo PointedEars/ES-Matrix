@@ -58,6 +58,12 @@ class FeatureModel extends \PointedEars\PHPX\Model
   protected $_code;
 
   /**
+   * Regular expression that identifies the feature in source code
+   * @var string
+   */
+  protected $_pattern = null;
+
+  /**
    * <code>title</code> attribute of the feature, if any
    * @var string
    */
