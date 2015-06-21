@@ -297,6 +297,16 @@ button
   cursor: auto !important;
 }
 
+#features-table td.tooltip-container {
+  border-bottom: none !important;
+}
+
+#features-table td.tooltip-container .tooltip {
+  min-width: 20em;
+  max-width: 32em;
+  max-height: 32em;
+}
+
 .footnote-ref .tooltip {
   border-bottom: none !important;
 }

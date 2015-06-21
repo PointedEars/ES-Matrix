@@ -140,7 +140,45 @@ function body_load ()
       jsx.dom.removeClassName(scroller, "scroll");
     }
 
-    var table = new jsx.dom.widgets.Table(
+    var table = document.getElementById("features-table");
+
+    /* Testcase tooltips */
+    var tbody = table.tBodies[0];
+    var _addClassName = jsx.dom.addClassName;
+    
+    tbody.onmouseover = jsx.dom.createEventListener(function (e) {
+      var target = e.target;
+      if (target.tagName.toLowerCase() == "td" && target.id)
+      {
+        var tooltip = document.getElementById(target.id + "-tooltip");
+        if (!tooltip)
+        {
+          if (target.title)
+          {
+            _addClassName(target, "tooltip-container", true);
+            tooltip = document.createElement("div");
+            if (tooltip)
+            {
+              tooltip.id = target.id + "-tooltip";
+              tooltip.className = "tooltip";
+              tooltip.innerHTML = target.title.replace(/\r?\n|\r/g, "<br>");
+              target.title = "";
+              target.removeAttribute("title");
+              target.appendChild(tooltip);
+            }
+          }
+        }
+        
+        if (tooltip)
+        {
+          tooltip.scrollLeft = 0;
+          tooltip.scrollTop = 0;
+        }
+      }
+    });
+    
+    /* Filters */
+    table = new jsx.dom.widgets.Table(
       document.getElementById("features-table"),
       null,
       properties);
