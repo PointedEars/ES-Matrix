@@ -56,6 +56,7 @@ body {
   font-family: sans-serif;
   -webkit-font-smoothing: antialiased;
   counter-reset: figures tables;
+  text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.1);
 }
 
 p {
