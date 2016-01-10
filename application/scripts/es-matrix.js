@@ -1,4 +1,11 @@
-/* NOTE: Stick to basic features for maximum backwards compatility */
+/* This is a library, symbols are used elsewhere: *//*jshint -W098*/
+/*
+ * NOTE: Stick to basic features for maximum backwards compatility,
+ * so no warnings for
+ */
+/* new Array()  *//*jshint -W009*/
+/* new Object() *//*jshint -W010*/
+/* ==           *//*jshint -W041*/
 var es_matrix = new Object();
 
 function safeTwitter (d, s, id)
@@ -34,7 +41,7 @@ function publicTwitter ()
   }
 
   var _removeChild = jsx.dom.removeChild;
-  for (var i = es_matrix.twitterInfoButtons.length; i--;)
+  for (i = es_matrix.twitterInfoButtons.length; i--;)
   {
     var infoButton = es_matrix.twitterInfoButtons[i];
     _removeChild(infoButton.parentNode, infoButton);
@@ -216,6 +223,7 @@ function body_load ()
     }
   }
 
+  /* imported: *//*jshint -W117*/
   synhl();
 }
 
@@ -319,6 +327,7 @@ function table_click (e)
           req.getDataFromForm(this, true);
           req.setData(req.data + "&xhr=1");
           req.setSuccessListener(function (response) {
+            /* synhl() is imported *//*jshint -W117*/
             target.innerHTML = synhl(response.responseText);
           });
 
@@ -339,7 +348,10 @@ function table_click (e)
               height: "3em"
             }
           },
-          childNodes: [unsynhl(oldHTML)]
+          childNodes: [
+            /* imported: *//*jshint -W117*/
+            unsynhl(oldHTML)
+          ]
         },
         {
           type: "input",
@@ -500,6 +512,7 @@ function es_matrix_collect_results (tdId, results)
   }
   else
   {
+    /* document.write() is OK as fallback: *//*jshint -W060*/
     document.write(inputs.join("\n") + _createMarkupFromObj(span));
   }
 }

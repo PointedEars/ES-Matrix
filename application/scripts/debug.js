@@ -26,6 +26,14 @@
  * along with JSX.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/* Library *//*jshint -W098*/
+
+/* Maximum backwards compatibility; no warnings for: */
+/* Array()          *//*jshint -W009*/
+/* ==               *//*jshint -W041*/
+/* document.write() *//*jshint -W060*/
+/* eval()           *//*jshint -W061*/
+
 jsx.debug = {
   /** @version */
   version:   "0.99.$Revision: 113 $",
@@ -39,6 +47,7 @@ jsx.debug = {
 // debug.docURL = debug.path + "../debug.htm";
 
 /* global undefined value (for implementations without it) */
+/* _Not_ a reserved word: *//*jshint -W024*/
 var undefined;
 
 /** @section Exceptions */
@@ -115,6 +124,7 @@ if (typeof test2 == "undefined")
       out.push(sExpression);
     }
 
+    /* imported: *//*jshint -W117*/
     setErrorHandler();
     eval(new Array(
       'try {',
@@ -214,6 +224,7 @@ test('o2.x = null;', 'o.baz.x', '!= null (TODO)');
  */
 function time(expr, bPrintResult, loops, repeats)
 {
+  /* imported: *//*jshint -W117*/
   if (!isArray(expr))
   {
     expr = [expr];
@@ -255,6 +266,7 @@ function time(expr, bPrintResult, loops, repeats)
       /* repeat evaluation */
       for (var k = 0; k < loops; k++)
       {
+        /* Expression intended: *//*jshint -W030*/
         jsx.tryThis(function () { expr[i]; });
       }
 
@@ -279,6 +291,7 @@ function time(expr, bPrintResult, loops, repeats)
     var expr_width = (cnt + 1).toString().length;
 
     result.push(
+      /* imported: *//*jshint -W117*/
       format("\xA0%*4$s\xA0%*4$s\xA0%*4$s\n", "min", "max", "avg", col_width),
       format("%*2$d\\|", "e", expr_width),
       strRepeat("_", col_width * repeats),
@@ -422,6 +435,7 @@ if (typeof e.stack != "undefined")
  */
 function alertValue(a, bDontAlert, bDontEval)
 {
+  /* imported: *//*jshint -W117*/
   if (!isArray(a))
   {
     a = [a];
@@ -971,6 +985,7 @@ function Property(sName, sValue, iID, aoOwners, bNonEnum,
   this.enumerable = !bNonEnum;
 
   var oOwner = null;
+  /* imported: *//*jshint -W117*/
   if (isInstanceOf(aoOwners, Owners))
   {
     this.owner = aoOwners.items[aoOwners.items.length - 1];
@@ -1402,6 +1417,8 @@ PropertyArray.prototype.addProperty =
 function (
   sName, sValue, iID, oOwner, bNonEnum, bCalledFromProperty)
 {
+  /* isMethodType() is imported: *//*jshint -W117*/
+
   /* avoid dupes */
   if ((typeof this.items.hasOwnProperty == "function"
       /* IE does not allow reference shortcut here! */
@@ -1815,6 +1832,7 @@ jsx.object.setProperties(ObjectInfo.prototype, {
         {
           for (var k = j.names.length; k--; 0)
           {
+            /* Reset to `undefined` is necessary: *//*jshint -W080*/
             var p = undefined;
             eval(new Array(
               'try {',
@@ -2072,7 +2090,8 @@ function getObjInfo(sObject, aWhat, sStyle, sHeader, sFooter, sInspectorPath)
     + (sHeader != ""
       ? (bFormatAsTable
         ? '<tr><th align="left" colspan="'
-        + (2 + +(bShowType) + +(bShowConstructor)) + '">'
+        /* +'s are OK *//*jshint -W007*/
+        + (2 + (+bShowType) + (+bShowConstructor)) + '">'
       : '')
         + sHeader
         + (bFormatAsHTML && bFormatAsLines

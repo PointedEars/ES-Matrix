@@ -1,3 +1,5 @@
+/* Backwards compatibility: cannot use function form of "use strict" */
+/*jshint -W097*/
 "use strict";
 /**
  * @fileOverview <title>ECMAScript Edition 5.1 Reference Implementation</title>
@@ -40,6 +42,16 @@
  * You should have received a copy of the GNU General Public License
  * along with ES Matrix.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+/* This is a library, symbols are used elsewhere: *//*jshint -W098*/
+/*
+* NOTE: Stick to basic features for maximum backwards compatility,
+* so no warnings for
+*/
+/* new Array()  *//*jshint -W009*/
+/* new Object() *//*jshint -W010*/
+/* ==           *//*jshint -W041*/
+/* eval()       *//*jshint -W061*/
 
 /**
  * @namespace
@@ -455,7 +467,7 @@ function es_DefaultValue (o, hint)
      * "1. Let valueOf be the result of calling the [[Get]]
      *     internal method of object O with argument "valueOf"."
      */
-    var valueOf = o.valueOf;
+    valueOf = o.valueOf;
 
     /* "2. If IsCallable(valueOf) is true then," */
     if (es.IsCallable(valueOf))
@@ -465,7 +477,7 @@ function es_DefaultValue (o, hint)
        *     internal method of valueOf, with O as the
        *     this value and an empty argument list."
        */
-      var val = valueOf.call(o);
+      val = valueOf.call(o);
 
       /* b. If val is a primitive value, return val. */
       if (es.isPrimitive(val))
@@ -478,7 +490,7 @@ function es_DefaultValue (o, hint)
      * "3. Let toString be the result of calling the [[Get]]
      *     internal method of object O with argument "toString"."
      */
-    var toString = o.toString;
+    toString = o.toString;
 
     /* 4. If IsCallable(toString) is true then, */
     if (es.IsCallable(toString))
@@ -488,7 +500,7 @@ function es_DefaultValue (o, hint)
        *     internal method of toString, with O as the
        *     this value and an empty argument list."
        */
-      var str = toString.call(o);
+      str = toString.call(o);
 
       /* "b. If str is a primitive value, return str." */
       if (es.isPrimitive(str))
@@ -776,6 +788,8 @@ es.ToString = es_ToString;
  */
 function es_ToObject (arg)
 {
+  /* We _want_ objects here: *//*jshint -W053*/
+
   es._trace(es_ToObject, arguments);
 
   var t = es.Type(arg);
@@ -1118,9 +1132,9 @@ function es_Object_keys (o)
        *     [[Configurable]]: true}, and false."
        */
       array[es.ToString(index)] = p;
-      
+
       /* "b. Increment index by 1." */
-      ++i;
+      ++index;
     }
   }
 
@@ -1232,8 +1246,8 @@ function es_Object_prototype_hasOwnProperty (thisValue, v)
   /*
    * 3. Let desc be the result of calling the [[GetOwnProperty]] internal me thod of O passing P as the argument.
    */
-  var desc = es.GetOwnProperty(p)
-  
+  var desc = es.GetOwnProperty(o, p);
+
   /* 4. If desc is undefined, return false. */
   if (typeof desc == "undefined")
   {
@@ -1449,7 +1463,7 @@ function es_Array_prototype_splice (start, deleteCount/*, items */)
          *    the [[Get]] internal method of O with
          *    argument from.
          */
-        var fromValue = o[from];
+        fromValue = o[from];
 
         /*
          * 2. Call the [[Put]] internal method of O
@@ -1752,7 +1766,7 @@ function es_JSON_parse (text, reviver)
            *     the abstract operation Walk, passing val
            *     and P."
            */
-          var newElement = Walk(val, P);
+          newElement = Walk(val, P);
 
           /* "2. If newElement is undefined, then" */
           if (typeof newElement == "undefined")
@@ -2478,7 +2492,7 @@ function es_JSON_stringify (value, replacer, space)
     /*
      * "a. If the [[Class]] internal property of space is
      *     "Number" then," */
-    var _class = es.getClass(space);
+    _class = es.getClass(space);
     if (_class == "Number")
     {
       /* "i. Let space be ToNumber(space)." */
