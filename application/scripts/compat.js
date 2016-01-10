@@ -1,3 +1,7 @@
+/* Compatibility library, no warnings for: */
+/* Object() *//*jshint -W010*/
+/* eval()   *//*jshint -W061*/
+
 if (typeof jsx == "undefined")
 {
   var jsx = new Object();
