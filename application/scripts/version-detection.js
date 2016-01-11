@@ -24,4 +24,5 @@ else
   es_matrix.out += ":<p><b>" + es_matrix.engineInfo.toString() + "<\/b><\/p>";
 }
 
+/* document.write() is OK: *//*jshint -W060*/
 document.write(es_matrix.out);

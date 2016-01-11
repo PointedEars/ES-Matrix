@@ -1,0 +1,13 @@
+{
+  /* Enforcing */
+  "es3": true,
+
+  "globals": {
+    "StyleSheet": true
+  },
+
+  /* Relaxing */
+  "laxbreak": true,
+  "loopfunc": true,
+  "funcscope": true
+}

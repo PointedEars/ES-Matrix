@@ -35,6 +35,7 @@ if (!es_matrix.engineInfo.isInferred())
       strReplace('"', "&quot;", es_matrix.implVersion, true), true);
   }
 
+  /* document.write() is OK: *//*jshint -W060*/
   document.write(
     '<input type="hidden" name="implementation" value="' + (es_matrix.implStr || "") + '">'
     + '<input type="hidden" name="version" value="' + (es_matrix.implVerStr || "") + '">');
