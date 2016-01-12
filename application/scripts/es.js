@@ -788,6 +788,7 @@ es.ToString = es_ToString;
  */
 function es_ToObject (arg)
 {
+  /* We _want_ objects here: *//*jshint -W053*/
 
   es._trace(es_ToObject, arguments);
 

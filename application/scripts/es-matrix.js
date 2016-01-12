@@ -94,10 +94,10 @@ function body_load ()
         + " which will already transfer information to servers located in"
         + " the United States of America.  Once enabled, you can use them"
         + " to follow me and/or share this on Twitter.";
-      
+
       var textNode = _createNodeFromObj(" ");
       _insertBefore(button.parentNode, textNode, button.nextSibling);
-      
+
       var infoButtonNode = infoButtons[infoButtons.length] = _createNodeFromObj(infoButton);
       _insertBefore(button.parentNode, infoButtonNode, textNode.nextSibling);
     }
@@ -152,7 +152,7 @@ function body_load ()
     /* Testcase tooltips */
     var tbody = table.tBodies[0];
     var _addClassName = jsx.dom.addClassName;
-    
+
     tbody.onmouseover = jsx.dom.createEventListener(function (e) {
       var target = e.target;
       if (target.tagName.toLowerCase() == "td" && target.id)
@@ -175,7 +175,7 @@ function body_load ()
             }
           }
         }
-        
+
         if (tooltip)
         {
           tooltip.scrollLeft = 0;
@@ -183,7 +183,7 @@ function body_load ()
         }
       }
     });
-    
+
     /* Filters */
     table = new jsx.dom.widgets.Table(
       document.getElementById("features-table"),
