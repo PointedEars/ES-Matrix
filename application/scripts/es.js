@@ -1,6 +1,10 @@
+/*global console*/
+/*global jsx*/
+
 /* Backwards compatibility: cannot use function form of "use strict" */
 /*jshint -W097*/
 "use strict";
+
 /**
  * @fileOverview <title>ECMAScript Edition 5.1 Reference Implementation</title>
  * @file $Id$
@@ -53,6 +57,9 @@
 /* ==           *//*jshint -W041*/
 /* eval()       *//*jshint -W061*/
 
+/* Ignore misdetected "possible strict violation" */
+/*jshint -W040*/
+
 /**
  * @namespace
  */
@@ -73,7 +80,7 @@ es._addType("UNDEFINED", -1);
 es._addType("NULL", 0);
 es._addType("BOOLEAN", 1);
 es._addType("STRING", 2);
-es._addType("NUMBER", 3),
+es._addType("NUMBER", 3);
 es._addType("OBJECT", 4);
 
 /**
@@ -829,7 +836,7 @@ es.ToObject = es_ToObject;
  */
 function es_getClass (arg)
 {
-  return (({}).toString.call(arg).match(/\[object ([^\]]+)\]/) || [, ])[1];
+  return (({}).toString.call(arg).match(/\[object ([^\]]+)\]/) || ["", ""])[1];
 }
 es.getClass = es_getClass;
 
@@ -1929,11 +1936,11 @@ function es_JSON_stringify (value, replacer, space)
          *       hexadecimal digits."
          */
         var hex = C.charCodeAt(0).toString(16);
-        var len = hex.length;
-        if (len < 4)
+        var len2 = hex.length;
+        if (len2 < 4)
         {
           var a = [];
-          a.length = (4 - len) + 1;
+          a.length = (4 - len2) + 1;
           hex = a.join("0") + hex;
         }
 
