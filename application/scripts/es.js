@@ -660,7 +660,7 @@ function es_ToUint32 (arg)
 {
   es._trace(es_ToUint32, arguments);
 
-  /* 
+  /*
    * "1. Let number be the result of calling ToNumber
    *     on the input argument." */
   var number = es.ToNumber(arg);
@@ -842,7 +842,7 @@ es.getClass = es_getClass;
 
 /**
  * "9.10 CheckObjectCoercible
- * 
+ *
  * The abstract operation CheckObjectCoercible throws an error
  * if its argument is a value that cannot be converted to
  * an Object using ToObject. It is defined by Table 15:
@@ -875,7 +875,7 @@ es.CheckObjectCoercible = es_CheckObjectCoercible;
 
 /**
  * "9.11 IsCallable
- * 
+ *
  * The abstract operation IsCallable determines if its argument,
  * which must be an ECMAScript language value, is a callable
  * function Object according to Table 16:
@@ -893,7 +893,7 @@ es.CheckObjectCoercible = es_CheckObjectCoercible;
  * </pre>"
  * NOTE: Callable objects other than Function instances cannot
  * be recognized.
- * 
+ *
  * @param arg
  */
 function es_IsCallable (arg)
@@ -922,7 +922,7 @@ es.IsCallable = es_IsCallable;
  *
  * The comparison x == y, where x and y are values, produces
  * true or false."
- * 
+ *
  * @param x
  * @param y
  */
@@ -975,15 +975,15 @@ function es_AbstractEqualityComparison (x, y)
       /* "vi. Return false." */
       return false;
     }
-    
-    /* 
+
+    /*
      * "d. If Type(x) is String, then …"
      */
     if (typeX == es.types.STRING)
     {
-      /* 
+      /*
        * "… return true if x and y are exactly the same sequence
-       *  of characters (same length and same characters 
+       *  of characters (same length and same characters
        *  corresponding positions).  Otherwise, return false."
        */
       var lenX = x.length;
@@ -992,7 +992,7 @@ function es_AbstractEqualityComparison (x, y)
       {
         return false;
       }
-      
+
       for (var i = 0, len = lenX; i < len; ++len)
       {
         if (x.charAt(i) != y.charAt(i))
@@ -1001,36 +1001,36 @@ function es_AbstractEqualityComparison (x, y)
         }
       }
     }
-    
+
     /*
      * "e. If Type(x) is Boolean, return true if x and y are both
      *     true or both false. Otherwise, return false."
      */
     if (typeX == es.types.BOOLEAN)
     {
-      return ((x === true && y === true) && (x === false && y === false)); 
+      return ((x === true && y === true) && (x === false && y === false));
     }
-    
-    /* 
+
+    /*
      * "f. Return true if x and y refer to the same object.
      *     Otherwise, return false."
      */
     return (x == y);
   }
-  
+
   /* "2. If x is null and y is undefined, return true." */
   if (x === null && typeof y == "undefined")
   {
     return true;
   }
-  
+
   /* "3. If x is undefined and y is null, return true." */
   if (typeof x === "undefined" && y === null)
   {
     return true;
   }
-  
-  /* 
+
+  /*
    * "4. If Type(x) is Number and Type(y) is String,
    *     return the result of the comparison x == ToNumber(y)."
    */
@@ -1038,7 +1038,7 @@ function es_AbstractEqualityComparison (x, y)
   {
     return es_AbstractEqualityComparison(x, es.ToNumber(y));
   }
-  
+
   /*
    * "5. If Type(x) is String and Type(y) is Number,
    *      return the result of the comparison ToNumber(x) == y."
@@ -1047,8 +1047,8 @@ function es_AbstractEqualityComparison (x, y)
   {
     return es_AbstractEqualityComparison(es.ToNumber(x), y);
   }
-  
-  /* 
+
+  /*
    * "6. If Type(x) is Boolean, return the result of the comparison
    *     ToNumber(x) == y."
    */
@@ -1056,7 +1056,7 @@ function es_AbstractEqualityComparison (x, y)
   {
     return es_AbstractEqualityComparison(es.ToNumber(x), y);
   }
-  
+
   /*
    * "7. If Type(y) is Boolean, return the result of the comparison
    *     x == ToNumber(y)."
@@ -1065,7 +1065,7 @@ function es_AbstractEqualityComparison (x, y)
   {
     return es_AbstractEqualityComparison(x, es.ToNumber(y));
   }
-  
+
   /*
    * "8. If Type(x) is either String or Number and Type(y) is Object,
    *     return the result of the comparison x == ToPrimitive(y)."
@@ -1075,7 +1075,7 @@ function es_AbstractEqualityComparison (x, y)
   {
     return es_AbstractEqualityComparison(x, es.ToPrimitive(y));
   }
-  
+
   /*
    * "9. If Type(x) is Object and Type(y) is either String or Number,
    *     return the result of the comparison ToPrimitive(x) == y."
@@ -1085,7 +1085,7 @@ function es_AbstractEqualityComparison (x, y)
   {
     return es_AbstractEqualityComparison(es.ToPrimitive(x), y);
   }
-  
+
   /* "10. Return false. */
   return false;
 }
@@ -1095,7 +1095,7 @@ es.Object = new Object();
 
 /**
  * "15.2.3.14 Object.keys ( O )"
- * 
+ *
  * @param {Object} obj
  * @return {Array}
  */
@@ -1108,7 +1108,7 @@ function es_Object_keys (o)
   {
     throw new TypeError();
   }
-  
+
   /*
    * "2. Let n be the number of own enumerable properties of O.
    *  3. Let array be the result of creating a new Object as if
@@ -1126,10 +1126,10 @@ function es_Object_keys (o)
    */
   for (var p in o)
   {
-    /* 
+    /*
      * TODO: Use reference implementation for
      * Object.prototype.hasOwnProperty
-     */ 
+     */
     if (o.hasOwnProperty(p))
     {
       /*
@@ -1152,7 +1152,7 @@ es.Object.keys = es_Object_keys;
 
 /**
  * "15.2.4 Properties of the Object Prototype Object
- * 
+ *
  * The value of the [[Prototype]] internal property of
  * the Object prototype object is null, the value of the [[Class]]
  * internal property is "Object", and the initial value of the
@@ -1162,7 +1162,7 @@ es.Object.prototype = new Object();
 
 /**
  * "15.2.4.2 Object.prototype.toString ( )"
- * 
+ *
  * @param {Object} thisValue
  */
 function es_Object_prototype_toString (thisValue)
@@ -1172,27 +1172,27 @@ function es_Object_prototype_toString (thisValue)
   {
     return "[object Undefined]";
   }
-  
+
   /* "2. If the `this' value is null, return "[object Null]"." */
   if (thisValue === null)
   {
     return "[object Null]";
   }
-  
-  /* 
+
+  /*
    * "3. Let O be the result of calling ToObject passing
    *     the `this' value as the argument."
    */
   var o = es.ToObject(thisValue);
-  
+
   /*
    * "4. Let class be the value of the [[Class]] internal property of O."
-   * 
+   *
    * NOTE: es.getClass() uses the built-in Object.prototype.toString.
    */
   var _class = es.getClass(o);
-  
-  /* 
+
+  /*
    * "5. Return the String value that is the result of concatenating
    *     the three Strings "[object", class, and "]".
    */
@@ -1201,30 +1201,30 @@ function es_Object_prototype_toString (thisValue)
 
 /**
  * "15.2.4.3 Object.prototype.toLocaleString ( )"
- * 
+ *
  * @param {Object} thisValue
  */
 function es_Object_prototype_toLocaleString (thisValue)
 {
-  /* 
+  /*
    * "1. Let O be the result of calling ToObject passing
    *     the `this' value as the argument."
    */
   var o = es.ToObject(thisValue);
-  
-  /* 
+
+  /*
    * "2. Let toString be the result of calling the [[Get]]
    *     internal method of O passing "toString" as the argument."
    */
   var toString = o.toString;
-  
+
   /* "3. If IsCallable(toString) is false, throw a TypeError exception." */
   if (!es.IsCallable(toString))
   {
     throw new TypeError();
   }
-  
-  /* 
+
+  /*
    * "4. Return the result of calling the [[Call]] internal method
    *     of toString passing O as the this value and no arguments.
    */
@@ -1233,7 +1233,7 @@ function es_Object_prototype_toLocaleString (thisValue)
 
 /**
  * "15.2.4.5 Object.prototype.hasOwnProperty (V)"
- * 
+ *
  * @param {Object} thisValue
  * @param {String} v
  */
@@ -1243,13 +1243,13 @@ function es_Object_prototype_hasOwnProperty (thisValue, v)
    * "1. Let P be ToString(V)."
    */
   var p = es.ToString(v);
-  
+
   /*
    * 2. Let O be the result of calling ToObject passing
    *    the `this' value as the argument.
    */
   var o = es.ToObject(thisValue);
-  
+
   /*
    * 3. Let desc be the result of calling the [[GetOwnProperty]] internal me thod of O passing P as the argument.
    */
@@ -1260,7 +1260,7 @@ function es_Object_prototype_hasOwnProperty (thisValue, v)
   {
     return false;
   }
-  
+
   /* 5. Return true. */
   return true;
 }
@@ -1269,10 +1269,10 @@ es.Array = new Object();
 
 /**
  * "15.4.3.2 Array.isArray (arg)
- * 
+ *
  * The isArray function takes one argument arg, and returns
  * the Boolean value true if the argument is an object whose
- * class internal property is "Array"; otherwise it returns false." 
+ * class internal property is "Array"; otherwise it returns false."
  * @param arg
  * @returns {Boolean}
  */
@@ -1283,8 +1283,8 @@ function es_Array_isArray (arg)
   {
     return false;
   }
-  
-  /* 
+
+  /*
    * "2. If the value of the [[Class]] internal property of arg is
    *     "Array", then return true."
    */
@@ -1292,7 +1292,7 @@ function es_Array_isArray (arg)
   {
     return true;
   }
-  
+
   return false;
 }
 es.Array.isArray = es_Array_isArray;
@@ -1301,22 +1301,22 @@ es.Array.prototype = new Object();
 
 /**
  * "15.4.4.2 Array.prototype.toString ( )
- * 
+ *
  * "
  */
 function es_Array_prototype_toString (thisValue)
 {
-  /* 
+  /*
    * "1. Let array be the result of calling ToObject
    *     on the this value." */
   var array = es.ToObject(thisValue);
-  
-  /* 
+
+  /*
    * "2. Let func be the result of calling the [[Get]]
    *     internal method of array with argument "join"."
    */
   var func = array.join;
-  
+
   /* "3. If IsCallable(func) is false, then let func be
    *     the standard built-in method Object.prototype.toString
    *     (15.2.4.2)."
@@ -1325,7 +1325,7 @@ function es_Array_prototype_toString (thisValue)
   {
     func = es.Object.prototype.toString;
   }
-  
+
   /* TODO */
 }
 
