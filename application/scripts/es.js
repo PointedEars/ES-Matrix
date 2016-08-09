@@ -592,7 +592,7 @@ function es_ToNumber (arg)
   {
     result = arg;
   }
-  else if (t == "String")
+  else if (t == es.types.STRING)
   {
     result = +arg;
   }
