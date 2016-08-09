@@ -1161,10 +1161,10 @@ es.AbstractRelationalComparison = function (x, y, leftFirst) {
     var ny = es.ToNumber(py);
 
     /* c. If nx is NaN, return undefined. */
-    if (es.isNaN(nx)) return (void 0);
+    if (isNaN(nx)) return (void 0);
 
     /* d. If ny is NaN, return undefined. */
-    if (es.isNaN(ny)) return (void 0);
+    if (isNaN(ny)) return (void 0);
 
     /* e. If nx and ny are the same Number value, return false. */
     if (+nx == +ny) return false;
