@@ -38,7 +38,7 @@ class IndexView extends \PointedEars\PHPX\View
   }
 
   /**
-   * Maps test case code to a formatted version
+   * Maps testcase code to a formatted version
    *
    * @param TestcaseModel $e
    *   Testcase
@@ -48,13 +48,15 @@ class IndexView extends \PointedEars\PHPX\View
    */
   private function _mapTestcaseCode ($e, $i)
   {
-    return "•&nbsp;Test&nbsp;" . ($i + 1) . ": " . $this->escape($e->code);
+    return '<h3>Test&nbsp;' . ($i + 1) . "</h3><p><code>"
+      . str_replace('  ', '&nbsp;', $this->escape($e->code))
+      . '</code></p>';
   }
 
   /**
-   * Returns the escaped bullet list of testcase codes
+   * Returns the escaped list of testcase codes
    *
-   * @param array $testcases
+   * @param array[TestcaseModel] $testcases
    * @return string
    */
   public function getEscapedTestcaseCodes ($testcases)

@@ -252,7 +252,11 @@ button {
 #features-table td.tooltip-container {
   border-bottom: none !important;
 }
-
+#features-table td.tooltip-container.testcases .tooltip p {
+  margin-top: 0;
+  margin-bottom: 0;
+  text-align: left;
+}
 #features-table td.tooltip-container .tooltip {
   min-width: 20em;
   max-width: 32em;
