@@ -1,0 +1,7 @@
+*.map
+/footnotes-test.php
+
+# /application/doc/
+
+# /application/scripts/
+/application/scripts/object/

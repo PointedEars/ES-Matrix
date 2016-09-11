@@ -1,0 +1,822 @@
+// out: style.css, sourcemap: true, compress: true
+
+.transition(@transitions: 0.1s 0.5s)
+{
+  -moz-transition: @transitions;
+  -o-transition: @transitions;
+  -webkit-transition: @transitions;
+  transition: @transitions;
+}
+
+.transition(@suffix, @value)
+{
+  -moz-transition-@{suffix}: @value;
+  -o-transition-@{suffix}: @value;
+  -webkit-transition-@{suffix}: @value;
+  transition-@{suffix}: @value;
+}
+
+#antiSOPA {
+  overflow: auto;
+  color: white;
+}
+
+.antiSOPA {
+  p {
+    clear: left;
+    text-align: left;
+  }
+
+  a:link {
+    color: #ccc;
+    &:hover {
+      color: #fff;
+    }
+  }
+
+  a:visited {
+    color: #fff;
+    &:hover {
+      color: #ccc;
+    }
+  }
+
+  .pill {
+    padding-left: 35px;
+  }
+
+  ul {
+    float: left;
+    margin-left: 0;
+    margin-top: 0;
+    list-style: none;
+  }
+
+  li {
+    margin-left: 0;
+    float: left;
+    width: 42%;
+  }
+
+  .red {
+    background: url(/media/video/img/pill-red-small.png) no-repeat;
+  }
+
+  .blue {
+    margin-left: 1em;
+    background: url(/media/video/img/pill-blue-small.png) no-repeat;
+  }
+}
+
+body {
+  background-color: white;
+  color: #333;
+  font-family: "Liberation Sans", FreeSans, "Nimbus Sans L", "Helvetica Neue", Helvetica, Verdana, Geneva, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-shadow: 0.1em 0.05em 0.05em rgba(0, 0, 0, 0.1);
+  counter-reset: figures tables;
+}
+
+p {
+  text-align: justify;
+  line-height: 1.5625;
+
+  &.subtitle {
+    margin-top: 0;
+    margin-bottom: 1em;
+    font-style: italic;
+  }
+  &.status,
+  &.success {
+    padding: 0.25em 0.5em;
+  }
+  &.status {
+    border: 1px solid red;
+    background-color: #ffc;
+    color: black;
+  }
+  &.success {
+    border: 1px solid green;
+    background-color: #cfc;
+    color: black;
+  }
+  li & {
+    text-align: left;
+    line-height: 1;
+  }
+}
+
+div, ul, ol, th, td {
+  max-width: 60ex;
+}
+
+div, ul, ol  {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+td ul {
+  max-width: none;
+}
+
+ul, ol {
+  padding-left: 0;
+}
+
+ul li,
+ol li
+{
+  margin-left: 40px;
+  line-height: 1.5;
+}
+
+ul.horizontal {
+  float: left;
+  margin: 0 0 1em 0;
+  list-style: none;
+
+  & li {
+    float: left;
+    margin-left: 0;
+    margin-right: 0.5em;
+  }
+}
+
+a:link {
+  background-color: transparent;
+  color: #00c;
+}
+
+a.broken {
+  :link,
+  :focus,
+  :hover {
+    text-decoration: line-through !important;
+  }
+}
+
+a:visited {
+  background-color: transparent;
+  color: #609;
+}
+
+a:link,
+a:visited {
+  &:focus,
+  &:hover {
+    background-color: transparent;
+    color: #090;
+  }
+}
+
+a[href^="http:"],
+a[href^="https:"]
+{
+  padding-right: 13px;
+  background: transparent url(/media/video/img/external.png) no-repeat right center;
+}
+
+/* SW-NE arrow */
+/*
+a[href^="http:"]:after,
+a[href^="https:"]:after
+{
+  content: "\2197";
+  font-weight: normal;
+}
+*/
+
+a[href^="http://PointedEars.de/"],
+a[href^="https://PointedEars.de/"]
+{
+  padding-right: 0;
+  background: none;
+}
+
+a.twitter {
+  display: inline-block;
+}
+
+i em {
+  font-style: normal;
+}
+
+#header {
+  margin-top: 5em;
+}
+
+#toc {
+  display: block;
+  position: fixed;
+  right: 0;
+  top: 0;
+  max-width: 20em;
+  height: 3em;
+  // margin-top: 1em;
+  padding: 0 1em 1em 1em;
+  border: 1px solid #666;
+  background-color: rgb(255, 255, 255);
+  background-color: rgba(255, 255, 255, 0.9);
+  overflow: hidden;
+  z-index: 1;
+
+  cursor: default;
+
+  /* See http://www.useit.com/alertbox/mega-dropdown-menus.html */
+  .transition(height 0.1s 0.5s);
+  &:hover,
+  &:focus,
+  &:target {
+    height: 26.5em;
+    max-height: 100%;
+    .transition(height 0.1s);
+  }
+  &:hover {
+    .transition(delay, 0.5s);
+  }
+
+  h2:after {
+    display: block;
+    float: right;
+    content: "\25BC "
+  }
+  &:hover h2:after {
+    content: "\25B2 "
+  }
+}
+
+#message {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  p {
+    margin: 0 22em 0 0;
+  }
+}
+
+/* Abstract */
+blockquote {
+  p {
+    font-style: italic;
+    padding-left: 0.25em;
+    &:first-child {
+      text-indent: -0.25em;
+    }
+
+    #foreword & {
+      margin-bottom: 0;
+      text-align: left;
+
+      em {
+        font-style: normal;
+      }
+    }
+  }
+
+  #foreword & div {
+    text-align: right;
+  }
+}
+
+.closed {
+  text-decoration: line-through;
+}
+
+span[title],
+var[title],
+.footnote-ref,
+.footnote-ref :link,
+.footnote-ref :visited
+{
+  border-bottom: 1px dotted #666;
+}
+
+[title] {
+  cursor: help;
+}
+
+img,
+input,
+button
+{
+  cursor: auto !important;
+}
+
+#features-table {
+  col:first-child {
+    width: 30em;
+  }
+
+  td.tooltip-container {
+    border-bottom: none !important;
+    &.testcases .tooltip p  {
+      margin-top: 0;
+      margin-bottom: 0;
+      text-align: left;
+    }
+
+    .tooltip {
+      min-width: 20em;
+      max-width: 32em;
+      max-height: 32em;
+    }
+  }
+}
+
+.footnote-ref .tooltip {
+  border-bottom: none !important;
+}
+
+.footnotes {
+  width: 100%;
+  margin-top: 0;
+  counter-increment: tables 0;
+
+  th {
+    text-align: right;
+  }
+}
+
+a[title] {
+  cursor: pointer !important;
+}
+
+a.backref {
+  text-decoration: none;
+}
+
+span.section {
+  font-size: smaller;
+}
+
+abbr {
+  border-bottom: 1px dotted #666;
+
+  /* Konqueror 3.5.9 fix */
+  font-variant: normal;
+}
+
+figure {
+  counter-increment: figures;
+
+  & > figcaption:before {
+    content: "Figure\a0" counter(figures) ": ";
+  }
+}
+
+figcaption {
+  font-size: small;
+  text-align: center;
+}
+
+table {
+  margin-top: 1em;
+  // border-collapse:collapse;
+  counter-increment: tables;
+
+  table {
+    margin-top: 0;
+    counter-increment: tables 0;
+  }
+}
+
+caption {
+  font-size: small;
+  text-align: left;
+
+  table > &:before {
+    content: "Table\a0" counter(tables) ": ";
+  }
+}
+
+tr {
+  vertical-align: top;
+  vertical-align: baseline;
+}
+
+th,
+td {
+  /* moved to not-ns4.css for compatibility */
+  // padding: 5px;
+
+  text-align: left;
+  font-size: small;
+
+  * {
+    font-size: small;
+  }
+}
+
+th {
+  font-weight: bold;
+  &.right {
+    text-align: right;
+  }
+}
+
+.nowrap,
+.date {
+  white-space: nowrap;
+}
+
+sup {
+  line-height: 1;
+  font-weight: 500;
+  font-style: normal;
+
+  th &,
+  td & {
+    font-size: smaller;
+
+    * {
+      font-size: inherit;
+    }
+  }
+
+  :link,
+  :visited {
+    margin-left: 0.125em;
+    text-decoration: none;
+  }
+}
+
+.future {
+  border-left: 1px dotted black;
+}
+
+.assumed {
+  font-style: italic;
+}
+
+.tested {
+  font-weight: bold;
+}
+
+.safe {
+  background-color: #9f9;
+}
+
+.unsafe {
+  background-color: #ff6;
+}
+
+@media braille, embossed, print, speech, tty {
+  span.safe,
+  span.unsafe {
+    .visual {
+      display: none;
+    }
+  }
+
+  span.safe:after {
+    content: 'marked with "safe"';
+  }
+
+  span.unsafe:after {
+    content: 'marked with "unsafe"';
+  }
+
+  tr.safe th:first-child:after {
+    content: " (safe)";
+  }
+
+  tr.unsafe th:first-child:after {
+    content: " (unsafe)";
+  }
+}
+
+thead {
+  // border-left: 1px solid black;
+  // border-top: 1px solid black;
+  // border-right: 1px solid black;
+  // border-bottom: 1px solid gray;
+  border: none;
+
+  th,
+  td {
+    a:link,
+    a:visited {
+      &:focus,
+      &:hover {
+        background-color: transparent;
+        color: #fff;
+      }
+    }
+
+    a:link {
+      background-color: transparent;
+      color: #009;
+    }
+    a:visited {
+      background-color: transparent;
+      color: #606;
+    }
+  }
+}
+
+thead tr,
+tbody tr.header,
+tbody tr.header th,
+tbody tr.header td {
+  font-weight: bold !important;
+  background-color: #99f !important;
+  color: #000;
+}
+
+// tbody {
+//   border-left: 1px solid black;
+//   border-top: 1px solid gray;
+//   border-right: 1px solid black;
+//   border-bottom: 1px solid black;
+// }
+
+tbody {
+  tr {
+    background-color: #ccc;
+    &:hover {
+      background-color: #fff;
+    }
+    &.safe {
+      background-color: #9f9;
+      &:hover {
+        background-color: #dfd;
+      }
+
+      a:link,
+      a:visited {
+        &:focus,
+        &:hover {
+          background-color: transparent;
+          color: #060;
+        }
+      }
+      &:nth-child(even) {
+        background-color: #cfc;
+        &:hover {
+          background-color: #dfd;
+        }
+      }
+    }
+    &.even {
+      background-color: #ccf;
+      &:hover
+      {
+        background-color: #fff;
+      }
+      &.safe {
+        background-color: #cfc;
+        &:hover
+        {
+          background-color: #dfd;
+        }
+      }
+    }
+    &:nth-child(even) {
+      background-color: #ccf;
+      &:hover {
+        background-color: #fff;
+      }
+    }
+  }
+
+  tfoot & tr {
+    &,
+    &.even {
+      background-color: inherit;
+    }
+    &:nth-child(even) {
+      background-color: inherit;
+    }
+  }
+}
+
+#features-table {
+  width: 100%;
+
+  tbody {
+    tr {
+      span.hover {
+        //display: none;
+        display: inline-block;
+        width: 0;
+        height: 0;
+        line-height: 0;
+        opacity: 0;
+        letter-spacing: -0.5em;
+
+        //.transition(0.1s 0.1s);
+      }
+      &:hover,
+      &:focus,
+      &:target {
+        span.hover {
+          // display: inline;
+          width: auto;
+          height: auto;
+          line-height: normal;
+          opacity: 1;
+          letter-spacing: normal;
+
+          .transition(0.1s 0.1s);
+        }
+      }
+    }
+    th {
+      font-weight: normal;
+    }
+  }
+}
+
+
+table {
+  &.results {
+    th {
+      text-align: "." center;
+    }
+    td {
+      text-align: right;
+      text-align: "/" center;
+    }
+  }
+  &.edit {
+    width: 100%;
+
+    th {
+      text-align: right;
+    }
+  }
+
+  &>tbody.scroll {
+    /*
+     * Not for IE 6 and below.
+     * Bugfix for IE 7 follows below.
+     */
+    border-top: 0;
+    border-left-color: gray;
+    height: 23em;
+    overflow: auto;
+    /*
+     * In supporting Gecko versions, the scrollbar is displayed within
+     * the tbody area, so we disable horizontal scrolling for that ...
+     */
+    overflow-x: hidden !important;
+
+    tr {
+      /* Bugfix for IE 7+ */
+      height: auto;
+      &.header {
+        display: none;
+      }
+    }
+    /*
+     * ... and make enough room so that the text won't flow under the
+     * vertical scrollbar.  However, that is still a dirty hack as we
+     * assume that the vertical scrollbar is not wider than 20px.
+     */
+    td:last-child {
+      padding-right: 20px;
+
+      /* No padding on cells of inner tables, override with !important */
+      td:last-child {
+        padding-right: 0;
+      }
+    }
+  }
+
+  /* keeps background color in line with table design */
+  code,
+  span {
+    background-color: transparent !important;
+  }
+}
+
+span {
+  width: auto;
+  height: auto;
+}
+
+input[readonly] {
+  border: none;
+  width: 1em;
+  background-color: inherit;
+  color: inherit;
+}
+
+a,
+button {
+  &.add {
+    background-color: inherit !important;
+    color: #060 !important;
+  }
+}
+
+a.edit {
+  background-color: inherit !important;
+  color: #660 !important;
+  &:hover,
+  &:focus {
+    background-color: inherit !important;
+    color: #990 !important;
+  }
+}
+
+button {
+  &.add {
+    border: none;
+    text-decoration: underline;
+  }
+  &.negative {
+    background-color: #900;
+    color: #fff;
+    &:hover,
+    &:focus {
+      background-color: #c00;
+      color: #fff;
+    }
+  }
+  &.positive {
+    background-color: #090;
+    color: #fff;
+    &:hover,
+    &:focus {
+      background-color: #0c0;
+      color: #fff;
+    }
+  }
+  &.delete {
+    margin: 0.5em 0;
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    color: #900;
+    text-decoration: underline;
+    &:hover,
+    &:focus {
+      background-color: transparent;
+      color: #f00;
+    }
+  }
+}
+
+.timeline .blue {
+  background-color: #006;
+  color: white;
+}
+
+#footer {
+  margin-top: 1em;
+  border-top: 1px solid black;
+  padding-top: 1em;
+
+  &,
+  & p {
+    text-align: center;
+  }
+}
+
+ul.tree {
+  margin: auto;
+  width: 10em;
+
+  &,
+  ul {
+    padding: 0 0 0 1em;
+  }
+
+  ul {
+    margin: 0;
+  }
+
+  li {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    position: relative;
+    &:first-child::before {
+      position: absolute;
+      top: -0.2em;
+      left: -0.75em;
+      height: 1em;
+      width: 0.5em;
+      border-style: none none solid solid;
+      content: '';
+      border-width: 0.1em;
+    }
+    &:not(:last-child)::after {
+      position: absolute;
+      top: 0;
+      bottom: -0.8em;
+      left: -0.75em;
+      width: 0.5em;
+      border-style: none none solid solid;
+      content: '';
+      border-width: 0.1em;
+    }
+
+    li {
+      list-style: none;
+    }
+  }
+}
