@@ -39,21 +39,18 @@
   margin-left: 1em;
   background: url(/media/video/img/pill-blue-small.png) no-repeat;
 }
-
 body {
   background-color: white;
-  color: black;
-  font-family: sans-serif;
+  color: #333;
+  font-family: "Liberation Sans", FreeSans, "Nimbus Sans L", "Helvetica Neue", Helvetica, Verdana, Geneva, sans-serif;
   -webkit-font-smoothing: antialiased;
+  text-shadow: 0.1em 0.05em 0.05em rgba(0, 0, 0, 0.1);
   counter-reset: figures tables;
-  text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.1);
 }
-
 p {
   text-align: justify;
-  line-height: 1.5;
+  line-height: 1.5625;
 }
-
 p.subtitle {
   margin-top: 0;
   margin-bottom: 1em;
