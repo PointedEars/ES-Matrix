@@ -1,11 +1,15 @@
+/*global console*/
+/*global jsx*/
+
 /* Backwards compatibility: cannot use function form of "use strict" */
 /*jshint -W097*/
 "use strict";
+
 /**
  * @fileOverview <title>ECMAScript Edition 5.1 Reference Implementation</title>
  * @file $Id$
  *
- * @author (C) 2012, 2013 Thomas Lahn &lt;js@PointedEars.de>
+ * @author (C) 2012, 2013, 2016 Thomas Lahn &lt;js@PointedEars.de>
  *
  * This program is (intended to be) a complete reference
  * implementation of the ECMAScript Language Specification,
@@ -53,6 +57,9 @@
 /* ==           *//*jshint -W041*/
 /* eval()       *//*jshint -W061*/
 
+/* Ignore misdetected "possible strict violation" */
+/*jshint -W040*/
+
 /**
  * @namespace
  */
@@ -73,7 +80,7 @@ es._addType("UNDEFINED", -1);
 es._addType("NULL", 0);
 es._addType("BOOLEAN", 1);
 es._addType("STRING", 2);
-es._addType("NUMBER", 3),
+es._addType("NUMBER", 3);
 es._addType("OBJECT", 4);
 
 /**
@@ -585,7 +592,7 @@ function es_ToNumber (arg)
   {
     result = arg;
   }
-  else if (t == "String")
+  else if (t == es.types.STRING)
   {
     result = +arg;
   }
@@ -832,7 +839,7 @@ es.ToObject = es_ToObject;
  */
 function es_getClass (arg)
 {
-  return (({}).toString.call(arg).match(/\[object ([^\]]+)\]/) || [, ])[1];
+  return (({}).toString.call(arg).match(/\[object ([^\]]+)\]/) || ["", ""])[1];
 }
 es.getClass = es_getClass;
 
@@ -1086,6 +1093,128 @@ function es_AbstractEqualityComparison (x, y)
   return false;
 }
 es.AbstractEqualityComparison = es_AbstractEqualityComparison;
+
+/* NOTE: Implementation of ECMAScript 2016, §7.2.12 */
+es.AbstractRelationalComparison = function (x, y, leftFirst) {
+  /* 1. If the LeftFirst flag is true, then */
+  if (leftFirst)
+  {
+    /* a. Let px be ? ToPrimitive(x, hint Number). */
+    var px = es.ToPrimitive(x, es.types.NUMBER);
+
+    /* b. Let py be ? ToPrimitive(y, hint Number). */
+    var py = es.ToPrimitive(y, es.types.NUMBER);
+  }
+  /* 2. Else the order of evaluation needs to be reversed to preserve left to right evaluation, */
+  else
+  {
+    /* a. Let py be ? ToPrimitive(y, hint Number). */
+    py = es.ToPrimitive(y, es.types.NUMBER);
+    /* b. Let px be ToPrimitive(x, hint Number). */
+    px = es.ToPrimitive(x, es.types.NUMBER);
+  }
+
+  /* 3. If both px and py are Strings, then */
+  if (es.Type(px) == es.types.STRING && es.Type(py) == es.types.STRING)
+  {
+    /*
+     * a. If py is a prefix of px, return false.
+     * (A String value p is a prefix of String value q if q can be the result of
+     * concatenating p and some other String r. Note that any String is a prefix
+     * of itself, because r may be the empty String.)
+     */
+    if (px.indexOf(py) == 0) return false;
+
+    /* b. If px is a prefix of py, return true. */
+    if (py.indexOf(px) == 0) return true;
+
+    /*
+     * c. Let k be the smallest nonnegative integer such that the code unit at
+     *    index k within px is different from the code unit at index k within py.
+     *    (There must be such a k, for neither String is a prefix of the other.)
+     */
+    var k = 0;
+    for (var len = px.length; k < len; ++k)
+    {
+      if (px.charAt(k) != py.charAt(k))
+      {
+        break;
+      }
+    }
+
+    /* d. Let m be the integer that is the code unit value at index k within px. */
+    var m = px.charCodeAt(k);
+
+    /* e. Let n be the integer that is the code unit value at index k within py. */
+    var n = py.charCodeAt(k);
+
+    /* f. If m < n, return true. Otherwise, return false. */
+    return (m < n);
+  }
+  /* 4. Else, */
+  else
+  {
+    /*
+     * a. Let nx be ToNumber(px).
+     * Because px and py are primitive values evaluation order is not important.
+     */
+    var nx = es.ToNumber(px);
+
+    /* b. Let ny be ToNumber(py). */
+    var ny = es.ToNumber(py);
+
+    /* c. If nx is NaN, return undefined. */
+    if (isNaN(nx)) return (void 0);
+
+    /* d. If ny is NaN, return undefined. */
+    if (isNaN(ny)) return (void 0);
+
+    /* e. If nx and ny are the same Number value, return false. */
+    if (+nx == +ny) return false;
+
+    /* f. If nx is +0 and ny is -0, return false. */
+    if (nx == 0 && ny == -0) return false;
+
+    /* g. If nx is -0 and ny is +0, return false. */
+    if (nx == -0 && ny == 0) return false;
+
+    /* h. If nx is +∞, return false. */
+    if (nx == Number.POSITIVE_INFINITY) return false;
+
+    /* i. If ny is +∞, return true. */
+    if (ny == Number.POSITIVE_INFINITY) return false;
+
+    /* j. If ny is -∞, return false. */
+    if (ny == Number.NEGATIVE_INFINITY) return false;
+
+    /* k. If nx is -∞, return true. */
+    if (nx == Number.NEGATIVE_INFINITY) return false;
+
+    /*
+     * l. If the mathematical value of nx is less than the mathematical value
+     *    of ny — note that these mathematical values are both finite and not both
+     *    zero — return true. Otherwise, return false.
+     */
+    return (nx < ny);
+  }
+};
+
+es.OperatorLessThanOrEquals = function (x, y) {
+  /* 1. Let lref be the result of evaluating RelationalExpression. */
+  /* 2. Let lval be ? GetValue(lref). */
+  var lval = x;
+  /* 3. Let rref be the result of evaluating ShiftExpression. */
+  /* 4. Let rval be ? GetValue(rref). */
+  var rval = y;
+  /*
+   * 5. Let r be the result of performing Abstract Relational Comparison
+   * rval < lval with LeftFirst equal to false.
+   */
+  var r = es.AbstractRelationalComparison(lval, rval, false);
+  /* 6. ReturnIfAbrupt(r). */
+  /* 7. If r is true or undefined, return false. Otherwise, return true. */
+  return (r == true || r == void 0) ? false : true;
+};
 
 es.Object = new Object();
 
@@ -1932,11 +2061,11 @@ function es_JSON_stringify (value, replacer, space)
          *       hexadecimal digits."
          */
         var hex = C.charCodeAt(0).toString(16);
-        var len = hex.length;
-        if (len < 4)
+        var len2 = hex.length;
+        if (len2 < 4)
         {
           var a = [];
-          a.length = (4 - len) + 1;
+          a.length = (4 - len2) + 1;
           hex = a.join("0") + hex;
         }
 
