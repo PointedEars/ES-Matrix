@@ -6,7 +6,7 @@
     return 'Test ' . ($key + 1) . ': ' . (($value === '1') ? "passed" : "failed");
   }
 
-  $oldAnchor = '';
+  $anchor_ids = array();
   $counter = 0;
 
   foreach ($this->features as $key => $feature)
@@ -40,19 +40,20 @@
                 ?> headers="hdr-feature"><?php
                 $code = $feature->code;
 
-                $untagged = strtolower(substr(strip_tags($code), 0, 1));
+                $untagged = mb_strtolower(mb_substr(strip_tags($code), 0, 1));
 
-                if (preg_match('/[!a-z]/i', $untagged) && ($untagged !== $oldAnchor))
+                if (preg_match('/[!a-z]/i', $untagged)
+                    && !array_key_exists($untagged, $anchor_ids))
                 {
                   ?><a name="<?php echo $untagged; ?>" id="<?php echo $untagged; ?>"></a><?php
-                  $oldAnchor = $untagged;
+                  $anchor_ids[$untagged] = true;
                 }
 
                 echo $code;
 
                 if ($feature->versioned)
                 {
-                  echo $this->footnotes->add('decl-ver', '<abbr title="Versioned">V<abbr>',
+                  echo $this->footnotes->add('decl-ver', '<abbr title="Versioned">V</abbr>',
                     'At least the version of the implementation that introduced the feature
                       needs to be declared in order to use this feature (without syntax error).');
                 }
