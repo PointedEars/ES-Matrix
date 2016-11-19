@@ -130,6 +130,14 @@ function body_load ()
 
   if (filter)
   {
+    var labels;
+    for (labels = jsx.dom.css.getElemByClassName("label-feature"),
+          i = labels.length;
+          i--;)
+    {
+      labels[i].htmlFor = "filter";
+    }
+
     var filterColumns = new Array();
     filterColumns[0] = new Object();
     filterColumns[0].index = filterColumnIndex;
